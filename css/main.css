@@ -377,3 +377,44 @@ button{
   font-size:1rem;
   margin:0;
 }
+
+/* ---------- i. FOOTER ---------- */
+
+.ftr{
+  background:var(--cocoa);
+  color:var(--ivory);
+  padding:1.6rem 0 2.4rem;
+}
+
+.ftr__nav{
+  display:flex;flex-wrap:wrap;gap:.4rem;
+  font-size:.9375rem;
+  padding-bottom:.9rem;
+}
+
+.ftr__nav span::after{content:" |";}
+
+.ftr__contact{
+  display:flex;align-items:center;gap:.4rem;
+  font-size:.9375rem;
+  flex-wrap:wrap;
+}
+
+.ftr__contact a{color:var(--ivory);text-decoration:none;}
+
+.ftr__socials{
+  list-style:none;margin:0 0 0 .5rem;padding:0;
+  display:flex;gap:.6rem;align-items:center;
+}
+
+.ftr__socials svg{
+  width:21px;height:21px;
+  fill:none;stroke:var(--ivory);stroke-width:1.7;stroke-linejoin:round;
+}
+
+.ftr__socials svg .fill{fill:var(--ivory);stroke:none;}
+
+.ftr__logo{
+  width:150px;
+  margin:1.8rem auto 0;
+}
