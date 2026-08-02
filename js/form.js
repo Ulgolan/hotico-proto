@@ -33,6 +33,9 @@
     if (label) label.textContent = NAMES[index];
     bars.forEach(function (b, i) { b.classList.toggle('is-active', i === index); });
     sizeTo(steps[index]);
+    // re-measure once the slide has settled: a step measured mid-transition
+    // can report the outgoing step's height and leave dead space below.
+    setTimeout(function () { sizeTo(steps[index]); }, 380);
   }
 
   root.addEventListener('click', function (e) {
