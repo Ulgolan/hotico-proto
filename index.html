@@ -12,10 +12,26 @@
   <link rel="stylesheet" href="css/main.css">
 </head>
 <body>
-  <main class="hello">
-    <img class="hello__logo" src="assets/brand/logo-black.png" alt="HOTICO">
-    <p class="hello__title">HOTICO — prototip în construcție</p>
-  </main>
+
+  <!-- a. HEADER -->
+  <header class="hdr">
+    <button class="hdr__lang" type="button" aria-disabled="true" title="Limba: Română">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9"/>
+        <ellipse cx="12" cy="12" rx="4" ry="9"/>
+        <path d="M3 12h18M4.5 7h15M4.5 17h15"/>
+      </svg>
+      <span>RO</span>
+    </button>
+
+    <img class="hdr__logo" src="assets/brand/logo-black.png"
+         alt="HOTICO Restauration Institute">
+
+    <button class="hdr__burger" type="button" aria-disabled="true" aria-label="Meniu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
+
   <script src="js/main.js"></script>
 </body>
 </html>
