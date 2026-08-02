@@ -23,10 +23,27 @@ button{
 
 .wrap{padding:0 1.5rem;}
 
-/* Section divider — the measured gold rule */
+/* Section divider — the measured gold rule.
+   D. Soft-shadow bloom, measured from frame A: ~14.7% black adjacent
+   to the rule, fading to nothing at ~46px. In frame A the bloom sits
+   on one side only and which side alternates per divider; rendered
+   here beneath, per the Commander's note. */
 .rule{
   border:0;height:1px;margin:0;
   background:var(--gold-grad);
+  position:relative;
+}
+
+.rule::after{
+  content:"";
+  position:absolute;left:0;right:0;top:100%;
+  height:46px;
+  pointer-events:none;
+  background:linear-gradient(180deg,
+    rgba(0,0,0,.147) 0%,
+    rgba(0,0,0,.090) 25%,
+    rgba(0,0,0,.035) 55%,
+    rgba(0,0,0,0)   100%);
 }
 
 /* ---------- a. HEADER ---------- */
@@ -131,15 +148,29 @@ button{
 
 .video{padding-bottom:1.6rem;}
 
-/* Frame + badge live in the temp-1x pixels for now — see index.html.
-   The border-radius here only clips the crop's white corners. */
+/* Real Vimeo embeds now, so the gold frame is token-driven again and
+   the baked "3mn" badge retires with the temp thumb. */
 .video__frame{
   position:relative;
+  border:1px solid var(--gold-line);
   border-radius:14px;
   overflow:hidden;
+  background:var(--card);
 }
 
 .video__frame img{width:100%;}
+
+.video__embed{
+  position:relative;
+  aspect-ratio:16/9;
+}
+
+.video__embed iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;
+  display:block;
+}
 
 .video__title{
   font-family:var(--font-body);
@@ -159,12 +190,51 @@ button{
   display:flex;justify-content:center;gap:.45rem;
 }
 
-.dots li{
+.dot{
+  display:block;
   width:8px;height:8px;border-radius:50%;
   border:1px solid var(--cocoa);
+  background:transparent;
+  cursor:pointer;
 }
 
-.dots li.is-active{background:var(--cocoa);}
+/* the tap target is bigger than the ink */
+.dots li{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;
+}
+
+.dot.is-active{background:var(--cocoa);}
+
+/* ---------- shared carousel (video + reviews) ---------- */
+
+.carousel{position:relative;}
+
+.carousel__viewport{
+  overflow:hidden;
+  touch-action:pan-y;   /* vertical scroll stays the page's */
+}
+
+.carousel__track{
+  list-style:none;margin:0;padding:0;
+  display:flex;
+  transition:transform .38s ease;
+  will-change:transform;
+}
+
+.carousel.is-dragging .carousel__track{transition:none;}
+
+.carousel__slide{
+  flex:0 0 100%;
+  min-width:0;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .carousel__track{transition:none;}
+}
+
+/* reviews read one card per view; give the text room to breathe */
+.carousel--reviews .carousel__slide{padding-right:.25rem;}
 
 /* ---------- shared section heading ---------- */
 
@@ -195,6 +265,14 @@ button{
   overflow:hidden;
 }
 
+/* the pill body is the link to the service page */
+.pill__body{
+  position:relative;
+  display:flex;align-items:center;
+  flex:1;min-width:0;height:100%;
+  color:inherit;text-decoration:none;
+}
+
 /* strip image sits left and fades into the pill ground */
 .pill__img{
   position:absolute;left:0;top:0;
@@ -222,7 +300,108 @@ button{
   display:flex;align-items:center;justify-content:center;
 }
 
-.pill__arrow svg{width:19px;height:19px;fill:var(--cocoa);}
+.pill__arrow svg{
+  width:19px;height:19px;fill:var(--cocoa);
+  transition:transform .28s ease;
+}
+
+/* --- A. open costume: corners rounded -> square-ish, arrow flips up --- */
+
+.pill.is-open{
+  border-radius:14px;
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+}
+
+.pill.is-open .pill__img{border-radius:14px 0 0 0;}
+
+.pill.is-open .pill__arrow{border-radius:10px;}
+
+.pill.is-open .pill__arrow svg{transform:rotate(180deg);}
+
+/* --- the inline panel --- */
+
+.panel{
+  overflow:hidden;
+  height:0;
+  transition:height .34s ease;
+}
+
+.panel[hidden]{display:none;}
+
+.panel__inner{padding-top:2px;}
+
+/* --- B. before/after comparison slider --- */
+
+.ba{
+  position:relative;
+  width:100%;
+  aspect-ratio:390/303;      /* the split photo band, 1:1 with source */
+  overflow:hidden;
+  border:1px solid var(--gold-line);
+  border-top:0;
+  border-radius:0 0 14px 14px;
+  background:var(--card);
+  touch-action:pan-y;        /* horizontal drags belong to the handle */
+  user-select:none;
+}
+
+.ba__layer{
+  position:absolute;inset:0;
+  overflow:hidden;
+}
+
+.ba__layer img{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  object-fit:fill;           /* halves differ in width; see LEDGER */
+  pointer-events:none;
+}
+
+/* The "before" layer is the one that gets clipped. clip-path, not
+   width: both layers stay at full panel size, so dragging moves the
+   reveal without ever rescaling a photo. */
+.ba__before{clip-path:inset(0 55% 0 0);}
+
+.ba:not(.is-dragging) .ba__before{transition:clip-path .12s linear;}
+
+.ba__tag{
+  position:absolute;top:0;
+  padding:.3rem .9rem;
+  background:var(--white);
+  font-size:1rem;
+  line-height:1.3;
+  z-index:2;
+  pointer-events:none;
+}
+
+.ba__tag--before{left:0;}
+.ba__tag--after{right:0;}
+
+.ba__seam{
+  position:absolute;top:0;bottom:0;left:45%;
+  width:3px;margin-left:-1.5px;
+  background:var(--white);
+  z-index:3;
+}
+
+.ba:not(.is-dragging) .ba__seam{transition:left .12s linear;}
+
+.ba__handle{
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:46px;height:46px;border-radius:50%;
+  background:var(--white);
+  box-shadow:var(--shadow-neo);
+  display:flex;align-items:center;justify-content:center;gap:3px;
+  cursor:ew-resize;
+  touch-action:none;
+}
+
+.ba__handle i{
+  display:block;width:2px;height:15px;
+  background:var(--cocoa);
+}
 
 /* ---------- f. PASII TRANSFORMARII ---------- */
 
@@ -232,12 +411,17 @@ button{
 }
 
 .scard{
-  display:flex;flex-direction:column;
   border:1px solid var(--gold-line);
   border-radius:14px;
   background:var(--card);
   box-shadow:var(--shadow-neo);
   overflow:hidden;
+}
+
+.scard__btn{
+  display:flex;flex-direction:column;
+  width:100%;
+  cursor:pointer;
 }
 
 .scard img{
@@ -258,6 +442,80 @@ button{
 }
 
 .scard__arrow svg{width:15px;height:15px;fill:var(--cocoa);}
+
+/* --- C. FOCUS MODE: the chosen card holds the stage --- */
+
+.steps-cards.is-focused{
+  grid-template-columns:1fr;
+  margin-bottom:0;          /* the walk block continues the card */
+}
+
+.scard.is-hidden{display:none;}
+
+.steps-cards.is-focused .scard{
+  border-bottom-left-radius:0;
+  border-bottom-right-radius:0;
+  border-bottom:0;
+  box-shadow:none;
+}
+
+/* temp-1x card crops carry their own gold border + label in the
+   pixels (same defect as video-thumb). object-fit:cover keeps that
+   chrome cropped out, exactly as the resting card does — do not
+   switch to contain until clean 2x exports land. See LEDGER. */
+.steps-cards.is-focused .scard img{
+  aspect-ratio:4/3;
+  object-fit:cover;
+}
+
+.steps-cards.is-focused .scard__arrow{display:none;}
+
+.steps-cards.is-focused .scard__label{
+  font-size:1rem;
+  padding-bottom:.6rem;
+}
+
+.walk{
+  overflow:hidden;
+  height:0;
+  transition:height .34s ease;
+  margin:0 0 2rem;
+}
+
+.walk[hidden]{display:none;}
+
+.walk__head{display:none;}   /* the card itself carries image + label */
+
+.walk__body{
+  border:1px solid var(--gold-line);
+  border-top:0;
+  padding:1.4rem 0 .4rem;
+  background:var(--ivory);
+}
+
+.walk__step{margin-bottom:1.5rem;padding:0 1rem;}
+
+.walk__h{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.375rem;
+  margin:0 0 .5rem;
+}
+
+.walk__p{
+  font-size:.9375rem;
+  line-height:1.35;
+  margin:0;
+}
+
+.walk__collapse{
+  display:flex;align-items:center;justify-content:center;
+  width:100%;height:20px;
+  background:var(--gold);
+  cursor:pointer;
+}
+
+.walk__collapse svg{width:15px;height:15px;fill:var(--ivory);}
 
 /* ---------- g. PROGRAMARE (static costume) ---------- */
 
@@ -361,9 +619,6 @@ button{
 
 .reviews{padding-bottom:2.2rem;}
 
-.reviews__grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;
-}
 
 .stars{display:flex;gap:.1rem;margin-bottom:.6rem;}
 
@@ -419,4 +674,66 @@ button{
 .ftr__logo{
   width:150px;
   margin:1.8rem auto 0;
+}
+
+/* ---------- dead-end pattern: servicii/*.html ----------
+   Any unbuilt destination wears this costume. Honest facades: both
+   actions route somewhere real. */
+
+.soon-body{
+  min-height:100vh;
+  display:flex;align-items:center;justify-content:center;
+}
+
+.soon{
+  text-align:center;
+  padding:3rem 1.5rem;
+}
+
+.soon__logo{width:170px;margin:0 auto 2.4rem;}
+
+.soon__service{
+  font-family:var(--font-body);
+  font-size:1.375rem;
+  margin:0 0 .1rem;
+}
+
+.soon__title{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:2rem;
+  margin:0 0 1rem;
+}
+
+.soon__copy{
+  font-size:.9375rem;
+  line-height:1.5;
+  margin:0 auto 2rem;
+  max-width:19rem;
+}
+
+.soon__actions{
+  display:flex;flex-direction:column;align-items:center;gap:.9rem;
+  margin-bottom:2.6rem;
+}
+
+.soon__btn{
+  display:inline-block;
+  padding:.8rem 1.9rem;
+  border-radius:999px;
+  background:var(--gold);
+  color:var(--white);
+  text-decoration:none;
+  font-size:1rem;
+  box-shadow:var(--shadow-neo);
+}
+
+.soon__tel{color:var(--cocoa);font-size:1rem;}
+
+.soon__back{
+  color:var(--cocoa);
+  font-size:.9375rem;
+  text-decoration:none;
+  border-bottom:1px solid var(--gold-line);
+  padding-bottom:2px;
 }

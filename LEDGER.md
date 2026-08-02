@@ -146,3 +146,156 @@ Vercel preview URL.
 5. Favicon (H kintsugi) still unbuilt — out of Key #2 scope.
 
 **Merged to main** on the Commander's word. Lap 1a sealed.
+Branch `lap-1a-homepage-static` deleted local + remote; the record
+lives in the merge commit and here.
+
+---
+
+## Entry #3 — 2026-08-02 — Lap 1b: homepage choreography
+
+Branch `lap-1b-choreography`. Vanilla JS only, one file. Video
+carousel, burger, form logic and smooth-scroll all left untouched.
+
+### A. Servicii dual-action pills
+Pill body is now an `<a>` to the service page; the gold arrow is a
+separate `<button>` toggling an inline panel. Open costume per State
+Map: corners rounded → square-ish, arrow flips up, gold circle becomes
+a rounded square. **ABUNDANCE MODE** verified — several panels sit
+open at once.
+
+**Dead-end pages built** (honest-facade law — no `#`, no 404):
+- `servicii/in-curand.html?s=<Service>` for the five undesigned
+  services. The name is resolved against a **whitelist**; raw query
+  text is never written into the page.
+- `servicii/areola.html` — **not asked for by the key.** The key sets
+  the Areola href to this path, and without the file the pill would
+  404, which POLARIS non-negotiable #1 forbids. Built with the same
+  dead-end costume and marked in-file as a **T2 SLOT** to be replaced
+  wholesale when Lap 2 builds the real template. Flagged for ruling.
+
+### B. Before/After slider
+Composite split logged: **seam at x=175** (white line spans x=173–177).
+`lips-before.png` = x0–172 (173×303), `lips-after.png` = x178–389
+(212×303), photo band **y=46–348** — which also drops the baked-in
+"Before"/"After" labels and the pill-border chrome the crop carried.
+Labels are now DOM elements pinned to the panel corners, so they hold
+still while the seam moves.
+
+Reveal uses **clip-path**, not layer width: both photos stay at full
+panel size, so dragging never rescales an image. Pointer, touch,
+click-to-jump and keyboard (arrows / shift / Home / End) all drive it;
+`aria-valuenow` tracks.
+
+**Known simplification, as instructed:** all six pills open the same
+lips sample — it is the only designed one.
+
+**Debt:** proper separate 2x before/after exports owed. The two halves
+are different crops of one photograph, so they do not register with
+each other; the seam reads as a comparison but the two sides are not
+the same framing. Only real exports fix this.
+
+### C. Pasii focus dance
+Arrow on a card expands the full numbered walkthrough; the other two
+cards hide. **FOCUS MODE** — one open maximum. Gold collapse bar with
+up-arrow restores the resting three. Copy taken from frame B, filler
+as designed: *1. Alege serviciul potrivit · 2. Fa o programare ·
+3. Vei primi o confirmare*. (Frame B's "Alege serviciul **potrivit**"
+supersedes the shorter STATE-MAP wording — frame is visual truth.)
+
+### D. Polish rider — divider bloom
+Measured across every true divider in frame A: **14.7% black adjacent
+to the rule, fading to nothing at 46px** (245→209 at 1px, back to 245
+by 46px). Built as a `::after` gradient beneath the rule:
+`rgba(0,0,0,.147) 0% · .090 25% · .035 55% · 0 100%`, height 46px.
+
+**Observation for the record:** in frame A the bloom sits on **one
+side only, and which side alternates** — above the hero and Reviews
+dividers, below the video and Pasii ones. That reads as section
+containers casting the shadow rather than the rule itself. Rendered
+beneath per the Commander's note; say the word if it should alternate.
+
+### Engineering notes
+- Panel height helpers finalize on a **timer as well as
+  `transitionend`**. A missed event was leaving the Pasii block
+  collapsed but the two hidden cards never restored — caught in test,
+  fixed. `prefers-reduced-motion` skips the animation entirely.
+- Local `css/` and `js/` now carry **`?v=1b`**. Without it a reloaded
+  phone kept serving the previous lap's JS — this bit during
+  verification and would have bitten the Commander's eye harder.
+
+### Debts opened / carried
+1. Separate 2x before/after exports (new, B above).
+2. `pasii-*.png` carry their own gold border + label in the pixels,
+   same defect as `video-thumb.png`. Focus mode keeps `object-fit:
+   cover` to crop that chrome out; faint baked border edges still show
+   at the card sides. Clean 2x exports fix both.
+3. `video-thumb.png` clean 2x export (carried).
+4. Service strips 1x proto-grade (carried); strip-06 retired.
+5. Divider bloom side alternation (D above) — awaiting taste ruling.
+6. Frame B lists the services in a different order than frame A
+   (Cicatrici sits 5th, not 2nd). Built to frame A per Key #2. No
+   action taken; logged so it is owned, not drifted into.
+7. Favicon still unbuilt.
+
+**State at close:** pushed, not merged. Awaiting the eye.
+
+### Eye passed — riders built 2026-08-02
+
+**RIDER 1 — Pașii scroll-home.** Gold-bar tap now returns the viewport
+to the Pașii section top. Target is read **after** the cards restore
+and a reflow is forced: collapsing removes ~650px, and a scroll aimed
+before that shrink lands ~785px short — caught in test. A landing
+guard follows the smooth request; if a browser ignores `behavior:
+'smooth'` the scroll completes instantly rather than stranding anyone.
+`prefers-reduced-motion` goes straight to instant.
+
+**RIDER 2 — video carousel with real Vimeo embeds.** 3 slides, whole
+block (video + title + description) travels as one unit. Responsive
+16:9 iframes inside the gold frame costume — which is **token-driven
+again**, and the baked "3mn" badge retires with the temp thumb.
+
+All three players verified rendering in-page, no fallbacks needed:
+- Slide 1 — `1134716314` · *HOTICO — L'art qui guérit* · 02:23
+- Slide 2 — `1134716271` · *Pourquoi HOTICO en bonnes mains* · 01:58
+- Slide 3 — `1134716322` · *Changer des vies par l'art* · 02:13
+
+Slides 2–3 lazy-load: a slide's `src` is set when it becomes current,
+plus one ahead, so the first paint carries one player, not three.
+
+**Gesture compromise (logged as instructed):** a cross-origin iframe
+swallows every pointer event over the player, so a swipe begun on the
+video itself cannot reach us. The swipe surface is everything around
+it — title, description, block padding — and the **dots are primary
+navigation**. Reviews have no iframe, so the whole card swipes. Both
+carousels share one gesture implementation: 15%-of-width threshold,
+axis lock so vertical drags stay the page's, resistance at the ends.
+
+**Dots: 3, matching content. The frame shows 4 — deviation logged.**
+
+*Carousel demo-grade; real video embeds + per-video copy = future lap.*
+Embeds are now real; **per-video copy is still filler** — all three
+slides carry "Cine sunt eu", the only designed title/description.
+
+**RIDER 3 — Reviews swipe.** 6 cards, one per view, 6 live dots, same
+gesture vocabulary. *6x Marina demo filler; real reviews = content
+owner, DOSSIER D15/D16.*
+
+**Bug caught in test:** converting the Reviews grid left one orphaned
+lap-1a `<article>` outside the carousel — the section rendered a card,
+then the dots, then a stray seventh review. Removed; 6 in, 0 orphans.
+
+**Standing rulings applied:** areola.html T2 slot ratified; bloom stays
+uniform (alternation parked as a taste option); lips 1x registration
+debt sits with ACP; cache-bust bumped to **`?v=1b2`**.
+
+### Debts after riders
+1. Per-video copy — three slides, one set of words.
+2. Separate 2x before/after exports (lips registration).
+3. Clean 2x exports for `video-thumb` (now unused on the homepage),
+   `pasii-*` card crops.
+4. Service strips 1x proto-grade; strip-06 retired.
+5. Divider bloom alternation — parked taste option.
+6. Frame A / frame B service order disagreement — built to frame A.
+7. Favicon still unbuilt.
+
+**Merged to main** on the Commander's word. Lap 1b sealed.
