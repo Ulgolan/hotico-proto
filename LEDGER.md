@@ -26,3 +26,7 @@
 
 **State at close:** local preview only. Awaiting ACP's eye before GitHub
 push and Vercel connection.
+
+**Certification:** Lap 0 certified by Commander's eye; prototip wording
+fixed; Tower docs delivered to docs/; launch.json footprint in parent
+folder noted.
