@@ -70,3 +70,46 @@ button{
   display:block;width:20px;height:2.5px;border-radius:2px;
   background:var(--cocoa);
 }
+
+/* ---------- b. HERO ---------- */
+
+.hero__torso{
+  width:64%;
+  margin:.5rem auto 1.75rem;
+}
+
+.hero__tagline{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.5rem;
+  line-height:1.25;
+  text-align:center;
+  margin:0 0 .9rem;
+}
+
+.hero__intro{
+  font-size:.9375rem;
+  line-height:1.5;
+  text-align:center;
+  margin:0 0 1.6rem;
+}
+
+.socials{
+  list-style:none;margin:0 0 2rem;padding:0;
+  display:flex;justify-content:center;gap:1.4rem;
+}
+
+.social{
+  display:flex;align-items:center;justify-content:center;
+  width:52px;height:52px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:var(--shadow-neo);
+}
+
+.social svg{
+  width:27px;height:27px;
+  fill:none;stroke:var(--white);stroke-width:1.7;
+  stroke-linejoin:round;
+}
+
+.social svg .fill{fill:var(--white);stroke:none;}
