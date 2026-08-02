@@ -66,6 +66,24 @@
         procedura Areolei !</p>
     </section>
 
+
+    <!-- B. TAB MENU -->
+    <section class="tabs wrap">
+      <div class="tabbar" role="tablist" aria-label="Areola">
+        <span class="tabbar__pill" data-pill></span>
+        <button class="tabbar__tab is-active" type="button" role="tab"
+                aria-selected="true"  aria-controls="tab-detalii" data-tab="detalii">Detalii</button>
+        <button class="tabbar__tab" type="button" role="tab"
+                aria-selected="false" aria-controls="tab-pret"    data-tab="pret">Pret</button>
+        <button class="tabbar__tab" type="button" role="tab"
+                aria-selected="false" aria-controls="tab-galerie" data-tab="galerie">Galerie</button>
+      </div>
+    </section>
+
+    <section class="panel-tab is-active" id="tab-detalii" role="tabpanel" data-panel="detalii"></section>
+    <section class="panel-tab" id="tab-pret"    role="tabpanel" data-panel="pret" hidden></section>
+    <section class="panel-tab" id="tab-galerie" role="tabpanel" data-panel="galerie" hidden></section>
+
     <hr class="rule">
 
   </main>

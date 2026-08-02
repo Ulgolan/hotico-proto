@@ -734,6 +734,45 @@ button{
 
 .stage__copy{font-size:1rem;line-height:1.4;margin:0;}
 
+/* B. tab bar — the gold pill slides to the active tab */
+.tabs{padding-top:1.3rem;padding-bottom:1.3rem;}
+
+.tabbar{
+  position:relative;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--gold-line);
+  border-radius:999px;
+  background:var(--card);
+  box-shadow:var(--shadow-neo);
+  overflow:hidden;
+}
+
+.tabbar__pill{
+  position:absolute;top:0;bottom:0;left:0;
+  width:33.3333%;
+  background:var(--gold);
+  border-radius:999px;
+  transition:transform .32s ease;
+  pointer-events:none;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tabbar__pill{transition:none;}
+}
+
+.tabbar__tab{
+  position:relative;
+  padding:.85rem .25rem;
+  font-size:1rem;
+  text-align:center;
+  cursor:pointer;
+  color:var(--cocoa);
+}
+
+.tabbar__tab.is-active{font-weight:600;}
+
+.panel-tab[hidden]{display:none;}
+
 /* ---------- dead-end pattern: servicii/*.html ----------
    Any unbuilt destination wears this costume. Honest facades: both
    actions route somewhere real. */
