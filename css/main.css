@@ -222,3 +222,38 @@ button{
 }
 
 .pill__arrow svg{width:19px;height:19px;fill:var(--cocoa);}
+
+/* ---------- f. PASII TRANSFORMARII ---------- */
+
+.steps-cards{
+  list-style:none;margin:0 0 2rem;padding:0;
+  display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;
+}
+
+.scard{
+  display:flex;flex-direction:column;
+  border:1px solid var(--gold-line);
+  border-radius:14px;
+  background:var(--card);
+  box-shadow:var(--shadow-neo);
+  overflow:hidden;
+}
+
+.scard img{
+  width:100%;
+  aspect-ratio:1/1;
+  object-fit:cover;
+}
+
+.scard__label{
+  text-align:center;
+  font-size:.875rem;
+  padding:.5rem .25rem .1rem;
+}
+
+.scard__arrow{
+  display:flex;justify-content:center;
+  padding-bottom:.3rem;
+}
+
+.scard__arrow svg{width:15px;height:15px;fill:var(--cocoa);}
