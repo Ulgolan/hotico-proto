@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/tokens.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/tokens.css?v=1b">
+  <link rel="stylesheet" href="css/main.css?v=1b">
 </head>
 <body>
 
@@ -107,47 +107,221 @@
       <h2 class="h-section">Servicii</h2>
 
       <ul class="pills">
-        <li class="pill">
-          <img class="pill__img" src="assets/img/services/strip-01.png" alt="">
-          <span class="pill__label">Areola</span>
-          <span class="pill__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="pill-wrap">
+          <div class="pill">
+            <a class="pill__body" href="servicii/areola.html">
+              <img class="pill__img" src="assets/img/services/strip-01.png" alt="">
+              <span class="pill__label">Areola</span>
+            </a>
+            <button class="pill__arrow" type="button"
+                    aria-expanded="false" aria-controls="pill-1"
+                    aria-label="Arată exemplu Areola">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </button>
+          </div>
+
+          <div class="panel" id="pill-1" hidden>
+            <div class="panel__inner">
+              <div class="ba" data-ba>
+                <div class="ba__layer ba__after">
+                  <img src="assets/img/temp-1x/lips-after.png" alt="După procedură">
+                </div>
+                <div class="ba__layer ba__before" data-ba-before>
+                  <img src="assets/img/temp-1x/lips-before.png" alt="Înainte de procedură">
+                </div>
+                <span class="ba__tag ba__tag--before">Before</span>
+                <span class="ba__tag ba__tag--after">After</span>
+                <div class="ba__seam" data-ba-seam>
+                  <button class="ba__handle" type="button" data-ba-handle
+                          role="slider" aria-label="Compară înainte și după"
+                          aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"
+                          aria-orientation="horizontal">
+                    <i></i><i></i><i></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
-        <li class="pill">
-          <img class="pill__img" src="assets/img/services/strip-02.png" alt="">
-          <span class="pill__label">Cicatrici</span>
-          <span class="pill__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="pill-wrap">
+          <div class="pill">
+            <a class="pill__body" href="servicii/in-curand.html?s=Cicatrici">
+              <img class="pill__img" src="assets/img/services/strip-02.png" alt="">
+              <span class="pill__label">Cicatrici</span>
+            </a>
+            <button class="pill__arrow" type="button"
+                    aria-expanded="false" aria-controls="pill-2"
+                    aria-label="Arată exemplu Cicatrici">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </button>
+          </div>
+
+          <div class="panel" id="pill-2" hidden>
+            <div class="panel__inner">
+              <div class="ba" data-ba>
+                <div class="ba__layer ba__after">
+                  <img src="assets/img/temp-1x/lips-after.png" alt="După procedură">
+                </div>
+                <div class="ba__layer ba__before" data-ba-before>
+                  <img src="assets/img/temp-1x/lips-before.png" alt="Înainte de procedură">
+                </div>
+                <span class="ba__tag ba__tag--before">Before</span>
+                <span class="ba__tag ba__tag--after">After</span>
+                <div class="ba__seam" data-ba-seam>
+                  <button class="ba__handle" type="button" data-ba-handle
+                          role="slider" aria-label="Compară înainte și după"
+                          aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"
+                          aria-orientation="horizontal">
+                    <i></i><i></i><i></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
-        <li class="pill">
-          <img class="pill__img" src="assets/img/services/strip-03.png" alt="">
-          <span class="pill__label">Alopecie</span>
-          <span class="pill__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="pill-wrap">
+          <div class="pill">
+            <a class="pill__body" href="servicii/in-curand.html?s=Alopecie">
+              <img class="pill__img" src="assets/img/services/strip-03.png" alt="">
+              <span class="pill__label">Alopecie</span>
+            </a>
+            <button class="pill__arrow" type="button"
+                    aria-expanded="false" aria-controls="pill-3"
+                    aria-label="Arată exemplu Alopecie">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </button>
+          </div>
+
+          <div class="panel" id="pill-3" hidden>
+            <div class="panel__inner">
+              <div class="ba" data-ba>
+                <div class="ba__layer ba__after">
+                  <img src="assets/img/temp-1x/lips-after.png" alt="După procedură">
+                </div>
+                <div class="ba__layer ba__before" data-ba-before>
+                  <img src="assets/img/temp-1x/lips-before.png" alt="Înainte de procedură">
+                </div>
+                <span class="ba__tag ba__tag--before">Before</span>
+                <span class="ba__tag ba__tag--after">After</span>
+                <div class="ba__seam" data-ba-seam>
+                  <button class="ba__handle" type="button" data-ba-handle
+                          role="slider" aria-label="Compară înainte și după"
+                          aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"
+                          aria-orientation="horizontal">
+                    <i></i><i></i><i></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
-        <li class="pill">
-          <img class="pill__img" src="assets/img/services/strip-03.png" alt="">
-          <span class="pill__label">Sprancene</span>
-          <span class="pill__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="pill-wrap">
+          <div class="pill">
+            <a class="pill__body" href="servicii/in-curand.html?s=Sprancene">
+              <img class="pill__img" src="assets/img/services/strip-03.png" alt="">
+              <span class="pill__label">Sprancene</span>
+            </a>
+            <button class="pill__arrow" type="button"
+                    aria-expanded="false" aria-controls="pill-4"
+                    aria-label="Arată exemplu Sprancene">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </button>
+          </div>
+
+          <div class="panel" id="pill-4" hidden>
+            <div class="panel__inner">
+              <div class="ba" data-ba>
+                <div class="ba__layer ba__after">
+                  <img src="assets/img/temp-1x/lips-after.png" alt="După procedură">
+                </div>
+                <div class="ba__layer ba__before" data-ba-before>
+                  <img src="assets/img/temp-1x/lips-before.png" alt="Înainte de procedură">
+                </div>
+                <span class="ba__tag ba__tag--before">Before</span>
+                <span class="ba__tag ba__tag--after">After</span>
+                <div class="ba__seam" data-ba-seam>
+                  <button class="ba__handle" type="button" data-ba-handle
+                          role="slider" aria-label="Compară înainte și după"
+                          aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"
+                          aria-orientation="horizontal">
+                    <i></i><i></i><i></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
-        <li class="pill">
-          <img class="pill__img" src="assets/img/services/strip-04.png" alt="">
-          <span class="pill__label">Eyeliner</span>
-          <span class="pill__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="pill-wrap">
+          <div class="pill">
+            <a class="pill__body" href="servicii/in-curand.html?s=Eyeliner">
+              <img class="pill__img" src="assets/img/services/strip-04.png" alt="">
+              <span class="pill__label">Eyeliner</span>
+            </a>
+            <button class="pill__arrow" type="button"
+                    aria-expanded="false" aria-controls="pill-5"
+                    aria-label="Arată exemplu Eyeliner">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </button>
+          </div>
+
+          <div class="panel" id="pill-5" hidden>
+            <div class="panel__inner">
+              <div class="ba" data-ba>
+                <div class="ba__layer ba__after">
+                  <img src="assets/img/temp-1x/lips-after.png" alt="După procedură">
+                </div>
+                <div class="ba__layer ba__before" data-ba-before>
+                  <img src="assets/img/temp-1x/lips-before.png" alt="Înainte de procedură">
+                </div>
+                <span class="ba__tag ba__tag--before">Before</span>
+                <span class="ba__tag ba__tag--after">After</span>
+                <div class="ba__seam" data-ba-seam>
+                  <button class="ba__handle" type="button" data-ba-handle
+                          role="slider" aria-label="Compară înainte și după"
+                          aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"
+                          aria-orientation="horizontal">
+                    <i></i><i></i><i></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
-        <li class="pill">
-          <img class="pill__img" src="assets/img/services/strip-05.png" alt="">
-          <span class="pill__label">Buze</span>
-          <span class="pill__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="pill-wrap">
+          <div class="pill">
+            <a class="pill__body" href="servicii/in-curand.html?s=Buze">
+              <img class="pill__img" src="assets/img/services/strip-05.png" alt="">
+              <span class="pill__label">Buze</span>
+            </a>
+            <button class="pill__arrow" type="button"
+                    aria-expanded="false" aria-controls="pill-6"
+                    aria-label="Arată exemplu Buze">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </button>
+          </div>
+
+          <div class="panel" id="pill-6" hidden>
+            <div class="panel__inner">
+              <div class="ba" data-ba>
+                <div class="ba__layer ba__after">
+                  <img src="assets/img/temp-1x/lips-after.png" alt="După procedură">
+                </div>
+                <div class="ba__layer ba__before" data-ba-before>
+                  <img src="assets/img/temp-1x/lips-before.png" alt="Înainte de procedură">
+                </div>
+                <span class="ba__tag ba__tag--before">Before</span>
+                <span class="ba__tag ba__tag--after">After</span>
+                <div class="ba__seam" data-ba-seam>
+                  <button class="ba__handle" type="button" data-ba-handle
+                          role="slider" aria-label="Compară înainte și după"
+                          aria-valuemin="0" aria-valuemax="100" aria-valuenow="45"
+                          aria-orientation="horizontal">
+                    <i></i><i></i><i></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
         </li>
       </ul>
     </section>
@@ -158,29 +332,57 @@
     <section class="pasii wrap">
       <h2 class="h-section">Pasii transformarii tale</h2>
 
-      <ul class="steps-cards">
-        <li class="scard">
-          <img src="assets/img/temp-1x/pasii-cube.png" alt="">
-          <span class="scard__label">Consultanta</span>
-          <span class="scard__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+      <ul class="steps-cards" data-cards>
+        <li class="scard" data-step="0">
+          <button class="scard__btn" type="button" aria-expanded="false"
+                  aria-controls="walk" aria-label="Deschide Consultanta">
+            <img src="assets/img/temp-1x/pasii-cube.png" alt="">
+            <span class="scard__label">Consultanta</span>
+            <span class="scard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg></span>
+          </button>
         </li>
-        <li class="scard">
-          <img src="assets/img/temp-1x/pasii-stone.png" alt="">
-          <span class="scard__label">Procedura</span>
-          <span class="scard__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="scard" data-step="1">
+          <button class="scard__btn" type="button" aria-expanded="false"
+                  aria-controls="walk" aria-label="Deschide Procedura">
+            <img src="assets/img/temp-1x/pasii-stone.png" alt="">
+            <span class="scard__label">Procedura</span>
+            <span class="scard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg></span>
+          </button>
         </li>
-        <li class="scard">
-          <img src="assets/img/temp-1x/pasii-sphere.png" alt="">
-          <span class="scard__label">Intretinere</span>
-          <span class="scard__arrow" aria-hidden="true">
-            <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
-          </span>
+        <li class="scard" data-step="2">
+          <button class="scard__btn" type="button" aria-expanded="false"
+                  aria-controls="walk" aria-label="Deschide Intretinere">
+            <img src="assets/img/temp-1x/pasii-sphere.png" alt="">
+            <span class="scard__label">Intretinere</span>
+            <span class="scard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg></span>
+          </button>
         </li>
       </ul>
+
+      <div class="walk" id="walk" hidden>
+        <div class="walk__head">
+          <img class="walk__img" data-walk-img src="" alt="">
+          <span class="walk__label" data-walk-label></span>
+        </div>
+        <div class="walk__body">
+            <div class="walk__step">
+              <h3 class="walk__h"><span>1.</span> Alege serviciul potrivit</h3>
+              <p class="walk__p">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere</p>
+            </div>
+            <div class="walk__step">
+              <h3 class="walk__h"><span>2.</span> Fa o programare</h3>
+              <p class="walk__p">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere</p>
+            </div>
+            <div class="walk__step">
+              <h3 class="walk__h"><span>3.</span> Vei primi o confirmare</h3>
+              <p class="walk__p">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere</p>
+            </div>
+        </div>
+        <button class="walk__collapse" type="button" data-walk-collapse
+                aria-label="Închide">
+          <svg viewBox="0 0 16 16"><path d="M3.4 10.2h9.2L8 4.8 3.4 10.2Z"/></svg>
+        </button>
+      </div>
     </section>
 
     <hr class="rule">
@@ -332,6 +534,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js"></script>
+  <script src="js/main.js?v=1b"></script>
 </body>
 </html>
