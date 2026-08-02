@@ -386,3 +386,22 @@ Per-video copy · 2x before/after exports · clean 2x exports for
 frame A/B service order · favicon · gallery consent.
 
 **State at close:** pushed, not merged. FREEZE LAW in effect.
+
+### Eye passed — rulings applied 2026-08-02
+
+1. **Preț rests CLOSED.** The seventh export (base `S`) shows Preț
+   întreg visible with both collapsibles collapsed. Abundance mode
+   means they *may* sit open together, not that they *start* open.
+   Both now load closed; opening both together still works.
+2. **IG handle modernized in copy; protected curajoase line
+   untouched.** Copy now reads "pagina instagram hotico.ink";
+   destination unchanged at `instagram.com/hotico.ink/` (canonical,
+   real — honest-facade law). Protected line verified character-for-
+   character after the edit:
+   *"Cum arata resultatul procedurii te intrebi ? Iata rezultatul la
+   alte curajoase femei, ca tine, care au trecut prin procedura."*
+3. **Field order ratified as built** — majority of frames plus
+   homepage consistency.
+
+**Merged to main** on the Commander's word. Lap 2a sealed. Branch
+deleted local + remote. Day sealed.
