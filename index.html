@@ -516,7 +516,81 @@
               <button class="btn-pink" type="button" data-next>Pasul Urmator &gt;</button>
             </div>
           </div>
-          <div class="step" data-step="3"></div>
+          <div class="step" data-step="3">
+            <h3 class="q__h">Partiularitati ale pielii</h3>
+            <div class="q">
+              <span class="q__label">Ai avut o interventie chirurgicala in zona vizata ?</span>
+              <ul class="opts" data-group data-reveals="chirurgie" data-reveal-on="da" role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="reveal" data-reveal="chirurgie" hidden>
+            <div class="q">
+              <span class="q__label">Cand a fost ?</span>
+              <ul class="opts" data-group data-reveals="sub12" data-reveal-on="mai putin de 12 luni" role="radiogroup">
+                <li><span class="opt__dot" data-val="mai mult de 12 luni" role="radio" aria-checked="false" tabindex="0"></span>mai mult de 12 luni</li>
+                <li><span class="opt__dot" data-val="mai putin de 12 luni" role="radio" aria-checked="false" tabindex="0"></span>mai putin de 12 luni</li>
+              </ul>
+            </div>
+              <div class="reveal" data-reveal="sub12" hidden>
+                <p class="warn">*Pielea are nevoie de minimum 12 luni pentru a se
+                  vindeca complet inainte de o procedura paramedicala</p>
+                <div class="field">
+                  <span class="field__label">Cate luni, exact?</span>
+                  <div class="field__box"><span class="field__ph">12</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="q">
+              <span class="q__label">Ai facut chimioterapie sau radioterapie ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Ai afectiuni ale pielii ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="dermatita" role="radio" aria-checked="false" tabindex="0"></span>dermatita</li>
+                <li><span class="opt__dot" data-val="eczeme" role="radio" aria-checked="false" tabindex="0"></span>eczeme</li>
+                <li><span class="opt__dot" data-val="psoriazis" role="radio" aria-checked="false" tabindex="0"></span>psoriazis</li>
+                <li><span class="opt__dot" data-val="alte" role="radio" aria-checked="false" tabindex="0"></span>alte</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Ai herpes activ ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Esti insarcinata sau alaptezi ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Detalii</span>
+              <div class="ta">Scrie aici orice crezi ca ar trebui sa stiu…</div>
+            </div>
+
+            <div class="upload">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 16V4M7 9l5-5 5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+              </svg>
+              Uploadeaza poze
+            </div>
+
+            <div class="stepnav">
+              <button class="backbtn" type="button" data-back aria-label="Inapoi">
+                <svg viewBox="0 0 16 16"><path d="M10.2 3.4v9.2L4.8 8l5.4-4.6Z"/></svg>
+              </button>
+              <button class="btn-pink" type="button" data-confirm>Confirmare</button>
+            </div>
+          </div>
         </div>
       </div>
 </section>
