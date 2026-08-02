@@ -198,7 +198,73 @@
         </ul>
       </div>
     </section>
-    <section class="panel-tab" id="tab-pret"    role="tabpanel" data-panel="pret" hidden></section>
+    <section class="panel-tab" id="tab-pret" role="tabpanel" data-panel="pret" hidden>
+      <div class="wrap">
+        <p class="tabintro">Ce inseamna pretul procedurii ? Aici iti explic in
+          detaliu, tot ce ai de stiut !</p>
+
+        <div class="price">
+          <div class="price__row">
+            <span class="price__name">Pret intreg</span>
+            <span class="price__val">2000 ron</span>
+          </div>
+          <p class="price__inc">Include :</p>
+          <ul class="price__list">
+              <li>booklet de informatie preventiva inainte de sedinta</li>
+              <li>sedinta de preparatie de 30mn</li>
+              <li>anestezic</li>
+              <li>procedura de dermopigmentare paramedicala (intre 4-6 ore)</li>
+              <li>booklet de informatie "CARE" dupa sedinta</li>
+          </ul>
+          <button class="btn-pink" type="button" data-goto-contact>Programare</button>
+        </div>
+
+        <div class="price">
+          <button class="price__row price__row--btn is-open" type="button"
+                  data-collapse aria-expanded="true" aria-controls="pr-cont">
+            <span class="price__name is-pink">Pret cu cont client</span>
+            <span class="price__val is-pink">1700 ron</span>
+            <span class="price__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 10.2h9.2L8 4.8 3.4 10.2Z"/></svg></span>
+          </button>
+          <div id="pr-cont">
+            <p class="price__inc">Include :</p>
+            <ul class="price__list">
+              <li>booklet de informatie preventiva inainte de sedinta</li>
+              <li>sedinta de preparatie de 30mn</li>
+              <li>anestezic</li>
+              <li>procedura de dermopigmentare paramedicala (intre 4-6 ore)</li>
+              <li>booklet de informatie "CARE" dupa sedinta</li>
+            </ul>
+            <button class="btn-pink" type="button" data-goto-contact>Creaza cont client</button>
+          </div>
+        </div>
+
+        <div class="price">
+          <button class="price__row price__row--btn is-open" type="button"
+                  data-collapse aria-expanded="true" aria-controls="pr-ret">
+            <span class="price__name">Retusuri</span>
+            <span class="price__val">divers</span>
+            <span class="price__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 10.2h9.2L8 4.8 3.4 10.2Z"/></svg></span>
+          </button>
+          <p class="price__sub">necesare, pentru a pastra culoarea</p>
+          <div id="pr-ret">
+            <p class="price__inc">Include :</p>
+            <ul class="price__list">
+              <li>booklet de informatie preventiva inainte de sedinta</li>
+              <li>anestezic</li>
+              <li>procedura de dermopigmentare paramedicala (intre 4-6 ore)</li>
+              <li>booklet de informatie "CARE" dupa sedinta</li>
+            </ul>
+            <div class="tiers">
+              <div class="tiers__row"><span>Retus la 1 luna</span><span>400 ron</span></div>
+              <div class="tiers__row"><span>Intre 12-24 luni</span><span>600 ron</span></div>
+              <div class="tiers__row"><span>&gt;24 luni</span><span>800 ron</span></div>
+            </div>
+            <button class="btn-pink" type="button" data-goto-contact>Programare retus</button>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="panel-tab" id="tab-galerie" role="tabpanel" data-panel="galerie" hidden></section>
 
     <hr class="rule">

@@ -821,6 +821,57 @@ button{
 
 .playbtn svg{width:17px;height:17px;fill:var(--white);}
 
+/* D. Pret — ABUNDANCE MODE collapsibles */
+.price{margin-bottom:1.9rem;}
+
+.price__row{
+  display:flex;align-items:center;gap:.5rem;
+  width:100%;
+  padding:.2rem 0 .5rem;
+  border-bottom:1px solid var(--gold-line);
+  text-align:left;
+}
+
+.price__row--btn{cursor:pointer;}
+
+.price__name{font-size:1.0625rem;flex:1;}
+.price__val{font-size:1.0625rem;}
+.is-pink{color:var(--hotico-pink);}
+
+.price__arrow svg{
+  width:15px;height:15px;fill:var(--hotico-pink);
+  transition:transform .28s ease;
+}
+
+.price__row--btn:not(.is-open) .price__arrow svg{transform:rotate(180deg);}
+
+.price__sub{
+  font-size:.8125rem;
+  margin:.25rem 0 0;
+}
+
+.price__inc{font-size:.9375rem;margin:.9rem 0 .35rem;}
+
+.price__list{
+  margin:0 0 1.2rem;
+  padding-left:1.15rem;
+  font-size:.9375rem;
+  line-height:1.45;
+}
+
+.price__list li{margin-bottom:.1rem;}
+
+.tiers{margin:0 0 1.2rem;}
+
+.tiers__row{
+  display:flex;justify-content:space-between;
+  font-weight:600;
+  font-size:1rem;
+  padding:.3rem 0;
+}
+
+#pr-cont[hidden],#pr-ret[hidden]{display:none;}
+
 /* ---------- dead-end pattern: servicii/*.html ----------
    Any unbuilt destination wears this costume. Honest facades: both
    actions route somewhere real. */
