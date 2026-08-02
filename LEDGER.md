@@ -122,3 +122,27 @@ both. **strip-06 is currently unused** — awaiting ruling.
 
 **State at close:** pushed, not merged. Awaiting Commander's eye on the
 Vercel preview URL.
+
+### Eye passed — rulings, 2026-08-02
+
+**Canon v1.1.2 accepted.**
+- **Flat gold law:** every gold surface is flat `--gold`. Confirmed as
+  canon, not just a measurement.
+- `--gold-grad` is the **divider rule only**. Not to be reached for
+  anywhere else.
+- `--card:#E9E9E9` **RATIFIED** into tokens.css.
+- `--placeholder:#9E9E9E` **added**; the naked CSS value is gone.
+  `main.css` now holds no brand colour outside tokens — the only hexes
+  left are `#000` as mask alpha and the three Romanian flag colours,
+  both annotated in place as deliberately outside the colour law.
+
+**Debts confirmed and carried:**
+1. `video-thumb.png` — clean photo-only **2x export** owed, so the gold
+   frame and "3mn" badge return to being token-driven.
+2. **strip-06 retired** — duplicate export variant of strip-03.
+3. **NEW —** *"divider soft-shadow bloom per frame A is weaker/absent
+   in build; Commander taste note, scheduled Lap 1b."*
+4. Service strips remain 1x proto-grade (from entry #1).
+5. Favicon (H kintsugi) still unbuilt — out of Key #2 scope.
+
+**Merged to main** on the Commander's word. Lap 1a sealed.

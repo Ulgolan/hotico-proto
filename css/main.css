@@ -200,6 +200,7 @@ button{
   position:absolute;left:0;top:0;
   height:100%;width:auto;
   border-radius:999px 0 0 999px;
+  /* #000 here is mask alpha, not a colour — outside the colour law. */
   -webkit-mask-image:linear-gradient(90deg,#000 55%,transparent 92%);
           mask-image:linear-gradient(90deg,#000 55%,transparent 92%);
 }
@@ -310,10 +311,11 @@ button{
 .field__ph{
   font-style:italic;
   font-size:1rem;
-  color:#9E9E9E; /* measured: darkest placeholder glyph px in frame A */
+  color:var(--placeholder);
 }
 
-/* RO flag — three bars, no external asset */
+/* RO flag — three bars, no external asset. National flag colours,
+   not brand colours: deliberately outside the tokens.css colour law. */
 .field__flag{
   display:flex;width:22px;height:15px;border-radius:2px;overflow:hidden;
   flex:0 0 auto;
