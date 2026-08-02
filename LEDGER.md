@@ -299,3 +299,90 @@ debt sits with ACP; cache-bust bumped to **`?v=1b2`**.
 7. Favicon still unbuilt.
 
 **Merged to main** on the Commander's word. Lap 1b sealed.
+Branch deleted local + remote.
+
+**Discovered real Vimeo titles** (homepage carousel):
+1. *HOTICO — L'art qui guérit* · 02:23
+2. *Pourquoi HOTICO en bonnes mains* · 01:58
+3. *Changer des vies par l'art* · 02:13
+
+FR title/CTA overlay upgrade stays a **future rider**, as logged.
+
+---
+
+## Entry #4 — 2026-08-02 — Lap 2a: services / Areola page
+
+Branch `lap-2a-services-areola`. Cache-bust `?v=2a` across all pages.
+First commit carried the ruled `walk__img` empty-src fix.
+
+**Content bible (FR) received; RO-tonight/FR-lap-later ruled; homepage
+carousel is actually 5 videos with real titles/CTAs — upgrade logged
+as future rider.**
+
+### A. Page shell
+Header and footer reused from the homepage verbatim (paths re-rooted
+for `/servicii/`). Services menu: all six, Areola active with the gold
+underline, the other five to `in-curand.html?s=…`. Title, stage
+player, "Despre procedura" copy per frame S-3.
+
+### B. Tab menu
+Detalii / Pret / Galerie. Gold pill slides on a transform; **all three
+panels live in the DOM**, swapped by `hidden`.
+
+### C. Detalii — six accordions, FOCUS MODE, real jukebox
+Play swaps the stage to that section's episode and scrolls to the
+player. **Closing an accordion never changes the record** — verified.
+**STAGE DEFAULT on load: episode 1 (Descriere).**
+
+| # | Accordion | Vimeo |
+|---|---|---|
+| 1 | Descriere procedura | `1134715905` |
+| 2 | Oare doare ? | `1134716246` |
+| 3 | Ce pigmenti ? | `1134715933` |
+| 4 | Rezistenta | `1134715961` |
+| 5 | Inainte de procedura | `1134715918` |
+| 6 | Dupa procedura | `1134715947` |
+
+Stage state shows as `acum: <section>` on the player frame. Accordion
+body copy is filler, as designed in the frames.
+
+### D. Pret — ABUNDANCE MODE
+Pret intreg **2000 ron** + 5 includes + *Programare*. Pret cu cont
+client **1700 ron** (pink) collapsible + 5 includes + *Creaza cont
+client*. Retusuri **divers** collapsible, "necesare, pentru a pastra
+culoarea", 4 includes + tiers **400 / 600 / 800 ron** + *Programare
+retus*. All three CTAs smooth-scroll to Contact. No payments anywhere.
+
+### E. Galerie
+Intro copy **verbatim** from S-2 — the "curajoase femei, ca tine" line
+is reproduced exactly and marked protected in the markup. **Photo grid
+HELD** pending consent (DOSSIER D13); an elegant band stands in its
+place. Gold IG button → `instagram.com/hotico.ink/` per the key.
+
+### F. Contact + Reviews
+Contact per frames: heading "Contact", "1. Date personale", four
+fields, **two** checkboxes (homepage has three). Reviews carousel
+reused from lap 1b.
+
+### Notes and gaps
+1. **Only six reference frames arrived**, `-1`…`-6`. The key's map
+   names a seventh, base `S` = Preț resting. Built Preț from `S-1`
+   (Preț expanded) plus the key's written content — both collapsibles
+   therefore **ship open**, which is what `S-1` shows. If Preț should
+   rest closed, that is a one-line change.
+2. **Frames disagree on field order**: `S-3` has Telefon before
+   E-mail, `S-1`/`S-2` have E-mail before Telefon. Built to the
+   majority, which also matches the homepage.
+3. **Galerie copy says "SkinartHub", the button points at
+   `hotico.ink`** per the key. STATE-MAP also names SkinartHub for
+   this outlink. Copy and destination disagree — flagged for ruling.
+4. Episode videos are **FR**; page copy is RO, as ruled.
+5. Services-page footer in the frames stacks its nav differently from
+   the homepage footer. Reused the homepage footer as instructed.
+
+### Debts carried
+Per-video copy · 2x before/after exports · clean 2x exports for
+`video-thumb` and `pasii-*` · strips 1x · divider bloom alternation ·
+frame A/B service order · favicon · gallery consent.
+
+**State at close:** pushed, not merged. FREEZE LAW in effect.
