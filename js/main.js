@@ -16,6 +16,23 @@
   --------------------------------------------------------------- */
   var DUR = 340; // keep in step with .panel / .walk transition-duration
 
+  // Scroll a section back to the top of the viewport. Read the target
+  // AFTER the caller has finished changing layout — collapsing the
+  // walkthrough removes ~650px, and a scroll aimed before that shrink
+  // lands short. NO STRANDING: if a browser ignores the smooth request,
+  // land it instantly rather than leaving the viewer mid-page.
+  function scrollHome(el) {
+    void el.offsetHeight;                     // force layout to settle
+    var top   = Math.max(0, el.getBoundingClientRect().top + window.pageYOffset);
+    var start = window.pageYOffset;
+    if (REDUCED) { window.scrollTo(0, top); return; }
+    window.scrollTo({ top: top, behavior: 'smooth' });
+    setTimeout(function () {
+      var moved = Math.abs(window.pageYOffset - start) > 2;
+      if (!moved && Math.abs(start - top) > 2) window.scrollTo(0, top);
+    }, 350);
+  }
+
   // Runs fn once the height transition on `el` itself settles. A timer
   // backs up transitionend: descendants inside these panels animate too
   // (arrow transform, slider width), and a missed event must never leave
@@ -142,6 +159,110 @@
   }
 
   /* ---------------------------------------------------------------
+     Shared carousel — one gesture vocabulary for video and reviews.
+
+     Gesture compromise (video): a cross-origin <iframe> swallows every
+     pointer event over the player, so a swipe started on the video
+     itself cannot reach us. The swipe surface is therefore everything
+     around it — the title, the description, the block's padding — and
+     the DOTS are the primary navigation. Reviews have no iframe, so
+     the whole card swipes.
+  --------------------------------------------------------------- */
+  function initCarousel(root) {
+    var track  = root.querySelector('[data-track]');
+    var slides = Array.prototype.slice.call(track.children);
+    var dots   = Array.prototype.slice.call(root.querySelectorAll('[data-dots] .dot'));
+    var index  = 0;
+    var dragging = false, startX = 0, startY = 0, delta = 0, locked = null;
+
+    function lazy(n) {
+      [n, n + 1].forEach(function (k) {           // current + the next one
+        var slide = slides[k];
+        if (!slide) return;
+        var frame = slide.querySelector('iframe[data-src]');
+        if (!frame) return;
+        frame.src = frame.getAttribute('data-src');
+        frame.removeAttribute('data-src');
+      });
+    }
+
+    function paint(offset) {
+      track.style.transform =
+        'translateX(calc(' + (-index * 100) + '% + ' + (offset || 0) + 'px))';
+    }
+
+    function go(n) {
+      index = Math.max(0, Math.min(slides.length - 1, n));
+      paint(0);
+      dots.forEach(function (d, k) {
+        d.classList.toggle('is-active', k === index);
+        d.setAttribute('aria-current', k === index ? 'true' : 'false');
+      });
+      lazy(index);
+    }
+
+    dots.forEach(function (d) {
+      d.addEventListener('click', function () { go(+d.getAttribute('data-go')); });
+    });
+
+    function down(e) {
+      if (e.target.closest('[data-dots]')) return;   // dots handle themselves
+      dragging = true; locked = null; delta = 0;
+      startX = e.clientX; startY = e.clientY;
+      root.classList.add('is-dragging');
+    }
+
+    function move(e) {
+      if (!dragging) return;
+      var dx = e.clientX - startX, dy = e.clientY - startY;
+      if (locked === null) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        locked = Math.abs(dx) > Math.abs(dy) ? 'x' : 'y';
+      }
+      if (locked === 'y') { up(); return; }          // let the page scroll
+      delta = dx;
+      // resist at the ends so the track never feels unhinged
+      if ((index === 0 && dx > 0) ||
+          (index === slides.length - 1 && dx < 0)) delta = dx * 0.32;
+      paint(delta);
+      if (e.cancelable) e.preventDefault();
+    }
+
+    function up() {
+      if (!dragging) return;
+      dragging = false;
+      root.classList.remove('is-dragging');
+      var threshold = root.getBoundingClientRect().width * 0.15;
+      if (delta <= -threshold) go(index + 1);
+      else if (delta >= threshold) go(index - 1);
+      else paint(0);
+      delta = 0;
+    }
+
+    if (window.PointerEvent) {
+      root.addEventListener('pointerdown', down);
+      window.addEventListener('pointermove', move, { passive: false });
+      window.addEventListener('pointerup', up);
+      window.addEventListener('pointercancel', up);
+    } else {
+      root.addEventListener('touchstart', function (e) {
+        down(e.touches[0]);
+      }, { passive: true });
+      window.addEventListener('touchmove', function (e) {
+        if (!dragging) return;
+        var t = e.touches[0];
+        move({ clientX: t.clientX, clientY: t.clientY,
+               cancelable: e.cancelable, preventDefault: function () { e.preventDefault(); } });
+      }, { passive: false });
+      window.addEventListener('touchend', up);
+    }
+
+    go(0);
+  }
+
+  document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+
+  /* ---------------------------------------------------------------
      A. Servicii pills — ABUNDANCE MODE, several may sit open.
   --------------------------------------------------------------- */
   document.querySelectorAll('.pill__arrow').forEach(function (btn) {
@@ -199,12 +320,19 @@
       });
     });
 
+    var pasii = document.querySelector('.pasii');
+
     collapseBtn.addEventListener('click', function () {
       collapse(walk, function () {
         cards.classList.remove('is-focused');
         cards.querySelectorAll('.scard').forEach(function (c) {
           c.classList.remove('is-hidden');
         });
+        // RIDER 1 — scroll home. The target is read AFTER the cards are
+        // back and a reflow is forced: collapsing removes ~650px, and a
+        // scroll aimed before that shrink lands short and strands the
+        // viewer mid-page.
+        if (pasii) scrollHome(pasii);
       });
       cards.querySelectorAll('.scard__btn').forEach(function (b) {
         b.setAttribute('aria-expanded', 'false');

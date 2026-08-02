@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="css/tokens.css?v=1b">
-  <link rel="stylesheet" href="css/main.css?v=1b">
+  <link rel="stylesheet" href="css/tokens.css?v=1b2">
+  <link rel="stylesheet" href="css/main.css?v=1b2">
 </head>
 <body>
 
@@ -83,21 +83,58 @@
       <h2 class="band__title">Descoperiti HOTICO<br>Dermopigmentation Institute</h2>
     </section>
 
-    <!-- d. VIDEO BLOCK -->
+    <!-- d. VIDEO BLOCK — 3-slide carousel, real Vimeo embeds -->
     <section class="video wrap">
-      <!-- temp-1x crop ships with the gold frame AND the "3mn" badge
-           baked into the pixels. CSS frame/badge suppressed to avoid
-           doubling — restore them (token-driven) when the clean 2x
-           photo export lands. Logged in LEDGER. -->
-      <div class="video__frame">
-        <img src="assets/img/temp-1x/video-thumb.png" alt="">
+      <div class="carousel" data-carousel="video">
+        <div class="carousel__viewport">
+          <ul class="carousel__track" data-track>
+          <li class="carousel__slide">
+            <div class="video__frame">
+              <div class="video__embed">
+                <iframe src="https://player.vimeo.com/video/1134716314?h=7dd73b5046" title="HOTICO — video 1"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>
+            <h3 class="video__title">Cine sunt eu</h3>
+            <p class="video__copy">De la A la Z afla totul despre mine si cum te
+            pot ajuta !</p>
+          </li>
+          <li class="carousel__slide">
+            <div class="video__frame">
+              <div class="video__embed">
+                <iframe data-src="https://player.vimeo.com/video/1134716271?h=9def773e63" title="HOTICO — video 2"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>
+            <h3 class="video__title">Cine sunt eu</h3>
+            <p class="video__copy">De la A la Z afla totul despre mine si cum te
+            pot ajuta !</p>
+          </li>
+          <li class="carousel__slide">
+            <div class="video__frame">
+              <div class="video__embed">
+                <iframe data-src="https://player.vimeo.com/video/1134716322?h=39c3d035fb" title="HOTICO — video 3"
+                        allow="autoplay; fullscreen; picture-in-picture"
+                        referrerpolicy="strict-origin-when-cross-origin"
+                        allowfullscreen loading="lazy"></iframe>
+              </div>
+            </div>
+            <h3 class="video__title">Cine sunt eu</h3>
+            <p class="video__copy">De la A la Z afla totul despre mine si cum te
+            pot ajuta !</p>
+          </li>
+          </ul>
+        </div>
+        <ul class="dots" data-dots>
+          <li><button class="dot is-active" type="button" data-go="0" aria-label="Video 1"></button></li>
+          <li><button class="dot" type="button" data-go="1" aria-label="Video 2"></button></li>
+          <li><button class="dot" type="button" data-go="2" aria-label="Video 3"></button></li>
+        </ul>
       </div>
-      <h3 class="video__title">Cine sunt eu</h3>
-      <p class="video__copy">De la A la Z afla totul despre mine si cum te
-        pot ajuta !</p>
-      <ul class="dots" aria-hidden="true">
-        <li class="is-active"></li><li></li><li></li><li></li>
-      </ul>
     </section>
 
     <hr class="rule">
@@ -449,38 +486,97 @@
     <section class="reviews wrap">
       <h2 class="h-section">Reviews</h2>
 
-      <div class="reviews__grid">
-        <article class="review">
-          <div class="stars" aria-label="5 din 5">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-          </div>
-          <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
-            și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
-            faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
-            explicat, a avut răbdare cu mine, e un om empatic și extrem de
-            talentat. Revin!</p>
-          <p class="review__who">Marina</p>
-        </article>
-
-        <article class="review">
-          <div class="stars" aria-label="5 din 5">
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-            <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
-          </div>
-          <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
-            și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
-            faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
-            explicat, a avut răbdare cu mine, e un om empatic și extrem de
-            talentat. Revin!</p>
-          <p class="review__who">Marina</p>
-        </article>
+      <div class="carousel carousel--reviews" data-carousel="reviews">
+        <div class="carousel__viewport">
+          <ul class="carousel__track" data-track>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+          </ul>
+        </div>
+        <ul class="dots" data-dots>
+            <li><button class="dot is-active" type="button" data-go="0" aria-label="Review 1"></button></li>
+            <li><button class="dot" type="button" data-go="1" aria-label="Review 2"></button></li>
+            <li><button class="dot" type="button" data-go="2" aria-label="Review 3"></button></li>
+            <li><button class="dot" type="button" data-go="3" aria-label="Review 4"></button></li>
+            <li><button class="dot" type="button" data-go="4" aria-label="Review 5"></button></li>
+            <li><button class="dot" type="button" data-go="5" aria-label="Review 6"></button></li>
+        </ul>
       </div>
     </section>
 
@@ -534,6 +630,6 @@
     </div>
   </footer>
 
-  <script src="js/main.js?v=1b"></script>
+  <script src="js/main.js?v=1b2"></script>
 </body>
 </html>

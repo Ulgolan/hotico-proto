@@ -238,3 +238,64 @@ beneath per the Commander's note; say the word if it should alternate.
 7. Favicon still unbuilt.
 
 **State at close:** pushed, not merged. Awaiting the eye.
+
+### Eye passed — riders built 2026-08-02
+
+**RIDER 1 — Pașii scroll-home.** Gold-bar tap now returns the viewport
+to the Pașii section top. Target is read **after** the cards restore
+and a reflow is forced: collapsing removes ~650px, and a scroll aimed
+before that shrink lands ~785px short — caught in test. A landing
+guard follows the smooth request; if a browser ignores `behavior:
+'smooth'` the scroll completes instantly rather than stranding anyone.
+`prefers-reduced-motion` goes straight to instant.
+
+**RIDER 2 — video carousel with real Vimeo embeds.** 3 slides, whole
+block (video + title + description) travels as one unit. Responsive
+16:9 iframes inside the gold frame costume — which is **token-driven
+again**, and the baked "3mn" badge retires with the temp thumb.
+
+All three players verified rendering in-page, no fallbacks needed:
+- Slide 1 — `1134716314` · *HOTICO — L'art qui guérit* · 02:23
+- Slide 2 — `1134716271` · *Pourquoi HOTICO en bonnes mains* · 01:58
+- Slide 3 — `1134716322` · *Changer des vies par l'art* · 02:13
+
+Slides 2–3 lazy-load: a slide's `src` is set when it becomes current,
+plus one ahead, so the first paint carries one player, not three.
+
+**Gesture compromise (logged as instructed):** a cross-origin iframe
+swallows every pointer event over the player, so a swipe begun on the
+video itself cannot reach us. The swipe surface is everything around
+it — title, description, block padding — and the **dots are primary
+navigation**. Reviews have no iframe, so the whole card swipes. Both
+carousels share one gesture implementation: 15%-of-width threshold,
+axis lock so vertical drags stay the page's, resistance at the ends.
+
+**Dots: 3, matching content. The frame shows 4 — deviation logged.**
+
+*Carousel demo-grade; real video embeds + per-video copy = future lap.*
+Embeds are now real; **per-video copy is still filler** — all three
+slides carry "Cine sunt eu", the only designed title/description.
+
+**RIDER 3 — Reviews swipe.** 6 cards, one per view, 6 live dots, same
+gesture vocabulary. *6x Marina demo filler; real reviews = content
+owner, DOSSIER D15/D16.*
+
+**Bug caught in test:** converting the Reviews grid left one orphaned
+lap-1a `<article>` outside the carousel — the section rendered a card,
+then the dots, then a stray seventh review. Removed; 6 in, 0 orphans.
+
+**Standing rulings applied:** areola.html T2 slot ratified; bloom stays
+uniform (alternation parked as a taste option); lips 1x registration
+debt sits with ACP; cache-bust bumped to **`?v=1b2`**.
+
+### Debts after riders
+1. Per-video copy — three slides, one set of words.
+2. Separate 2x before/after exports (lips registration).
+3. Clean 2x exports for `video-thumb` (now unused on the homepage),
+   `pasii-*` card crops.
+4. Service strips 1x proto-grade; strip-06 retired.
+5. Divider bloom alternation — parked taste option.
+6. Frame A / frame B service order disagreement — built to frame A.
+7. Favicon still unbuilt.
+
+**Merged to main** on the Commander's word. Lap 1b sealed.

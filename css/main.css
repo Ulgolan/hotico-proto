@@ -148,15 +148,29 @@ button{
 
 .video{padding-bottom:1.6rem;}
 
-/* Frame + badge live in the temp-1x pixels for now — see index.html.
-   The border-radius here only clips the crop's white corners. */
+/* Real Vimeo embeds now, so the gold frame is token-driven again and
+   the baked "3mn" badge retires with the temp thumb. */
 .video__frame{
   position:relative;
+  border:1px solid var(--gold-line);
   border-radius:14px;
   overflow:hidden;
+  background:var(--card);
 }
 
 .video__frame img{width:100%;}
+
+.video__embed{
+  position:relative;
+  aspect-ratio:16/9;
+}
+
+.video__embed iframe{
+  position:absolute;inset:0;
+  width:100%;height:100%;
+  border:0;
+  display:block;
+}
 
 .video__title{
   font-family:var(--font-body);
@@ -176,12 +190,51 @@ button{
   display:flex;justify-content:center;gap:.45rem;
 }
 
-.dots li{
+.dot{
+  display:block;
   width:8px;height:8px;border-radius:50%;
   border:1px solid var(--cocoa);
+  background:transparent;
+  cursor:pointer;
 }
 
-.dots li.is-active{background:var(--cocoa);}
+/* the tap target is bigger than the ink */
+.dots li{
+  display:flex;align-items:center;justify-content:center;
+  width:26px;height:26px;
+}
+
+.dot.is-active{background:var(--cocoa);}
+
+/* ---------- shared carousel (video + reviews) ---------- */
+
+.carousel{position:relative;}
+
+.carousel__viewport{
+  overflow:hidden;
+  touch-action:pan-y;   /* vertical scroll stays the page's */
+}
+
+.carousel__track{
+  list-style:none;margin:0;padding:0;
+  display:flex;
+  transition:transform .38s ease;
+  will-change:transform;
+}
+
+.carousel.is-dragging .carousel__track{transition:none;}
+
+.carousel__slide{
+  flex:0 0 100%;
+  min-width:0;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .carousel__track{transition:none;}
+}
+
+/* reviews read one card per view; give the text room to breathe */
+.carousel--reviews .carousel__slide{padding-right:.25rem;}
 
 /* ---------- shared section heading ---------- */
 
@@ -566,9 +619,6 @@ button{
 
 .reviews{padding-bottom:2.2rem;}
 
-.reviews__grid{
-  display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;
-}
 
 .stars{display:flex;gap:.1rem;margin-bottom:.6rem;}
 
