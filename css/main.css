@@ -872,6 +872,56 @@ button{
 
 #pr-cont[hidden],#pr-ret[hidden]{display:none;}
 
+/* E. Galerie — grid held pending consent */
+.held{
+  border:1px solid var(--gold-line);
+  border-radius:14px;
+  background:var(--card);
+  box-shadow:var(--shadow-neo);
+  padding:2.2rem 1.5rem;
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+.held__mark svg{
+  width:34px;height:34px;
+  fill:none;stroke:var(--gold);stroke-width:1.5;
+  stroke-linecap:round;
+  margin:0 auto .8rem;
+  display:block;
+}
+
+.held__title{
+  font-family:var(--font-head);
+  font-weight:600;
+  font-size:1.125rem;
+  margin:0 0 .45rem;
+}
+
+.held__copy{
+  font-size:.875rem;
+  line-height:1.45;
+  margin:0 auto;
+  max-width:17rem;
+}
+
+.tabintro--ig{margin-bottom:1.1rem;}
+
+.igbtn{
+  display:flex;align-items:center;justify-content:center;
+  width:58px;height:58px;border-radius:50%;
+  margin:0 auto 2rem;
+  background:var(--gold);
+  box-shadow:var(--shadow-neo);
+}
+
+.igbtn svg{
+  width:29px;height:29px;
+  fill:none;stroke:var(--white);stroke-width:1.7;stroke-linejoin:round;
+}
+
+.igbtn svg .fill{fill:var(--white);stroke:none;}
+
 /* ---------- dead-end pattern: servicii/*.html ----------
    Any unbuilt destination wears this costume. Honest facades: both
    actions route somewhere real. */
