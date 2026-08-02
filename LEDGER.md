@@ -404,4 +404,61 @@ frame A/B service order · favicon · gallery consent.
    homepage consistency.
 
 **Merged to main** on the Commander's word. Lap 2a sealed. Branch
-deleted local + remote. Day sealed.
+deleted local + remote.
+
+---
+
+## Entry #5 — 2026-08-02 — Lap 2b: the form, demo-grade
+
+Branch `lap-2b-form`. Cache-bust `?v=2b`. **One shared implementation**
+(`js/form.js`) drives the form on both the homepage and the Areola
+page. Facade law: nothing validates, everything advances.
+
+**form demo-grade: 1 live disclosure; full questionnaire per content
+sheet = future lap.**
+
+### A. Stepper + navigation
+Three steps slide left/right in a track. Label and pink bars follow:
+*1. Date contact / personale · 2. Programare · 3. Particularitati*.
+`Pasul Urmator >` forward, gold `<` chevron back. Button navigation
+only — swipe was **not** added: the carousel code is bound to its own
+dots/track contract and wiring it in was not trivial inside the
+freeze, so it stays out rather than half-done.
+
+Step 1's own heading is read from the page at load, so the homepage
+keeps **"1. Date contact"** and Areola keeps **"1. Date personale"**.
+
+### B. Step 2
+"Alege data" + calendar glyph (dd/mm/yyyy), "Vrei si alta procedura ?"
+with five radios (Alopecie / Buze / Cicatrici / Eyeliner / Sprancene),
+forward + back.
+
+### C. Step 3 — Partiularitati ale pielii
+Static radios: chirurgie in zona vizata · chimio/radio · afectiuni
+(dermatita / eczeme / psoriazis / alte) · herpes activ ·
+sarcina/alaptare (**ONCE** — the frame's duplicate stays killed).
+Plus Detalii textarea, "Uploadeaza poze" placeholder, Confirmare.
+
+**The one live disclosure:** chirurgie **da** reveals "Cand a fost ?"
+→ **mai putin de 12 luni** reveals the pink warning
+*"*Pielea are nevoie de minimum 12 luni pentru a se vindeca complet
+inainte de o procedura paramedicala"* plus "Cate luni, exact?".
+**Warn and allow — Confirmare never blocks** (gentle-firm law).
+Answering "nu" clears and hides the child branch so nothing is
+stranded open.
+
+### D. Confirmation
+Pink check, "Rezervarea a fost facuta cu succes", thank-you copy, then
+**real links**: Mail → `mailto:hotico.ink@gmail.com`, Whatsapp →
+`wa.me/41796472106`, "Creaza un cont" → the same WhatsApp (facade,
+routed honestly). Discreet "‹ inapoi" resets to step 1 and clears
+every disclosure, so the demo replays clean.
+
+### Bug caught in test
+The step-1 wrapper left a stray `</div>` that closed step 1
+immediately, so the fields and the whole confirmation block sat
+outside the track. Repaired; div balance now verified on both pages
+(104/104 and 70/70). The rewrite also flattened Areola's
+"Date personale" to "Date contact" — restored.
+
+**State at close:** pushed. Awaiting the eye inside the freeze.
