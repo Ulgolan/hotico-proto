@@ -1,0 +1,31 @@
+/* main.css — layout and components. Tokens live in tokens.css only. */
+
+body{
+  font-family:var(--font-body);
+  color:var(--cocoa);
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.hello{
+  text-align:center;
+  padding:2rem 1.5rem;
+}
+
+.hello__logo{
+  width:180px;
+  max-width:60%;
+  height:auto;
+  display:block;
+  margin:0 auto 1.5rem;
+}
+
+.hello__title{
+  font-family:var(--font-head);
+  font-weight:500;
+  font-size:1.125rem;
+  letter-spacing:.02em;
+  margin:0;
+}
