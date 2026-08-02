@@ -113,3 +113,67 @@ button{
 }
 
 .social svg .fill{fill:var(--white);stroke:none;}
+
+/* ---------- c. GOLD BAND ---------- */
+
+.band{padding-top:1.9rem;padding-bottom:1.5rem;}
+
+.band__title{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.375rem;
+  line-height:1.3;
+  text-align:center;
+  margin:0;
+}
+
+/* ---------- d. VIDEO BLOCK ---------- */
+
+.video{padding-bottom:1.6rem;}
+
+.video__frame{
+  position:relative;
+  border:1px solid var(--gold-line);
+  border-radius:14px;
+  overflow:hidden;
+  background:var(--card);
+}
+
+.video__frame img{width:100%;}
+
+.video__badge{
+  position:absolute;left:0;bottom:.55rem;
+  display:flex;align-items:center;gap:.3rem;
+  padding:.2rem .7rem .2rem .55rem;
+  border-radius:0 3px 3px 0;
+  background:var(--white);
+  font-size:.75rem;
+  font-weight:500;
+}
+
+.video__badge svg{width:9px;height:9px;fill:var(--cocoa);}
+
+.video__title{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:1rem;
+  margin:1rem 0 .15rem;
+}
+
+.video__copy{
+  font-size:1rem;
+  line-height:1.4;
+  margin:0;
+}
+
+.dots{
+  list-style:none;margin:.7rem 0 0;padding:0;
+  display:flex;justify-content:center;gap:.45rem;
+}
+
+.dots li{
+  width:8px;height:8px;border-radius:50%;
+  border:1px solid var(--cocoa);
+}
+
+.dots li.is-active{background:var(--cocoa);}
