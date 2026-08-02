@@ -8,35 +8,504 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=1b2">
-  <link rel="stylesheet" href="../css/main.css?v=1b2">
+  <link rel="stylesheet" href="../css/tokens.css?v=2a">
+  <link rel="stylesheet" href="../css/main.css?v=2a">
 </head>
-<!--
-  T2 SLOT. The full Areola service template (services menu, video stage,
-  Detalii/Preț/Galerie tabs) is Tier 2 per POLARIS. Until that lap, this
-  file holds the dead-end costume so the pill never 404s — honest-facade
-  law. Replace wholesale in Lap 2; do not extend this shell.
--->
-<body class="soon-body">
+<body>
 
-  <main class="soon">
-    <img class="soon__logo" src="../assets/brand/logo-black.png"
+  <!-- a. HEADER -->
+  <header class="hdr">
+    <button class="hdr__lang" type="button" aria-disabled="true" title="Limba: Română">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9"/>
+        <ellipse cx="12" cy="12" rx="4" ry="9"/>
+        <path d="M3 12h18M4.5 7h15M4.5 17h15"/>
+      </svg>
+      <span>RO</span>
+    </button>
+
+    <img class="hdr__logo" src="../assets/brand/logo-black.png"
          alt="HOTICO Restauration Institute">
 
-    <p class="soon__service">Areola</p>
-    <p class="soon__title">în curând</p>
-    <p class="soon__copy">Pagina acestui serviciu se pregătește. Până atunci,
-      Alexandra îți răspunde direct.</p>
+    <button class="hdr__burger" type="button" aria-disabled="true" aria-label="Meniu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-    <div class="soon__actions">
-      <a class="soon__btn" href="https://wa.me/41796472106"
-         target="_blank" rel="noopener">Scrie-i pe WhatsApp</a>
-      <a class="soon__tel" href="tel:+40723344555">+40723344555</a>
-    </div>
+  <main>
 
-    <a class="soon__back" href="../index.html">&lsaquo; Înapoi la pagina
-      principală</a>
+    <!-- A. SERVICES MENU + TITLE + STAGE -->
+    <nav class="svcnav" aria-label="Servicii">
+      <ul>
+        <li><span class="svcnav__item is-active" aria-current="page">Areola</span></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Cicatrici">Cicatrici</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Alopecie">Alopecie</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Sprancene">Sprancene</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Eyeliner">Eyeliner</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Buze">Buze</a></li>
+      </ul>
+    </nav>
+
+    <h1 class="svc-title">Areola</h1>
+
+    <section class="stage wrap">
+      <div class="video__frame">
+        <div class="video__embed">
+          <iframe id="stage-player"
+                  src="https://player.vimeo.com/video/1134715905?h=5aae14fc67"
+                  title="Areola — Descriere procedura"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+        </div>
+        <p class="stage__now" data-now>acum: <b>Descriere procedura</b></p>
+      </div>
+
+      <h2 class="stage__h">Despre procedura</h2>
+      <p class="stage__copy">Hai sa descoperim impreuna in ce consista
+        procedura Areolei !</p>
+    </section>
+
+
+    <!-- B. TAB MENU -->
+    <section class="tabs wrap">
+      <div class="tabbar" role="tablist" aria-label="Areola">
+        <span class="tabbar__pill" data-pill></span>
+        <button class="tabbar__tab is-active" type="button" role="tab"
+                aria-selected="true"  aria-controls="tab-detalii" data-tab="detalii">Detalii</button>
+        <button class="tabbar__tab" type="button" role="tab"
+                aria-selected="false" aria-controls="tab-pret"    data-tab="pret">Pret</button>
+        <button class="tabbar__tab" type="button" role="tab"
+                aria-selected="false" aria-controls="tab-galerie" data-tab="galerie">Galerie</button>
+      </div>
+    </section>
+
+    <section class="panel-tab is-active" id="tab-detalii" role="tabpanel" data-panel="detalii">
+      <div class="wrap">
+        <p class="tabintro">Care este procedura ? La ce trebuie sa fiti atente ?
+          Toate raspunsurile dumneavoastra sunt aici ! Se poate scrie un text
+          mult mai inspirational aici</p>
+
+        <ul class="faqs">
+        <li class="faq" data-faq>
+          <button class="faq__head" type="button" aria-expanded="false"
+                  aria-controls="faq-1">
+            <span class="faq__n">1.</span>
+            <span class="faq__label">Descriere procedura</span>
+            <span class="faq__arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </span>
+          </button>
+          <div class="faq__body" id="faq-1" hidden>
+            <p class="faq__copy">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere.</p>
+            <button class="playbtn" type="button" data-play
+                    data-src="https://player.vimeo.com/video/1134715905?h=5aae14fc67" data-title="Descriere procedura"
+                    aria-label="Vezi episodul: Descriere procedura">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4 13 8l-9 5.6V2.4Z"/></svg>
+            </button>
+          </div>
+        </li>
+        <li class="faq" data-faq>
+          <button class="faq__head" type="button" aria-expanded="false"
+                  aria-controls="faq-2">
+            <span class="faq__n">2.</span>
+            <span class="faq__label">Oare doare ?</span>
+            <span class="faq__arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </span>
+          </button>
+          <div class="faq__body" id="faq-2" hidden>
+            <p class="faq__copy">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere.</p>
+            <button class="playbtn" type="button" data-play
+                    data-src="https://player.vimeo.com/video/1134716246?h=bb38fba147" data-title="Oare doare ?"
+                    aria-label="Vezi episodul: Oare doare ?">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4 13 8l-9 5.6V2.4Z"/></svg>
+            </button>
+          </div>
+        </li>
+        <li class="faq" data-faq>
+          <button class="faq__head" type="button" aria-expanded="false"
+                  aria-controls="faq-3">
+            <span class="faq__n">3.</span>
+            <span class="faq__label">Ce pigmenti ?</span>
+            <span class="faq__arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </span>
+          </button>
+          <div class="faq__body" id="faq-3" hidden>
+            <p class="faq__copy">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere.</p>
+            <button class="playbtn" type="button" data-play
+                    data-src="https://player.vimeo.com/video/1134715933?h=f6d98eda6b" data-title="Ce pigmenti ?"
+                    aria-label="Vezi episodul: Ce pigmenti ?">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4 13 8l-9 5.6V2.4Z"/></svg>
+            </button>
+          </div>
+        </li>
+        <li class="faq" data-faq>
+          <button class="faq__head" type="button" aria-expanded="false"
+                  aria-controls="faq-4">
+            <span class="faq__n">4.</span>
+            <span class="faq__label">Rezistenta</span>
+            <span class="faq__arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </span>
+          </button>
+          <div class="faq__body" id="faq-4" hidden>
+            <p class="faq__copy">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere.</p>
+            <button class="playbtn" type="button" data-play
+                    data-src="https://player.vimeo.com/video/1134715961?h=fdf553e4a8" data-title="Rezistenta"
+                    aria-label="Vezi episodul: Rezistenta">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4 13 8l-9 5.6V2.4Z"/></svg>
+            </button>
+          </div>
+        </li>
+        <li class="faq" data-faq>
+          <button class="faq__head" type="button" aria-expanded="false"
+                  aria-controls="faq-5">
+            <span class="faq__n">5.</span>
+            <span class="faq__label">Inainte de procedura</span>
+            <span class="faq__arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </span>
+          </button>
+          <div class="faq__body" id="faq-5" hidden>
+            <p class="faq__copy">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere.</p>
+            <button class="playbtn" type="button" data-play
+                    data-src="https://player.vimeo.com/video/1134715918?h=0405164fee" data-title="Inainte de procedura"
+                    aria-label="Vezi episodul: Inainte de procedura">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4 13 8l-9 5.6V2.4Z"/></svg>
+            </button>
+          </div>
+        </li>
+        <li class="faq" data-faq>
+          <button class="faq__head" type="button" aria-expanded="false"
+                  aria-controls="faq-6">
+            <span class="faq__n">6.</span>
+            <span class="faq__label">Dupa procedura</span>
+            <span class="faq__arrow" aria-hidden="true">
+              <svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg>
+            </span>
+          </button>
+          <div class="faq__body" id="faq-6" hidden>
+            <p class="faq__copy">Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere Descriere descriere.</p>
+            <button class="playbtn" type="button" data-play
+                    data-src="https://player.vimeo.com/video/1134715947?h=06c26e0c44" data-title="Dupa procedura"
+                    aria-label="Vezi episodul: Dupa procedura">
+              <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.4 13 8l-9 5.6V2.4Z"/></svg>
+            </button>
+          </div>
+        </li>
+        </ul>
+      </div>
+    </section>
+    <section class="panel-tab" id="tab-pret" role="tabpanel" data-panel="pret" hidden>
+      <div class="wrap">
+        <p class="tabintro">Ce inseamna pretul procedurii ? Aici iti explic in
+          detaliu, tot ce ai de stiut !</p>
+
+        <div class="price">
+          <div class="price__row">
+            <span class="price__name">Pret intreg</span>
+            <span class="price__val">2000 ron</span>
+          </div>
+          <p class="price__inc">Include :</p>
+          <ul class="price__list">
+              <li>booklet de informatie preventiva inainte de sedinta</li>
+              <li>sedinta de preparatie de 30mn</li>
+              <li>anestezic</li>
+              <li>procedura de dermopigmentare paramedicala (intre 4-6 ore)</li>
+              <li>booklet de informatie "CARE" dupa sedinta</li>
+          </ul>
+          <button class="btn-pink" type="button" data-goto-contact>Programare</button>
+        </div>
+
+        <div class="price">
+          <button class="price__row price__row--btn" type="button"
+                  data-collapse aria-expanded="false" aria-controls="pr-cont">
+            <span class="price__name is-pink">Pret cu cont client</span>
+            <span class="price__val is-pink">1700 ron</span>
+            <span class="price__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 10.2h9.2L8 4.8 3.4 10.2Z"/></svg></span>
+          </button>
+          <div id="pr-cont" hidden>
+            <p class="price__inc">Include :</p>
+            <ul class="price__list">
+              <li>booklet de informatie preventiva inainte de sedinta</li>
+              <li>sedinta de preparatie de 30mn</li>
+              <li>anestezic</li>
+              <li>procedura de dermopigmentare paramedicala (intre 4-6 ore)</li>
+              <li>booklet de informatie "CARE" dupa sedinta</li>
+            </ul>
+            <button class="btn-pink" type="button" data-goto-contact>Creaza cont client</button>
+          </div>
+        </div>
+
+        <div class="price">
+          <button class="price__row price__row--btn" type="button"
+                  data-collapse aria-expanded="false" aria-controls="pr-ret">
+            <span class="price__name">Retusuri</span>
+            <span class="price__val">divers</span>
+            <span class="price__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 10.2h9.2L8 4.8 3.4 10.2Z"/></svg></span>
+          </button>
+          <p class="price__sub">necesare, pentru a pastra culoarea</p>
+          <div id="pr-ret" hidden>
+            <p class="price__inc">Include :</p>
+            <ul class="price__list">
+              <li>booklet de informatie preventiva inainte de sedinta</li>
+              <li>anestezic</li>
+              <li>procedura de dermopigmentare paramedicala (intre 4-6 ore)</li>
+              <li>booklet de informatie "CARE" dupa sedinta</li>
+            </ul>
+            <div class="tiers">
+              <div class="tiers__row"><span>Retus la 1 luna</span><span>400 ron</span></div>
+              <div class="tiers__row"><span>Intre 12-24 luni</span><span>600 ron</span></div>
+              <div class="tiers__row"><span>&gt;24 luni</span><span>800 ron</span></div>
+            </div>
+            <button class="btn-pink" type="button" data-goto-contact>Programare retus</button>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="panel-tab" id="tab-galerie" role="tabpanel" data-panel="galerie" hidden>
+      <div class="wrap">
+        <!-- PROTECTED COPY — verbatim from frame S-2. No copy pass may
+             touch the "curajoase femei, ca tine" line. -->
+        <p class="tabintro">Cum arata resultatul procedurii te intrebi ? Iata
+          rezultatul la alte curajoase femei, ca tine, care au trecut prin
+          procedura.</p>
+
+        <!-- Photo grid HELD pending consent confirmation (DOSSIER D13).
+             Placeholder band stands in its place — nothing of Alexa's
+             clients ships until the consent posture is established. -->
+        <div class="held" role="note">
+          <span class="held__mark" aria-hidden="true">
+            <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="10" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+          </span>
+          <p class="held__title">Galeria se deschide in curand</p>
+          <p class="held__copy">Fotografiile rezultatelor sunt pastrate pana la
+            confirmarea acordului fiecarei paciente.</p>
+        </div>
+
+        <p class="tabintro tabintro--ig">Daca vrei sa descoperi mai multe, te
+          invit pe pagina instagram hotico.ink. Acolo vei gasii non stop noi
+          istorii de success.</p>
+
+        <a class="igbtn" href="https://www.instagram.com/hotico.ink/"
+           target="_blank" rel="noopener" aria-label="Instagram HOTICO">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="5"/>
+            <circle cx="12" cy="12" r="4.2"/>
+            <circle cx="17.4" cy="6.6" r="1.15" class="fill"/>
+          </svg>
+        </a>
+      </div>
+    </section>
+
+
+    <hr class="rule">
+
+    <!-- F. CONTACT — always-on, every Pret CTA lands here -->
+    <section class="programare wrap" id="contact">
+      <h2 class="h-section programare__h">Contact</h2>
+      <p class="programare__sub">Hai sa ne intalnim !</p>
+
+      <div class="stepper">
+        <span class="stepper__label">1. Date personale</span>
+        <div class="stepper__bars" aria-hidden="true">
+          <i class="is-active"></i><i></i><i></i>
+        </div>
+      </div>
+
+      <div class="field">
+        <span class="field__label">Nume (obligatoriu)</span>
+        <div class="field__box"><span class="field__ph">Popescu</span></div>
+      </div>
+      <div class="field">
+        <span class="field__label">Prenume (obligatoriu)</span>
+        <div class="field__box"><span class="field__ph">Ana</span></div>
+      </div>
+      <div class="field">
+        <span class="field__label">E-mail (obligatoriu)</span>
+        <div class="field__box"><span class="field__ph">anapopescu@gmail.com</span></div>
+      </div>
+
+      <div class="field">
+        <span class="field__label">Telefon (obligatoriu)</span>
+        <div class="field__box">
+          <span class="field__flag" aria-hidden="true"><i></i><i></i><i></i></span>
+          <svg class="field__caret" viewBox="0 0 16 16" aria-hidden="true">
+            <path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/>
+          </svg>
+          <span class="field__ph">072 123 456 789</span>
+        </div>
+      </div>
+
+      <ul class="checks">
+        <li><span class="checks__box" aria-hidden="true"></span>
+          <span>Politica de <u>tratament al datelor</u> (obligatoriu)</span></li>
+        <li><span class="checks__box" aria-hidden="true"></span>
+          <span>Sunt de acord cu <u>politica de anulare</u> si ma angajez sa
+            nu ratez aceasta consultatie</span></li>
+      </ul>
+
+      <button class="btn-pink" type="button" aria-disabled="true">
+        Pasul Urmator &gt;
+      </button>
+    </section>
+
+    <hr class="rule">
+
+    <!-- F. REVIEWS (reused) — two cards. The duplicate "Marina" ships as
+         designed (DOSSIER D15 content debt). -->
+    <section class="reviews wrap">
+      <h2 class="h-section">Reviews</h2>
+
+      <div class="carousel carousel--reviews" data-carousel="reviews">
+        <div class="carousel__viewport">
+          <ul class="carousel__track" data-track>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+            <li class="carousel__slide">
+              <article class="review">
+                <div class="stars" aria-label="5 din 5">
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg><svg viewBox="0 0 16 16" aria-hidden="true"><path d="m8 1.6 2 4.1 4.5.6-3.3 3.2.8 4.5L8 11.9l-4 2.1.8-4.5L1.5 6.3 6 5.7 8 1.6Z"/></svg>
+                </div>
+                <p class="review__text">Am optat pentru dermopigmentarea sprâncenelor
+                și sunt extrem de mulțumită. Mi-a redat încrederea în mine prin
+                faptul că acum au formă, au culoare și mi se potrivesc. Mi-a
+                explicat, a avut răbdare cu mine, e un om empatic și extrem de
+                talentat. Revin!</p>
+                <p class="review__who">Marina</p>
+              </article>
+            </li>
+          </ul>
+        </div>
+        <ul class="dots" data-dots>
+            <li><button class="dot is-active" type="button" data-go="0" aria-label="Review 1"></button></li>
+            <li><button class="dot" type="button" data-go="1" aria-label="Review 2"></button></li>
+            <li><button class="dot" type="button" data-go="2" aria-label="Review 3"></button></li>
+            <li><button class="dot" type="button" data-go="3" aria-label="Review 4"></button></li>
+            <li><button class="dot" type="button" data-go="4" aria-label="Review 5"></button></li>
+            <li><button class="dot" type="button" data-go="5" aria-label="Review 6"></button></li>
+        </ul>
+      </div>
+    </section>
+
   </main>
 
+  </main>
+
+  <!-- i. FOOTER -->
+  <footer class="ftr">
+    <div class="wrap">
+      <nav class="ftr__nav" aria-label="Navigare footer">
+        <span aria-disabled="true">Servicii</span>
+        <span aria-disabled="true">Profil</span>
+        <span aria-disabled="true">About</span>
+        <span aria-disabled="true">Legal</span>
+      </nav>
+
+      <div class="ftr__contact">
+        <span class="ftr__contact-label">Contact</span>
+        <span class="ftr__sep">|</span>
+        <a href="tel:+40723344555">+40723344555</a>
+
+        <ul class="ftr__socials">
+          <li><a href="https://www.instagram.com/hotico.ink/" target="_blank"
+                 rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4.2"/>
+              <circle cx="17.4" cy="6.6" r="1.15" class="fill"/>
+            </svg></a></li>
+          <li><a href="https://wa.me/41796472106" target="_blank"
+                 rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.9a9 9 0 0 0-7.7 13.6L3 21.4l5.1-1.3A9 9 0 1 0 12 2.9Z"/>
+              <path class="fill" d="M9.1 7.9c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.5l.7 1.7c.1.3 0 .5-.1.6l-.4.5c-.1.2-.3.3-.1.6.2.4.8 1.3 1.6 1.9.9.8 1.6 1 1.9 1.2.3.1.5 0 .6-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4v.5c0 .3-.2.9-.5 1.1-.3.3-.9.6-1.5.6-.9 0-2.5-.5-4.3-2.1-1.9-1.7-2.9-3.5-3.2-4.4-.3-.9-.1-1.8.2-2.2Z"/>
+            </svg></a></li>
+          <li><a href="https://www.tiktok.com/@hotico.ink" target="_blank"
+                 rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="fill" d="M15.6 3h-2.5v12.2a2.3 2.3 0 1 1-1.9-2.3v-2.5a4.8 4.8 0 1 0 4.4 4.8V8.9a5.7 5.7 0 0 0 3.3 1.1V7.5a3.4 3.4 0 0 1-3.3-3.4V3Z"/>
+            </svg></a></li>
+          <li><a href="https://www.youtube.com/@hotico_ink" target="_blank"
+                 rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2.6" y="5.9" width="18.8" height="12.2" rx="3.4"/>
+              <path class="fill" d="M10.4 9.2 15 12l-4.6 2.8V9.2Z"/>
+            </svg></a></li>
+        </ul>
+      </div>
+
+      <img class="ftr__logo" src="../assets/brand/logo-white.png"
+           alt="HOTICO Restauration Institute">
+    </div>
+  </footer>
+
+  <script src="../js/main.js?v=2a"></script>
+  <script src="../js/areola.js?v=2a"></script>
 </body>
 </html>

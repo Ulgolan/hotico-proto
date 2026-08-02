@@ -676,6 +676,252 @@ button{
   margin:1.8rem auto 0;
 }
 
+/* =========================================================
+   SERVICES PAGE — servicii/areola.html (Lap 2a)
+   ========================================================= */
+
+/* A. services menu — horizontal, active gets the gold underline */
+.svcnav{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.svcnav::-webkit-scrollbar{display:none;}
+
+.svcnav ul{
+  list-style:none;margin:0;padding:.55rem 1rem .4rem;
+  display:flex;gap:1.1rem;
+  white-space:nowrap;
+}
+
+.svcnav__item{
+  color:var(--cocoa);
+  text-decoration:none;
+  font-size:.9375rem;
+  padding-bottom:.3rem;
+  display:inline-block;
+}
+
+.svcnav__item.is-active{border-bottom:2px solid var(--gold-line);}
+
+.svc-title{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.75rem;
+  text-align:center;
+  margin:.5rem 0 1rem;
+}
+
+/* A. the stage */
+.stage{padding-bottom:1.4rem;}
+
+.stage__now{
+  margin:0;
+  padding:.4rem .85rem;
+  font-size:.8125rem;
+  background:var(--card);
+  border-top:1px solid var(--gold-line);
+}
+
+.stage__now b{font-weight:600;}
+
+.stage__h{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:1rem;
+  margin:1rem 0 .15rem;
+}
+
+.stage__copy{font-size:1rem;line-height:1.4;margin:0;}
+
+/* B. tab bar — the gold pill slides to the active tab */
+.tabs{padding-top:1.3rem;padding-bottom:1.3rem;}
+
+.tabbar{
+  position:relative;
+  display:grid;grid-template-columns:repeat(3,1fr);
+  border:1px solid var(--gold-line);
+  border-radius:999px;
+  background:var(--card);
+  box-shadow:var(--shadow-neo);
+  overflow:hidden;
+}
+
+.tabbar__pill{
+  position:absolute;top:0;bottom:0;left:0;
+  width:33.3333%;
+  background:var(--gold);
+  border-radius:999px;
+  transition:transform .32s ease;
+  pointer-events:none;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .tabbar__pill{transition:none;}
+}
+
+.tabbar__tab{
+  position:relative;
+  padding:.85rem .25rem;
+  font-size:1rem;
+  text-align:center;
+  cursor:pointer;
+  color:var(--cocoa);
+}
+
+.tabbar__tab.is-active{font-weight:600;}
+
+.panel-tab[hidden]{display:none;}
+
+.tabintro{
+  text-align:center;
+  font-size:.9375rem;
+  line-height:1.45;
+  margin:0 0 1.5rem;
+}
+
+/* C. Detalii — FOCUS MODE accordions */
+.faqs{list-style:none;margin:0 0 1.6rem;padding:0;}
+
+.faq{border-bottom:1px solid var(--gold-line);}
+
+.faq__head{
+  display:flex;align-items:center;gap:.5rem;
+  width:100%;
+  padding:.85rem .2rem;
+  cursor:pointer;
+  text-align:left;
+}
+
+.faq__n{font-size:1rem;}
+.faq__label{font-size:1rem;flex:1;}
+
+.faq__arrow svg{
+  width:16px;height:16px;fill:var(--cocoa);
+  transition:transform .28s ease;
+}
+
+.faq.is-open .faq__arrow svg{transform:rotate(180deg);}
+
+.faq__body{padding:0 .2rem 1.1rem;}
+
+.faq__copy{
+  font-size:.9375rem;line-height:1.45;
+  margin:0 0 .9rem;
+}
+
+/* gold play button — the jukebox trigger */
+.playbtn{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:var(--shadow-neo);
+  cursor:pointer;
+}
+
+.playbtn svg{width:17px;height:17px;fill:var(--white);}
+
+/* D. Pret — ABUNDANCE MODE collapsibles */
+.price{margin-bottom:1.9rem;}
+
+.price__row{
+  display:flex;align-items:center;gap:.5rem;
+  width:100%;
+  padding:.2rem 0 .5rem;
+  border-bottom:1px solid var(--gold-line);
+  text-align:left;
+}
+
+.price__row--btn{cursor:pointer;}
+
+.price__name{font-size:1.0625rem;flex:1;}
+.price__val{font-size:1.0625rem;}
+.is-pink{color:var(--hotico-pink);}
+
+.price__arrow svg{
+  width:15px;height:15px;fill:var(--hotico-pink);
+  transition:transform .28s ease;
+}
+
+.price__row--btn:not(.is-open) .price__arrow svg{transform:rotate(180deg);}
+
+.price__sub{
+  font-size:.8125rem;
+  margin:.25rem 0 0;
+}
+
+.price__inc{font-size:.9375rem;margin:.9rem 0 .35rem;}
+
+.price__list{
+  margin:0 0 1.2rem;
+  padding-left:1.15rem;
+  font-size:.9375rem;
+  line-height:1.45;
+}
+
+.price__list li{margin-bottom:.1rem;}
+
+.tiers{margin:0 0 1.2rem;}
+
+.tiers__row{
+  display:flex;justify-content:space-between;
+  font-weight:600;
+  font-size:1rem;
+  padding:.3rem 0;
+}
+
+#pr-cont[hidden],#pr-ret[hidden]{display:none;}
+
+/* E. Galerie — grid held pending consent */
+.held{
+  border:1px solid var(--gold-line);
+  border-radius:14px;
+  background:var(--card);
+  box-shadow:var(--shadow-neo);
+  padding:2.2rem 1.5rem;
+  text-align:center;
+  margin-bottom:2rem;
+}
+
+.held__mark svg{
+  width:34px;height:34px;
+  fill:none;stroke:var(--gold);stroke-width:1.5;
+  stroke-linecap:round;
+  margin:0 auto .8rem;
+  display:block;
+}
+
+.held__title{
+  font-family:var(--font-head);
+  font-weight:600;
+  font-size:1.125rem;
+  margin:0 0 .45rem;
+}
+
+.held__copy{
+  font-size:.875rem;
+  line-height:1.45;
+  margin:0 auto;
+  max-width:17rem;
+}
+
+.tabintro--ig{margin-bottom:1.1rem;}
+
+.igbtn{
+  display:flex;align-items:center;justify-content:center;
+  width:58px;height:58px;border-radius:50%;
+  margin:0 auto 2rem;
+  background:var(--gold);
+  box-shadow:var(--shadow-neo);
+}
+
+.igbtn svg{
+  width:29px;height:29px;
+  fill:none;stroke:var(--white);stroke-width:1.7;stroke-linejoin:round;
+}
+
+.igbtn svg .fill{fill:var(--white);stroke:none;}
+
 /* ---------- dead-end pattern: servicii/*.html ----------
    Any unbuilt destination wears this costume. Honest facades: both
    actions route somewhere real. */
