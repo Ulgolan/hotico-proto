@@ -354,3 +354,26 @@ button{
   border:1px solid var(--ivory);
   box-shadow:0 0 0 2px var(--hotico-pink), var(--shadow-neo);
 }
+
+/* ---------- h. REVIEWS ---------- */
+
+.reviews{padding-bottom:2.2rem;}
+
+.reviews__grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:1.25rem;
+}
+
+.stars{display:flex;gap:.1rem;margin-bottom:.6rem;}
+
+.stars svg{width:17px;height:17px;fill:var(--gold);}
+
+.review__text{
+  font-size:.9375rem;
+  line-height:1.45;
+  margin:0 0 .9rem;
+}
+
+.review__who{
+  font-size:1rem;
+  margin:0;
+}
