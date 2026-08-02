@@ -131,27 +131,15 @@ button{
 
 .video{padding-bottom:1.6rem;}
 
+/* Frame + badge live in the temp-1x pixels for now — see index.html.
+   The border-radius here only clips the crop's white corners. */
 .video__frame{
   position:relative;
-  border:1px solid var(--gold-line);
   border-radius:14px;
   overflow:hidden;
-  background:var(--card);
 }
 
 .video__frame img{width:100%;}
-
-.video__badge{
-  position:absolute;left:0;bottom:.55rem;
-  display:flex;align-items:center;gap:.3rem;
-  padding:.2rem .7rem .2rem .55rem;
-  border-radius:0 3px 3px 0;
-  background:var(--white);
-  font-size:.75rem;
-  font-weight:500;
-}
-
-.video__badge svg{width:9px;height:9px;fill:var(--cocoa);}
 
 .video__title{
   font-family:var(--font-body);
@@ -177,3 +165,60 @@ button{
 }
 
 .dots li.is-active{background:var(--cocoa);}
+
+/* ---------- shared section heading ---------- */
+
+.h-section{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.5rem;
+  text-align:center;
+  margin:1.7rem 0 1.2rem;
+}
+
+/* ---------- e. SERVICII — pills, CLOSED state ---------- */
+
+.pills{
+  list-style:none;margin:0 0 1.9rem;padding:0;
+  display:flex;flex-direction:column;gap:1.3rem;
+}
+
+.pill{
+  position:relative;
+  display:flex;align-items:center;
+  height:62px;
+  padding-right:.5rem;
+  border:1px solid var(--gold-line);
+  border-radius:999px;
+  background:var(--card);
+  box-shadow:var(--shadow-neo);
+  overflow:hidden;
+}
+
+/* strip image sits left and fades into the pill ground */
+.pill__img{
+  position:absolute;left:0;top:0;
+  height:100%;width:auto;
+  border-radius:999px 0 0 999px;
+  -webkit-mask-image:linear-gradient(90deg,#000 55%,transparent 92%);
+          mask-image:linear-gradient(90deg,#000 55%,transparent 92%);
+}
+
+.pill__label{
+  position:relative;
+  margin-left:auto;
+  padding-right:.85rem;
+  font-family:var(--font-body);
+  font-size:1.375rem;
+  line-height:1;
+}
+
+.pill__arrow{
+  position:relative;
+  flex:0 0 auto;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--gold);
+  display:flex;align-items:center;justify-content:center;
+}
+
+.pill__arrow svg{width:19px;height:19px;fill:var(--cocoa);}
