@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=2a">
-  <link rel="stylesheet" href="../css/main.css?v=2a">
+  <link rel="stylesheet" href="../css/tokens.css?v=2b">
+  <link rel="stylesheet" href="../css/main.css?v=2b">
 </head>
 <body>
 
@@ -24,8 +24,10 @@
       <span>RO</span>
     </button>
 
-    <img class="hdr__logo" src="../assets/brand/logo-black.png"
-         alt="HOTICO Restauration Institute">
+    <a class="hdr__home" href="../index.html" aria-label="HOTICO — pagina principala">
+      <img class="hdr__logo" src="../assets/brand/logo-black.png"
+           alt="HOTICO Restauration Institute">
+    </a>
 
     <button class="hdr__burger" type="button" aria-disabled="true" aria-label="Meniu">
       <span></span><span></span><span></span>
@@ -309,11 +311,15 @@
       <p class="programare__sub">Hai sa ne intalnim !</p>
 
       <div class="stepper">
-        <span class="stepper__label">1. Date personale</span>
+        <span class="stepper__label" data-step-label>1. Date personale</span>
         <div class="stepper__bars" aria-hidden="true">
           <i class="is-active"></i><i></i><i></i>
         </div>
       </div>
+
+      <div class="steps" data-steps>
+        <div class="steps__track" data-steps-track>
+          <div class="step" data-step="1">
 
       <div class="field">
         <span class="field__label">Nume (obligatoriu)</span>
@@ -339,6 +345,7 @@
         </div>
       </div>
 
+
       <ul class="checks">
         <li><span class="checks__box" aria-hidden="true"></span>
           <span>Politica de <u>tratament al datelor</u> (obligatoriu)</span></li>
@@ -347,10 +354,141 @@
             nu ratez aceasta consultatie</span></li>
       </ul>
 
-      <button class="btn-pink" type="button" aria-disabled="true">
-        Pasul Urmator &gt;
-      </button>
-    </section>
+      <div class="stepnav">
+              <button class="btn-pink" type="button" data-next>Pasul Urmator &gt;</button>
+            </div>
+          </div>
+          <div class="step" data-step="2">
+            <div class="field">
+              <span class="field__label">Alege data</span>
+              <div class="field__box">
+                <svg class="field__caret" viewBox="0 0 24 24" aria-hidden="true"
+                     style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6">
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <path d="M3 10h18M8 3v4M16 3v4"/>
+                </svg>
+                <span class="field__ph">dd/mm/yyyy</span>
+              </div>
+            </div>
+
+            <div class="q">
+              <span class="q__label">Vrei si alta procedura ?</span>
+              <ul class="opts" data-group role="radiogroup"
+                  aria-label="Vrei si alta procedura ?">
+                <li><span class="opt__dot" data-val="Alopecie" role="radio" aria-checked="false" tabindex="0"></span>Alopecie</li>
+                <li><span class="opt__dot" data-val="Buze" role="radio" aria-checked="false" tabindex="0"></span>Buze</li>
+                <li><span class="opt__dot" data-val="Cicatrici" role="radio" aria-checked="false" tabindex="0"></span>Cicatrici</li>
+                <li><span class="opt__dot" data-val="Eyeliner" role="radio" aria-checked="false" tabindex="0"></span>Eyeliner</li>
+                <li><span class="opt__dot" data-val="Sprancene" role="radio" aria-checked="false" tabindex="0"></span>Sprancene</li>
+              </ul>
+            </div>
+
+            <div class="stepnav">
+              <button class="backbtn" type="button" data-back aria-label="Inapoi">
+                <svg viewBox="0 0 16 16"><path d="M10.2 3.4v9.2L4.8 8l5.4-4.6Z"/></svg>
+              </button>
+              <button class="btn-pink" type="button" data-next>Pasul Urmator &gt;</button>
+            </div>
+          </div>
+          <div class="step" data-step="3">
+            <h3 class="q__h">Partiularitati ale pielii</h3>
+            <div class="q">
+              <span class="q__label">Ai avut o interventie chirurgicala in zona vizata ?</span>
+              <ul class="opts" data-group data-reveals="chirurgie" data-reveal-on="da" role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="reveal" data-reveal="chirurgie" hidden>
+            <div class="q">
+              <span class="q__label">Cand a fost ?</span>
+              <ul class="opts" data-group data-reveals="sub12" data-reveal-on="mai putin de 12 luni" role="radiogroup">
+                <li><span class="opt__dot" data-val="mai mult de 12 luni" role="radio" aria-checked="false" tabindex="0"></span>mai mult de 12 luni</li>
+                <li><span class="opt__dot" data-val="mai putin de 12 luni" role="radio" aria-checked="false" tabindex="0"></span>mai putin de 12 luni</li>
+              </ul>
+            </div>
+              <div class="reveal" data-reveal="sub12" hidden>
+                <p class="warn">*Pielea are nevoie de minimum 12 luni pentru a se
+                  vindeca complet inainte de o procedura paramedicala</p>
+                <div class="field">
+                  <span class="field__label">Cate luni, exact?</span>
+                  <div class="field__box"><span class="field__ph">12</span></div>
+                </div>
+              </div>
+            </div>
+            <div class="q">
+              <span class="q__label">Ai facut chimioterapie sau radioterapie ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Ai afectiuni ale pielii ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="dermatita" role="radio" aria-checked="false" tabindex="0"></span>dermatita</li>
+                <li><span class="opt__dot" data-val="eczeme" role="radio" aria-checked="false" tabindex="0"></span>eczeme</li>
+                <li><span class="opt__dot" data-val="psoriazis" role="radio" aria-checked="false" tabindex="0"></span>psoriazis</li>
+                <li><span class="opt__dot" data-val="alte" role="radio" aria-checked="false" tabindex="0"></span>alte</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Ai herpes activ ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Esti insarcinata sau alaptezi ?</span>
+              <ul class="opts" data-group role="radiogroup">
+                <li><span class="opt__dot" data-val="da" role="radio" aria-checked="false" tabindex="0"></span>da</li>
+                <li><span class="opt__dot" data-val="nu" role="radio" aria-checked="false" tabindex="0"></span>nu</li>
+              </ul>
+            </div>
+            <div class="q">
+              <span class="q__label">Detalii</span>
+              <div class="ta">Scrie aici orice crezi ca ar trebui sa stiu…</div>
+            </div>
+
+            <div class="upload">
+              <svg viewBox="0 0 24 24" aria-hidden="true">
+                <path d="M12 16V4M7 9l5-5 5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+              </svg>
+              Uploadeaza poze
+            </div>
+
+            <div class="stepnav">
+              <button class="backbtn" type="button" data-back aria-label="Inapoi">
+                <svg viewBox="0 0 16 16"><path d="M10.2 3.4v9.2L4.8 8l5.4-4.6Z"/></svg>
+              </button>
+              <button class="btn-pink" type="button" data-confirm>Confirmare</button>
+            </div>
+          </div>
+        </div>
+
+      <div class="success" data-success hidden>
+        <div class="success__check" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
+        </div>
+        <h3 class="success__h">Rezervarea a fost facuta cu succes</h3>
+        <p class="success__copy">Iti multumesc ! Am primit cererea ta si te
+          contactez in cel mai scurt timp pentru a confirma detaliile.</p>
+
+        <p class="success__urgent">E urgent ? Scrie-mi direct :</p>
+        <div class="success__btns">
+          <a class="btn-pink" href="mailto:hotico.ink@gmail.com">Mail</a>
+          <a class="btn-pink" href="https://wa.me/41796472106"
+             target="_blank" rel="noopener">Whatsapp</a>
+          <a class="btn-pink" href="https://wa.me/41796472106"
+             target="_blank" rel="noopener">Creaza un cont</a>
+        </div>
+
+        <button class="success__back" type="button" data-reset>&lsaquo; inapoi</button>
+      </div>
+
+      </div>
+</section>
 
     <hr class="rule">
 
@@ -505,7 +643,8 @@
     </div>
   </footer>
 
-  <script src="../js/main.js?v=2a"></script>
-  <script src="../js/areola.js?v=2a"></script>
+  <script src="../js/main.js?v=2b"></script>
+  <script src="../js/areola.js?v=2b"></script>
+  <script src="../js/form.js?v=2b"></script>
 </body>
 </html>

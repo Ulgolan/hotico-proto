@@ -69,6 +69,8 @@ button{
   fill:none;stroke:var(--cocoa);stroke-width:1.6;
 }
 
+.hdr__home{justify-self:center;display:block;cursor:pointer;}
+
 .hdr__logo{
   width:132px;
   justify-self:center;
@@ -548,6 +550,143 @@ button{
 .stepper__bars i.is-active{
   flex:1.15;
   background:var(--hotico-pink);
+}
+
+/* ---------- Lap 2b: 3-step form ---------- */
+
+/* RIDER A: the track clips at its own box, and btn-pink carries a 2px
+   ring plus shadow-neo beyond its border. Widen the clipping box by
+   10px each side and pad the steps back, so the pill and its shadow
+   render whole while the content stays aligned with the rest of the
+   form. */
+.steps{
+  overflow:hidden;
+  transition:height .34s ease;
+  margin:0 -10px;
+}
+
+.steps__track{
+  display:flex;
+  align-items:flex-start;
+  transition:transform .34s ease;
+}
+
+.step{flex:0 0 100%;min-width:0;padding:0 10px;}
+
+@media (prefers-reduced-motion:reduce){
+  .steps,.steps__track{transition:none;}
+}
+
+.stepnav{
+  display:flex;align-items:center;gap:.75rem;
+  margin-top:.4rem;
+}
+
+.stepnav .btn-pink{flex:1;}
+
+.backbtn{
+  flex:0 0 auto;
+  width:46px;height:46px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--card);
+  border:1px solid var(--gold-line);
+  box-shadow:var(--shadow-neo);
+  cursor:pointer;
+}
+
+.backbtn svg{width:16px;height:16px;fill:var(--gold);}
+
+/* question blocks */
+.q{margin:0 0 1.3rem;}
+
+.q__label{display:block;font-size:1rem;margin-bottom:.5rem;}
+
+.q__h{
+  font-family:var(--font-head);font-weight:700;font-size:1.25rem;
+  margin:0 0 1.1rem;
+}
+
+.opts{
+  list-style:none;margin:0;padding:0;
+  display:flex;flex-wrap:wrap;gap:.5rem .9rem;
+}
+
+.opts li{display:flex;align-items:center;gap:.45rem;font-size:.9375rem;}
+
+.opt__dot{
+  width:16px;height:16px;border-radius:50%;
+  border:1.5px solid var(--cocoa);
+  flex:0 0 auto;
+  cursor:pointer;
+}
+
+.opt__dot.is-on{
+  border-color:var(--hotico-pink);
+  box-shadow:inset 0 0 0 3px var(--hotico-pink);
+}
+
+.reveal[hidden]{display:none;}
+
+.warn{
+  color:var(--hotico-pink);
+  font-size:.875rem;
+  line-height:1.4;
+  margin:.2rem 0 .9rem;
+}
+
+.ta{
+  width:100%;height:96px;
+  border-radius:9px;
+  background:var(--field-gray);
+  padding:.7rem 1rem;
+  font-size:1rem;
+  color:var(--placeholder);
+  font-style:italic;
+}
+
+.upload{
+  display:flex;align-items:center;justify-content:center;gap:.5rem;
+  width:100%;padding:1.1rem;
+  border:1px dashed var(--gold-line);
+  border-radius:12px;
+  background:var(--card);
+  font-size:.9375rem;
+  margin:.9rem 0 1.3rem;
+}
+
+.upload svg{width:19px;height:19px;fill:none;stroke:var(--gold);stroke-width:1.6;}
+
+/* D. confirmation */
+.success{text-align:center;padding:1.5rem 0 .5rem;}
+
+.success[hidden]{display:none;}
+
+.success__check{
+  width:64px;height:64px;border-radius:50%;
+  margin:0 auto 1.1rem;
+  display:flex;align-items:center;justify-content:center;
+  background:var(--hotico-pink);
+  box-shadow:var(--shadow-neo);
+}
+
+.success__check svg{width:30px;height:30px;fill:none;stroke:var(--white);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
+
+.success__h{
+  font-family:var(--font-head);font-weight:700;font-size:1.375rem;
+  margin:0 0 .6rem;
+}
+
+.success__copy{font-size:.9375rem;line-height:1.45;margin:0 auto 1.5rem;max-width:19rem;}
+
+.success__urgent{font-size:.875rem;margin:0 0 .8rem;}
+
+.success__btns{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.4rem;}
+
+.success__btns a{text-decoration:none;}
+
+.success__back{
+  background:none;font-size:.875rem;color:var(--cocoa);
+  cursor:pointer;text-decoration:underline;
 }
 
 .field{margin:0 0 1.1rem;padding-left:.75rem;}
