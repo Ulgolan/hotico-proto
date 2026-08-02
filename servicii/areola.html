@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=2a">
-  <link rel="stylesheet" href="../css/main.css?v=2a">
+  <link rel="stylesheet" href="../css/tokens.css?v=2b">
+  <link rel="stylesheet" href="../css/main.css?v=2b">
 </head>
 <body>
 
@@ -309,10 +309,16 @@
       <p class="programare__sub">Hai sa ne intalnim !</p>
 
       <div class="stepper">
-        <span class="stepper__label">1. Date personale</span>
+        <span class="stepper__label" data-step-label>1. Date contact</span>
         <div class="stepper__bars" aria-hidden="true">
           <i class="is-active"></i><i></i><i></i>
         </div>
+      </div>
+
+      <div class="steps" data-steps>
+        <div class="steps__track" data-steps-track>
+          <div class="step" data-step="1">
+
       </div>
 
       <div class="field">
@@ -347,10 +353,15 @@
             nu ratez aceasta consultatie</span></li>
       </ul>
 
-      <button class="btn-pink" type="button" aria-disabled="true">
-        Pasul Urmator &gt;
-      </button>
-    </section>
+      <div class="stepnav">
+              <button class="btn-pink" type="button" data-next>Pasul Urmator &gt;</button>
+            </div>
+          </div>
+          <div class="step" data-step="2"></div>
+          <div class="step" data-step="3"></div>
+        </div>
+      </div>
+</section>
 
     <hr class="rule">
 
@@ -505,7 +516,8 @@
     </div>
   </footer>
 
-  <script src="../js/main.js?v=2a"></script>
-  <script src="../js/areola.js?v=2a"></script>
+  <script src="../js/main.js?v=2b"></script>
+  <script src="../js/areola.js?v=2b"></script>
+  <script src="../js/form.js?v=2b"></script>
 </body>
 </html>
