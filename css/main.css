@@ -773,6 +773,54 @@ button{
 
 .panel-tab[hidden]{display:none;}
 
+.tabintro{
+  text-align:center;
+  font-size:.9375rem;
+  line-height:1.45;
+  margin:0 0 1.5rem;
+}
+
+/* C. Detalii — FOCUS MODE accordions */
+.faqs{list-style:none;margin:0 0 1.6rem;padding:0;}
+
+.faq{border-bottom:1px solid var(--gold-line);}
+
+.faq__head{
+  display:flex;align-items:center;gap:.5rem;
+  width:100%;
+  padding:.85rem .2rem;
+  cursor:pointer;
+  text-align:left;
+}
+
+.faq__n{font-size:1rem;}
+.faq__label{font-size:1rem;flex:1;}
+
+.faq__arrow svg{
+  width:16px;height:16px;fill:var(--cocoa);
+  transition:transform .28s ease;
+}
+
+.faq.is-open .faq__arrow svg{transform:rotate(180deg);}
+
+.faq__body{padding:0 .2rem 1.1rem;}
+
+.faq__copy{
+  font-size:.9375rem;line-height:1.45;
+  margin:0 0 .9rem;
+}
+
+/* gold play button — the jukebox trigger */
+.playbtn{
+  display:flex;align-items:center;justify-content:center;
+  width:44px;height:44px;border-radius:50%;
+  background:var(--gold);
+  box-shadow:var(--shadow-neo);
+  cursor:pointer;
+}
+
+.playbtn svg{width:17px;height:17px;fill:var(--white);}
+
 /* ---------- dead-end pattern: servicii/*.html ----------
    Any unbuilt destination wears this costume. Honest facades: both
    actions route somewhere real. */
