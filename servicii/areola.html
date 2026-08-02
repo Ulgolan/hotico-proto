@@ -8,35 +8,116 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=1b2">
-  <link rel="stylesheet" href="../css/main.css?v=1b2">
+  <link rel="stylesheet" href="../css/tokens.css?v=2a">
+  <link rel="stylesheet" href="../css/main.css?v=2a">
 </head>
-<!--
-  T2 SLOT. The full Areola service template (services menu, video stage,
-  Detalii/Preț/Galerie tabs) is Tier 2 per POLARIS. Until that lap, this
-  file holds the dead-end costume so the pill never 404s — honest-facade
-  law. Replace wholesale in Lap 2; do not extend this shell.
--->
-<body class="soon-body">
+<body>
 
-  <main class="soon">
-    <img class="soon__logo" src="../assets/brand/logo-black.png"
+  <!-- a. HEADER -->
+  <header class="hdr">
+    <button class="hdr__lang" type="button" aria-disabled="true" title="Limba: Română">
+      <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+        <circle cx="12" cy="12" r="9"/>
+        <ellipse cx="12" cy="12" rx="4" ry="9"/>
+        <path d="M3 12h18M4.5 7h15M4.5 17h15"/>
+      </svg>
+      <span>RO</span>
+    </button>
+
+    <img class="hdr__logo" src="../assets/brand/logo-black.png"
          alt="HOTICO Restauration Institute">
 
-    <p class="soon__service">Areola</p>
-    <p class="soon__title">în curând</p>
-    <p class="soon__copy">Pagina acestui serviciu se pregătește. Până atunci,
-      Alexandra îți răspunde direct.</p>
+    <button class="hdr__burger" type="button" aria-disabled="true" aria-label="Meniu">
+      <span></span><span></span><span></span>
+    </button>
+  </header>
 
-    <div class="soon__actions">
-      <a class="soon__btn" href="https://wa.me/41796472106"
-         target="_blank" rel="noopener">Scrie-i pe WhatsApp</a>
-      <a class="soon__tel" href="tel:+40723344555">+40723344555</a>
-    </div>
+  <main>
 
-    <a class="soon__back" href="../index.html">&lsaquo; Înapoi la pagina
-      principală</a>
+    <!-- A. SERVICES MENU + TITLE + STAGE -->
+    <nav class="svcnav" aria-label="Servicii">
+      <ul>
+        <li><span class="svcnav__item is-active" aria-current="page">Areola</span></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Cicatrici">Cicatrici</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Alopecie">Alopecie</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Sprancene">Sprancene</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Eyeliner">Eyeliner</a></li>
+        <li><a class="svcnav__item" href="in-curand.html?s=Buze">Buze</a></li>
+      </ul>
+    </nav>
+
+    <h1 class="svc-title">Areola</h1>
+
+    <section class="stage wrap">
+      <div class="video__frame">
+        <div class="video__embed">
+          <iframe id="stage-player"
+                  src="https://player.vimeo.com/video/1134715905?h=5aae14fc67"
+                  title="Areola — Descriere procedura"
+                  allow="autoplay; fullscreen; picture-in-picture"
+                  referrerpolicy="strict-origin-when-cross-origin"
+                  allowfullscreen></iframe>
+        </div>
+        <p class="stage__now" data-now>acum: <b>Descriere procedura</b></p>
+      </div>
+
+      <h2 class="stage__h">Despre procedura</h2>
+      <p class="stage__copy">Hai sa descoperim impreuna in ce consista
+        procedura Areolei !</p>
+    </section>
+
+    <hr class="rule">
+
   </main>
 
+  <!-- i. FOOTER -->
+  <footer class="ftr">
+    <div class="wrap">
+      <nav class="ftr__nav" aria-label="Navigare footer">
+        <span aria-disabled="true">Servicii</span>
+        <span aria-disabled="true">Profil</span>
+        <span aria-disabled="true">About</span>
+        <span aria-disabled="true">Legal</span>
+      </nav>
+
+      <div class="ftr__contact">
+        <span class="ftr__contact-label">Contact</span>
+        <span class="ftr__sep">|</span>
+        <a href="tel:+40723344555">+40723344555</a>
+
+        <ul class="ftr__socials">
+          <li><a href="https://www.instagram.com/hotico.ink/" target="_blank"
+                 rel="noopener" aria-label="Instagram">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="3" y="3" width="18" height="18" rx="5"/>
+              <circle cx="12" cy="12" r="4.2"/>
+              <circle cx="17.4" cy="6.6" r="1.15" class="fill"/>
+            </svg></a></li>
+          <li><a href="https://wa.me/41796472106" target="_blank"
+                 rel="noopener" aria-label="WhatsApp">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path d="M12 2.9a9 9 0 0 0-7.7 13.6L3 21.4l5.1-1.3A9 9 0 1 0 12 2.9Z"/>
+              <path class="fill" d="M9.1 7.9c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.5l.7 1.7c.1.3 0 .5-.1.6l-.4.5c-.1.2-.3.3-.1.6.2.4.8 1.3 1.6 1.9.9.8 1.6 1 1.9 1.2.3.1.5 0 .6-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4v.5c0 .3-.2.9-.5 1.1-.3.3-.9.6-1.5.6-.9 0-2.5-.5-4.3-2.1-1.9-1.7-2.9-3.5-3.2-4.4-.3-.9-.1-1.8.2-2.2Z"/>
+            </svg></a></li>
+          <li><a href="https://www.tiktok.com/@hotico.ink" target="_blank"
+                 rel="noopener" aria-label="TikTok">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <path class="fill" d="M15.6 3h-2.5v12.2a2.3 2.3 0 1 1-1.9-2.3v-2.5a4.8 4.8 0 1 0 4.4 4.8V8.9a5.7 5.7 0 0 0 3.3 1.1V7.5a3.4 3.4 0 0 1-3.3-3.4V3Z"/>
+            </svg></a></li>
+          <li><a href="https://www.youtube.com/@hotico_ink" target="_blank"
+                 rel="noopener" aria-label="YouTube">
+            <svg viewBox="0 0 24 24" aria-hidden="true">
+              <rect x="2.6" y="5.9" width="18.8" height="12.2" rx="3.4"/>
+              <path class="fill" d="M10.4 9.2 15 12l-4.6 2.8V9.2Z"/>
+            </svg></a></li>
+        </ul>
+      </div>
+
+      <img class="ftr__logo" src="../assets/brand/logo-white.png"
+           alt="HOTICO Restauration Institute">
+    </div>
+  </footer>
+
+  <script src="../js/areola.js?v=2a"></script>
 </body>
 </html>

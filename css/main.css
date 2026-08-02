@@ -676,6 +676,64 @@ button{
   margin:1.8rem auto 0;
 }
 
+/* =========================================================
+   SERVICES PAGE — servicii/areola.html (Lap 2a)
+   ========================================================= */
+
+/* A. services menu — horizontal, active gets the gold underline */
+.svcnav{
+  overflow-x:auto;
+  -webkit-overflow-scrolling:touch;
+  scrollbar-width:none;
+}
+.svcnav::-webkit-scrollbar{display:none;}
+
+.svcnav ul{
+  list-style:none;margin:0;padding:.55rem 1rem .4rem;
+  display:flex;gap:1.1rem;
+  white-space:nowrap;
+}
+
+.svcnav__item{
+  color:var(--cocoa);
+  text-decoration:none;
+  font-size:.9375rem;
+  padding-bottom:.3rem;
+  display:inline-block;
+}
+
+.svcnav__item.is-active{border-bottom:2px solid var(--gold-line);}
+
+.svc-title{
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.75rem;
+  text-align:center;
+  margin:.5rem 0 1rem;
+}
+
+/* A. the stage */
+.stage{padding-bottom:1.4rem;}
+
+.stage__now{
+  margin:0;
+  padding:.4rem .85rem;
+  font-size:.8125rem;
+  background:var(--card);
+  border-top:1px solid var(--gold-line);
+}
+
+.stage__now b{font-weight:600;}
+
+.stage__h{
+  font-family:var(--font-body);
+  font-weight:400;
+  font-size:1rem;
+  margin:1rem 0 .15rem;
+}
+
+.stage__copy{font-size:1rem;line-height:1.4;margin:0;}
+
 /* ---------- dead-end pattern: servicii/*.html ----------
    Any unbuilt destination wears this costume. Honest facades: both
    actions route somewhere real. */
