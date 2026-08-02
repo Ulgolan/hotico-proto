@@ -7,6 +7,32 @@
     2px 2px 2px rgba(0,0,0,.05),
     -5px -5px 7px rgba(255,255,255,.4),
     -1px -1px 2px rgba(255,255,255,.4);
+
+  /* --- canon v1.1.2 — ratified 2026-08-02 by Commander's eye.
+         All values MEASURED from docs/reference/Homepage A.png. --- */
+
+  /* FLAT GOLD LAW: every gold surface is flat --gold. Pill borders,
+     arrow circles, social circles and the video frame all measured
+     #C9A86A with no gradient. --gold-grad is the DIVIDER ONLY. */
+
+  /* Section divider rule. Measured at y=570, span x=26..363 (337px):
+     symmetric fade, ivory ends, #C9A86A core plateau 37.1%-62.9%. */
+  --gold-grad: linear-gradient(90deg,
+    var(--ivory) 0%, #DAC49E 16%, #CEB27B 28%,
+    #C9A86A 50%,
+    #CEB27B 72%, #DAC49E 84%, var(--ivory) 100%);
+
+  /* 1px borders, flat. */
+  --gold-line:#C9A86A;
+
+  --white:#FFFFFF;
+
+  /* Pill / card / review grounds. A deliberate step DARKER than the
+     ivory page — the neomorphic separation rests on it. */
+  --card:#E9E9E9;
+
+  /* Field placeholder glyphs. */
+  --placeholder:#9E9E9E;
 }
 body{max-width:480px;margin:0 auto;background:var(--ivory);}
 /* max-width container is LAW: desktop grace floor */
