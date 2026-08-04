@@ -1041,3 +1041,22 @@ section of `areola.html` touched.
 
 **State at close:** pushed, PR open, not merged. Tower certifies
 next. No session certifies its own work.
+
+## Entry #14 — 2026-08-04 — LAP D-0: FOUNDATION (desktop campaign, lap 1)
+
+POLARIS.md v2 sealed at repo root (desktop campaign brief,
+supersedes 2026-08-01 brief). Three system tokens added to
+css/tokens.css (--bp-desktop, --width-grade, --content-max).
+Desktop scaffold (@media min-width:768px) planted at end of
+main.css. Cache unified at main.css?v=4 across index.html,
+servicii/areola.html, servicii/in-curand.html. Certified by Tower
+via raw pulls at 2d6c6ca, independent of executor.
+
+Session notes: executor halted on three key discrepancies —
+including Tower's tokens.css omission (single-source law defended
+by the Hands). New law: style-touching ignition keys require a
+file-tree inventory before anchors are written. --bp-desktop was
+initially commented out; caught pre-push, healed.
+
+Next: D-1 — lift the 480px body cap inside the desktop scaffold;
+first full-width composition.
