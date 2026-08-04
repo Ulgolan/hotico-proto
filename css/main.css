@@ -1182,11 +1182,17 @@ button{
   }
   .ftr .wrap{text-align:center;}
   .ftr__nav, .ftr__contact, .ftr__socials{justify-content:center;}
+}
 
+/* ===== SPLIT TIER (≥1024px) — voice left, media right =====
+   D-2 hero and D-3 carousel shared one disease: fixed-px columns
+   that could out-measure their own slide/section below the width
+   they were tuned at. Gated together here, fluid together. */
+@media (min-width:1024px){
   /* ---- D-2 HERO — THE SPLIT: text left, torso right, editorial calm ---- */
   .hero{
     display:grid;
-    grid-template-columns:1fr 560px;
+    grid-template-columns:minmax(0,1fr) min(560px,46vw);
     align-items:center;
     gap:3rem;
     max-width:var(--content-max);
@@ -1206,6 +1212,7 @@ button{
     max-width:none;
     margin:0;
     padding:0;
+    min-width:0;
   }
   .hero__tagline{
     font-size:clamp(2rem,3.5vw,2.75rem);
@@ -1225,7 +1232,7 @@ button{
   }
   .carousel[data-carousel="video"] .carousel__slide{
     display:grid;
-    grid-template-columns:1fr 600px;
+    grid-template-columns:minmax(0,1fr) min(600px,46vw);
     align-items:center;
     column-gap:3rem;
   }
@@ -1233,6 +1240,7 @@ button{
     grid-column:1;
     grid-row:1;
     align-self:center;
+    min-width:0;
   }
   .carousel[data-carousel="video"] .video__frame{
     grid-column:2;
