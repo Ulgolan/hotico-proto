@@ -1060,3 +1060,21 @@ initially commented out; caught pre-push, healed.
 
 Next: D-1 — lift the 480px body cap inside the desktop scaffold;
 first full-width composition.
+
+## Entry #15 — 2026-08-04 — LAP D-1: THE CANVAS (desktop campaign, lap 2)
+
+First visible desktop state. At ≥768px: body cap lifted, .hdr /
+.wrap / .svcnav settle into a centered 720px column
+(--column-read, ratified at the eye-gate, re-pourable), footer
+content centered (Commander taste ruling). Cache unified at v=5
+(main.css + tokens.css, all three pages) — tokens.css version
+drift (3/2b/2a) discovered and healed mid-lap after Tower flagged
+the stale-var risk. Eye-gate at 1440/1280/1920 caught the svcnav
+orphan (spanning full viewport) and the left-aligned footer; both
+healed same lap. Orphan scan: clean; .panel-tab wrappers and
+.hero/.hero__torso noted as structural exceptions, no visual
+effect, deferred to composition laps. Certified by Tower at
+077e5c5. First NN2 pre-merge eye-gate of the campaign: fired and
+held.
+
+Next: D-2 — hero composition, first full-width art direction.
