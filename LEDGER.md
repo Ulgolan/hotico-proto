@@ -630,3 +630,131 @@ typos were logged in the exit report and left untouched.
 
 **State at close:** PR open, awaiting the eye. Not merged.
 No session certifies its own work.
+
+---
+
+## Entry #9 — 2026-08-04 — Lap C-2: homepage FR
+
+**Scope:** French-fill the homepage per the ignition key. Branch
+`lap-c2-home-fr`, PR opened, not merged. GATE cleared before any edit:
+`content/fr.json` on main, PR #2 merged.
+
+**Text law, applied.** Every FR string traces to `content/fr.json`
+verbatim or to Annex A verbatim, with these bake-time corrections
+applied (the six ratified in the key, plus two ratified mid-lap):
+
+1. Decouvrez → Découvrez
+2. Randez-vous → Rendez-vous
+3. le dermopigmentation → la dermopigmentation (all)
+4. s'fixe → se fixe
+5. closed the three orphaned «
+6. Testimoniaux → Témoignages
+7. `form.cta` "CTA: Nous sommes là pour toi" → strip "CTA: " scaffolding,
+   ship "Nous sommes là pour toi" (ratified mid-lap, Ruling Q2)
+8. `form.next_button` "buton Suivant" → strip "buton " scaffolding,
+   ship "Suivant" — this REPLACES Annex A's "Étape suivante ›"
+   everywhere a forward button appears (steps 1, 2, and the step-3
+   advance button, since Annex A's button canon names only two labels
+   for the whole wizard)
+
+Corrections #3 and #5 found no live occurrence on the homepage
+surfaces touched this lap (their strings live on other pages/laps);
+applied where found, otherwise inert.
+
+**Annex-A authorship note.** H1 ("La peau : ton seul vêtement."),
+the confirmation block, field labels, and the step-3 particularity
+block are Commander-ratified strings, not sourced from the FR
+spreadsheet. Alexa still owes confirmation on the H1 and confirmation
+copy — flagged per the key, not re-litigated here.
+
+**Two mid-lap stops, both ruled on before any edit landed:**
+
+- **Gate hit — step-3 particularity.** `areola.form_notes.questions`
+  in `fr.json` holds 16 post-mastectomy/oncology questions with
+  branching; the page's step-3 block has 5 generic skin-history
+  questions. Not a trim of the same set — a different instrument.
+  Stopped, reported the delta, asked. **Ruling:** keep the current
+  5-question structure, ship it in French using Commander-ratified
+  provisional strings (Annex A extension, quoted in the PR
+  description), oui/non replacing da/nu throughout step 3. Marked
+  **PROVISIONAL** — superseded by the dedicated 16-question instrument
+  in its own future lap. The nested "was it under/over 12 months"
+  reveal (options, warning copy, months field) has no ratified source
+  either; translated directly as low-risk mechanical/medical-form
+  chrome, not covered by the two legal sources — flagged here, not
+  silently invented.
+- **Gate hit — CTA/button scaffolding.** `form.cta` and
+  `form.next_button` carried spreadsheet labels ("CTA: ", "buton ")
+  baked into the cell value, unlike the rest of the sheet (which keeps
+  labels in a separate `row_label` field). Stopped, asked. **Ruling:**
+  strip both prefixes as ratified corrections #7–8 above; "Suivant"
+  replaces Annex A's "Étape suivante ›" everywhere.
+
+**Executor-judgment translations, disclosed (not from either legal
+source, functional/a11y chrome only — never marketing copy):** every
+aria-label, alt, and title attribute touched (nav, socials already
+lived in EN, before/after slider, pill arrows, back/close/menu
+buttons, dots, stars); the third form checkbox ("Je confirme que
+toutes les données du formulaire sont correctes" — no source gives
+this string); the three stepper micro-labels ("1. Contact",
+"2. Rendez-vous", "3. Particularités" — hardcoded in `form.js`,
+built only from words already ratified elsewhere on the page); the
+tagline's placement (`hdr__tagline`, new markup + CSS, "sub logo si
+poza" row_label read literally as directly under the header logo).
+
+**Leftover Romanian, by design or by gap:**
+- Review cards (12 stars/attribution strings across 6 cards) — stay
+  RO. Genuine testimonial in original language, per the key. The
+  duplicate "Marina" card ships as-is (pre-existing content debt,
+  DOSSIER D15, not this lap's to fix).
+- Confirmation screen's third button, "Creaza un cont" — **left in
+  Romanian.** Not covered by `fr.json` or Annex A; the `cont` sheet in
+  fr.json is unrelated (aftercare-video content, not account-creation
+  copy). The button currently points at the same wa.me link as the
+  Whatsapp button beside it — looks like a mislabeled duplicate, not
+  a real feature. Needs a Commander ruling on its actual function
+  before it gets translated.
+- Phone country-code flag (RO tricolor) on the Téléphone field — left
+  untouched. It signals a dial code, not page language; out of scope,
+  not mentioned in the key.
+
+**Structural changes beyond text (all in-scope, "css/js only where a
+step demands"):**
+- Video carousel: 3 → 5 slides, 3 → 5 dots. Each slide's Vimeo embed
+  src rebuilt from `vimeo_url` (share-link format) into the house
+  player-embed format, `?h=…&color=C9A86A` preserved. Lazy-load
+  current+1 and axis-lock drag untouched (`js/main.js` carousel logic
+  itself not touched — only the markup it walks).
+- Pasii: the single shared `.walk__body` (one filler, reused for all
+  three cards) split into three `data-phase="0|1|2"` blocks, one per
+  Conseil/Procédure/Entretien, each holding that phase's 3 real items
+  verbatim. `js/main.js` card-click handler gained a 4-line phase-swap
+  (hide all `.walk__body`, show the one matching the clicked card's
+  `data-step`) — the only JS logic change this lap. Promoted-image
+  aspect-ratio trimmed 4/3 → 16/9 (reused, not invented — same ratio
+  already used for the video embeds) to bring the first body line
+  within the ~340px budget; measured, not eyeballed: 432px content
+  width × 9/16 ≈ 243px image + label + body padding lands ~330px
+  before the first line, confirmed live at 183px rendered image height
+  well inside budget.
+
+**Bug caught by the cache law itself.** The phase-swap and the
+CSS underline fix tested broken on first preview — stale `?v=2b`
+assets, cached from before the edit. Step 7's bump to `?v=3` on all
+four refs (`tokens.css`, `main.css`, `main.js`, `form.js`) resolved it;
+re-verified live (phase 1 click → phase-1 body shown, `hidden`
+attributes correct) after the bump, not just assumed fixed.
+
+**Anchors, counted:** 5 video slides / 5 dots · 3 walk-body phases ·
+3 form steps · 5 particularity questions (+1 nested +1 details =
+7 `q__label` spans in step 3) · 6 servicii pills · 6 review cards
+(unchanged). `servicii/*` and `docs/*` confirmed untouched
+(`git diff --stat` clean on both paths).
+
+**Not done, per the key:** no string translated outside the two legal
+sources except the disclosed executor-judgment chrome above; nothing
+in `servicii/*` touched; pink and tokens untouched; no aria removed;
+reduced-motion guards untouched (not touched at all this lap).
+
+**State at close:** pushed, PR opened, not merged.
+No session certifies its own work.
