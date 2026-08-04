@@ -1175,5 +1175,12 @@ button{
 }
 
 /* ===== DESKTOP (≥768px) — campaign D, brief 2026-08-04 ===== */
-@media (min-width:768px){ /* composition lands here lap by lap */ }
+@media (min-width:768px){
+  body{max-width:none;}
+  .hdr, .wrap, .svcnav{
+    max-width:var(--column-read); margin-inline:auto;
+  }
+  .ftr .wrap{text-align:center;}
+  .ftr__nav, .ftr__contact, .ftr__socials{justify-content:center;}
+}
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
