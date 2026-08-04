@@ -1096,3 +1096,26 @@ composition laps.
 
 Next: D-3 — video carousel adopts the split grammar (voice left,
 media right).
+
+---
+
+## Entry #17 — 2026-08-04 — LAP D-3: CAROUSEL SPLIT + THE TWO-TIER SYSTEM (desktop campaign, lap 4)
+
+Video carousel adopts the split grammar: .video__text wrapper
+added to all 5 slides (copy verbatim, order preserved), voice
+left / media right, dots centered below. Mid-lap, the Commander's
+eye caught the tablet band failing (1024 overflow, 768 slide
+bleed) — root cause: fixed split columns engaging at 768. Ruling:
+systemic two-tier architecture. ≥768 = CANVAS TIER (unlock +
+centered column + footer centering). ≥1024 = SPLIT TIER (all
+voice/media split rules, hero included, migrated; fluid
+minmax(0,1fr)/min(Npx,46vw) columns; min-width:0 guards).
+--bp-split:1024px added to tokens. Cache: main v=7, tokens v=6,
+all pages. Choreography re-verified at 1024 AND 1440 (dots, drag,
+lazy swap, clamps, slide-1 play). Band walk clean at
+768/900/1024/1200/1440/1920. Certified by Tower at d5a51d5.
+New law: composition laps verify the FULL BAND WALK, not only the
+grade widths.
+
+Next: section laps (servicii, pașii, form, reviews) inherit the
+two-tier grammar.
