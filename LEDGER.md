@@ -581,3 +581,52 @@ parsed. Nothing was deleted anywhere.
 
 **State at close:** pushed. Source data is in the repo and inert.
 No session certifies its own work.
+
+---
+
+## Entry #8 — 2026-08-04 — Lap C-1: FR content extraction
+
+**Scope:** parse `content/source/hotico-content-fr.xlsx` into structured
+content. Data only — no HTML, CSS or JS touched. Branch
+`lap-c1-extract`, PR opened, not merged.
+
+**Survey gate:** 10 sheets, names matched the expected list exactly
+(Home Page, s. areola, s.alopecie, s. cicatrici, spr, eyeliner, buze,
+LP para, lp cosmetic, cont).
+
+**Produced:**
+- `content/fr.json` — UTF-8, page → section → element, English keys,
+  verbatim French values. All ten sheets covered.
+- `content/fr-review.md` — the same content rendered for the eye:
+  every string visible, line breaks preserved, plus an index of all
+  56 Vimeo URLs.
+
+**Verbatim law held.** Nothing was paraphrased, corrected or
+normalised. Two automated checks back this up: all 368 non-empty
+workbook cells are present in the JSON (zero loss), and all 384 JSON
+strings trace back to a source cell (zero invented text). Suspected
+typos were logged in the exit report and left untouched.
+
+**Shape deviations, declared:**
+- `home.pasii.steps` stays at 3 as the key required, but the sheet
+  holds three *phases* (Conseil / Procédure / Entretien) of three
+  numbered paragraphs each. Each step keeps its phase title and an
+  `items` array of the three paragraphs verbatim. Nine paragraphs,
+  none merged, none dropped.
+- The `cont` sheet stores Romanian labels inside the cell values
+  (`titlu: `, `cta: `, `pregatire: `, `intretinere: `). Shaped fields
+  hold the value after the label; the untouched cell string is kept
+  alongside in `_verbatim`.
+- `_sheet_labels` on each page preserves the Romanian column
+  scaffolding so the extraction is fully auditable against the source.
+
+**Defects found, none fixed:**
+- eyeliner "Quels types de pigments utilisez-vous ?" has a YouTube
+  link and no Vimeo link. The known defect, confirmed. `vimeo_url`
+  is null; no URL was fabricated.
+- cicatrici "La procédure est-elle douloureuse ?" carries the pigments
+  answer verbatim, identical to the question above it, while its video
+  link is the pain video. New find, reported to the Commander.
+
+**State at close:** PR open, awaiting the eye. Not merged.
+No session certifies its own work.
