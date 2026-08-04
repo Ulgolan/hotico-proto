@@ -50,6 +50,18 @@
   var nowLabel = document.querySelector('[data-now] b');
   var stageBox = document.querySelector('.stage');
 
+  /* The label never lies. It names the record on the turntable, so it
+     waits for the new frame to actually load before it changes. Click
+     a second episode mid-load and only the last one claimed wins. */
+  var pendingTitle = null;
+
+  if (stage) {
+    stage.addEventListener('load', function () {
+      if (pendingTitle && nowLabel) nowLabel.textContent = pendingTitle;
+      pendingTitle = null;
+    });
+  }
+
   document.querySelectorAll('[data-faq]').forEach(function (item) {
     var head = item.querySelector('.faq__head');
     var body = item.querySelector('.faq__body');
@@ -73,8 +85,11 @@
       play.addEventListener('click', function () {
         var src   = play.getAttribute('data-src');
         var title = play.getAttribute('data-title');
-        if (stage && src) stage.src = src;
-        if (nowLabel && title) nowLabel.textContent = title;
+        if (stage && src) {
+          pendingTitle = title || null;
+          // pressing play must PLAY — muted so the browser allows it
+          stage.src = src + '&autoplay=1&muted=1';
+        }
         if (stageBox) scrollToEl(stageBox);
       });
     }

@@ -15,7 +15,7 @@
 
   <!-- a. HEADER -->
   <header class="hdr">
-    <button class="hdr__lang" type="button" aria-disabled="true" title="Limba: Română">
+    <button class="hdr__lang is-deferred" type="button" aria-disabled="true" title="Limba: Română">
       <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
         <circle cx="12" cy="12" r="9"/>
         <ellipse cx="12" cy="12" rx="4" ry="9"/>
@@ -29,7 +29,7 @@
            alt="HOTICO Restauration Institute">
     </a>
 
-    <button class="hdr__burger" type="button" aria-disabled="true" aria-label="Meniu">
+    <button class="hdr__burger is-deferred" type="button" aria-disabled="true" aria-label="Meniu">
       <span></span><span></span><span></span>
     </button>
   </header>
@@ -93,7 +93,7 @@
           <li class="carousel__slide">
             <div class="video__frame">
               <div class="video__embed">
-                <iframe src="https://player.vimeo.com/video/1134716314?h=7dd73b5046" title="HOTICO — video 1"
+                <iframe src="https://player.vimeo.com/video/1134716314?h=7dd73b5046&color=C9A86A" title="HOTICO — video 1"
                         allow="autoplay; fullscreen; picture-in-picture"
                         referrerpolicy="strict-origin-when-cross-origin"
                         allowfullscreen loading="lazy"></iframe>
@@ -106,7 +106,7 @@
           <li class="carousel__slide">
             <div class="video__frame">
               <div class="video__embed">
-                <iframe data-src="https://player.vimeo.com/video/1134716271?h=9def773e63" title="HOTICO — video 2"
+                <iframe data-src="https://player.vimeo.com/video/1134716271?h=9def773e63&color=C9A86A" title="HOTICO — video 2"
                         allow="autoplay; fullscreen; picture-in-picture"
                         referrerpolicy="strict-origin-when-cross-origin"
                         allowfullscreen loading="lazy"></iframe>
@@ -119,7 +119,7 @@
           <li class="carousel__slide">
             <div class="video__frame">
               <div class="video__embed">
-                <iframe data-src="https://player.vimeo.com/video/1134716322?h=39c3d035fb" title="HOTICO — video 3"
+                <iframe data-src="https://player.vimeo.com/video/1134716322?h=39c3d035fb&color=C9A86A" title="HOTICO — video 3"
                         allow="autoplay; fullscreen; picture-in-picture"
                         referrerpolicy="strict-origin-when-cross-origin"
                         allowfullscreen loading="lazy"></iframe>
@@ -221,7 +221,7 @@
         <li class="pill-wrap">
           <div class="pill">
             <a class="pill__body" href="servicii/in-curand.html?s=Alopecie">
-              <img class="pill__img" src="assets/img/services/strip-03.png" alt="">
+              <img class="pill__img" src="assets/img/services/strip-06.png" alt="">
               <span class="pill__label">Alopecie</span>
             </a>
             <button class="pill__arrow" type="button"
@@ -444,17 +444,17 @@
 
       <div class="field">
         <span class="field__label">Nume (obligatoriu)</span>
-        <div class="field__box"><span class="field__ph">Popescu</span></div>
+        <div class="field__box"><input class="field__input" type="text" placeholder="Popescu"></div>
       </div>
 
       <div class="field">
         <span class="field__label">Prenume (obligatoriu)</span>
-        <div class="field__box"><span class="field__ph">Ana</span></div>
+        <div class="field__box"><input class="field__input" type="text" placeholder="Ana"></div>
       </div>
 
       <div class="field">
         <span class="field__label">E-mail (obligatoriu)</span>
-        <div class="field__box"><span class="field__ph">anapopescu@gmail.com</span></div>
+        <div class="field__box"><input class="field__input" type="email" placeholder="anapopescu@gmail.com"></div>
       </div>
 
       <div class="field">
@@ -466,16 +466,16 @@
           <svg class="field__caret" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/>
           </svg>
-          <span class="field__ph">072 123 456 789</span>
+          <input class="field__input" type="tel" placeholder="072 123 456 789">
         </div>
       </div>
 
 
       <ul class="checks">
         <li><span class="checks__box" aria-hidden="true"></span>
-          <span>Politica de <u>tratament al datelor</u> (obligatoriu)</span></li>
+          <span>Politica de <span class="is-deferred">tratament al datelor</span> (obligatoriu)</span></li>
         <li><span class="checks__box" aria-hidden="true"></span>
-          <span>Sunt de acord cu <u>politica de anulare</u> si ma angajez sa
+          <span>Sunt de acord cu <span class="is-deferred">politica de anulare</span> si ma angajez sa
             nu ratez aceasta consultatie</span></li>
         <li><span class="checks__box" aria-hidden="true"></span>
           <span>Confirm ca toate datele din formular au fost corecte</span></li>
@@ -724,10 +724,10 @@
   <footer class="ftr">
     <div class="wrap">
       <nav class="ftr__nav" aria-label="Navigare footer">
-        <span aria-disabled="true">Servicii</span>
-        <span aria-disabled="true">Profil</span>
-        <span aria-disabled="true">About</span>
-        <span aria-disabled="true">Legal</span>
+        <span class="is-deferred" aria-disabled="true">Servicii</span>
+        <span class="is-deferred" aria-disabled="true">Profil</span>
+        <span class="is-deferred" aria-disabled="true">About</span>
+        <span class="is-deferred" aria-disabled="true">Legal</span>
       </nav>
 
       <div class="ftr__contact">

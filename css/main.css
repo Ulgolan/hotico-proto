@@ -21,6 +21,10 @@ button{
 /* Inert this lap — every control below is costume, not choreography. */
 [aria-disabled="true"]{cursor:default;}
 
+/* The deferred costume — one class, worn by everything that is
+   present but not yet wired. It reads as "later", not as "broken". */
+.is-deferred{opacity:.45;box-shadow:none;cursor:default;}
+
 .wrap{padding:0 1.5rem;}
 
 /* Section divider — the measured gold rule.
@@ -194,13 +198,23 @@ button{
 
 .dot{
   display:block;
+  position:relative;
   width:8px;height:8px;border-radius:50%;
   border:1px solid var(--cocoa);
   background:transparent;
   cursor:pointer;
 }
 
-/* the tap target is bigger than the ink */
+/* The tap target is bigger than the ink. The ink stays 8px; the
+   thumb gets 44x44. Carried on a pseudo-element so the row's
+   geometry never moves — the click still lands on the button. */
+.dot::after{
+  content:"";
+  position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:44px;height:44px;
+}
+
 .dots li{
   display:flex;align-items:center;justify-content:center;
   width:26px;height:26px;
@@ -711,6 +725,22 @@ button{
   color:var(--placeholder);
 }
 
+/* Real input, same costume. The placeholder is the old .field__ph
+   glyph exactly; what the visitor types is cocoa and upright. */
+.field__input{
+  flex:1 1 auto;min-width:0;
+  border:0;background:transparent;padding:0;
+  font-family:var(--font-body);
+  font-size:1rem;
+  color:var(--cocoa);
+}
+.field__input:focus{outline:none;}
+.field__input::placeholder{
+  font-style:italic;
+  color:var(--placeholder);
+  opacity:1;
+}
+
 /* RO flag — three bars, no external asset. National flag colours,
    not brand colours: deliberately outside the tokens.css colour law. */
 .field__flag{
@@ -788,7 +818,7 @@ button{
   padding-bottom:.9rem;
 }
 
-.ftr__nav span::after{content:" |";}
+.ftr__nav span:not(:last-child)::after{content:" |";}
 
 .ftr__contact{
   display:flex;align-items:center;gap:.4rem;
@@ -864,10 +894,12 @@ button{
 
 .stage__now b{font-weight:600;}
 
+/* Carries the weight of a section heading (see .h-section) but keeps
+   the copy's left edge — it introduces the paragraph beneath it. */
 .stage__h{
-  font-family:var(--font-body);
-  font-weight:400;
-  font-size:1rem;
+  font-family:var(--font-head);
+  font-weight:700;
+  font-size:1.5rem;
   margin:1rem 0 .15rem;
 }
 
@@ -959,6 +991,15 @@ button{
 }
 
 .playbtn svg{width:17px;height:17px;fill:var(--white);}
+
+/* The button says what it does out loud — same words as its aria-label. */
+.playrow{display:flex;align-items:center;gap:.6rem;}
+
+.playrow__label{
+  font-family:var(--font-body);
+  font-size:.875rem;
+  color:var(--cocoa);
+}
 
 /* D. Pret — ABUNDANCE MODE collapsibles */
 .price{margin-bottom:1.9rem;}
