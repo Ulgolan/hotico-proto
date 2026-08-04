@@ -950,5 +950,38 @@ not `?v=3` as the key's example assumed (the homepage is on `?v=3`;
 this page never caught up) — moot this lap since nothing versioned
 was touched, but flagging the drift for whoever does bump it next.
 
-**State at close:** pushed, PR opened, not merged. Tower certifies
+**Closeout patch (same day, same branch, appended commits — no
+force-push).** Two fixes from the flagged items above, both now
+ruled on:
+
+1. **7th FAQ accordion added.** `content/fr.json` `areola.faq[5]`
+   ("9. Pourquoi deux séances sont-elles nécessaires ?", vimeo
+   `1134716258`/`37a6e600dd`) now has a home: chip label "Deux
+   séances", positioned last (after "Après"), same classes/behaviour
+   as the other six — cloned structure, `id="faq-7"`. `data-title`
+   carries the full verbatim question (numbering prefix "9." kept,
+   same verbatim law as the other six). Full verbatim answer, split
+   into 5 `<p class="faq__copy">` paragraphs on the source's
+   paragraph breaks, no `<br>` needed this time (no in-paragraph line
+   breaks in this entry's source text). **No JS touch** —
+   `js/areola.js`'s accordion/jukebox wiring runs on
+   `document.querySelectorAll('[data-faq]')` generically, no
+   hardcoded item count or index anywhere; verified by reading the
+   file, not assumed. Cache law therefore stays HTML-only, no bump.
+   `"Voir l'épisode"` count: **12 → 14** (confirmed by grep). Caught
+   and fixed one mistake mid-patch: a first attempt at the insertion
+   swallowed faq-6's own closing `</div></div></li>` along with the
+   matched anchor text, which would have merged faq-6 and faq-7 into
+   one malformed block — caught before commit, file reverted to the
+   prior commit and redone with faq-6's closing tags preserved ahead
+   of the new `<li>`.
+2. **Duplicated `</main>` removed.** Pre-existing defect (present
+   before this lap, logged above at first close) — one of the two
+   `</main>` tags removed, the section/div/etc. structure above it
+   left untouched. Tag-balance re-verified after: `div` 78/78,
+   `section` 7/7, `ul` 16/16, `li` 65/65, `header` 1/1, `footer` 1/1,
+   `nav` 2/2, `button` 36/36, `span` 100/100, `p` 62/62, `h1` 1/1,
+   `h2` 3/3, `h3` 2/2 — all balanced. `<main>`/`</main>` count: 1/1.
+
+**State at close:** pushed, PR open (#5), not merged. Tower certifies
 next. No session certifies its own work.
