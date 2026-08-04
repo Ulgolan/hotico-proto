@@ -1217,5 +1217,31 @@ button{
     max-width:65ch;
   }
   .socials{justify-content:center;}
+
+  /* ---- D-3 CAROUSEL SPLIT — video block adopts the hero's grammar ---- */
+  .video.wrap{
+    max-width:var(--content-max);
+    margin-inline:auto;
+  }
+  .carousel[data-carousel="video"] .carousel__slide{
+    display:grid;
+    grid-template-columns:1fr 600px;
+    align-items:start;
+    column-gap:3rem;
+  }
+  .carousel[data-carousel="video"] .video__frame{
+    grid-column:2;
+    grid-row:1/-1;
+    align-self:center;
+    width:100%;
+    max-width:600px;
+  }
+  .carousel[data-carousel="video"] .video__title{
+    grid-column:1;
+    font-size:clamp(1.5rem,2.2vw,1.9rem);
+  }
+  .carousel[data-carousel="video"] .video__copy{
+    grid-column:1;
+  }
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
