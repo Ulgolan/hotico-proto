@@ -33,6 +33,13 @@
 
   /* Field placeholder glyphs. */
   --placeholder:#9E9E9E;
+
+  /* ===== Desktop campaign D, brief 2026-08-04 — spacing/width scaffold.
+     Colors/fonts already covered above (--font-head serves the
+     --font-display role); only new tokens land here. ===== */
+  --bp-desktop:768px; /* reference only — CSS vars don't work in media queries */
+  --width-grade:1440px;
+  --content-max:1200px; /* provisional, Commander re-pours at will */
 }
 body{max-width:480px;margin:0 auto;background:var(--ivory);}
 /* max-width container is LAW: desktop grace floor */

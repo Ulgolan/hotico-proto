@@ -1173,3 +1173,7 @@ button{
   border-bottom:1px solid var(--gold-line);
   padding-bottom:2px;
 }
+
+/* ===== DESKTOP (≥768px) — campaign D, brief 2026-08-04 ===== */
+@media (min-width:768px){ /* composition lands here lap by lap */ }
+/* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
