@@ -656,10 +656,18 @@ applied (the six ratified in the key, plus two ratified mid-lap):
    everywhere a forward button appears (steps 1, 2, and the step-3
    advance button, since Annex A's button canon names only two labels
    for the whole wizard)
+9. "le dermopigmentation cosmétique" → "la dermopigmentation
+   cosmétique" (carousel slide 5 cta) — the one survivor of
+   correction #3 the first pass missed. Patched in the closeout;
+   `le dermopigmentation` count confirmed 0 across `index.html` after.
+10. "Creaza un cont" → "Créer un compte" (Commander-ratified, Annex A
+    extension) — patched in the closeout. Its `wa.me` href is
+    untouched, unchanged from before the patch.
 
 Corrections #3 and #5 found no live occurrence on the homepage
 surfaces touched this lap (their strings live on other pages/laps);
-applied where found, otherwise inert.
+applied where found, otherwise inert. Correction #3 in fact had one
+surviving occurrence (#9 above) — see closeout note below.
 
 **Annex-A authorship note.** H1 ("La peau : ton seul vêtement."),
 the confirmation block, field labels, and the step-3 particularity
@@ -707,16 +715,16 @@ poza" row_label read literally as directly under the header logo).
   RO. Genuine testimonial in original language, per the key. The
   duplicate "Marina" card ships as-is (pre-existing content debt,
   DOSSIER D15, not this lap's to fix).
-- Confirmation screen's third button, "Creaza un cont" — **left in
-  Romanian.** Not covered by `fr.json` or Annex A; the `cont` sheet in
-  fr.json is unrelated (aftercare-video content, not account-creation
-  copy). The button currently points at the same wa.me link as the
-  Whatsapp button beside it — looks like a mislabeled duplicate, not
-  a real feature. Needs a Commander ruling on its actual function
-  before it gets translated.
 - Phone country-code flag (RO tricolor) on the Téléphone field — left
   untouched. It signals a dial code, not page language; out of scope,
   not mentioned in the key.
+
+Confirmation screen's third button, "Creaza un cont", was flagged
+here as an unresolved leftover at first close — not covered by either
+legal source, and functionally a duplicate of the Whatsapp link
+beside it. **Resolved in the closeout patch**: Commander-ratified to
+"Créer un compte" (correction #10 above), `wa.me` href kept exactly
+as-is per the patch key. No longer a leftover.
 
 **Structural changes beyond text (all in-scope, "css/js only where a
 step demands"):**
@@ -756,5 +764,15 @@ sources except the disclosed executor-judgment chrome above; nothing
 in `servicii/*` touched; pink and tokens untouched; no aria removed;
 reduced-motion guards untouched (not touched at all this lap).
 
-**State at close:** pushed, PR opened, not merged.
+**Closeout patch (same day, same branch, no new branch).** Two fixes
+landed after first close, both Commander-ratified: correction #9
+(the one surviving "le dermopigmentation" the first pass missed) and
+correction #10 ("Creaza un cont" → "Créer un compte", closing the
+leftover flagged above). Appended as a new commit rather than
+amending the pushed history — the branch and PR already existed
+upstream. Verified by count, not assumed: `le dermopigmentation` = 0,
+`Creaza un cont` = 0, `wa.me` href on the renamed button byte-for-byte
+unchanged.
+
+**State at close:** pushed, PR open, not merged. Tower certifies next.
 No session certifies its own work.
