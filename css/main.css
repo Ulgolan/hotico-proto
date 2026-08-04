@@ -1182,5 +1182,96 @@ button{
   }
   .ftr .wrap{text-align:center;}
   .ftr__nav, .ftr__contact, .ftr__socials{justify-content:center;}
+
+  /* ---- D-2 HERO TRIPTYCH (exploration, dev toggle ?hero=a|b|c) ---- */
+
+  /* Variant A — THE SPLIT: text left, torso right, editorial calm */
+  html[data-hero="a"] .hero{
+    display:grid;
+    grid-template-columns:1fr 560px;
+    align-items:center;
+    gap:3rem;
+    max-width:var(--content-max);
+    margin-inline:auto;
+    padding:3rem 1.5rem;
+  }
+  html[data-hero="a"] .hero__torso{
+    grid-column:2;
+    grid-row:1;
+    width:100%;
+    max-width:560px;
+    margin:0;
+  }
+  html[data-hero="a"] .hero .wrap{
+    grid-column:1;
+    grid-row:1;
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+  html[data-hero="a"] .hero__tagline{
+    font-size:clamp(2rem,3.5vw,2.75rem);
+    text-align:left;
+    max-width:16ch;
+  }
+  html[data-hero="a"] .hero__intro{
+    text-align:left;
+    max-width:65ch;
+  }
+  html[data-hero="a"] .socials{justify-content:flex-start;}
+
+  /* Variant B — THE ALTAR: centered column, torso above, ceremonial symmetry */
+  html[data-hero="b"] .hero{padding-block:3rem;}
+  html[data-hero="b"] .hero__torso{
+    width:100%;
+    max-width:600px;
+    margin:0 auto 2rem;
+  }
+  html[data-hero="b"] .hero__tagline{
+    font-size:clamp(2.25rem,4vw,3rem);
+    text-align:center;
+  }
+  html[data-hero="b"] .hero__intro{
+    text-align:center;
+    max-width:55ch;
+    margin-inline:auto;
+  }
+  html[data-hero="b"] .socials{justify-content:center;}
+
+  /* Variant C — THE STAGE: full-viewport band, torso anchored right, asymmetric cinema */
+  html[data-hero="c"] .hero{
+    display:grid;
+    grid-template-columns:1fr 2fr;
+    align-items:center;
+    gap:2rem;
+    min-height:60vh;
+    padding:3rem 1.5rem;
+    overflow:hidden;
+  }
+  html[data-hero="c"] .hero__torso{
+    grid-column:2;
+    grid-row:1;
+    width:100%;
+    max-width:610px;
+    margin:0 0 0 auto;
+    transform:translateX(4%);
+  }
+  html[data-hero="c"] .hero .wrap{
+    grid-column:1;
+    grid-row:1;
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+  html[data-hero="c"] .hero__tagline{
+    font-size:clamp(2rem,3.5vw,2.75rem);
+    text-align:left;
+    max-width:14ch;
+  }
+  html[data-hero="c"] .hero__intro{
+    text-align:left;
+    max-width:50ch;
+  }
+  html[data-hero="c"] .socials{justify-content:flex-start;}
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
