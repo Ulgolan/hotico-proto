@@ -985,3 +985,59 @@ ruled on:
 
 **State at close:** pushed, PR open (#5), not merged. Tower certifies
 next. No session certifies its own work.
+
+---
+
+## Entry #13 — 2026-08-04 — Lap C-3b: jukebox answers condensed
+
+**Scope:** replace the seven accordion answer bodies in
+`servicii/areola.html` with the Commander-ratified condensed versions
+(Annex D), per the ignition key. Branch `lap-c3b-jukebox-cut`, PR
+opened, not merged. Questions, chips, videos, "Voir l'épisode", and
+`data-title` attributes untouched. `content/fr.json` untouched — it
+remains the verbatim source mirror; the page now carries the ratified
+cut.
+
+**Anchor check, before any edit.** The key's anchors are file
+locators, not annex-content checks (clarified mid-lap, Tower's own
+ambiguity): each current answer's opening sentence verified to occur
+exactly once in `servicii/areola.html`, confirming the block to
+replace. Annex D is not expected to contain the old openings — it is
+a Commander-ratified condensed adaptation (her sentences, minimally
+stitched), not pure extraction. All 7 locators confirmed unique
+before the first edit.
+
+**Mid-lap stop, ruled on before any edit landed.** Flagged that
+Annex D's original #5 (Avant) dropped medical-safety specifics
+present in the live copy — the burns-specific longer wait time and
+the day-of professional-assessment/postponement clause. Accepted as
+correct; Commander issued a replacement #5 restoring both, applied
+here verbatim in place of the first draft.
+
+**Status: condensation-by-selection corrected to condensation-by-
+adaptation — Commander-ratified, provisional pending Alexa's
+blessing.** Full verbatim texts preserved in `content/fr.json`,
+untouched this lap; the page now carries the ratified cut.
+
+**Char counts, per answer (old → new):**
+1. La procédure: 1707 → 604
+2. La douleur: 1571 → 502
+3. Les pigments: 796 → 411
+4. La tenue: 1104 → 447
+5. Avant: 3164 → 775 (Commander-amended text, safety detail restored)
+6. Après: 2077 → 491
+7. Deux séances: 1511 → 417
+
+**Verified before push:** `git diff --stat` shows only
+`servicii/areola.html` changed. Tag balance re-checked after edit —
+`div` 78/78, `section` 7/7, `ul` 16/16, `li` 65/65, `header` 1/1,
+`footer` 1/1, `nav` 2/2, `button` 36/36, `span` 100/100, `p` 35/35,
+`h1` 1/1, `h2` 3/3, `h3` 2/2, `main` 1/1 — all balanced (`p` count
+drop from 62 to 35 expected: each answer collapses to one paragraph).
+
+**Not done, per the key:** `index.html`, `css/`, `js/` untouched — no
+cache bump (HTML-only lap); `content/fr.json` untouched; no other
+section of `areola.html` touched.
+
+**State at close:** pushed, PR open, not merged. Tower certifies
+next. No session certifies its own work.
