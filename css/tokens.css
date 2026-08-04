@@ -40,6 +40,7 @@
   --bp-desktop:768px; /* reference only — CSS vars don't work in media queries */
   --width-grade:1440px;
   --content-max:1200px; /* provisional, Commander re-pours at will */
+  --column-read:720px; /* interim canvas column, provisional — Commander re-pours */
 }
 body{max-width:480px;margin:0 auto;background:var(--ivory);}
 /* max-width container is LAW: desktop grace floor */
