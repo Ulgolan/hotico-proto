@@ -1078,3 +1078,21 @@ effect, deferred to composition laps. Certified by Tower at
 held.
 
 Next: D-2 — hero composition, first full-width art direction.
+
+---
+
+## Entry #16 — 2026-08-04 — LAP D-2: HERO — THE SPLIT (desktop campaign, lap 3)
+
+First desktop composition. Triptych exploration: three hero
+variants (A split / B altar / C stage) built behind a dev-only
+?hero= toggle on one preview; Commander's eye chose A — editorial
+split, text left (tagline clamped ~2.75rem, 16ch measure), torso
+right at 560px (retina ceiling of the 1224px asset respected),
+socials centered under the text column (taste amendment). Losers
+and toggle stripped same lap; params verified inert. Cache at
+v=6, all pages. Certified by Tower at 9b6549b. Triptych mechanism
+proven — enters doctrine as the exploration pattern for
+composition laps.
+
+Next: D-3 — video carousel adopts the split grammar (voice left,
+media right).
