@@ -312,6 +312,12 @@
         walkImg.src = img.getAttribute('src');
         walkLbl.textContent = card.querySelector('.scard__label').textContent;
 
+        // three cards, three different bodies — swap in the matching phase
+        var phase = card.getAttribute('data-step');
+        walk.querySelectorAll('.walk__body').forEach(function (b) {
+          b.hidden = b.getAttribute('data-phase') !== phase;
+        });
+
         cards.querySelectorAll('.scard__btn').forEach(function (b) {
           b.setAttribute('aria-expanded', String(b === btn));
         });

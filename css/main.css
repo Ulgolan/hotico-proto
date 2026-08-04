@@ -73,11 +73,21 @@ button{
   fill:none;stroke:var(--cocoa);stroke-width:1.6;
 }
 
-.hdr__home{justify-self:center;display:block;cursor:pointer;}
+.hdr__home{justify-self:center;display:block;cursor:pointer;text-decoration:none;}
 
 .hdr__logo{
   width:132px;
   justify-self:center;
+}
+
+.hdr__tagline{
+  margin:.15rem 0 0;
+  text-align:center;
+  font-family:var(--font-body);
+  font-size:.6875rem;
+  letter-spacing:.04em;
+  color:var(--cocoa);
+  text-decoration:none;
 }
 
 .hdr__burger{
@@ -480,7 +490,7 @@ button{
    chrome cropped out, exactly as the resting card does — do not
    switch to contain until clean 2x exports land. See LEDGER. */
 .steps-cards.is-focused .scard img{
-  aspect-ratio:4/3;
+  aspect-ratio:16/9;
   object-fit:cover;
 }
 
