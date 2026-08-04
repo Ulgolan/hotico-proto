@@ -17,9 +17,9 @@
 
   // Step 1's title differs per page ("Date contact" vs "Date personale");
   // read it once so we never overwrite the frame's own wording.
-  var NAMES = [label ? label.textContent.trim() : '1. Date contact',
-               '2. Programare',
-               '3. Particularitati'];
+  var NAMES = [label ? label.textContent.trim() : '1. Contact',
+               '2. Rendez-vous',
+               '3. Particularités'];
 
   var index = 0;
 
