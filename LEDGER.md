@@ -854,3 +854,101 @@ certify. Housekeeping, not a lap.
 
 **State at close:** pushed directly to `main`. No merge gate applies —
 nothing built.
+
+---
+
+## Entry #12 — 2026-08-04 — Lap C-3: Areola page, French
+
+**Scope:** `servicii/areola.html` only, translated RO → FR. Branch
+`lap-c3-areola-fr` off `main` (`ae8d158` confirmed present in history
+before the cut). `js/areola.js` inspected and left untouched — it is
+markup-agnostic (reads `data-title`/`data-src` off the DOM, no
+hardcoded strings), so no JS work was demanded. `css/` untouched, as
+instructed.
+
+**Text law, three sources, rank order:**
+1. `content/fr.json` `areola.*` + `home.form.*`, verbatim.
+2. `index.html` AS SHIPPED, for every shared form element.
+3. Annex C (ignition key), verbatim.
+
+**Correction applied:** "du dermopigmentation" → "de la
+dermopigmentation" — one occurrence, in `areola.intro.cta` (the
+`stage__copy` line). Grepped the full `areola` JSON subtree for both
+"du dermopigmentation" and "le dermopigmentation" before editing;
+only the one instance existed in scope. No stray masculine article
+survived.
+
+**Retroactive ratification, per the key.** `home.form.*` in
+`content/fr.json` is mostly `null` or admin scratch (e.g. `"cta": "CTA:
+Nous sommes là pour toi"`) — the homepage-as-shipped is the only
+complete source for shared form copy, and is now the ratified record
+for: heading "Rendez-vous", CTA "Nous sommes là pour toi", GDPR/
+cancellation checkbox text, the third "toutes les données sont
+correctes" checkbox (not present in the old RO version — added to
+match parity), step names ("1. Contact" / "2. Rendez-vous" / "3.
+Particularités" — the last two are hardcoded FR in `form.js` itself,
+already shared; only step 1's label lives in each page's own HTML and
+now reads "1. Contact" to match). The step-3 confirm button reads
+"Suivant" (not "Confirmer") because that is what the homepage carries
+AS SHIPPED — mirrored exactly, not corrected, per source (2)'s
+mandate.
+
+**Jukebox / FAQ (12 anchors, verified):** 6 accordion items, matched
+to `content/fr.json` `areola.faq` entries by Vimeo ID (the JSON array
+holds 7 entries; one — "9. Pourquoi deux séances sont-elles
+nécessaires ?", vimeo `1134716258` — has no HTML slot and no Annex C
+chip, so it was left unused rather than inventing a 7th accordion
+item. Flagging for a ruling: does Areola get a 7th FAQ, or does that
+entry belong to a different service page?). Chip labels (`faq__label`)
+are Annex C's six, in order: La procédure · La douleur · Les pigments
+· La tenue · Avant · Après. `data-title` attributes carry the full
+verbatim question from `fr.json`, sheet-numbering prefixes ("2.",
+"5.", "7.", "10.") preserved as-is — text law is verbatim, not tidied.
+Full verbatim answers now sit in the accordion bodies, replacing the
+"Descriere descriere…" filler, split into one `<p class="faq__copy">`
+per source paragraph break (29 total) with in-paragraph line breaks
+as `<br>` — formatting only, no words touched. "Vezi episodul" → "Voir
+l'épisode" applied 12 times (6 visible `playrow__label` + 6
+`aria-label`), confirmed by grep.
+
+**Pricing (Annex C, verbatim).** Currency stays RON — Alexa-gated,
+not touched. 3× "Comprend :" blocks, 3× retouche tier rows, all per
+Annex C.
+
+**Gallery (Annex C, PROVISIONAL).** Lead line, locked-photos
+statement, and the Instagram line all replaced per Annex C. The old
+guard comment ("PROTECTED COPY — verbatim from frame S-2… no copy
+pass may touch") is now stale — replaced with a new in-file flag:
+**ALEXA BLESSING REQUIRED** before this ships. Nothing here is final
+until she rules on it.
+
+**Chrome swept beyond the itemized steps, to satisfy "zero RO outside
+the review card":** header lang toggle ("Langue : Français" / "FR"),
+burger `aria-label`, home-link `aria-label`, `svcnav`'s own
+`aria-label` ("Servicii" → "Services"), footer nav `aria-label` and
+its four items. None of these were named step-by-step in the key, but
+they're shared chrome and the sweep gate is unconditional.
+
+**Sweep result (Step 8):** grepped the full file for RO diacritics and
+a RO word list, review card excluded. Zero hits outside `data-tab`/
+`id` internal identifiers (`detalii`/`pret`/`galerie` — structural,
+not copy, left alone) and the Annex C word "divers" (ratified
+verbatim, unchanged in both languages). Review card (Marina ×6,
+including the "5 din 5" star rating) is untouched RO, as designed
+(DOSSIER D15).
+
+**Spotted, not fixed — out of scope for a text lap:** a duplicated
+`</main>` closing tag, pre-existing before this lap (was already
+broken in the RO version). Flagging for a structural lap, not
+touched here.
+
+**Cache law (Step 9): HTML-only lap, no bump.** `js/areola.js` and
+`css/` confirmed untouched — `git diff --stat` shows only
+`servicii/areola.html` changed. Note for the record: the file's
+current version tag is `?v=2b` on all three scripts/two stylesheets,
+not `?v=3` as the key's example assumed (the homepage is on `?v=3`;
+this page never caught up) — moot this lap since nothing versioned
+was touched, but flagging the drift for whoever does bump it next.
+
+**State at close:** pushed, PR opened, not merged. Tower certifies
+next. No session certifies its own work.
