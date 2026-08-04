@@ -545,3 +545,39 @@ than burying it.
 
 **State at close:** pushed, preview green. Awaiting the eye.
 No session certifies its own work.
+
+---
+
+## Entry #7 — 2026-08-04 — Lap C-0: content source intake
+
+**Scope:** intake only. Three spreadsheets land in the repo as
+canonical source data, plus one housekeeping line. No parsing, no
+copy lifted, no screen touched — parsing belongs to Lap C proper.
+
+**Landed:** `content/source/`
+- `hotico-content-fr.xlsx` — 83,603 bytes
+- `hotico-content-ro.xlsx` — 88,090 bytes
+- `hotico-content-en.xlsx` — 80,113 bytes
+
+All three matched their expected fingerprints exactly, byte for
+byte, before the copy and after it. Language was matched by source
+filename (Franceza→fr, Romana→ro, Engleza→en), never by reading the
+contents. Files were copied, not moved — the Downloads originals
+stand untouched.
+
+**Housekeeping:** `.gitignore` gains `.claude/`. Verified with
+`git check-ignore` — `.claude/launch.json` now resolves to
+`.gitignore:2`, and the directory no longer appears in status.
+
+**Named exception — commits went straight to main.** The
+constitution says never build on main; the key suspended it for
+this lap by name. The exception holds because the cargo is inert:
+three binary spreadsheets nobody reads yet, and one ignore line.
+Zero HTML, CSS, or JS touched, so zero effect on the built site.
+The lap discipline resumes at Lap C proper.
+
+**Not done, per the key:** the spreadsheets were never opened or
+parsed. Nothing was deleted anywhere.
+
+**State at close:** pushed. Source data is in the repo and inert.
+No session certifies its own work.
