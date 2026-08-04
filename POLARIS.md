@@ -1,5 +1,6 @@
 Sealed 2026-08-04 · Supersedes 2026-08-01 brief · Audits measure against this document
 
+=== POLARIS BRIEF ===
 Project: HOTICO Desktop Campaign (hotico-proto, proto era II)
 Date: 2026-08-04
 Supersedes: out-of-scope desktop clause + Option-1 ruling of the
@@ -81,3 +82,4 @@ OPEN QUESTIONS (carried, not blocking)
 - Alexa batch items (a)–(g); vous ruled 2026-08-04.
 - ACP's production eye-walk of the mobile proto (still owed —
   doubles as NN1's baseline snapshot).
+=== END BRIEF ===
