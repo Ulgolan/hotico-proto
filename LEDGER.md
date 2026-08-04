@@ -811,3 +811,46 @@ untouched; no other section touched. `git diff --stat` confirms only
 
 **State at close:** pushed, PR open, not merged. Tower certifies next.
 No session certifies its own work.
+
+---
+
+## Entry #11 — 2026-08-04 — H-1: repo relocation
+
+**Scope:** housekeeping only, no build content touched. Repo moved
+from its nested position, `~/projects/acp-command-center/hotico-proto`,
+to its lawful sibling home, `~/projects/hotico-proto` — disk now
+matches the Command Center constitution ("never nested"). Plain `mv`,
+same volume; `.git` traveled whole, nothing copied, nothing deleted.
+
+**Gates passed, all four, before the move:**
+(a) working tree clean, no untracked files
+(b) `git log origin/main..main` empty — nothing unpushed
+(c) `main` the only local branch — all lap branches already deleted
+    at their seals
+(d) `~/projects/hotico-proto` did not already exist
+
+**Tip hash, before → after:** `ae8d15806333f3bd6601fbfa6f2f831b62e1057d`
+in both places — unchanged, as expected of a plain move.
+
+**Post-move verification:** working tree clean, `git fetch` reaches
+`origin` (`Ulgolan/hotico-proto`) without error. `.claude/launch.json`
+(local, untracked) checked for absolute paths pointing at the old
+location — none found; no edit needed.
+
+**Collateral, reported not edited:**
+- `acp-command-center` is not itself a git repository (confirmed, not
+  assumed) — no parent-repo diff to check.
+- `acp-command-center/.claude/launch.json` still points at the old
+  relative path (`--directory hotico-proto`), now stale since the
+  folder moved out. Not touched — Commander's file, Commander's edit.
+- No `hotico-proto` path references found in `acp-command-center`'s
+  `CLAUDE.md` or any other doctrine `.md` file.
+
+**Main-exception, named.** This entry commits directly to `main`, no
+lap branch cut — a deliberate exception to "never build on main."
+Justified: single inert docs-only commit (`LEDGER.md` text), no
+`index.html`/`css`/`js`/`content` touched, nothing to preview or
+certify. Housekeeping, not a lap.
+
+**State at close:** pushed directly to `main`. No merge gate applies —
+nothing built.
