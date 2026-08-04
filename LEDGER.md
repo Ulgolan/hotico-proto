@@ -462,3 +462,86 @@ outside the track. Repaired; div balance now verified on both pages
 "Date personale" to "Date contact" — restored.
 
 **State at close:** pushed. Awaiting the eye inside the freeze.
+
+---
+
+## Entry #6 — 2026-08-04 — Lap F: critique fixes
+
+**Branch:** `lap-f-critique` (from main, commit `cea408c`).
+**Preview:** https://hotico-proto-hbza2vzo2-popescu-alexandrus-projects.vercel.app
+**Mandate:** nine mechanical fixes from the certified independent
+critique. No copy, no features, no structure. Every anchor landed at
+its stated count — nothing improvised, no STOP triggered.
+
+### What changed
+
+**1. The deferred costume.** One class — `.is-deferred`
+(opacity .45, no shadow, default cursor) — now dresses everything
+that is present but not yet wired: burger, language button, the four
+footer-nav spans, and the two consent references. Eight per page.
+The `<u>` tags are gone; the words are verbatim. Underline read as
+"link, click me"; grey reads as "later".
+
+**2. Real inputs, step 1 only.** The four identity fields are
+`<input>` now — text, text, email, tel. The box is untouched (50px,
+same gray, same radius) and the placeholder is the old `.field__ph`
+glyph exactly: italic, `--placeholder`, 1rem. What the visitor types
+is cocoa and upright, which is the whole point. No validation, no
+`required`. Steps 2 and 3 keep their two costume spans.
+
+**3. Jukebox honesty.** Play now plays: `&autoplay=1&muted=1` on the
+swapped src (muted because no browser autoplays sound on a click it
+didn't hear). And the "acum:" label stopped lying — it holds the old
+title until the new frame fires `load`. A `pendingTitle` var carries
+the claim, so clicking two episodes fast means only the last one
+wins instead of the label racing ahead of the picture.
+Accordion-close still never interrupts a playing record — verified,
+untouched.
+
+**4. Gold chrome.** All ten Vimeo URLs carry `&color=C9A86A` —
+three on the homepage carousel, the Areola stage, and six episodes.
+Vimeo's default blue was the last foreign colour on the page.
+
+**5. The play button speaks.** "Vezi episodul" now sits beside each
+gold circle in DM Sans .875rem cocoa — the same words the aria-label
+already carried. A gold circle alone was a guess.
+
+**6. Strip swap.** Alopecie takes `strip-06`; Sprancene keeps
+`strip-03`. All six strips are now used exactly once.
+**Commander re-grades this pairing at preview.**
+
+**7. Dot hit area.** 44×44 for the thumb, carried on a
+pseudo-element on `.dot` so the row's geometry does not move — ink
+stays 8px, `li` stays 26px, row height stays 26px. It went on the
+button, not the `li`, because the click handler binds to `.dot`;
+a padded `li` would have looked bigger and clicked nowhere.
+**Noted for the eye:** at 33.2px between centres, neighbouring 44px
+targets overlap ~11px, and the later dot wins the shared strip.
+Removing the overlap means widening the row — a layout shift the
+brief forbade. Flagged, not decided.
+
+**8. Stage heading.** `.stage__h` was DM Sans 400 1rem — the same
+weight as the paragraph under it, so it read as a caption. Now
+Raleway 700 1.5rem, matching `.h-section`'s weight exactly, keeping
+the copy's left edge instead of `.h-section`'s centring.
+
+**9. Footer pipe.** `:not(:last-child)` — "Legal |" is now "Legal".
+
+### Out of scope, per the key
+Tel number (critic wrong — format valid) · Areola before/after pair
+(gated on image exports) · all copy (Lap C owns it).
+
+### Verified before push
+Div balance 104/104 and 76/76 · aria attributes 301 before, 301
+after — none removed · `noindex,nofollow` on both pages · tokens
+untouched, no new hex outside the documented RO flag ·
+prefers-reduced-motion untouched · both JS files pass `node --check`
+· console clean · all three form steps still walk.
+
+**Deviation to declare:** the key called for Sonnet hands. This lap
+was executed by Opus 5 — the session was already open on it. Nine
+mechanical fixes did not need the precision; declaring it rather
+than burying it.
+
+**State at close:** pushed, preview green. Awaiting the eye.
+No session certifies its own work.
