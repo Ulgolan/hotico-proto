@@ -776,3 +776,38 @@ unchanged.
 
 **State at close:** pushed, PR open, not merged. Tower certifies next.
 No session certifies its own work.
+
+---
+
+## Entry #10 — 2026-08-04 — Lap C-2b: carousel bodies condensed
+
+**Scope:** replace the five carousel slide bodies in `index.html` with
+the Commander-ratified condensed versions (Annex B), per the ignition
+key. Branch `lap-c2b-carousel-cut`, PR opened, not merged. Titles and
+CTA hook lines untouched — only the second `<p class="video__copy">`
+per slide (the long body) was replaced.
+
+**Anchor check, before any edit.** Each current body's opening
+sentence verified to land exactly once in `index.html` — all 5
+confirmed unique before the first edit was made.
+
+**Char counts, per slide (old → new):**
+- Slide 1 (À propos de HOTICO): 2331 → 331
+- Slide 2 (Comment fonctionne HOTICO): 1913 → 341
+- Slide 3 (Apprenez avec HOTICO): 2198 → 368
+- Slide 4 (Qu'est-ce que la dermopigmentation paramédicale ?): 2083 → 406
+- Slide 5 (Qu'est-ce que la dermopigmentation cosmétique ?): 2005 → 327
+
+**Status: condensation-by-selection, Commander-ratified, provisional
+pending Alexa's blessing.** Full texts preserved verbatim in
+`content/fr.json`, untouched this lap — it remains the source mirror,
+the page now carries the ratified condensations. À-propos page idea
+parked, not actioned.
+
+**Not done, per the key:** titles, CTA hooks, video embeds, dots,
+`css/`, `js/` untouched (no cache-bump — HTML only); `content/fr.json`
+untouched; no other section touched. `git diff --stat` confirms only
+`index.html` changed.
+
+**State at close:** pushed, PR open, not merged. Tower certifies next.
+No session certifies its own work.
