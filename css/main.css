@@ -1182,5 +1182,40 @@ button{
   }
   .ftr .wrap{text-align:center;}
   .ftr__nav, .ftr__contact, .ftr__socials{justify-content:center;}
+
+  /* ---- D-2 HERO — THE SPLIT: text left, torso right, editorial calm ---- */
+  .hero{
+    display:grid;
+    grid-template-columns:1fr 560px;
+    align-items:center;
+    gap:3rem;
+    max-width:var(--content-max);
+    margin-inline:auto;
+    padding:3rem 1.5rem;
+  }
+  .hero__torso{
+    grid-column:2;
+    grid-row:1;
+    width:100%;
+    max-width:560px;
+    margin:0;
+  }
+  .hero .wrap{
+    grid-column:1;
+    grid-row:1;
+    max-width:none;
+    margin:0;
+    padding:0;
+  }
+  .hero__tagline{
+    font-size:clamp(2rem,3.5vw,2.75rem);
+    text-align:left;
+    max-width:16ch;
+  }
+  .hero__intro{
+    text-align:left;
+    max-width:65ch;
+  }
+  .socials{justify-content:center;}
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
