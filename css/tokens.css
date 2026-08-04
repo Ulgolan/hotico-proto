@@ -38,6 +38,7 @@
      Colors/fonts already covered above (--font-head serves the
      --font-display role); only new tokens land here. ===== */
   --bp-desktop:768px; /* reference only — CSS vars don't work in media queries */
+  --bp-split:1024px; /* reference only — split tier gate */
   --width-grade:1440px;
   --content-max:1200px; /* provisional, Commander re-pours at will */
   --column-read:720px; /* canvas column — 720 ratified at D-1 eye-gate, still re-pourable */
