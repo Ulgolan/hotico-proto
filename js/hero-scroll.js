@@ -84,9 +84,24 @@
                                    // exists (rather than a fixed fy) keeps the
                                    // crown clear of the header at every width
                                    // without ever pushing it off-screen.
+  // K-6 FIX 1 — single measured viewport, used by every formula below
+  // (film transform, establishing fy, progress) and by the marker
+  // projection. window.innerWidth/Height is the LAYOUT viewport —
+  // on iOS Safari that's sized as if the address/tab bar were
+  // permanently hidden, taller than what's actually on screen.
+  // visualViewport reports the real, currently-visible area and
+  // fires its own resize event when the toolbar shows/hides (a
+  // window 'resize' does not always fire for that).
+  function measuredVW() {
+    return (window.visualViewport && window.visualViewport.width) || window.innerWidth;
+  }
+  function measuredVH() {
+    return (window.visualViewport && window.visualViewport.height) || window.innerHeight;
+  }
+
   function recalc() {
-    vw = window.innerWidth;
-    vh = window.innerHeight;
+    vw = measuredVW();
+    vh = measuredVH();
     coverScale = Math.max(vw / IMG_W, vh / IMG_H);
     containScale = Math.min(vw / IMG_W, vh / IMG_H);
     establishScale = containScale * ESTABLISH_K;
@@ -151,6 +166,20 @@
     var ty = vh / 2 - cam.scale * cam.fy * IMG_H;
     film.style.transform = 'translate3d(' + tx + 'px,' + ty + 'px,0) scale(' + cam.scale + ')';
 
+    // K-6 FIX 2 — markers derive their screen position FROM the film's
+    // own tx/ty/scale, projecting each stop's (fx,fy) through the
+    // exact same numbers used above — never parallel math. The old
+    // approach (CSS flex-centering .kh__stop inside a 100vh box) is
+    // mathematically equivalent ONLY when the CSS box's rendered
+    // height exactly equals the JS `vh` — which K-6's own symptom
+    // proved false on iOS. Projecting explicitly removes that
+    // assumption instead of just narrowing the gap.
+    STOPS.forEach(function (stop) {
+      var mx = tx + cam.scale * stop.fx * IMG_W;
+      var my = ty + cam.scale * stop.fy * IMG_H;
+      stop.el.style.transform = 'translate3d(' + mx + 'px,' + my + 'px,0)';
+    });
+
     // establishing overlay — opacity fade only, never unmounted
     var fadeT = clamp01(progress / ESTABLISH_FADE);
     var overlayOpacity = 1 - smootherstep(fadeT);
@@ -204,6 +233,12 @@
 
   window.addEventListener('scroll', onTick, { passive: true });
   window.addEventListener('resize', onResize, { passive: true });
+  window.addEventListener('orientationchange', onResize, { passive: true });
+  // visualViewport fires its OWN resize when the toolbar shows/hides —
+  // window doesn't always. Same recalc, same code path either way.
+  if (window.visualViewport) {
+    window.visualViewport.addEventListener('resize', onResize, { passive: true });
+  }
 
   railBtns.forEach(function (btn) {
     btn.addEventListener('click', function () {
@@ -212,7 +247,7 @@
       if (!dwellSeg) return;
       var mid = (dwellSeg.start + dwellSeg.end) / 2;
       var rectNow = wrap.getBoundingClientRect();
-      var totalNow = rectNow.height - window.innerHeight;
+      var totalNow = rectNow.height - measuredVH();
       var wrapTopAbs = window.pageYOffset + rectNow.top;
       window.scrollTo({ top: wrapTopAbs + mid * totalNow, behavior: 'smooth' });
     });

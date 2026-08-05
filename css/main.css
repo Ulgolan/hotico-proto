@@ -143,9 +143,15 @@ html.js-kh .kh__static{display:none;}
    and gets a pointer cursor for free from being a real link. The
    other five are <span>s: no href, no chevron, no pointer, nothing
    pretends to be clickable. */
-.kh__caption{display:flex;flex-direction:column;align-items:center;}
+.kh__caption{
+  display:flex;flex-direction:column;align-items:center;
+  --kh-dot-r:13.5px; /* half of .kh__caption-dot's diameter below —
+    keep in sync. K-6: the DOT's own center, not the group's bounding-
+    box center, is the true anchor; see .kh__stop .kh__caption. */
+}
 .kh__caption-dot{
-  width:27px;height:27px;border-radius:50%;background:var(--gold);
+  width:calc(var(--kh-dot-r) * 2);height:calc(var(--kh-dot-r) * 2);
+  border-radius:50%;background:var(--gold);
   box-shadow:0 0 0 5px rgba(201,168,106,.25);
 }
 .kh__caption-line{width:3px;height:51px;background:var(--gold-line);margin:.5rem 0;}
@@ -196,9 +202,15 @@ html.js-kh .kh__static{display:none;}
 
 /* ---- .kh__scrub — the pinned scroll experience ---- */
 
-.kh__scrubwrap{position:relative;height:760vh;}
+/* K-6 FIX 1 — dvh with a vh fallback throughout. iOS Safari's `vh`
+   sizes against the LAYOUT viewport (as if the address/tab bar were
+   permanently hidden); the user sees the smaller VISUAL viewport.
+   `dvh` tracks whichever is actually on screen. Browsers that don't
+   parse `dvh` drop the whole declaration and keep the `vh` line
+   above it — standard fallback order, not a typo. */
+.kh__scrubwrap{position:relative;height:760vh;height:760dvh;}
 
-.kh__pin{position:sticky;top:0;height:100vh;overflow:hidden;}
+.kh__pin{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;}
 
 .kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
 
@@ -227,7 +239,7 @@ html.js-kh .kh__static{display:none;}
 .kh__establish{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  text-align:center;padding:40vh 1.75rem 1.5rem;
+  text-align:center;padding:40vh 1.75rem 1.5rem;padding-top:40dvh;
   opacity:1;transition:none;
 }
 .kh__establish.is-hidden{pointer-events:none;}
@@ -260,14 +272,41 @@ html.js-kh .kh__static{display:none;}
 
 .kh__stops{position:absolute;inset:0;list-style:none;margin:0;padding:0;pointer-events:none;}
 
-.kh__stop{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  opacity:0;transform:translateY(14px);transition:none;pointer-events:none;
+/* K-6 FIX 2 — .kh__stop is now a zero-size anchor: JS places it (via
+   transform:translate3d, set in hero-scroll.js) at the exact screen
+   pixel the film's OWN tx/ty/scale projects this stop's (fx,fy) to —
+   the same numbers used to draw the film, not a parallel CSS-centering
+   calculation. Old approach centered the marker via flexbox inside a
+   100vh box and relied on that box's rendered height exactly matching
+   the JS `vh` — true on desktop, false on iOS Safari's layout-vs-
+   visual-viewport split, which is what put every dot ~one body-zone
+   too high. */
+.kh__stop{position:absolute;left:0;top:0;pointer-events:none;}
+
+.kh__stop .kh__caption{
+  /* center horizontally, then shift up by the dot's own radius so the
+     DOT's center (not the caption group's) lands on the anchor point;
+     connector + label flow downward from there. +14px = the rise-in
+     start offset, folded into the same transform. */
+  transform:translate(-50%, calc(14px - var(--kh-dot-r)));
+  opacity:0;transition:none;pointer-events:none;
 }
-.kh__stop.is-active{
-  opacity:1;transform:translateY(0);pointer-events:auto;
+.kh__stop.is-active .kh__caption{
+  opacity:1;transform:translate(-50%, calc(-1 * var(--kh-dot-r)));
+  pointer-events:auto;
   transition:opacity .45s ease .3s,transform .45s ease .3s;
+}
+
+/* K-6 SECONDARY RULE — per-stop escape hatch: if a pill (default
+   below the dot) would cover its own featured zone, flip it above.
+   Opt-in via data-flip="above" on the specific <li>; none set by
+   default. */
+.kh__stop[data-flip="above"] .kh__caption{
+  flex-direction:column-reverse;
+  transform:translate(-50%, calc(var(--kh-dot-r) - 14px));
+}
+.kh__stop[data-flip="above"].is-active .kh__caption{
+  transform:translate(-50%, var(--kh-dot-r));
 }
 
 /* K-3 FIX 4 — dot rail, bigger and moved inboard. Real hit area is
