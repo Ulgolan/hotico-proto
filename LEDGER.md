@@ -1165,3 +1165,28 @@ pile (clean 2x exports), not introduced by this lap. Cache v=9.
 Certified by Tower at cf0f2f0.
 
 Next: D-6 — the form at desktop.
+
+---
+
+## Entry #20 — 2026-08-05 — LAP D-6: THE FORM SPLIT + THE RESURRECTION (desktop campaign, lap 7)
+
+The decisive section adopts the split grammar: voice left
+(Rendez-vous + sub, left-aligned, vertically centered), form
+right — stepper + steps fused into one gold-framed card at
+min(600px,46vw). Wrapper divs per the D-3 precedent; copy
+verbatim; form.js untouched; air above the section (2.5rem,
+re-pourable). PRODUCTION BUG KILLED: the "Demande bien reçue"
+success screen — authored in the French campaign's honesty-law
+healing — was entombed inside .steps[data-steps]; the confirm
+handler hid the parent and buried the confirmation AT EVERY
+WIDTH since C-2. Diagnosis by the Hands, ruling by Tower,
+Commander ratified the mobile behavioral change (NN1 exception
+on record: bug fix restoring designed behavior). Relocated to
+sibling of .steps on both pages after verifying [data-success]
+is queried document-wide. Full walk 1→2→3→confirm→visible
+success→retour verified at 375/1024/1440 on both pages. Also on
+record: no validation gate on advancement (facade law,
+pre-existing, real-site question). Band walk clean 768→1920.
+Cache v=10. Certified by Tower at 1522437.
+
+Next: D-7 — reviews at desktop. The last homepage section.
