@@ -1672,3 +1672,44 @@ Cache: `main.css` v15→v16, `hero-scroll.js` v4→v5 (a genuine content
 change this time).
 
 Next: Commander's word on K-6, ideally the last hero gate round.
+
+---
+
+## Entry #28 — 2026-08-05 — LAP K-7: KINTSUGI SCROLL HERO — MERGE & CLOSE
+
+**GATE PASSED.** Commander walked all six stops on the physical
+iPhone, toolbar up and down, tapped Aréole navigation. K-6's
+projection fix holds on real hardware, not just emulation. The
+K-1→K-6 campaign is approved for production.
+
+PR #15 merged into `main` via a merge commit (`9750f6e`, two parents —
+not squashed, not rebased): the lap-by-lap history is the campaign
+record and now lives in `main` alongside this LEDGER. Branch
+`k-1-kintsugi-hero` kept, not deleted this lap, per the key.
+
+Production verified at **https://hotico-proto.vercel.app**:
+`statue-kintsugi.webp?v=2` served (confirmed via response headers and
+by grepping the served HTML), establishing frame renders correctly,
+Aréole stop spot-checked — projected to `translate3d(195px,422px,0)`
+against a 390×844 viewport, i.e. exactly `vw/2,vh/2`, matching K-6's
+math by construction — and the Aréole link navigates live to
+`/servicii/areola.html` on production.
+
+**Kintsugi Scroll Hero K-1→K-6 merged to production; Commander's
+iPhone gate passed.** Open debts carried forward:
+- **Resolution debt** — accepted as proto debt by Commander's ruling
+  (K-4): the statue ships at its original ~1024×1536 source resolution;
+  a full-color re-upscale (avoiding the palette-quantization banding
+  the K-4 attempt hit) is a future lap, asset-only.
+- **Five inert captions** (K-1) — Alopécie, Sourcils, Eyeliner, Lèvres,
+  Cicatrices remain non-interactive captions, no href, by LINK LAW.
+  Each upgrades to a live pill in its own future lap as the
+  corresponding service page ships, same pattern Aréole already set.
+- **`hero-torso.png` + temp assets cleanup** — the old D-2 hero image
+  and other now-orphaned temp-1x assets are still sitting in
+  `assets/img/`, unused since K-1 retired the split hero. Future tidy
+  lap, not urgent, Trash not delete per constitution.
+
+Seven laps, one campaign, closed. Next: wherever the Tower routes —
+tidy lap on the orphaned assets, or the next service page's own
+front-door treatment.
