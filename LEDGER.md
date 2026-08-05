@@ -1507,3 +1507,87 @@ even though this lap made zero changes to its actual JS content
 
 Next: Commander's word on K-3 — and on the serif amendment specifically,
 since it's the first departure from the two-typeface system.
+
+---
+
+## Entry #26 — 2026-08-05 — LAP K-5: KINTSUGI HERO — GATE POLISH
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Blast radius held exactly to the establishing frame — K-3's stop
+keyframes, markers, and rail shipped as-is, untouched and unaffected.
+
+**Serif experiment REJECTED at gate.** Commander's ruling: revert the
+hero H1 to the brand heading font. `--font-serif` token removed from
+`tokens.css`, the Cormorant Garamond Google Fonts import stripped from
+`index.html` — zero references to either left anywhere in the
+codebase (grepped `.html`/`.css`/`.js` to confirm). `.kh__h1` back to
+`var(--font-head)` at weight 700. K-3's size/position/composition over
+her lower half, no white block, kept exactly — only the typeface
+reverted. Brand canon reaffirmed: two typefaces (Raleway, DM Sans),
+not three.
+
+**Statue raised — the dead band under the header is gone.** This one
+needed a real code change, not just CSS: the establishing camera's
+vertical framing lives in `hero-scroll.js` (`establishScale`, and now
+`ESTABLISH_KF.fy`), not in markup. `ESTABLISH_K` (the fraction of
+contain-fit used for the establishing shot) went from 0.86 to 0.92 —
+larger, more present, per the brief. The real fix is a new *dynamic*
+`fy`: K-3 (and K-1/K-2 before it) centered the establishing shot dead
+on (`fy=0.5`), splitting whatever vertical slack existed evenly above
+and below her. That's invisible on mobile, where contain-fit is
+width-bound and slack is generous — but on a short/wide desktop
+viewport, contain-fit is height-bound and slack is almost zero, so
+half-above read as a dead band under the header. A single fixed `fy`
+can't serve both: tuned to clear the header on mobile, it clips the
+crown on desktop, and the reverse. Fixed by computing `fy` in
+`recalc()` (alongside `establishScale`/`k`, same resize-driven
+lifecycle) so a constant ~18% of whatever slack actually exists at
+that viewport sits above her head — scales with the aspect ratio
+instead of fighting it. `ESTABLISH_KF` is mutated in place rather than
+reassigned, since the exit segment's `to` holds a live reference to
+that same object — exit inherits the new framing automatically, no
+separate wiring. The six stops compute their own scale/position
+independently of `establishScale`/`fy` entirely, so this touches
+nothing about them; walked all six plus the exit to confirm regardless.
+
+**DÉFILER, brand dark.** Gold read as inconsistent against the
+heading/body ink system — switched `.kh__hint-line` and
+`.kh__hint-label` to `var(--cocoa)`. Size, tracking, and position
+unchanged.
+
+One verification-process note worth recording: mid-check at 1440, the
+film layer's transform read as `none` and `requestAnimationFrame`
+never fired even after several seconds' wait — looked like a real
+regression at first. It wasn't: the headless preview tab throttles/
+suspends `rAF` entirely while not actively compositing, and requesting
+a screenshot is what nudges it into producing a frame (and flushing
+the queued `rAF` callback with it). Confirmed by hand-deriving the
+expected `fy`/`ty` for that viewport, then checking the inline style
+after a screenshot — matched exactly. Worth remembering for future
+laps: read computed JS/camera state only after a screenshot, not
+immediately after a resize or scroll.
+
+Checks 1–7 run at 390/1440: statue high with crown clear at both
+(390: ~55px gap under the header; 1440: ~13px, both comfortable, both
+un-clipped); all six stops plus exit re-verified landing correctly,
+independent of the establishing change as expected; H1 confirmed in
+`--font-head`, zero Cormorant references anywhere in the codebase;
+DÉFILER and its line confirmed dark and above the fold both widths;
+static/reduced-motion fallback carries all three fixes (shares
+`.kh__h1` and `.kh__hint` with the scrub markup, so the font/color
+fixes applied for free; the "dead band" was never actually present in
+the static layout — it was never viewport-height-centered like the
+scrub camera, so there was nothing to raise there, confirmed rather
+than assumed); no horizontal scroll; below-hero content pixel-
+identical (untouched this lap).
+
+Cache: `main.css` v14→v15, `tokens.css` v7→v8, `hero-scroll.js`
+v3→v4 — the last one a real content bump this time, not the letter-
+of-the-law bump K-3 did on zero JS changes.
+
+Next: Commander's word on K-5. Establishing frame composition should
+now be settled across all three gate rounds (K-2, K-3, K-5) — if this
+clears, the hero's remaining open item is just the resolution debt
+(ACCEPTED as proto debt per K-4's ruling, not closed) and the five-
+caption debt from K-1 (Alopécie/Sourcils/Eyeliner/Lèvres/Cicatrices
+still non-interactive, pending their own service pages).
