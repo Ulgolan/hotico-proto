@@ -1420,3 +1420,90 @@ Cache-bust convention introduced for this asset in K-4 (`?v=N` query
 param, none existed before): now at `v=2` after this lap's revert.
 
 Next: Commander's word on K-4, then resume wherever the Tower routes.
+
+---
+
+## Entry #25 — 2026-08-05 — LAP K-3: KINTSUGI HERO — GATE FIXES II
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Executed OUT OF ORDER — numbered before K-4 (asset swap) but landed
+after it, since the key arrived after the asset lap had already
+closed. Baseline for this lap was K-2's visuals plus K-4's WebP
+delivery from the original asset; both preserved. Five further fixes
+from Commander's continued gate review of the K-2 preview, on top of
+K-2's own three findings — scrub logic, timeline, dwell timing, and
+stop order untouched throughout.
+
+**Fix 1 — the establishing frame, rebuilt.** K-2's full-frame wash
+retired: Commander's reference wanted the statue large, centered, and
+fully present, with an elegant serif headline over her lower half, not
+a scene-wide veil. H1 now sets in Cormorant Garamond — a new
+`--font-serif` token in `tokens.css` (the repo's single source of
+type, per constitution), scoped to the hero H1 only, flagged here for
+Commander's brand-canon ratification since it's the first typeface
+added to the system outside Raleway/DM Sans. K-2's white block behind
+the H1 is gone; legibility now comes from one local gradient
+(transparent by mid-torso, ~90% ivory by the paragraph/socials) plus a
+soft text-glow on the H1 itself.
+
+One real bug caught mid-build: the first attempt anchored the content
+block to the bottom of `.kh__establish` via `justify-content:flex-end`
+to get "over her lower half" positioning — this silently reintroduced
+the exact bug K-2 already diagnosed and fixed (DÉFILER landing off-
+screen), because `.kh__pin`'s own bottom edge sits below the fold
+until sticky engages, and flex-end anchors to that edge specifically.
+Caught via `getBoundingClientRect()` on the hint element at 390 before
+it reached a screenshot. Fixed by keeping K-2's top-anchored flow and
+pushing the block down with `padding-top:40vh` instead — same "lower
+half" result, none of the bottom-anchor fragility.
+
+**Fix 2 — permanent bottom-edge fade.** `mask-image` linear-gradient
+on `.kh__film` itself (not the stage), so the fade travels with the
+image through every keyframe — establishing and exit included —
+regardless of current pan/zoom. Verified clean at the establishing
+frame, at least one stop, and exit; the mechanism is keyframe-
+independent so the other five stops inherit it identically.
+
+**Fix 3 — zoom, -25% floor 1.1.** 1.35/1.6/1.8/1.85/1.25/1.4 →
+1.1/1.2/1.35/1.4/1.1/1.1 across both the scrub `data-s` attributes and
+the static fallback's `--s` custom properties. Every stop now reads
+head-to-shoulder-plus-torso context, wider than K-2's already-loosened
+framing.
+
+**Fix 4 — dot rail, bigger and inboard.** ~2x dot diameter (9→18px
+mobile, 10→20px desktop), gaps scaled to match, rail moved in from the
+edge (28px mobile, 56px desktop — inside the 48–64px band). Real hit
+target is 44px via a `::after` pseudo-element regardless of the
+smaller visual dot, matching the site's existing `.dot`/`.dot::after`
+tap-target pattern.
+
+**Fix 5 — markers, +35% again.** Anchor dot, connector, and the shared
+big-pill label all scaled up from K-2's sizes (dot 20→27px, connector
+2px/38px→3px/51px, label 1.5rem/1.05rem+2.25rem padding→2rem/1.42rem+
+3.04rem padding). Structure unchanged from K-2: all six stops share
+the pill look; only Aréole is a real `<a>` with the chevron, cursor,
+and href — the other five stay inert `<span>`s (confirmed via DOM:
+`cursor:auto`, no `href`).
+
+Static/reduced-motion fallback rebuilt to mirror the new composition —
+was stacked (image, then copy below), now overlaid with its own local
+veil and the same serif H1, verified at 390 with the establishing
+frame and the stop crops both showing the new scales and marker sizes.
+
+Checks 1–10 run at 390/1024/1440 (1024's zoomed-stop screenshots hit
+the same post-resize compositor lag documented in K-1/K-2 — verified
+via computed styles instead: dot 27px, connector 3px/51px, label 32px,
+rail left 56px, all matching spec exactly). Aréole navigates, five
+captions confirmed inert, no horizontal scroll, below-hero pixel-
+identical (untouched this lap), `<picture>`/WebP wiring intact and
+still serving `statue-kintsugi.webp?v=2` unchanged (asset itself never
+touched, per brief).
+
+Cache: `main.css` v13→v14, `tokens.css` v6→v7 (new `--font-serif`
+token), `hero-scroll.js` v2→v3 — all bumped from the post-K-4 values
+as instructed, `hero-scroll.js` bumped on the letter of the cache law
+even though this lap made zero changes to its actual JS content
+(CSS/HTML only).
+
+Next: Commander's word on K-3 — and on the serif amendment specifically,
+since it's the first departure from the two-typeface system.
