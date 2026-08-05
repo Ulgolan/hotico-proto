@@ -1190,3 +1190,26 @@ pre-existing, real-site question). Band walk clean 768→1920.
 Cache v=10. Certified by Tower at 1522437.
 
 Next: D-7 — reviews at desktop. The last homepage section.
+
+---
+
+## Entry #21 — 2026-08-05 — LAP D-7: TÉMOIGNAGES — THE QUIET MONUMENT (desktop campaign, lap 8) — THE HOMEPAGE IS COMPOSED.
+
+The reviews section closes the homepage: single-testimonial
+stage at column-read (deliberately NOT split — reading content,
+not a media pairing), review at 58ch centered, stars scaled with
+air, review__who in quiet emphasis, dots below. Multi-card grid
+consciously declined: the shared carousel's one-slide-per-view
+math + honesty law (no lying dots) + placeholder content
+(duplicate Marina cards = Alexa product debt; RO text by design)
+made composition-over-machinery the honest call. Choreography
+(dots, drag, clamps, geometry flex-basis:100% intact) verified
+at 1024/1440; band walk clean; mobile pixel-identical. Cache
+v=11. Certified by Tower at 57ce760.
+
+MILESTONE: all six homepage sections — hero, carousel, services,
+pașii, form, reviews — now composed at desktop under the
+two-tier system. Eight laps, eight merges, zero unratified
+mobile changes.
+
+Next: the areola page at desktop — the campaign's second front.
