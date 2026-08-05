@@ -1141,3 +1141,27 @@ Reserved-stage law upheld: the gallery is a contained region,
 replaceable wholesale.
 
 Next: D-5 — pașii at desktop.
+
+---
+
+## Entry #19 — 2026-08-05 — LAP D-5: PAȘII — THE FUSED MONUMENT (desktop campaign, lap 6)
+
+Straight lap, one mid-flight re-pour. Pașii breaks out to
+content-max at the SPLIT TIER: three stately cards (cube/stone/
+sphere), opened phase presents as ONE gold-framed unit — the
+.is-focused card spans full width as a cinematic 250px banner
+(image cover, label 1.4rem centered), walk__head stays hidden at
+desktop mirroring mobile's own fusion anatomy (role assignment
+inspected, not assumed), three step columns below, zero-seam
+frame verified by geometry (shared edges, 0px gap). Builder
+caught its own display:grid-vs-[hidden] clobber and guarded it.
+Commander's eye caught the duplicate-introducer disease and
+ruled the fusion; Tower ruled phase-at-a-time switching an
+accepted focus rhythm (mobile-consistent), not a defect.
+Choreography verified at 1024/1440; band walk clean 768→1920;
+mobile pixel-identical. Known debt surfaced: pasii temp-1x
+assets soften at 1920 banner crop — joins the ACP export-debt
+pile (clean 2x exports), not introduced by this lap. Cache v=9.
+Certified by Tower at cf0f2f0.
+
+Next: D-6 — the form at desktop.
