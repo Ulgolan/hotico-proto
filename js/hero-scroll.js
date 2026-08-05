@@ -162,7 +162,7 @@
     railBtns.forEach(function (btn, idx) {
       btn.classList.toggle('is-active', idx === activeStop);
     });
-    rail.classList.toggle('is-visible', progress > 0.05 && progress < 0.999);
+    rail.classList.toggle('is-visible', progress > 0.05 && seg.type !== 'exit');
   }
 
   var raf = window.requestAnimationFrame
@@ -197,5 +197,7 @@
   });
 
   recalc();
-  update();
+  raf(update); // deferred one frame: painting the transform synchronously,
+               // before the browser's first layout/paint cycle settles,
+               // left the film layer unpainted until the next repaint trigger
 }());
