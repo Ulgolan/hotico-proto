@@ -38,6 +38,9 @@
     };
   });
   var N = STOPS.length;
+  // fy is a placeholder here — recalc() overwrites it below before first
+  // paint, and on every resize. Mutated in place (not reassigned) since
+  // the 'exit' segment's `to` holds a reference to this same object.
   var ESTABLISH_KF = { fx: 0.5, fy: 0.5, isEstablish: true };
 
   // Transitions fill whatever the locked hold/dwell/exit figures leave
@@ -67,14 +70,33 @@
 
   // ---- viewport-derived camera constants (resize-only recompute) ----
   var vw, vh, coverScale, containScale, establishScale, k;
+  var ESTABLISH_K = 0.92;     // fraction of contain-fit — "large, fully present"
+  var ESTABLISH_TOP_RATIO = 0.18; // share of the vertical slack left ABOVE the
+                                   // head; the rest goes below. A fixed fy
+                                   // (K-3's 0.5, dead center) put half the
+                                   // slack above her crown at every aspect —
+                                   // fine on tall mobile viewports where slack
+                                   // is generous, but on short/wide desktop
+                                   // viewports the image is nearly height-
+                                   // bound already, so half-above reads as a
+                                   // dead band under the header. Sizing the
+                                   // gap as a RATIO of whatever slack actually
+                                   // exists (rather than a fixed fy) keeps the
+                                   // crown clear of the header at every width
+                                   // without ever pushing it off-screen.
   function recalc() {
     vw = window.innerWidth;
     vh = window.innerHeight;
     coverScale = Math.max(vw / IMG_W, vh / IMG_H);
     containScale = Math.min(vw / IMG_W, vh / IMG_H);
-    establishScale = containScale * 0.86; // breathing room around the full statue
+    establishScale = containScale * ESTABLISH_K;
     var kRaw = 1 + ((vw / vh) / (390 / 844) - 1) * 0.18;
     k = Math.max(1, Math.min(1.35, kRaw));
+
+    var imgH = establishScale * IMG_H;
+    var slack = Math.max(0, vh - imgH);
+    // solved from: gap_top = slack/2 - imgH*(fy-0.5) = slack*ESTABLISH_TOP_RATIO
+    ESTABLISH_KF.fy = 0.5 + (slack * (0.5 - ESTABLISH_TOP_RATIO)) / imgH;
   }
 
   function getScale(kf) {
@@ -97,7 +119,7 @@
 
   function camera(seg, p) {
     if (seg.type === 'hold') {
-      return { fx: 0.5, fy: 0.5, scale: establishScale };
+      return { fx: 0.5, fy: ESTABLISH_KF.fy, scale: establishScale };
     }
     if (seg.type === 'dwell') {
       return { fx: seg.kf.fx, fy: seg.kf.fy, scale: getScale(seg.kf) };

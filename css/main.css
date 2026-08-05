@@ -122,12 +122,14 @@ button{
 html.js-kh .kh__scrub{display:block;}
 html.js-kh .kh__static{display:none;}
 
-/* K-3 FIX 1 — hero H1 only, serif, no block. Provisional typeface
-   (--font-serif, see tokens.css) pending Commander's brand-canon
-   ratification. Legibility comes from the local gradients below +
-   a soft ivory text-glow, not a hard-edged background. */
+/* K-3 FIX 1 — hero H1 positioned over her lower half, no block.
+   K-5 FIX 2 — the K-3 serif experiment was REJECTED at gate; reverted
+   to the brand heading font (see LEDGER for what it briefly was).
+   Size/position/composition otherwise unchanged from K-3. Legibility
+   comes from the local gradients below + a soft ivory text-glow, not
+   a hard-edged background. */
 .kh__h1{
-  margin:0 0 .6rem;font-family:var(--font-serif);font-weight:600;
+  margin:0 0 .6rem;font-family:var(--font-head);font-weight:700;
   font-size:clamp(2.25rem,9vw,3.25rem);line-height:1.12;
   color:var(--cocoa);text-align:center;
   text-shadow:0 0 28px rgba(245,245,245,.85),0 0 12px rgba(245,245,245,.85);
@@ -242,16 +244,18 @@ html.js-kh .kh__static{display:none;}
   width:100%;
 }
 
-/* K-2 FIX 2 — the scroll invitation, unchanged this lap: flows right
-   below the socials (not pinned to the pin's absolute bottom, which
-   lands off-screen before sticky engages — see K-2 LEDGER). Gold. */
+/* K-2 FIX 2 — the scroll invitation: flows right below the socials
+   (not pinned to the pin's absolute bottom, which lands off-screen
+   before sticky engages — see K-2 LEDGER). K-5 FIX 3 — switched from
+   gold to the brand ink; gold read as inconsistent against the
+   heading/body color system. Size/tracking/position unchanged. */
 .kh__hint{
   margin:1rem 0 0;display:flex;flex-direction:column;align-items:center;
 }
-.kh__hint-line{width:1px;height:30px;background:var(--gold);margin:0 0 .5rem;}
+.kh__hint-line{width:1px;height:30px;background:var(--cocoa);margin:0 0 .5rem;}
 .kh__hint-label{
   font-family:var(--font-body);font-size:.75rem;letter-spacing:.28em;
-  text-transform:uppercase;color:var(--gold);
+  text-transform:uppercase;color:var(--cocoa);
 }
 
 .kh__stops{position:absolute;inset:0;list-style:none;margin:0;padding:0;pointer-events:none;}
