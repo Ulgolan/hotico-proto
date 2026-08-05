@@ -1119,3 +1119,25 @@ grade widths.
 
 Next: section laps (servicii, pașii, form, reviews) inherit the
 two-tier grammar.
+
+---
+
+## Entry #18 — 2026-08-05 — LAP D-4: SERVICES — THE GALLERY (desktop campaign, lap 5)
+
+Second triptych outing: three services compositions (A gallery /
+B atlas / C procession) built CSS-only behind a ?svc= dev toggle,
+all scoped to the SPLIT TIER. Commander's eye chose A — 3×2 card
+grid at content-max, opened panels grow their row, ba sliders
+fully draggable in-card. B's display:contents stage (and its
+abundance-overlap limitation) honestly reported, judged, and
+declined with the variant. Toggle and losers stripped at seal;
+params verified inert. Choreography (arrow, abundance, drag +
+clamps, navigation, no-scroll) verified at 1024 and 1440; band
+walk clean 768→1920; mobile pixel-identical. Seal note: ba
+overflow clips the pinned handle to a sliver at 0/100 — correct
+behavior, recorded for future verifiers. Net diff vs main: 13 CSS
+lines + cache v=8. Certified by Tower at 62f0dd4.
+Reserved-stage law upheld: the gallery is a contained region,
+replaceable wholesale.
+
+Next: D-5 — pașii at desktop.
