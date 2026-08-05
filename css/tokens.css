@@ -3,6 +3,9 @@
   --hotico-pink:#FE0990; --field-gray:#D9D9D9;
   --font-head:'Raleway',sans-serif;
   --font-body:'DM Sans',sans-serif;
+  /* K-3 exception, hero H1 only — provisional, pending Commander's
+     brand-canon ratification. Not a general third typeface. */
+  --font-serif:'Cormorant Garamond',serif;
   --shadow-neo: 5px 5px 7px rgba(0,0,0,.15),
     2px 2px 2px rgba(0,0,0,.05),
     -5px -5px 7px rgba(255,255,255,.4),

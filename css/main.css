@@ -122,43 +122,58 @@ button{
 html.js-kh .kh__scrub{display:block;}
 html.js-kh .kh__static{display:none;}
 
-/* shared: the H1's white block, hugging the text, whisper-soft shadow */
-.kh__h1{margin:0 0 1rem;font-family:var(--font-head);font-weight:700;
-  font-size:1.5rem;line-height:1.3;text-align:center;}
-.kh__h1 span{
-  background:var(--white);display:inline;border-radius:4px;
-  padding:.3rem .6rem;box-shadow:0 2px 14px rgba(0,0,0,.07);
-  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+/* K-3 FIX 1 — hero H1 only, serif, no block. Provisional typeface
+   (--font-serif, see tokens.css) pending Commander's brand-canon
+   ratification. Legibility comes from the local gradients below +
+   a soft ivory text-glow, not a hard-edged background. */
+.kh__h1{
+  margin:0 0 .6rem;font-family:var(--font-serif);font-weight:600;
+  font-size:clamp(2.25rem,9vw,3.25rem);line-height:1.12;
+  color:var(--cocoa);text-align:center;
+  text-shadow:0 0 28px rgba(245,245,245,.85),0 0 12px rgba(245,245,245,.85);
 }
-.kh__intro{font-size:.9375rem;line-height:1.5;text-align:center;
-  margin:0 0 1.4rem;max-width:34ch;}
+.kh__intro{font-size:.8125rem;line-height:1.45;text-align:center;
+  margin:0 0 .85rem;max-width:55ch;color:var(--cocoa);}
 
-/* K-2 FIX 3 — the big pill. ALL six stops share this look: rounded,
-   ivory-filled, gold-bordered, neo shadow. Aréole (an <a>) is the ONE
-   live CTA — it alone carries the chevron and gets a pointer cursor
-   for free from being a real link. The other five are <span>s: no
-   href, no chevron, no pointer, nothing pretends to be clickable. */
+/* K-2 FIX 3 / K-3 FIX 5 — the big pill, sized up again. ALL six stops
+   share this look: rounded, ivory-filled, gold-bordered, neo shadow.
+   Aréole (an <a>) is the ONE live CTA — it alone carries the chevron
+   and gets a pointer cursor for free from being a real link. The
+   other five are <span>s: no href, no chevron, no pointer, nothing
+   pretends to be clickable. */
 .kh__caption{display:flex;flex-direction:column;align-items:center;}
 .kh__caption-dot{
-  width:20px;height:20px;border-radius:50%;background:var(--gold);
-  box-shadow:0 0 0 4px rgba(201,168,106,.25);
+  width:27px;height:27px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 5px rgba(201,168,106,.25);
 }
-.kh__caption-line{width:2px;height:38px;background:var(--gold-line);margin:.4rem 0;}
+.kh__caption-line{width:3px;height:51px;background:var(--gold-line);margin:.5rem 0;}
 .kh__caption-label{
-  display:inline-flex;align-items:center;gap:.4rem;
-  font-family:var(--font-body);font-weight:600;font-size:1.5rem;
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--font-body);font-weight:600;font-size:2rem;
   letter-spacing:.03em;color:var(--cocoa);text-decoration:none;
   background:var(--ivory);border:1px solid var(--gold-line);
-  border-radius:999px;padding:1.05rem 2.25rem;
+  border-radius:999px;padding:1.42rem 3.04rem;
   box-shadow:var(--shadow-neo);white-space:nowrap;
 }
-.kh__chevron{font-size:1.2rem;line-height:1;}
+.kh__chevron{font-size:1.6rem;line-height:1;}
 
-/* ---- .kh__static — no-JS / reduced-motion baseline ---- */
+/* ---- .kh__static — no-JS / reduced-motion baseline ----
+   K-3: rebuilt to mirror the scrub establishing frame's composition —
+   statue in normal flow (sets the frame's height), copy overlaid on
+   her lower half via a local gradient, same as the pinned version. */
 
-.kh__static-img{width:100%;height:auto;}
-
-.kh__static-copy{padding:1.5rem 1.5rem 2rem;}
+.kh__static-frame{position:relative;}
+.kh__static-img{width:100%;height:auto;display:block;}
+.kh__static-veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,
+    var(--ivory) 0%, rgba(245,245,245,.9) 30%, rgba(245,245,245,0) 58%);
+}
+.kh__static-copy{
+  position:absolute;left:0;right:0;bottom:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.5rem 1.5rem 2rem;
+}
 
 .kh__static-stops{list-style:none;margin:0;padding:0 1.5rem 2rem;}
 
@@ -190,52 +205,48 @@ html.js-kh .kh__static{display:none;}
   width:1024px;height:1536px;max-width:none;
   transform-origin:0 0;
   will-change:transform;
+  /* K-3 FIX 2 — permanent bottom-edge fade. Travels WITH the image
+     (baked into the film layer itself, pre-transform), so it stays
+     aligned to the statue's actual bottom edge at every keyframe —
+     establishing and exit included — regardless of current pan/zoom. */
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 88%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 88%,transparent 100%);
 }
 
+/* K-3 FIX 1 — establishing frame rebuilt. Commander's reference: a
+   large, fully-present statue, centered, un-washed; serif headline
+   over her lower half; identity content beneath. No global veil this
+   time — content is pushed to the bottom of the frame (flex-end) so
+   it naturally lands over the lower body, and .kh__veil is now a
+   single LOCAL gradient scoped to that same bottom zone: fully
+   transparent by her mid-torso (head/shoulders/upper torso stay
+   completely clear), ~90% ivory by the time it reaches the paragraph/
+   socials. */
 .kh__establish{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
-  text-align:center;padding:2.5rem 1.75rem 1.5rem;
+  text-align:center;padding:40vh 1.75rem 1.5rem;
   opacity:1;transition:none;
 }
 .kh__establish.is-hidden{pointer-events:none;}
 
-/* K-2 FIX 1 — the white veil: statue's lower half melts into the page
-   ivory behind the establishing text, transparent -> ~88% ivory, so
-   the intro paragraph and socials (which carry no background of their
-   own) read clearly without fighting the marble. Sits behind the
-   copy, fades with the rest of the establishing UI. */
 .kh__veil{
   position:absolute;inset:0;pointer-events:none;
   background:linear-gradient(to top,
-    var(--ivory) 0%, rgba(245,245,245,.88) 42%, rgba(245,245,245,0) 78%);
+    var(--ivory) 0%, rgba(245,245,245,.94) 34%, rgba(245,245,245,0) 62%);
 }
 
-/* Second, content-anchored veil layer: the outer .kh__veil is tied to
-   the viewport (bottom-anchored scene treatment per brief), but its
-   percentage stops land wherever the viewport says regardless of
-   where the (variably-wrapping) text actually sits — at short/wide
-   viewports the copy block sits entirely in the outer veil's
-   transparent zone. This one is sized to the copy's own box instead,
-   so legibility holds no matter how much the text wraps. */
 .kh__establish-copy{
   position:relative;z-index:1;
   display:flex;flex-direction:column;align-items:center;
-  padding:1.25rem 1.5rem 1.75rem;border-radius:28px;
-  background:radial-gradient(ellipse 68% 70% at 50% 42%,
-    rgba(245,245,245,.92) 0%, rgba(245,245,245,.92) 40%,
-    rgba(245,245,245,.55) 72%, rgba(245,245,245,0) 100%);
+  width:100%;
 }
 
-/* K-2 FIX 2 — the scroll invitation. Flows naturally right below the
-   socials (NOT pinned to the pin's absolute bottom): at rest, before
-   the pin has engaged, the pin's own box extends below the fold by
-   the header's height, so a bottom-anchored hint was landing off-
-   screen. In-flow, it's guaranteed visible with the rest of the
-   establishing content. Gold, not cocoa — the establishing frame's
-   one call-to-action. */
+/* K-2 FIX 2 — the scroll invitation, unchanged this lap: flows right
+   below the socials (not pinned to the pin's absolute bottom, which
+   lands off-screen before sticky engages — see K-2 LEDGER). Gold. */
 .kh__hint{
-  margin:1.75rem 0 0;display:flex;flex-direction:column;align-items:center;
+  margin:1rem 0 0;display:flex;flex-direction:column;align-items:center;
 }
 .kh__hint-line{width:1px;height:30px;background:var(--gold);margin:0 0 .5rem;}
 .kh__hint-label{
@@ -255,36 +266,43 @@ html.js-kh .kh__static{display:none;}
   transition:opacity .45s ease .3s,transform .45s ease .3s;
 }
 
+/* K-3 FIX 4 — dot rail, bigger and moved inboard. Real hit area is
+   44px via ::after regardless of the smaller visual dot. */
 .kh__rail{
-  position:fixed;left:1.1rem;top:50%;transform:translateY(-50%);
-  display:flex;flex-direction:column;gap:.65rem;z-index:20;
+  position:fixed;left:1.75rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:1.3rem;z-index:20;
   opacity:0;pointer-events:none;transition:opacity .3s ease;
 }
 .kh__rail.is-visible{opacity:1;pointer-events:auto;}
 
 .kh__railbtn{
-  width:9px;height:9px;border-radius:50%;
-  border:1.5px solid var(--gold);background:transparent;
+  position:relative;
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--gold);background:transparent;
   transition:transform .25s ease,background-color .25s ease;
+}
+.kh__railbtn::after{
+  content:"";position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);width:44px;height:44px;
 }
 .kh__railbtn.is-active{background:var(--gold);transform:scale(1.22);}
 .kh__railbtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
 .kh__caption-label:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
 .socials{
-  list-style:none;margin:0 0 2rem;padding:0;
-  display:flex;justify-content:center;gap:1.4rem;
+  list-style:none;margin:0 0 .85rem;padding:0;
+  display:flex;justify-content:center;gap:1rem;
 }
 
 .social{
   display:flex;align-items:center;justify-content:center;
-  width:52px;height:52px;border-radius:50%;
+  width:44px;height:44px;border-radius:50%;
   background:var(--gold);
   box-shadow:var(--shadow-neo);
 }
 
 .social svg{
-  width:27px;height:27px;
+  width:23px;height:23px;
   fill:none;stroke:var(--white);stroke-width:1.7;
   stroke-linejoin:round;
 }
@@ -1337,10 +1355,10 @@ html.js-kh .kh__static{display:none;}
 @media (min-width:1024px){
   /* ---- K-1 HERO — GATE 1: DESKTOP FULL-BLEED. The pinned scrub
      reads larger; establish/caption type scales up with it. ---- */
-  .kh__h1{font-size:clamp(2rem,3.5vw,2.75rem);}
-  .kh__intro{font-size:1rem;max-width:44ch;}
-  .kh__rail{left:2rem;gap:.85rem;}
-  .kh__railbtn{width:10px;height:10px;}
+  .kh__h1{font-size:clamp(3rem,5vw,4.5rem);}
+  .kh__intro{font-size:1rem;}
+  .kh__rail{left:3.5rem;gap:1.7rem;}
+  .kh__railbtn{width:20px;height:20px;}
   .kh__static-copy{max-width:var(--content-max);margin-inline:auto;padding:2rem 2rem 2.5rem;}
   .kh__static-stops{
     max-width:var(--content-max);margin-inline:auto;padding:0 2rem 2.5rem;
