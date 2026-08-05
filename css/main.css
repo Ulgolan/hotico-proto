@@ -1254,48 +1254,17 @@ button{
     margin:0 0 .5rem;
   }
 
-  /* ---- D-4 SERVICES TRIPTYCH (exploration, dev toggle ?svc=a|b|c) ---- */
-
-  /* Variant A — THE GALLERY: 3-col/2-row card grid, scannable institute wall */
-  html[data-svc="a"] .servicii.wrap{
+  /* ---- D-4 SERVICES — THE GALLERY: 3-col/2-row card grid,
+     scannable institute wall (crowned at the D-4 eye-gate) ---- */
+  .servicii.wrap{
     max-width:var(--content-max);
     margin-inline:auto;
   }
-  html[data-svc="a"] .pills{
+  .pills{
     display:grid;
     grid-template-columns:repeat(3,minmax(0,1fr));
     gap:2rem;
   }
-  html[data-svc="a"] .pill-wrap{min-width:0;}
-
-  /* Variant B — THE ATLAS: compact index left, one tall media stage right.
-     .pill-wrap goes display:contents so .pill/.panel become direct grid
-     children of .pills — the only CSS-only route to a shared stage column
-     without touching the pills JS (which walks .pill-wrap > .pill/.panel
-     via closest()/querySelector(), unaffected by display:contents). */
-  html[data-svc="b"] .servicii.wrap{
-    max-width:var(--content-max);
-    margin-inline:auto;
-  }
-  html[data-svc="b"] .pills{
-    display:grid;
-    grid-template-columns:min(280px,30%) minmax(0,1fr);
-    grid-template-rows:repeat(6,auto);
-    column-gap:3rem;
-    row-gap:1rem;
-    align-items:start;
-  }
-  html[data-svc="b"] .pill-wrap{display:contents;}
-  html[data-svc="b"] .pill{grid-column:1;min-width:0;}
-  html[data-svc="b"] .panel{
-    grid-column:2;
-    grid-row:1/-1;
-    align-self:start;
-  }
-
-  /* Variant C — THE PROCESSION: the mobile soul, dignified and generous */
-  html[data-svc="c"] .pills{gap:2rem;}
-  html[data-svc="c"] .pill{height:96px;}
-  html[data-svc="c"] .pill__label{font-size:1.25rem;}
+  .pill-wrap{min-width:0;}
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
