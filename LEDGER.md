@@ -1359,3 +1359,64 @@ content pixel-identical (untouched this lap). Cache v12→v13
 Next: Commander's word on K-2, then resume wherever the Tower routes —
 areola desktop lap, or the next K-series fix if the gate isn't clean
 yet.
+
+---
+
+## Entry #24 — 2026-08-05 — LAP K-4: STATUE ASSET SWAP — ABANDONED, WEBP SHIPPED FROM ORIGINAL
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+
+ACP hand-delivered a 4x upscale of the statue asset (1024×1536 →
+4096×6144, palette+tRNS alpha intact, same geometry as production —
+Tower-verified before this lap opened, so no fx/fy retuning was in
+scope). Committed it, generated a WebP (657KB at quality 82 — already
+under the ~800KB budget, no downscale needed), wired `<picture>`/
+`<source>` with PNG fallback across all eight image references,
+updated width/height attributes to the new intrinsic size. The K-4
+addendum's added check — inspect the smooth upper-chest marble at a
+stop for banding from the source's 256-color palette — is why this
+lap exists: it FAILED. Extracted the exact on-screen crop (same fx/fy/
+scale math the browser uses) from both the PNG and WebP and viewed
+them directly: visible tonal stepping in the shadow gradient,
+identical in both formats. That identical-in-both-formats result is
+the diagnostic that matters — it rules out WebP compression as the
+cause and confirms the banding was baked into the upscale tool's
+8-bit/256-color output. A pixel scanline through the shadow region
+confirmed it objectively (runs of 7–13 identical consecutive pixel
+values where a clean gradient would show none). Per the addendum:
+reported the finding and stopped, did not attempt a code fix — a
+palette-quantized source has no code-side remedy.
+
+**Commander's ruling: upscale abandoned, tools destroyed the alpha's
+color fidelity.** Ship WebP delivery from the ORIGINAL asset instead.
+Restored `assets/img/statue-kintsugi.png` (1024×1536, true RGBA, alpha
+intact — `git show e0ec3d1:...`, the commit before the upscale
+attempt) and kept the `<picture>`/WebP wiring built for this lap:
+regenerated the WebP from the original (299KB at quality 82), width/
+height attributes reverted to 1024×1536, preload repointed at the
+WebP. Re-ran the banding check against the original-sourced WebP:
+clean, as expected — confirms the artifact was specific to the failed
+upscale, not the delivery pipeline built this lap. `.kh__film`'s CSS
+box was never touched (stayed hard-coded at 1024×1536 throughout this
+whole lap, upscale attempt included) — the JS transform math never
+needed to change, in or out of the abandoned upscale.
+
+Visual pass at 390 + 1440: establishing composition and anchor
+placement unchanged from K-2 (expected — same asset content as before
+K-4 ever started, only the delivery format changed); no horizontal
+scroll; below-hero untouched. Squashed the lap's three working commits
+(asset swap, blocked WebP-wiring WIP, revert-to-original) into one
+clean commit before push — the intermediate "swapped to 4096, found
+banding, reverted" sequence was never pushed, so no shared history to
+preserve.
+
+**Resolution debt: ACCEPTED as proto debt by Commander's ruling — NOT
+closed.** The interim ~1024px asset ships. A future upscale, if
+attempted again, needs tooling that preserves full-color depth (not
+palette-quantized) — the alpha-preservation angle was never the
+problem, the color depth was.
+
+Cache-bust convention introduced for this asset in K-4 (`?v=N` query
+param, none existed before): now at `v=2` after this lap's revert.
+
+Next: Commander's word on K-4, then resume wherever the Tower routes.
