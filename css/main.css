@@ -1315,6 +1315,7 @@ button{
     grid-template-columns:minmax(0,1fr) min(600px,46vw);
     align-items:center;
     gap:3rem;
+    padding-block-start:2.5rem; /* air above the card — re-pourable */
   }
   .programare__text{min-width:0;}
   .programare__h{
