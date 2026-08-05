@@ -1213,3 +1213,83 @@ two-tier system. Eight laps, eight merges, zero unratified
 mobile changes.
 
 Next: the areola page at desktop — the campaign's second front.
+
+---
+
+## Entry #22 — 2026-08-05 — LAP K-1: KINTSUGI SCROLL HERO — THE FRONT DOOR
+
+Branch `k-1-kintsugi-hero`. Hero replaced on all tiers by Commander's
+order — NN1 exception on record. Not a D-campaign lap: the ignition
+key came directly from ACP, out of band from the desktop-split system,
+and intentionally breaks the mobile-zero law that has governed every
+lap since D-1.
+
+The old hero (torso image, centered tagline, intro, socials) is gone.
+In its place: a full-viewport pinned hero where a virtual camera
+pans/zooms across the kintsugi statue between 6 locked keyframes,
+scrubbed by native scroll (translate3d + scale + opacity only, no
+wheel/touch interception). Establishing frame — H1 on a white block,
+intro, existing gold social row, "DÉFILER" hint — fades over the first
+3.5% of scroll progress, opacity only, never unmounted. Smootherstep
+easing between stops; zoom interpolates in log space for constant
+perceived speed. Aréole is the one live CTA (real pill, real href);
+Alopécie, Sourcils, Eyeliner, Lèvres, Cicatrices render as
+non-interactive captions — gold dot, hairline connector, label, no
+href, no pointer, nothing pretending to be clickable. Dot rail, fixed
+left, navigates to any stop's mid-dwell. Exit pulls the camera back to
+the establishing frame over the final 9% of timeline; the section
+releases only once the full statue is back in frame, no UI reappears
+during pull-back.
+
+GATE 1 (desktop full-bleed) fell out for free: the new `.kh` section
+carries no `.wrap`, so it was never subject to the column-read/
+content-max constraints the D-campaign built for every other section —
+full-bleed at ≥1024 and edge-to-edge below it needed no extra rule.
+
+Reduced-motion / no-JS baseline shares the same markup: six statue
+crops (CSS transform, same fx/fy/s as the live keyframes) stacked with
+their captions/pill, plus the H1/intro/Aréole link as plain elements —
+this is what ships with scripts disabled, and is also what
+`prefers-reduced-motion: reduce` gets, gated by a synchronous script in
+`<head>` that stamps `html.js-kh` before first paint so neither markup
+ever flashes into the other.
+
+**D-2 retired.** The desktop hero-split rules from the D-campaign
+(`.hero` grid, `.hero__torso`, `.hero .wrap`, `.hero__tagline`,
+`.hero__intro` desktop override, plus the now-orphaned mobile-tier
+`.hero__torso`/`.hero__tagline`/`.hero__intro` base rules) are gone
+from `css/main.css` — superseded by K-1, not merely covered by it.
+D-3 through D-7 untouched.
+
+New `js/hero-scroll.js?v=1`, loaded on `index.html` only —
+`main.js`/`form.js`/`areola.js` untouched, per brief. One build-time
+bug caught and fixed before the eye-gate: the sitewide
+`img{max-width:100%}` rule was clamping the film layer's pre-transform
+box, breaking the fx/fy/scale math; pinned an explicit 1024×1536 on
+`.kh__film`. A second fix deferred the first camera paint one rAF
+tick — painting the transform synchronously, before the browser's
+first layout/paint cycle settled, left the layer unpainted until the
+next repaint trigger.
+
+Choreography verified at 390/768/1024/1440: six stops land on their
+body zones (camera reads as one continuous descent, one breath out on
+exit); Aréole pill navigates to `servicii/areola.html`; the five
+captions carry no interactive affordance; dot rail is keyboard-operable
+with visible focus; static/reduced-motion layout confirmed (same six
+crops, same Aréole link, no scrub); no horizontal scroll at any tier;
+below-hero content pixel-identical, band-through-reviews unaffected.
+
+**Resolution debt (asset law):** `assets/img/statue-kintsugi.png` ships
+at ~1024×1536 — accepted interim per the ignition key. The upscale swap
+is a future lap, asset-only, no code changes expected.
+
+**Five-caption debt:** Alopécie, Sourcils, Eyeliner, Lèvres, Cicatrices
+have no destination pages yet — they stay captions, not pills, by
+design (LINK LAW). Each upgrades to a live pill in its own future lap
+as the corresponding service page ships, same pattern Aréole just set.
+
+Cache v11→v12 on all three pages. PR open, not merged — awaiting
+Commander's eye.
+
+Next: ACP's word on K-1, then resume the D-campaign at the areola page
+desktop lap — or wherever the Tower routes next.
