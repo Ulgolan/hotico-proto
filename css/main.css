@@ -1305,5 +1305,34 @@ button{
   }
   .walk__body[hidden]{display:none;}
   .walk__step{margin-bottom:0;padding:0;}
+
+  /* ---- D-6 PROGRAMARE — THE FORM SPLIT: voice left, form right,
+     completing the page's decisive moment ---- */
+  .programare.wrap{
+    max-width:var(--content-max);
+    margin-inline:auto;
+    display:grid;
+    grid-template-columns:minmax(0,1fr) min(600px,46vw);
+    align-items:center;
+    gap:3rem;
+    padding-block-start:2.5rem; /* air above the card — re-pourable */
+  }
+  .programare__text{min-width:0;}
+  .programare__h{
+    text-align:left;
+    font-size:clamp(1.75rem,2.5vw,2.25rem);
+  }
+  .programare__sub{
+    text-align:left;
+    max-width:46ch;
+  }
+  .programare__form{
+    min-width:0;
+    border:1px solid var(--gold-line);
+    border-radius:14px;
+    background:var(--card);
+    box-shadow:var(--shadow-neo);
+    padding:2rem 2rem 2.25rem;
+  }
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
