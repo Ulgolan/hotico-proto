@@ -133,27 +133,26 @@ html.js-kh .kh__static{display:none;}
 .kh__intro{font-size:.9375rem;line-height:1.5;text-align:center;
   margin:0 0 1.4rem;max-width:34ch;}
 
-/* shared: the Aréole pill — the ONE live CTA */
-.kh__pill{
-  display:inline-flex;align-items:center;gap:.35rem;
-  padding:.65rem 1.4rem;border-radius:999px;
-  background:var(--ivory);border:1px solid var(--gold-line);
-  color:var(--cocoa);font-family:var(--font-body);font-weight:600;
-  font-size:.9375rem;text-decoration:none;box-shadow:var(--shadow-neo);
-  white-space:nowrap;
-}
-
-/* shared: the non-interactive caption — dot, hairline, label. No
-   border, no chevron, no href, no pointer: nothing pretends to be
-   clickable. */
+/* K-2 FIX 3 — the big pill. ALL six stops share this look: rounded,
+   ivory-filled, gold-bordered, neo shadow. Aréole (an <a>) is the ONE
+   live CTA — it alone carries the chevron and gets a pointer cursor
+   for free from being a real link. The other five are <span>s: no
+   href, no chevron, no pointer, nothing pretends to be clickable. */
 .kh__caption{display:flex;flex-direction:column;align-items:center;}
-.kh__caption-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);}
-.kh__caption-line{width:1px;height:34px;background:var(--gold-line);margin:.3rem 0;}
-.kh__caption-label{
-  font-family:var(--font-body);font-size:.8125rem;letter-spacing:.03em;
-  color:var(--cocoa);background:rgba(245,245,245,.88);
-  padding:.3rem .7rem;border-radius:3px;white-space:nowrap;
+.kh__caption-dot{
+  width:20px;height:20px;border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 4px rgba(201,168,106,.25);
 }
+.kh__caption-line{width:2px;height:38px;background:var(--gold-line);margin:.4rem 0;}
+.kh__caption-label{
+  display:inline-flex;align-items:center;gap:.4rem;
+  font-family:var(--font-body);font-weight:600;font-size:1.5rem;
+  letter-spacing:.03em;color:var(--cocoa);text-decoration:none;
+  background:var(--ivory);border:1px solid var(--gold-line);
+  border-radius:999px;padding:1.05rem 2.25rem;
+  box-shadow:var(--shadow-neo);white-space:nowrap;
+}
+.kh__chevron{font-size:1.2rem;line-height:1;}
 
 /* ---- .kh__static — no-JS / reduced-motion baseline ---- */
 
@@ -167,8 +166,7 @@ html.js-kh .kh__static{display:none;}
   position:relative;aspect-ratio:4/5;overflow:hidden;
   border-radius:10px;margin:0 0 .9rem;background:var(--card);
 }
-.kh__static-stop .kh__caption,
-.kh__static-stop .kh__pill{
+.kh__static-stop .kh__caption{
   position:absolute;left:50%;bottom:.9rem;transform:translateX(-50%);
 }
 
@@ -196,20 +194,53 @@ html.js-kh .kh__static{display:none;}
 
 .kh__establish{
   position:absolute;inset:0;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  text-align:center;padding:2rem 1.75rem;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  text-align:center;padding:2.5rem 1.75rem 1.5rem;
   opacity:1;transition:none;
 }
 .kh__establish.is-hidden{pointer-events:none;}
 
-.kh__hint{
-  position:absolute;left:50%;bottom:1.75rem;transform:translateX(-50%);
-  margin:0;display:flex;flex-direction:column;align-items:center;
+/* K-2 FIX 1 — the white veil: statue's lower half melts into the page
+   ivory behind the establishing text, transparent -> ~88% ivory, so
+   the intro paragraph and socials (which carry no background of their
+   own) read clearly without fighting the marble. Sits behind the
+   copy, fades with the rest of the establishing UI. */
+.kh__veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,
+    var(--ivory) 0%, rgba(245,245,245,.88) 42%, rgba(245,245,245,0) 78%);
 }
-.kh__hint-line{width:1px;height:28px;background:var(--cocoa);margin:0 0 .5rem;}
+
+/* Second, content-anchored veil layer: the outer .kh__veil is tied to
+   the viewport (bottom-anchored scene treatment per brief), but its
+   percentage stops land wherever the viewport says regardless of
+   where the (variably-wrapping) text actually sits — at short/wide
+   viewports the copy block sits entirely in the outer veil's
+   transparent zone. This one is sized to the copy's own box instead,
+   so legibility holds no matter how much the text wraps. */
+.kh__establish-copy{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.25rem 1.5rem 1.75rem;border-radius:28px;
+  background:radial-gradient(ellipse 68% 70% at 50% 42%,
+    rgba(245,245,245,.92) 0%, rgba(245,245,245,.92) 40%,
+    rgba(245,245,245,.55) 72%, rgba(245,245,245,0) 100%);
+}
+
+/* K-2 FIX 2 — the scroll invitation. Flows naturally right below the
+   socials (NOT pinned to the pin's absolute bottom): at rest, before
+   the pin has engaged, the pin's own box extends below the fold by
+   the header's height, so a bottom-anchored hint was landing off-
+   screen. In-flow, it's guaranteed visible with the rest of the
+   establishing content. Gold, not cocoa — the establishing frame's
+   one call-to-action. */
+.kh__hint{
+  margin:1.75rem 0 0;display:flex;flex-direction:column;align-items:center;
+}
+.kh__hint-line{width:1px;height:30px;background:var(--gold);margin:0 0 .5rem;}
 .kh__hint-label{
-  font-family:var(--font-body);font-size:.6875rem;letter-spacing:.22em;
-  text-transform:uppercase;color:var(--cocoa);
+  font-family:var(--font-body);font-size:.75rem;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--gold);
 }
 
 .kh__stops{position:absolute;inset:0;list-style:none;margin:0;padding:0;pointer-events:none;}
@@ -238,7 +269,7 @@ html.js-kh .kh__static{display:none;}
 }
 .kh__railbtn.is-active{background:var(--gold);transform:scale(1.22);}
 .kh__railbtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
-.kh__pill:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
+.kh__caption-label:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
 .socials{
   list-style:none;margin:0 0 2rem;padding:0;

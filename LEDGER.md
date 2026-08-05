@@ -1293,3 +1293,69 @@ Commander's eye.
 
 Next: ACP's word on K-1, then resume the D-campaign at the areola page
 desktop lap — or wherever the Tower routes next.
+
+---
+
+## Entry #23 — 2026-08-05 — LAP K-2: KINTSUGI HERO — GATE FIXES
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Commander's gate review of the K-1 preview surfaced three visual
+findings; scrub logic, timeline, dwell timing and stop order untouched
+per brief.
+
+**Finding 1 — establishing legibility.** The intro paragraph sat raw
+on the statue. Added a two-layer veil: an outer bottom-anchored ivory
+gradient on `.kh__establish` (the scene treatment named in the brief)
+plus a second veil sized to the copy block's own box
+(`.kh__establish-copy`, radial gradient, percentages relative to its
+own dimensions) rather than to the viewport. The outer-only version
+read fine at 390 but failed at 1440: shorter viewport, shorter
+(4-line, not 6-line) wrapped paragraph, so the copy sat almost
+entirely in the outer veil's transparent zone — caught on a 1440
+screenshot before it shipped. The content-anchored layer holds
+regardless of how the text wraps. H1 white block kept (per the brief's
+"when in doubt, keep it" — the veil alone tested legible without it,
+but no reason to spend the eye-gate on that swap too).
+
+**Finding 2 — DÉFILER.** Gold now (was cocoa), wider tracking, and
+moved from `position:absolute;bottom` to normal flow directly below
+the socials. Root cause of "below the fold": `.kh__pin` is `height:
+100vh` but sits in normal flow until sticky engages — at scroll 0 it
+starts below the header, so its own bottom (where the hint used to be
+pinned) was rendering ~header-height off-screen. Flowing the hint
+after the content sidesteps the sticky-not-yet-engaged geometry
+entirely instead of fighting it with an offset.
+
+**Finding 3 — stop framing + markers, the big one.** New scales landed
+exactly as briefed (Alopécie 1.35, Sourcils 1.6, Eyeliner 1.8, Lèvres
+1.85, Cicatrices 1.25, Aréole 1.4; fx/fy and k untouched). Every stop
+now reads head-to-shoulder or torso-with-context instead of forensic
+skin. Markers: anchor dot 9px→20px with a soft gold ring, connector
+1px→2px/34px→38px, and the caption label rebuilt as one shared
+"big pill" class (1.5rem type, 1.05rem/2.25rem padding, solid ivory +
+gold border + neo shadow) used by all six stops. Aréole's markup was
+restructured to match the other five's dot+connector+label anatomy —
+it's now the same pill with a chevron and a real `<a>` instead of a
+separate freestanding pill; the five others stay `<span>`, no href, no
+chevron, no pointer. `.kh__pill` retired as a class, folded into
+`.kh__caption-label`. Static/reduced-motion crops got the same scales
+and the same marker rebuild, verified separately — this fallback
+shares no runtime code with the scrub path, so both had to be checked.
+
+Interim ~1000px asset held up fine at the new, wider crops — if
+anything the framing fix reduces the upscale debt's visibility (less
+magnification per stop than K-1 shipped).
+
+Checks 1–8 from the key run at 390/1024/1440 plus reduced-motion:
+establishing text legible at every width tested (1440 required the
+Finding-1 fix to pass); DÉFILER gold and above the fold everywhere;
+all six stops pass know-where-you-are; marker proportions consistent
+across all six; Aréole still navigates, five captions confirmed inert
+(`<span>`, no href, `cursor:auto`) via DOM inspection; reduced-motion
+crops re-verified with the new scales; no horizontal scroll; below-hero
+content pixel-identical (untouched this lap). Cache v12→v13
+(`main.css`), v1→v2 (`hero-scroll.js`).
+
+Next: Commander's word on K-2, then resume wherever the Tower routes —
+areola desktop lap, or the next K-series fix if the gate isn't clean
+yet.
