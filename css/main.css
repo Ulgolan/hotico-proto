@@ -1253,5 +1253,18 @@ button{
     font-size:clamp(1.5rem,2.2vw,1.9rem);
     margin:0 0 .5rem;
   }
+
+  /* ---- D-4 SERVICES — THE GALLERY: 3-col/2-row card grid,
+     scannable institute wall (crowned at the D-4 eye-gate) ---- */
+  .servicii.wrap{
+    max-width:var(--content-max);
+    margin-inline:auto;
+  }
+  .pills{
+    display:grid;
+    grid-template-columns:repeat(3,minmax(0,1fr));
+    gap:2rem;
+  }
+  .pill-wrap{min-width:0;}
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
