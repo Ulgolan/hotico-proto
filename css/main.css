@@ -1334,5 +1334,32 @@ button{
     box-shadow:var(--shadow-neo);
     padding:2rem 2rem 2.25rem;
   }
+
+  /* ---- D-7 TÉMOIGNAGES — THE QUIET MONUMENT: reads, doesn't
+     split. Section holds var(--column-read) — a single testimonial
+     stage, not a media pairing. ---- */
+  .reviews .review{
+    max-width:58ch;
+    margin-inline:auto;
+    text-align:center;
+    padding-block:1.75rem;
+  }
+  .reviews .stars{
+    justify-content:center;
+    gap:.15rem;
+    margin-bottom:1.4rem;
+  }
+  .reviews .stars svg{
+    width:21px;height:21px;
+  }
+  .reviews .review__text{
+    font-size:1.0625rem;
+    line-height:1.65;
+    margin:0 0 1.6rem;
+  }
+  .reviews .review__who{
+    font-weight:600;
+    letter-spacing:.03em;
+  }
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
