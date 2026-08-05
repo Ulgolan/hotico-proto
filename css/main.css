@@ -1266,5 +1266,44 @@ button{
     gap:2rem;
   }
   .pill-wrap{min-width:0;}
+
+  /* ---- D-5 PASII — THE WALK: stately 3-across row; opened, the
+     focused card becomes a full-width banner (mobile's own fusion
+     role, just scaled up — walk__head stays hidden, same as
+     mobile, so the introducer is never duplicated) and the walk
+     below lays each phase's three steps as columns, all inside
+     one continuous gold-framed block. ---- */
+  .pasii.wrap{
+    max-width:var(--content-max);
+    margin-inline:auto;
+  }
+  .steps-cards{gap:2rem;}
+  .scard__label{
+    font-size:1.2rem;
+    padding:.75rem .5rem .2rem;
+  }
+
+  /* THE BANNER — is-focused card spans full content-max width,
+     mirroring the mobile fusion (card carries image+label, walk
+     continues the same frame beneath it) instead of the mobile
+     16:9 crop, which would be too tall at this width */
+  .steps-cards.is-focused .scard img{
+    aspect-ratio:auto;
+    height:250px;
+    object-position:center;
+  }
+  .steps-cards.is-focused .scard__label{
+    font-size:1.4rem;
+  }
+
+  .walk__body{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:2rem;
+    align-items:start;
+    padding:1.4rem 2rem 2rem;
+  }
+  .walk__body[hidden]{display:none;}
+  .walk__step{margin-bottom:0;padding:0;}
 }
 /* ===== GRADE WIDTH 1440 / checked 1280 & 1920 ===== */
