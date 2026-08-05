@@ -104,28 +104,140 @@ button{
   background:var(--cocoa);
 }
 
-/* ---------- b. HERO ---------- */
+/* ---------- b. HERO — K-1 KINTSUGI SCROLL ----------
+   Replaces the old .hero (torso/tagline/intro) on ALL tiers, mobile
+   included — Commander's order, NN1 exception, see LEDGER entry #22.
+   .kh carries no .wrap: full-bleed falls out naturally (body has no
+   max-width from 768px up; below that, body's 480px cap already
+   equals the phone viewport), satisfying GATE 1 without extra rules.
 
-.hero__torso{
-  width:64%;
-  margin:.5rem auto 1.75rem;
+   Two markups share the section: .kh__static (no-JS / reduced-motion
+   baseline, always in the DOM) and .kh__scrub (the pinned experience).
+   CSS shows exactly one at a time via html.js-kh, set by the gate
+   script in <head> before first paint. */
+
+.kh{position:relative;background:var(--ivory);}
+
+.kh__scrub{display:none;}
+html.js-kh .kh__scrub{display:block;}
+html.js-kh .kh__static{display:none;}
+
+/* shared: the H1's white block, hugging the text, whisper-soft shadow */
+.kh__h1{margin:0 0 1rem;font-family:var(--font-head);font-weight:700;
+  font-size:1.5rem;line-height:1.3;text-align:center;}
+.kh__h1 span{
+  background:var(--white);display:inline;border-radius:4px;
+  padding:.3rem .6rem;box-shadow:0 2px 14px rgba(0,0,0,.07);
+  -webkit-box-decoration-break:clone;box-decoration-break:clone;
+}
+.kh__intro{font-size:.9375rem;line-height:1.5;text-align:center;
+  margin:0 0 1.4rem;max-width:34ch;}
+
+/* shared: the Aréole pill — the ONE live CTA */
+.kh__pill{
+  display:inline-flex;align-items:center;gap:.35rem;
+  padding:.65rem 1.4rem;border-radius:999px;
+  background:var(--ivory);border:1px solid var(--gold-line);
+  color:var(--cocoa);font-family:var(--font-body);font-weight:600;
+  font-size:.9375rem;text-decoration:none;box-shadow:var(--shadow-neo);
+  white-space:nowrap;
 }
 
-.hero__tagline{
-  font-family:var(--font-head);
-  font-weight:700;
-  font-size:1.5rem;
-  line-height:1.25;
-  text-align:center;
-  margin:0 0 .9rem;
+/* shared: the non-interactive caption — dot, hairline, label. No
+   border, no chevron, no href, no pointer: nothing pretends to be
+   clickable. */
+.kh__caption{display:flex;flex-direction:column;align-items:center;}
+.kh__caption-dot{width:9px;height:9px;border-radius:50%;background:var(--gold);}
+.kh__caption-line{width:1px;height:34px;background:var(--gold-line);margin:.3rem 0;}
+.kh__caption-label{
+  font-family:var(--font-body);font-size:.8125rem;letter-spacing:.03em;
+  color:var(--cocoa);background:rgba(245,245,245,.88);
+  padding:.3rem .7rem;border-radius:3px;white-space:nowrap;
 }
 
-.hero__intro{
-  font-size:.9375rem;
-  line-height:1.5;
-  text-align:center;
-  margin:0 0 1.6rem;
+/* ---- .kh__static — no-JS / reduced-motion baseline ---- */
+
+.kh__static-img{width:100%;height:auto;}
+
+.kh__static-copy{padding:1.5rem 1.5rem 2rem;}
+
+.kh__static-stops{list-style:none;margin:0;padding:0 1.5rem 2rem;}
+
+.kh__static-stop{
+  position:relative;aspect-ratio:4/5;overflow:hidden;
+  border-radius:10px;margin:0 0 .9rem;background:var(--card);
 }
+.kh__static-stop .kh__caption,
+.kh__static-stop .kh__pill{
+  position:absolute;left:50%;bottom:.9rem;transform:translateX(-50%);
+}
+
+.kh__crop{position:absolute;inset:0;}
+.kh__crop img{
+  width:100%;height:100%;object-fit:cover;
+  transform-origin:var(--fx) var(--fy);
+  transform:scale(var(--s));
+}
+
+/* ---- .kh__scrub — the pinned scroll experience ---- */
+
+.kh__scrubwrap{position:relative;height:760vh;}
+
+.kh__pin{position:sticky;top:0;height:100vh;overflow:hidden;}
+
+.kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
+
+.kh__film{
+  position:absolute;top:0;left:0;
+  transform-origin:0 0;
+  will-change:transform;
+}
+
+.kh__establish{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  text-align:center;padding:2rem 1.75rem;
+  opacity:1;transition:none;
+}
+.kh__establish.is-hidden{pointer-events:none;}
+
+.kh__hint{
+  position:absolute;left:50%;bottom:1.75rem;transform:translateX(-50%);
+  margin:0;display:flex;flex-direction:column;align-items:center;
+}
+.kh__hint-line{width:1px;height:28px;background:var(--cocoa);margin:0 0 .5rem;}
+.kh__hint-label{
+  font-family:var(--font-body);font-size:.6875rem;letter-spacing:.22em;
+  text-transform:uppercase;color:var(--cocoa);
+}
+
+.kh__stops{position:absolute;inset:0;list-style:none;margin:0;padding:0;pointer-events:none;}
+
+.kh__stop{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  opacity:0;transform:translateY(14px);transition:none;pointer-events:none;
+}
+.kh__stop.is-active{
+  opacity:1;transform:translateY(0);pointer-events:auto;
+  transition:opacity .45s ease .3s,transform .45s ease .3s;
+}
+
+.kh__rail{
+  position:fixed;left:1.1rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:.65rem;z-index:20;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.kh__rail.is-visible{opacity:1;pointer-events:auto;}
+
+.kh__railbtn{
+  width:9px;height:9px;border-radius:50%;
+  border:1.5px solid var(--gold);background:transparent;
+  transition:transform .25s ease,background-color .25s ease;
+}
+.kh__railbtn.is-active{background:var(--gold);transform:scale(1.22);}
+.kh__railbtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+.kh__pill:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
 .socials{
   list-style:none;margin:0 0 2rem;padding:0;
@@ -1185,45 +1297,23 @@ button{
 }
 
 /* ===== SPLIT TIER (≥1024px) — voice left, media right =====
-   D-2 hero and D-3 carousel shared one disease: fixed-px columns
-   that could out-measure their own slide/section below the width
-   they were tuned at. Gated together here, fluid together. */
+   D-3 carousel and onward share one disease: fixed-px columns that
+   could out-measure their own slide/section below the width they
+   were tuned at. Gated together here, fluid together. (D-2's own
+   hero-split rules retired at K-1 — the hero is a different beast
+   now, full-bleed instead of split.) */
 @media (min-width:1024px){
-  /* ---- D-2 HERO — THE SPLIT: text left, torso right, editorial calm ---- */
-  .hero{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) min(560px,46vw);
-    align-items:center;
-    gap:3rem;
-    max-width:var(--content-max);
-    margin-inline:auto;
-    padding:3rem 1.5rem;
+  /* ---- K-1 HERO — GATE 1: DESKTOP FULL-BLEED. The pinned scrub
+     reads larger; establish/caption type scales up with it. ---- */
+  .kh__h1{font-size:clamp(2rem,3.5vw,2.75rem);}
+  .kh__intro{font-size:1rem;max-width:44ch;}
+  .kh__rail{left:2rem;gap:.85rem;}
+  .kh__railbtn{width:10px;height:10px;}
+  .kh__static-copy{max-width:var(--content-max);margin-inline:auto;padding:2rem 2rem 2.5rem;}
+  .kh__static-stops{
+    max-width:var(--content-max);margin-inline:auto;padding:0 2rem 2.5rem;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;
   }
-  .hero__torso{
-    grid-column:2;
-    grid-row:1;
-    width:100%;
-    max-width:560px;
-    margin:0;
-  }
-  .hero .wrap{
-    grid-column:1;
-    grid-row:1;
-    max-width:none;
-    margin:0;
-    padding:0;
-    min-width:0;
-  }
-  .hero__tagline{
-    font-size:clamp(2rem,3.5vw,2.75rem);
-    text-align:left;
-    max-width:16ch;
-  }
-  .hero__intro{
-    text-align:left;
-    max-width:65ch;
-  }
-  .socials{justify-content:center;}
 
   /* ---- D-3 CAROUSEL SPLIT — video block adopts the hero's grammar ---- */
   .video.wrap{
