@@ -1591,3 +1591,84 @@ clears, the hero's remaining open item is just the resolution debt
 (ACCEPTED as proto debt per K-4's ruling, not closed) and the five-
 caption debt from K-1 (Alopécie/Sourcils/Eyeliner/Lèvres/Cicatrices
 still non-interactive, pending their own service pages).
+
+---
+
+## Entry #27 — 2026-08-05 — LAP K-6: MOBILE PROJECTION BUG — ROOT CAUSE FIX
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Ignition key dropped into `docs/IGNITION_K-6_mobile-projection-bug.md`
+per instruction. Blast radius held to `hero-scroll.js` + hero CSS
+viewport units — no fx/fy retuning, no marker restyling beyond what
+the projection fix itself required.
+
+**Root cause, one sentence:** markers were positioned by CSS flexbox-
+centering inside a `100vh` box while the film was positioned by JS
+using `window.innerHeight` — two independent coordinate systems that
+only agree when the CSS box's rendered height exactly equals the JS-
+measured viewport height, which iOS Safari breaks (`vh` sizes against
+the taller LAYOUT viewport; the user sees the shorter VISUAL
+viewport), producing the uniform ~one-body-zone-high drift Commander
+found on his iPhone.
+
+Fixed in the three parts the key laid out, in order:
+
+1. **dvh with a vh fallback**, every hero vh usage: `.kh__scrubwrap`
+   (760vh), `.kh__pin` (100vh), `.kh__establish`'s padding-top (40vh —
+   the K-5 establishing-camera push-down). Standard fallback order:
+   browsers without `dvh` support drop that declaration and keep the
+   `vh` line above it.
+2. **Single measured viewport.** `measuredVW()`/`measuredVH()` prefer
+   `window.visualViewport`'s dimensions, falling back to
+   `window.innerWidth/Height`. Wired into `recalc()` (replacing the
+   raw `window.inner*` reads) and into the rail's click-to-scroll
+   target math, which had its own separate `window.innerHeight` read
+   K-6 also caught in passing. Added a listener on
+   `visualViewport`'s own `resize` event alongside `window`'s
+   resize/orientationchange — a toolbar show/hide doesn't reliably
+   fire the latter.
+3. **Markers derive their position from the film's own transform —
+   not parallel math.** This was the actual structural fix, not just
+   a narrower version of the old bug: `.kh__stop` is now a zero-size
+   anchor point positioned via `translate3d`, computed in `update()`
+   from the exact same `tx`/`ty`/`cam.scale` used for
+   `film.style.transform` that same frame. `.kh__caption` (the dot +
+   connector + pill group) handles centering: the dot's OWN center —
+   not the group's bounding-box center — lands on the anchor, via a
+   CSS transform offset by the dot's radius (`--kh-dot-r`, a custom
+   property shared between the dot's own sizing and the offset math so
+   they can't drift apart); connector and label flow downward from
+   there. The fade/rise-in animation moved onto this same transform
+   rather than living separately on `.kh__stop`. `k` (the wide-
+   viewport compensation) now applies identically to film and markers
+   by construction, since both read the same `cam` object each frame —
+   no separate check was needed once markers stopped doing their own
+   math.
+
+**Secondary rule** (pill flip when it covers its own feature): built —
+`.kh__stop[data-flip="above"]` support in CSS, reversing the caption's
+flex order and centering offset — but left unused. None of the six
+pills covered their own featured zone at any stop after the projection
+fix, verified on screenshots at 390×844.
+
+Checks, one by one: (1) all six dots verified landing exactly on their
+body zone at 390×844 — Alopécie on the hairline, Sourcils on the brow,
+Eyeliner on the eye, Lèvres on the mouth, Cicatrices on the chest
+crack, Aréole on the areola itself; (2) re-verified at a shortened
+390×764 viewport (simulating the Safari toolbar) — every dot tracked
+the identical pixel of anatomy at both heights, confirming the fix
+holds across viewport-height changes rather than just narrowing the
+old error; (3) desktop 1440 regression guard: establishing frame
+screenshot-matched against K-5 pixel-for-pixel, stop projection
+confirmed via DOM (`translate3d(720px,450px,0)` against a 1440×900
+viewport — exactly `vw/2,vh/2`, matching the math by construction; the
+1440-zoomed-stop screenshot itself hit the same environment-specific
+compositor lag documented in every prior K-lap, DOM inspection stood
+in as it has every time); (4) Aréole still navigates, five captions
+still inert (`<span>`, no href, `cursor:auto`); (5) no horizontal
+scroll; (6) below-hero content unaffected.
+
+Cache: `main.css` v15→v16, `hero-scroll.js` v4→v5 (a genuine content
+change this time).
+
+Next: Commander's word on K-6, ideally the last hero gate round.
