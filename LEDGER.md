@@ -1213,3 +1213,462 @@ two-tier system. Eight laps, eight merges, zero unratified
 mobile changes.
 
 Next: the areola page at desktop — the campaign's second front.
+
+---
+
+## Entry #22 — 2026-08-05 — LAP K-1: KINTSUGI SCROLL HERO — THE FRONT DOOR
+
+Branch `k-1-kintsugi-hero`. Hero replaced on all tiers by Commander's
+order — NN1 exception on record. Not a D-campaign lap: the ignition
+key came directly from ACP, out of band from the desktop-split system,
+and intentionally breaks the mobile-zero law that has governed every
+lap since D-1.
+
+The old hero (torso image, centered tagline, intro, socials) is gone.
+In its place: a full-viewport pinned hero where a virtual camera
+pans/zooms across the kintsugi statue between 6 locked keyframes,
+scrubbed by native scroll (translate3d + scale + opacity only, no
+wheel/touch interception). Establishing frame — H1 on a white block,
+intro, existing gold social row, "DÉFILER" hint — fades over the first
+3.5% of scroll progress, opacity only, never unmounted. Smootherstep
+easing between stops; zoom interpolates in log space for constant
+perceived speed. Aréole is the one live CTA (real pill, real href);
+Alopécie, Sourcils, Eyeliner, Lèvres, Cicatrices render as
+non-interactive captions — gold dot, hairline connector, label, no
+href, no pointer, nothing pretending to be clickable. Dot rail, fixed
+left, navigates to any stop's mid-dwell. Exit pulls the camera back to
+the establishing frame over the final 9% of timeline; the section
+releases only once the full statue is back in frame, no UI reappears
+during pull-back.
+
+GATE 1 (desktop full-bleed) fell out for free: the new `.kh` section
+carries no `.wrap`, so it was never subject to the column-read/
+content-max constraints the D-campaign built for every other section —
+full-bleed at ≥1024 and edge-to-edge below it needed no extra rule.
+
+Reduced-motion / no-JS baseline shares the same markup: six statue
+crops (CSS transform, same fx/fy/s as the live keyframes) stacked with
+their captions/pill, plus the H1/intro/Aréole link as plain elements —
+this is what ships with scripts disabled, and is also what
+`prefers-reduced-motion: reduce` gets, gated by a synchronous script in
+`<head>` that stamps `html.js-kh` before first paint so neither markup
+ever flashes into the other.
+
+**D-2 retired.** The desktop hero-split rules from the D-campaign
+(`.hero` grid, `.hero__torso`, `.hero .wrap`, `.hero__tagline`,
+`.hero__intro` desktop override, plus the now-orphaned mobile-tier
+`.hero__torso`/`.hero__tagline`/`.hero__intro` base rules) are gone
+from `css/main.css` — superseded by K-1, not merely covered by it.
+D-3 through D-7 untouched.
+
+New `js/hero-scroll.js?v=1`, loaded on `index.html` only —
+`main.js`/`form.js`/`areola.js` untouched, per brief. One build-time
+bug caught and fixed before the eye-gate: the sitewide
+`img{max-width:100%}` rule was clamping the film layer's pre-transform
+box, breaking the fx/fy/scale math; pinned an explicit 1024×1536 on
+`.kh__film`. A second fix deferred the first camera paint one rAF
+tick — painting the transform synchronously, before the browser's
+first layout/paint cycle settled, left the layer unpainted until the
+next repaint trigger.
+
+Choreography verified at 390/768/1024/1440: six stops land on their
+body zones (camera reads as one continuous descent, one breath out on
+exit); Aréole pill navigates to `servicii/areola.html`; the five
+captions carry no interactive affordance; dot rail is keyboard-operable
+with visible focus; static/reduced-motion layout confirmed (same six
+crops, same Aréole link, no scrub); no horizontal scroll at any tier;
+below-hero content pixel-identical, band-through-reviews unaffected.
+
+**Resolution debt (asset law):** `assets/img/statue-kintsugi.png` ships
+at ~1024×1536 — accepted interim per the ignition key. The upscale swap
+is a future lap, asset-only, no code changes expected.
+
+**Five-caption debt:** Alopécie, Sourcils, Eyeliner, Lèvres, Cicatrices
+have no destination pages yet — they stay captions, not pills, by
+design (LINK LAW). Each upgrades to a live pill in its own future lap
+as the corresponding service page ships, same pattern Aréole just set.
+
+Cache v11→v12 on all three pages. PR open, not merged — awaiting
+Commander's eye.
+
+Next: ACP's word on K-1, then resume the D-campaign at the areola page
+desktop lap — or wherever the Tower routes next.
+
+---
+
+## Entry #23 — 2026-08-05 — LAP K-2: KINTSUGI HERO — GATE FIXES
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Commander's gate review of the K-1 preview surfaced three visual
+findings; scrub logic, timeline, dwell timing and stop order untouched
+per brief.
+
+**Finding 1 — establishing legibility.** The intro paragraph sat raw
+on the statue. Added a two-layer veil: an outer bottom-anchored ivory
+gradient on `.kh__establish` (the scene treatment named in the brief)
+plus a second veil sized to the copy block's own box
+(`.kh__establish-copy`, radial gradient, percentages relative to its
+own dimensions) rather than to the viewport. The outer-only version
+read fine at 390 but failed at 1440: shorter viewport, shorter
+(4-line, not 6-line) wrapped paragraph, so the copy sat almost
+entirely in the outer veil's transparent zone — caught on a 1440
+screenshot before it shipped. The content-anchored layer holds
+regardless of how the text wraps. H1 white block kept (per the brief's
+"when in doubt, keep it" — the veil alone tested legible without it,
+but no reason to spend the eye-gate on that swap too).
+
+**Finding 2 — DÉFILER.** Gold now (was cocoa), wider tracking, and
+moved from `position:absolute;bottom` to normal flow directly below
+the socials. Root cause of "below the fold": `.kh__pin` is `height:
+100vh` but sits in normal flow until sticky engages — at scroll 0 it
+starts below the header, so its own bottom (where the hint used to be
+pinned) was rendering ~header-height off-screen. Flowing the hint
+after the content sidesteps the sticky-not-yet-engaged geometry
+entirely instead of fighting it with an offset.
+
+**Finding 3 — stop framing + markers, the big one.** New scales landed
+exactly as briefed (Alopécie 1.35, Sourcils 1.6, Eyeliner 1.8, Lèvres
+1.85, Cicatrices 1.25, Aréole 1.4; fx/fy and k untouched). Every stop
+now reads head-to-shoulder or torso-with-context instead of forensic
+skin. Markers: anchor dot 9px→20px with a soft gold ring, connector
+1px→2px/34px→38px, and the caption label rebuilt as one shared
+"big pill" class (1.5rem type, 1.05rem/2.25rem padding, solid ivory +
+gold border + neo shadow) used by all six stops. Aréole's markup was
+restructured to match the other five's dot+connector+label anatomy —
+it's now the same pill with a chevron and a real `<a>` instead of a
+separate freestanding pill; the five others stay `<span>`, no href, no
+chevron, no pointer. `.kh__pill` retired as a class, folded into
+`.kh__caption-label`. Static/reduced-motion crops got the same scales
+and the same marker rebuild, verified separately — this fallback
+shares no runtime code with the scrub path, so both had to be checked.
+
+Interim ~1000px asset held up fine at the new, wider crops — if
+anything the framing fix reduces the upscale debt's visibility (less
+magnification per stop than K-1 shipped).
+
+Checks 1–8 from the key run at 390/1024/1440 plus reduced-motion:
+establishing text legible at every width tested (1440 required the
+Finding-1 fix to pass); DÉFILER gold and above the fold everywhere;
+all six stops pass know-where-you-are; marker proportions consistent
+across all six; Aréole still navigates, five captions confirmed inert
+(`<span>`, no href, `cursor:auto`) via DOM inspection; reduced-motion
+crops re-verified with the new scales; no horizontal scroll; below-hero
+content pixel-identical (untouched this lap). Cache v12→v13
+(`main.css`), v1→v2 (`hero-scroll.js`).
+
+Next: Commander's word on K-2, then resume wherever the Tower routes —
+areola desktop lap, or the next K-series fix if the gate isn't clean
+yet.
+
+---
+
+## Entry #24 — 2026-08-05 — LAP K-4: STATUE ASSET SWAP — ABANDONED, WEBP SHIPPED FROM ORIGINAL
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+
+ACP hand-delivered a 4x upscale of the statue asset (1024×1536 →
+4096×6144, palette+tRNS alpha intact, same geometry as production —
+Tower-verified before this lap opened, so no fx/fy retuning was in
+scope). Committed it, generated a WebP (657KB at quality 82 — already
+under the ~800KB budget, no downscale needed), wired `<picture>`/
+`<source>` with PNG fallback across all eight image references,
+updated width/height attributes to the new intrinsic size. The K-4
+addendum's added check — inspect the smooth upper-chest marble at a
+stop for banding from the source's 256-color palette — is why this
+lap exists: it FAILED. Extracted the exact on-screen crop (same fx/fy/
+scale math the browser uses) from both the PNG and WebP and viewed
+them directly: visible tonal stepping in the shadow gradient,
+identical in both formats. That identical-in-both-formats result is
+the diagnostic that matters — it rules out WebP compression as the
+cause and confirms the banding was baked into the upscale tool's
+8-bit/256-color output. A pixel scanline through the shadow region
+confirmed it objectively (runs of 7–13 identical consecutive pixel
+values where a clean gradient would show none). Per the addendum:
+reported the finding and stopped, did not attempt a code fix — a
+palette-quantized source has no code-side remedy.
+
+**Commander's ruling: upscale abandoned, tools destroyed the alpha's
+color fidelity.** Ship WebP delivery from the ORIGINAL asset instead.
+Restored `assets/img/statue-kintsugi.png` (1024×1536, true RGBA, alpha
+intact — `git show e0ec3d1:...`, the commit before the upscale
+attempt) and kept the `<picture>`/WebP wiring built for this lap:
+regenerated the WebP from the original (299KB at quality 82), width/
+height attributes reverted to 1024×1536, preload repointed at the
+WebP. Re-ran the banding check against the original-sourced WebP:
+clean, as expected — confirms the artifact was specific to the failed
+upscale, not the delivery pipeline built this lap. `.kh__film`'s CSS
+box was never touched (stayed hard-coded at 1024×1536 throughout this
+whole lap, upscale attempt included) — the JS transform math never
+needed to change, in or out of the abandoned upscale.
+
+Visual pass at 390 + 1440: establishing composition and anchor
+placement unchanged from K-2 (expected — same asset content as before
+K-4 ever started, only the delivery format changed); no horizontal
+scroll; below-hero untouched. Squashed the lap's three working commits
+(asset swap, blocked WebP-wiring WIP, revert-to-original) into one
+clean commit before push — the intermediate "swapped to 4096, found
+banding, reverted" sequence was never pushed, so no shared history to
+preserve.
+
+**Resolution debt: ACCEPTED as proto debt by Commander's ruling — NOT
+closed.** The interim ~1024px asset ships. A future upscale, if
+attempted again, needs tooling that preserves full-color depth (not
+palette-quantized) — the alpha-preservation angle was never the
+problem, the color depth was.
+
+Cache-bust convention introduced for this asset in K-4 (`?v=N` query
+param, none existed before): now at `v=2` after this lap's revert.
+
+Next: Commander's word on K-4, then resume wherever the Tower routes.
+
+---
+
+## Entry #25 — 2026-08-05 — LAP K-3: KINTSUGI HERO — GATE FIXES II
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Executed OUT OF ORDER — numbered before K-4 (asset swap) but landed
+after it, since the key arrived after the asset lap had already
+closed. Baseline for this lap was K-2's visuals plus K-4's WebP
+delivery from the original asset; both preserved. Five further fixes
+from Commander's continued gate review of the K-2 preview, on top of
+K-2's own three findings — scrub logic, timeline, dwell timing, and
+stop order untouched throughout.
+
+**Fix 1 — the establishing frame, rebuilt.** K-2's full-frame wash
+retired: Commander's reference wanted the statue large, centered, and
+fully present, with an elegant serif headline over her lower half, not
+a scene-wide veil. H1 now sets in Cormorant Garamond — a new
+`--font-serif` token in `tokens.css` (the repo's single source of
+type, per constitution), scoped to the hero H1 only, flagged here for
+Commander's brand-canon ratification since it's the first typeface
+added to the system outside Raleway/DM Sans. K-2's white block behind
+the H1 is gone; legibility now comes from one local gradient
+(transparent by mid-torso, ~90% ivory by the paragraph/socials) plus a
+soft text-glow on the H1 itself.
+
+One real bug caught mid-build: the first attempt anchored the content
+block to the bottom of `.kh__establish` via `justify-content:flex-end`
+to get "over her lower half" positioning — this silently reintroduced
+the exact bug K-2 already diagnosed and fixed (DÉFILER landing off-
+screen), because `.kh__pin`'s own bottom edge sits below the fold
+until sticky engages, and flex-end anchors to that edge specifically.
+Caught via `getBoundingClientRect()` on the hint element at 390 before
+it reached a screenshot. Fixed by keeping K-2's top-anchored flow and
+pushing the block down with `padding-top:40vh` instead — same "lower
+half" result, none of the bottom-anchor fragility.
+
+**Fix 2 — permanent bottom-edge fade.** `mask-image` linear-gradient
+on `.kh__film` itself (not the stage), so the fade travels with the
+image through every keyframe — establishing and exit included —
+regardless of current pan/zoom. Verified clean at the establishing
+frame, at least one stop, and exit; the mechanism is keyframe-
+independent so the other five stops inherit it identically.
+
+**Fix 3 — zoom, -25% floor 1.1.** 1.35/1.6/1.8/1.85/1.25/1.4 →
+1.1/1.2/1.35/1.4/1.1/1.1 across both the scrub `data-s` attributes and
+the static fallback's `--s` custom properties. Every stop now reads
+head-to-shoulder-plus-torso context, wider than K-2's already-loosened
+framing.
+
+**Fix 4 — dot rail, bigger and inboard.** ~2x dot diameter (9→18px
+mobile, 10→20px desktop), gaps scaled to match, rail moved in from the
+edge (28px mobile, 56px desktop — inside the 48–64px band). Real hit
+target is 44px via a `::after` pseudo-element regardless of the
+smaller visual dot, matching the site's existing `.dot`/`.dot::after`
+tap-target pattern.
+
+**Fix 5 — markers, +35% again.** Anchor dot, connector, and the shared
+big-pill label all scaled up from K-2's sizes (dot 20→27px, connector
+2px/38px→3px/51px, label 1.5rem/1.05rem+2.25rem padding→2rem/1.42rem+
+3.04rem padding). Structure unchanged from K-2: all six stops share
+the pill look; only Aréole is a real `<a>` with the chevron, cursor,
+and href — the other five stay inert `<span>`s (confirmed via DOM:
+`cursor:auto`, no `href`).
+
+Static/reduced-motion fallback rebuilt to mirror the new composition —
+was stacked (image, then copy below), now overlaid with its own local
+veil and the same serif H1, verified at 390 with the establishing
+frame and the stop crops both showing the new scales and marker sizes.
+
+Checks 1–10 run at 390/1024/1440 (1024's zoomed-stop screenshots hit
+the same post-resize compositor lag documented in K-1/K-2 — verified
+via computed styles instead: dot 27px, connector 3px/51px, label 32px,
+rail left 56px, all matching spec exactly). Aréole navigates, five
+captions confirmed inert, no horizontal scroll, below-hero pixel-
+identical (untouched this lap), `<picture>`/WebP wiring intact and
+still serving `statue-kintsugi.webp?v=2` unchanged (asset itself never
+touched, per brief).
+
+Cache: `main.css` v13→v14, `tokens.css` v6→v7 (new `--font-serif`
+token), `hero-scroll.js` v2→v3 — all bumped from the post-K-4 values
+as instructed, `hero-scroll.js` bumped on the letter of the cache law
+even though this lap made zero changes to its actual JS content
+(CSS/HTML only).
+
+Next: Commander's word on K-3 — and on the serif amendment specifically,
+since it's the first departure from the two-typeface system.
+
+---
+
+## Entry #26 — 2026-08-05 — LAP K-5: KINTSUGI HERO — GATE POLISH
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Blast radius held exactly to the establishing frame — K-3's stop
+keyframes, markers, and rail shipped as-is, untouched and unaffected.
+
+**Serif experiment REJECTED at gate.** Commander's ruling: revert the
+hero H1 to the brand heading font. `--font-serif` token removed from
+`tokens.css`, the Cormorant Garamond Google Fonts import stripped from
+`index.html` — zero references to either left anywhere in the
+codebase (grepped `.html`/`.css`/`.js` to confirm). `.kh__h1` back to
+`var(--font-head)` at weight 700. K-3's size/position/composition over
+her lower half, no white block, kept exactly — only the typeface
+reverted. Brand canon reaffirmed: two typefaces (Raleway, DM Sans),
+not three.
+
+**Statue raised — the dead band under the header is gone.** This one
+needed a real code change, not just CSS: the establishing camera's
+vertical framing lives in `hero-scroll.js` (`establishScale`, and now
+`ESTABLISH_KF.fy`), not in markup. `ESTABLISH_K` (the fraction of
+contain-fit used for the establishing shot) went from 0.86 to 0.92 —
+larger, more present, per the brief. The real fix is a new *dynamic*
+`fy`: K-3 (and K-1/K-2 before it) centered the establishing shot dead
+on (`fy=0.5`), splitting whatever vertical slack existed evenly above
+and below her. That's invisible on mobile, where contain-fit is
+width-bound and slack is generous — but on a short/wide desktop
+viewport, contain-fit is height-bound and slack is almost zero, so
+half-above read as a dead band under the header. A single fixed `fy`
+can't serve both: tuned to clear the header on mobile, it clips the
+crown on desktop, and the reverse. Fixed by computing `fy` in
+`recalc()` (alongside `establishScale`/`k`, same resize-driven
+lifecycle) so a constant ~18% of whatever slack actually exists at
+that viewport sits above her head — scales with the aspect ratio
+instead of fighting it. `ESTABLISH_KF` is mutated in place rather than
+reassigned, since the exit segment's `to` holds a live reference to
+that same object — exit inherits the new framing automatically, no
+separate wiring. The six stops compute their own scale/position
+independently of `establishScale`/`fy` entirely, so this touches
+nothing about them; walked all six plus the exit to confirm regardless.
+
+**DÉFILER, brand dark.** Gold read as inconsistent against the
+heading/body ink system — switched `.kh__hint-line` and
+`.kh__hint-label` to `var(--cocoa)`. Size, tracking, and position
+unchanged.
+
+One verification-process note worth recording: mid-check at 1440, the
+film layer's transform read as `none` and `requestAnimationFrame`
+never fired even after several seconds' wait — looked like a real
+regression at first. It wasn't: the headless preview tab throttles/
+suspends `rAF` entirely while not actively compositing, and requesting
+a screenshot is what nudges it into producing a frame (and flushing
+the queued `rAF` callback with it). Confirmed by hand-deriving the
+expected `fy`/`ty` for that viewport, then checking the inline style
+after a screenshot — matched exactly. Worth remembering for future
+laps: read computed JS/camera state only after a screenshot, not
+immediately after a resize or scroll.
+
+Checks 1–7 run at 390/1440: statue high with crown clear at both
+(390: ~55px gap under the header; 1440: ~13px, both comfortable, both
+un-clipped); all six stops plus exit re-verified landing correctly,
+independent of the establishing change as expected; H1 confirmed in
+`--font-head`, zero Cormorant references anywhere in the codebase;
+DÉFILER and its line confirmed dark and above the fold both widths;
+static/reduced-motion fallback carries all three fixes (shares
+`.kh__h1` and `.kh__hint` with the scrub markup, so the font/color
+fixes applied for free; the "dead band" was never actually present in
+the static layout — it was never viewport-height-centered like the
+scrub camera, so there was nothing to raise there, confirmed rather
+than assumed); no horizontal scroll; below-hero content pixel-
+identical (untouched this lap).
+
+Cache: `main.css` v14→v15, `tokens.css` v7→v8, `hero-scroll.js`
+v3→v4 — the last one a real content bump this time, not the letter-
+of-the-law bump K-3 did on zero JS changes.
+
+Next: Commander's word on K-5. Establishing frame composition should
+now be settled across all three gate rounds (K-2, K-3, K-5) — if this
+clears, the hero's remaining open item is just the resolution debt
+(ACCEPTED as proto debt per K-4's ruling, not closed) and the five-
+caption debt from K-1 (Alopécie/Sourcils/Eyeliner/Lèvres/Cicatrices
+still non-interactive, pending their own service pages).
+
+---
+
+## Entry #27 — 2026-08-05 — LAP K-6: MOBILE PROJECTION BUG — ROOT CAUSE FIX
+
+Branch `k-1-kintsugi-hero` continued, PR #15 updated (not merged).
+Ignition key dropped into `docs/IGNITION_K-6_mobile-projection-bug.md`
+per instruction. Blast radius held to `hero-scroll.js` + hero CSS
+viewport units — no fx/fy retuning, no marker restyling beyond what
+the projection fix itself required.
+
+**Root cause, one sentence:** markers were positioned by CSS flexbox-
+centering inside a `100vh` box while the film was positioned by JS
+using `window.innerHeight` — two independent coordinate systems that
+only agree when the CSS box's rendered height exactly equals the JS-
+measured viewport height, which iOS Safari breaks (`vh` sizes against
+the taller LAYOUT viewport; the user sees the shorter VISUAL
+viewport), producing the uniform ~one-body-zone-high drift Commander
+found on his iPhone.
+
+Fixed in the three parts the key laid out, in order:
+
+1. **dvh with a vh fallback**, every hero vh usage: `.kh__scrubwrap`
+   (760vh), `.kh__pin` (100vh), `.kh__establish`'s padding-top (40vh —
+   the K-5 establishing-camera push-down). Standard fallback order:
+   browsers without `dvh` support drop that declaration and keep the
+   `vh` line above it.
+2. **Single measured viewport.** `measuredVW()`/`measuredVH()` prefer
+   `window.visualViewport`'s dimensions, falling back to
+   `window.innerWidth/Height`. Wired into `recalc()` (replacing the
+   raw `window.inner*` reads) and into the rail's click-to-scroll
+   target math, which had its own separate `window.innerHeight` read
+   K-6 also caught in passing. Added a listener on
+   `visualViewport`'s own `resize` event alongside `window`'s
+   resize/orientationchange — a toolbar show/hide doesn't reliably
+   fire the latter.
+3. **Markers derive their position from the film's own transform —
+   not parallel math.** This was the actual structural fix, not just
+   a narrower version of the old bug: `.kh__stop` is now a zero-size
+   anchor point positioned via `translate3d`, computed in `update()`
+   from the exact same `tx`/`ty`/`cam.scale` used for
+   `film.style.transform` that same frame. `.kh__caption` (the dot +
+   connector + pill group) handles centering: the dot's OWN center —
+   not the group's bounding-box center — lands on the anchor, via a
+   CSS transform offset by the dot's radius (`--kh-dot-r`, a custom
+   property shared between the dot's own sizing and the offset math so
+   they can't drift apart); connector and label flow downward from
+   there. The fade/rise-in animation moved onto this same transform
+   rather than living separately on `.kh__stop`. `k` (the wide-
+   viewport compensation) now applies identically to film and markers
+   by construction, since both read the same `cam` object each frame —
+   no separate check was needed once markers stopped doing their own
+   math.
+
+**Secondary rule** (pill flip when it covers its own feature): built —
+`.kh__stop[data-flip="above"]` support in CSS, reversing the caption's
+flex order and centering offset — but left unused. None of the six
+pills covered their own featured zone at any stop after the projection
+fix, verified on screenshots at 390×844.
+
+Checks, one by one: (1) all six dots verified landing exactly on their
+body zone at 390×844 — Alopécie on the hairline, Sourcils on the brow,
+Eyeliner on the eye, Lèvres on the mouth, Cicatrices on the chest
+crack, Aréole on the areola itself; (2) re-verified at a shortened
+390×764 viewport (simulating the Safari toolbar) — every dot tracked
+the identical pixel of anatomy at both heights, confirming the fix
+holds across viewport-height changes rather than just narrowing the
+old error; (3) desktop 1440 regression guard: establishing frame
+screenshot-matched against K-5 pixel-for-pixel, stop projection
+confirmed via DOM (`translate3d(720px,450px,0)` against a 1440×900
+viewport — exactly `vw/2,vh/2`, matching the math by construction; the
+1440-zoomed-stop screenshot itself hit the same environment-specific
+compositor lag documented in every prior K-lap, DOM inspection stood
+in as it has every time); (4) Aréole still navigates, five captions
+still inert (`<span>`, no href, `cursor:auto`); (5) no horizontal
+scroll; (6) below-hero content unaffected.
+
+Cache: `main.css` v15→v16, `hero-scroll.js` v4→v5 (a genuine content
+change this time).
+
+Next: Commander's word on K-6, ideally the last hero gate round.

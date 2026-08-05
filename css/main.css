@@ -104,43 +104,248 @@ button{
   background:var(--cocoa);
 }
 
-/* ---------- b. HERO ---------- */
+/* ---------- b. HERO — K-1 KINTSUGI SCROLL ----------
+   Replaces the old .hero (torso/tagline/intro) on ALL tiers, mobile
+   included — Commander's order, NN1 exception, see LEDGER entry #22.
+   .kh carries no .wrap: full-bleed falls out naturally (body has no
+   max-width from 768px up; below that, body's 480px cap already
+   equals the phone viewport), satisfying GATE 1 without extra rules.
 
-.hero__torso{
-  width:64%;
-  margin:.5rem auto 1.75rem;
+   Two markups share the section: .kh__static (no-JS / reduced-motion
+   baseline, always in the DOM) and .kh__scrub (the pinned experience).
+   CSS shows exactly one at a time via html.js-kh, set by the gate
+   script in <head> before first paint. */
+
+.kh{position:relative;background:var(--ivory);}
+
+.kh__scrub{display:none;}
+html.js-kh .kh__scrub{display:block;}
+html.js-kh .kh__static{display:none;}
+
+/* K-3 FIX 1 — hero H1 positioned over her lower half, no block.
+   K-5 FIX 2 — the K-3 serif experiment was REJECTED at gate; reverted
+   to the brand heading font (see LEDGER for what it briefly was).
+   Size/position/composition otherwise unchanged from K-3. Legibility
+   comes from the local gradients below + a soft ivory text-glow, not
+   a hard-edged background. */
+.kh__h1{
+  margin:0 0 .6rem;font-family:var(--font-head);font-weight:700;
+  font-size:clamp(2.25rem,9vw,3.25rem);line-height:1.12;
+  color:var(--cocoa);text-align:center;
+  text-shadow:0 0 28px rgba(245,245,245,.85),0 0 12px rgba(245,245,245,.85);
+}
+.kh__intro{font-size:.8125rem;line-height:1.45;text-align:center;
+  margin:0 0 .85rem;max-width:55ch;color:var(--cocoa);}
+
+/* K-2 FIX 3 / K-3 FIX 5 — the big pill, sized up again. ALL six stops
+   share this look: rounded, ivory-filled, gold-bordered, neo shadow.
+   Aréole (an <a>) is the ONE live CTA — it alone carries the chevron
+   and gets a pointer cursor for free from being a real link. The
+   other five are <span>s: no href, no chevron, no pointer, nothing
+   pretends to be clickable. */
+.kh__caption{
+  display:flex;flex-direction:column;align-items:center;
+  --kh-dot-r:13.5px; /* half of .kh__caption-dot's diameter below —
+    keep in sync. K-6: the DOT's own center, not the group's bounding-
+    box center, is the true anchor; see .kh__stop .kh__caption. */
+}
+.kh__caption-dot{
+  width:calc(var(--kh-dot-r) * 2);height:calc(var(--kh-dot-r) * 2);
+  border-radius:50%;background:var(--gold);
+  box-shadow:0 0 0 5px rgba(201,168,106,.25);
+}
+.kh__caption-line{width:3px;height:51px;background:var(--gold-line);margin:.5rem 0;}
+.kh__caption-label{
+  display:inline-flex;align-items:center;gap:.5rem;
+  font-family:var(--font-body);font-weight:600;font-size:2rem;
+  letter-spacing:.03em;color:var(--cocoa);text-decoration:none;
+  background:var(--ivory);border:1px solid var(--gold-line);
+  border-radius:999px;padding:1.42rem 3.04rem;
+  box-shadow:var(--shadow-neo);white-space:nowrap;
+}
+.kh__chevron{font-size:1.6rem;line-height:1;}
+
+/* ---- .kh__static — no-JS / reduced-motion baseline ----
+   K-3: rebuilt to mirror the scrub establishing frame's composition —
+   statue in normal flow (sets the frame's height), copy overlaid on
+   her lower half via a local gradient, same as the pinned version. */
+
+.kh__static-frame{position:relative;}
+.kh__static-img{width:100%;height:auto;display:block;}
+.kh__static-veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,
+    var(--ivory) 0%, rgba(245,245,245,.9) 30%, rgba(245,245,245,0) 58%);
+}
+.kh__static-copy{
+  position:absolute;left:0;right:0;bottom:0;
+  display:flex;flex-direction:column;align-items:center;
+  padding:1.5rem 1.5rem 2rem;
 }
 
-.hero__tagline{
-  font-family:var(--font-head);
-  font-weight:700;
-  font-size:1.5rem;
-  line-height:1.25;
-  text-align:center;
-  margin:0 0 .9rem;
+.kh__static-stops{list-style:none;margin:0;padding:0 1.5rem 2rem;}
+
+.kh__static-stop{
+  position:relative;aspect-ratio:4/5;overflow:hidden;
+  border-radius:10px;margin:0 0 .9rem;background:var(--card);
+}
+.kh__static-stop .kh__caption{
+  position:absolute;left:50%;bottom:.9rem;transform:translateX(-50%);
 }
 
-.hero__intro{
-  font-size:.9375rem;
-  line-height:1.5;
-  text-align:center;
-  margin:0 0 1.6rem;
+.kh__crop{position:absolute;inset:0;}
+.kh__crop img{
+  width:100%;height:100%;object-fit:cover;
+  transform-origin:var(--fx) var(--fy);
+  transform:scale(var(--s));
 }
+
+/* ---- .kh__scrub — the pinned scroll experience ---- */
+
+/* K-6 FIX 1 — dvh with a vh fallback throughout. iOS Safari's `vh`
+   sizes against the LAYOUT viewport (as if the address/tab bar were
+   permanently hidden); the user sees the smaller VISUAL viewport.
+   `dvh` tracks whichever is actually on screen. Browsers that don't
+   parse `dvh` drop the whole declaration and keep the `vh` line
+   above it — standard fallback order, not a typo. */
+.kh__scrubwrap{position:relative;height:760vh;height:760dvh;}
+
+.kh__pin{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;}
+
+.kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
+
+.kh__film{
+  position:absolute;top:0;left:0;
+  width:1024px;height:1536px;max-width:none;
+  transform-origin:0 0;
+  will-change:transform;
+  /* K-3 FIX 2 — permanent bottom-edge fade. Travels WITH the image
+     (baked into the film layer itself, pre-transform), so it stays
+     aligned to the statue's actual bottom edge at every keyframe —
+     establishing and exit included — regardless of current pan/zoom. */
+  -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 88%,transparent 100%);
+  mask-image:linear-gradient(to bottom,#000 0%,#000 88%,transparent 100%);
+}
+
+/* K-3 FIX 1 — establishing frame rebuilt. Commander's reference: a
+   large, fully-present statue, centered, un-washed; serif headline
+   over her lower half; identity content beneath. No global veil this
+   time — content is pushed to the bottom of the frame (flex-end) so
+   it naturally lands over the lower body, and .kh__veil is now a
+   single LOCAL gradient scoped to that same bottom zone: fully
+   transparent by her mid-torso (head/shoulders/upper torso stay
+   completely clear), ~90% ivory by the time it reaches the paragraph/
+   socials. */
+.kh__establish{
+  position:absolute;inset:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
+  text-align:center;padding:40vh 1.75rem 1.5rem;padding-top:40dvh;
+  opacity:1;transition:none;
+}
+.kh__establish.is-hidden{pointer-events:none;}
+
+.kh__veil{
+  position:absolute;inset:0;pointer-events:none;
+  background:linear-gradient(to top,
+    var(--ivory) 0%, rgba(245,245,245,.94) 34%, rgba(245,245,245,0) 62%);
+}
+
+.kh__establish-copy{
+  position:relative;z-index:1;
+  display:flex;flex-direction:column;align-items:center;
+  width:100%;
+}
+
+/* K-2 FIX 2 — the scroll invitation: flows right below the socials
+   (not pinned to the pin's absolute bottom, which lands off-screen
+   before sticky engages — see K-2 LEDGER). K-5 FIX 3 — switched from
+   gold to the brand ink; gold read as inconsistent against the
+   heading/body color system. Size/tracking/position unchanged. */
+.kh__hint{
+  margin:1rem 0 0;display:flex;flex-direction:column;align-items:center;
+}
+.kh__hint-line{width:1px;height:30px;background:var(--cocoa);margin:0 0 .5rem;}
+.kh__hint-label{
+  font-family:var(--font-body);font-size:.75rem;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--cocoa);
+}
+
+.kh__stops{position:absolute;inset:0;list-style:none;margin:0;padding:0;pointer-events:none;}
+
+/* K-6 FIX 2 — .kh__stop is now a zero-size anchor: JS places it (via
+   transform:translate3d, set in hero-scroll.js) at the exact screen
+   pixel the film's OWN tx/ty/scale projects this stop's (fx,fy) to —
+   the same numbers used to draw the film, not a parallel CSS-centering
+   calculation. Old approach centered the marker via flexbox inside a
+   100vh box and relied on that box's rendered height exactly matching
+   the JS `vh` — true on desktop, false on iOS Safari's layout-vs-
+   visual-viewport split, which is what put every dot ~one body-zone
+   too high. */
+.kh__stop{position:absolute;left:0;top:0;pointer-events:none;}
+
+.kh__stop .kh__caption{
+  /* center horizontally, then shift up by the dot's own radius so the
+     DOT's center (not the caption group's) lands on the anchor point;
+     connector + label flow downward from there. +14px = the rise-in
+     start offset, folded into the same transform. */
+  transform:translate(-50%, calc(14px - var(--kh-dot-r)));
+  opacity:0;transition:none;pointer-events:none;
+}
+.kh__stop.is-active .kh__caption{
+  opacity:1;transform:translate(-50%, calc(-1 * var(--kh-dot-r)));
+  pointer-events:auto;
+  transition:opacity .45s ease .3s,transform .45s ease .3s;
+}
+
+/* K-6 SECONDARY RULE — per-stop escape hatch: if a pill (default
+   below the dot) would cover its own featured zone, flip it above.
+   Opt-in via data-flip="above" on the specific <li>; none set by
+   default. */
+.kh__stop[data-flip="above"] .kh__caption{
+  flex-direction:column-reverse;
+  transform:translate(-50%, calc(var(--kh-dot-r) - 14px));
+}
+.kh__stop[data-flip="above"].is-active .kh__caption{
+  transform:translate(-50%, var(--kh-dot-r));
+}
+
+/* K-3 FIX 4 — dot rail, bigger and moved inboard. Real hit area is
+   44px via ::after regardless of the smaller visual dot. */
+.kh__rail{
+  position:fixed;left:1.75rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:1.3rem;z-index:20;
+  opacity:0;pointer-events:none;transition:opacity .3s ease;
+}
+.kh__rail.is-visible{opacity:1;pointer-events:auto;}
+
+.kh__railbtn{
+  position:relative;
+  width:18px;height:18px;border-radius:50%;
+  border:2px solid var(--gold);background:transparent;
+  transition:transform .25s ease,background-color .25s ease;
+}
+.kh__railbtn::after{
+  content:"";position:absolute;top:50%;left:50%;
+  transform:translate(-50%,-50%);width:44px;height:44px;
+}
+.kh__railbtn.is-active{background:var(--gold);transform:scale(1.22);}
+.kh__railbtn:focus-visible{outline:2px solid var(--gold);outline-offset:3px;}
+.kh__caption-label:focus-visible{outline:2px solid var(--gold);outline-offset:2px;}
 
 .socials{
-  list-style:none;margin:0 0 2rem;padding:0;
-  display:flex;justify-content:center;gap:1.4rem;
+  list-style:none;margin:0 0 .85rem;padding:0;
+  display:flex;justify-content:center;gap:1rem;
 }
 
 .social{
   display:flex;align-items:center;justify-content:center;
-  width:52px;height:52px;border-radius:50%;
+  width:44px;height:44px;border-radius:50%;
   background:var(--gold);
   box-shadow:var(--shadow-neo);
 }
 
 .social svg{
-  width:27px;height:27px;
+  width:23px;height:23px;
   fill:none;stroke:var(--white);stroke-width:1.7;
   stroke-linejoin:round;
 }
@@ -1185,45 +1390,23 @@ button{
 }
 
 /* ===== SPLIT TIER (≥1024px) — voice left, media right =====
-   D-2 hero and D-3 carousel shared one disease: fixed-px columns
-   that could out-measure their own slide/section below the width
-   they were tuned at. Gated together here, fluid together. */
+   D-3 carousel and onward share one disease: fixed-px columns that
+   could out-measure their own slide/section below the width they
+   were tuned at. Gated together here, fluid together. (D-2's own
+   hero-split rules retired at K-1 — the hero is a different beast
+   now, full-bleed instead of split.) */
 @media (min-width:1024px){
-  /* ---- D-2 HERO — THE SPLIT: text left, torso right, editorial calm ---- */
-  .hero{
-    display:grid;
-    grid-template-columns:minmax(0,1fr) min(560px,46vw);
-    align-items:center;
-    gap:3rem;
-    max-width:var(--content-max);
-    margin-inline:auto;
-    padding:3rem 1.5rem;
+  /* ---- K-1 HERO — GATE 1: DESKTOP FULL-BLEED. The pinned scrub
+     reads larger; establish/caption type scales up with it. ---- */
+  .kh__h1{font-size:clamp(3rem,5vw,4.5rem);}
+  .kh__intro{font-size:1rem;}
+  .kh__rail{left:3.5rem;gap:1.7rem;}
+  .kh__railbtn{width:20px;height:20px;}
+  .kh__static-copy{max-width:var(--content-max);margin-inline:auto;padding:2rem 2rem 2.5rem;}
+  .kh__static-stops{
+    max-width:var(--content-max);margin-inline:auto;padding:0 2rem 2.5rem;
+    display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1.5rem;
   }
-  .hero__torso{
-    grid-column:2;
-    grid-row:1;
-    width:100%;
-    max-width:560px;
-    margin:0;
-  }
-  .hero .wrap{
-    grid-column:1;
-    grid-row:1;
-    max-width:none;
-    margin:0;
-    padding:0;
-    min-width:0;
-  }
-  .hero__tagline{
-    font-size:clamp(2rem,3.5vw,2.75rem);
-    text-align:left;
-    max-width:16ch;
-  }
-  .hero__intro{
-    text-align:left;
-    max-width:65ch;
-  }
-  .socials{justify-content:center;}
 
   /* ---- D-3 CAROUSEL SPLIT — video block adopts the hero's grammar ---- */
   .video.wrap{
