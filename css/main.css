@@ -1267,8 +1267,12 @@ button{
   }
   .pill-wrap{min-width:0;}
 
-  /* ---- D-5 PASII — THE WALK: stately 3-across row, the opened
-     walk lays each phase's three steps as columns ---- */
+  /* ---- D-5 PASII — THE WALK: stately 3-across row; opened, the
+     focused card becomes a full-width banner (mobile's own fusion
+     role, just scaled up — walk__head stays hidden, same as
+     mobile, so the introducer is never duplicated) and the walk
+     below lays each phase's three steps as columns, all inside
+     one continuous gold-framed block. ---- */
   .pasii.wrap{
     max-width:var(--content-max);
     margin-inline:auto;
@@ -1279,36 +1283,25 @@ button{
     padding:.75rem .5rem .2rem;
   }
 
-  /* condensed (is-focused) card: keep the mobile costume, just
-     stop it stretching edge-to-edge at content-max */
-  .steps-cards.is-focused .scard{
-    max-width:600px;
-    margin-inline:auto;
+  /* THE BANNER — is-focused card spans full content-max width,
+     mirroring the mobile fusion (card carries image+label, walk
+     continues the same frame beneath it) instead of the mobile
+     16:9 crop, which would be too tall at this width */
+  .steps-cards.is-focused .scard img{
+    aspect-ratio:auto;
+    height:250px;
+    object-position:center;
+  }
+  .steps-cards.is-focused .scard__label{
+    font-size:1.4rem;
   }
 
-  .walk__head{
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    gap:.75rem;
-    padding:1.4rem 0 .5rem;
-  }
-  .walk__head img{
-    width:44px;height:44px;
-    border-radius:50%;
-    object-fit:cover;
-  }
-  .walk__label{
-    font-family:var(--font-head);
-    font-weight:700;
-    font-size:1.25rem;
-  }
   .walk__body{
     display:grid;
     grid-template-columns:repeat(3,1fr);
     gap:2rem;
     align-items:start;
-    padding:.5rem 2rem 2rem;
+    padding:1.4rem 2rem 2rem;
   }
   .walk__body[hidden]{display:none;}
   .walk__step{margin-bottom:0;padding:0;}
