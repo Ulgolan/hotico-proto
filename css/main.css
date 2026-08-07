@@ -277,15 +277,18 @@ html.js-kh .kh__static{display:none;}
    (not pinned to the pin's absolute bottom, which lands off-screen
    before sticky engages — see K-2 LEDGER). K-5 FIX 3 — switched from
    gold to the brand ink; gold read as inconsistent against the
-   heading/body color system. Size/tracking/position unchanged. */
+   heading/body color system. Size/tracking/position unchanged.
+   R-3 — the bare line becomes a labeled invitation: text + arrow,
+   inline, same label type tokens carried over from the old stack. */
 .kh__hint{
-  margin:1rem 0 0;display:flex;flex-direction:column;align-items:center;
+  margin:1rem 0 0;display:flex;flex-direction:row;align-items:center;gap:.5em;
+  color:var(--cocoa);
 }
-.kh__hint-line{width:1px;height:30px;background:var(--cocoa);margin:0 0 .5rem;}
 .kh__hint-label{
   font-family:var(--font-body);font-size:.75rem;letter-spacing:.28em;
   text-transform:uppercase;color:var(--cocoa);
 }
+.kh__hint-arrow{width:.625rem;height:.625rem;fill:currentColor;flex:none;}
 
 .kh__stops{position:absolute;inset:0;list-style:none;margin:0;padding:0;pointer-events:none;}
 
