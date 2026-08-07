@@ -1790,3 +1790,87 @@ forward:
 
 Session retires at this boundary. Next: wherever the Tower routes —
 R-1 territory (HTML/CSS/JS) now has real assets to build against.
+
+---
+
+## Entry #30 — 2026-08-07 — LAP R-1: STATUE & ANCHORS — MERGE & CLOSE
+
+**GATE PASSED.** New hero statue landed; the six-stop scroll film speaks
+it, in both the scrub (JS) and static (no-JS/reduced-motion) tiers.
+
+**Opened straightforward, then the ground moved.** R-1 began as a clean
+asset-reference swap: `statue-kintsugi.webp` → `statue-kintsugi-v2.webp`
+(17 refs), `IMG_W`/`IMG_H` and `.kh__film` re-derived for the new 0.8003
+aspect, six stops re-anchored in a new order (Sourcils, Eyeliner,
+Alopécie, Lèvres, Cicatrices, Aréole) per the Tower's v2 anchor table,
+uniform `6.6vh` connector introduced as a single constant. Commander
+ratified the DOM-driven stops discovery (data attributes on `<li
+data-kh-stop>`, not a JS literal — the search domain named in the brief
+undersold where the config actually lives) and the connector's scrub-
+only scope. First amendment: the static/no-JS fallback — a live
+reduced-motion user path, easy to forget — got the same six-stop
+treatment, verified by forcing `js-kh` off.
+
+**Then: statue A never shipped.** Client ruling (Alexa) mid-lap
+superseded the statue entirely. Everything built on statue A —
+`statue-kintsugi-v2.webp`, the six `spec-*.png` mockups, the v2 anchor
+table — became history in one stroke, not because it was wrong but
+because the client changed her mind about the image itself. New master
+`Hero_Hotico2_4x.png` (4096×6144) and Commander-gated `spec-anchors-
+v3.png` landed via `_intake/`; `statue-kintsugi-v3.webp` produced as a
+whole-frame resize (1365×2048, never cropped, alpha preserved) — the
+"never crop" law meant the establishing frame now shows the full
+pedestal, a visible change from v2's tighter crop, checked against
+Commander's own intent ("head + upper chest present, room for the H1")
+and passed. All 17 references swapped again, all framing constants
+re-derived again, six stops replaced again — same order, same link law,
+new coordinates. Six `pill-*.webp` serving assets (produced ahead-of-
+use in R-0, not yet wired into any page) re-cut from the new master
+rather than the old compressed serving webp, fixing R-0's own blur
+debt on `pill-levres` in the process.
+
+**Then: Commander walked the preview.** Composition approved outright.
+Three stops needed placement correction (Sourcils, Alopécie, Lèvres —
+Eyeliner/Cicatrices/Aréole stood as-is) per a second Commander-gated
+sheet, `spec-anchors-v3-1.png`. A fourth ruling, new to this lap:
+**continuous connector law** — dot, line, and pill must read as one
+unbroken unit, zero gaps at any viewport, zoom, or stop. Root cause
+found and fixed at the source: `.kh__caption-line`'s shared `margin:
+.5rem 0` was breathing room the static tier still wants but the scrub
+tier never should have inherited. Scoped `.kh__stop .kh__caption-
+line{margin:0}` alongside the existing length override. Verified by
+measuring live DOM edges — `line.top - dot.bottom` and `pill.top -
+line.bottom`, both exactly `0px` — at all six stops, not by eye. Three
+pills re-cut a second time for the moved anchors; `pill-sourcils`'
+hairline-margin debt relaxed slightly as predicted, `pill-levres`
+tightened instead — new anchor, narrower opaque margin, same category
+of source-limited debt as R-0's original.
+
+**MANIFEST.md** carries the full chain: v2 spec mockups and
+`statue-kintsugi-v2.webp` marked superseded-not-deleted; `spec-anchors-
+v3.png` and `spec-anchors-v3-1.png` added as the live Commander-gated
+references; both masters (`Hero_Hotico_4x.png`, `Hero_Hotico2_4x.png`)
+coexist in `assets/src/` as history.
+
+PR #17 merged into `main` via a merge commit
+(`3f731779bb062a878abd740fd7c778f90c18b648`, not squashed, not
+rebased): the statue-A→B supersession and the v1→v2→v3→v3.1 anchor
+correction history is part of the record and now lives in `main`
+alongside this LEDGER.
+
+**R-1 landed; Commander's eye passed twice, Tower cert both times.**
+Open debts carried forward:
+- **`pill-levres`** — soft/weak framing (mostly a lip corner and jaw),
+  source-limited by the mask rule's left-third constraint at this
+  anchor. Commander-accepted. Same unresolved shape as R-0's debt on
+  the same file, now against a different statue.
+- **`statue-kintsugi-v2.webp` + the six v2 spec mockups** — orphaned as
+  history, not live spec. Trash, never delete, per constitution.
+- **Six `pill-*.webp`** — still unwired. No page references any of
+  them yet; they remain ahead-of-use serving assets from R-0, now
+  current against statue B.
+
+Session retires at this boundary. Next: wherever the Tower routes —
+the pill assets have a home waiting in some future service page, and
+R-2/R-3 (scroll mechanics, scroll indicator) were named out-of-scope
+here, twice.
