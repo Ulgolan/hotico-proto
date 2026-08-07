@@ -1874,3 +1874,136 @@ Session retires at this boundary. Next: wherever the Tower routes —
 the pill assets have a home waiting in some future service page, and
 R-2/R-3 (scroll mechanics, scroll indicator) were named out-of-scope
 here, twice.
+
+---
+
+## Entry #31 — 2026-08-07 — LAP R-2: SCROLL FEEL — MERGE & CLOSE
+
+**GATE PASSED, twice.** Commander walked both devices twice — once
+after the initial build (framing PASS, feel flagged for one tune
+pass), once after the tune pass (snappy, locks, no purgatory, first
+transition approved, no pill stutter). Tower diff-cert via codeload
+tarballs, both rounds: scope held to hero-scroll.js/main.css/index.html
++ the two service pages' cache-busts, stop markup byte-identical to
+main throughout, zero `preventDefault` invocations at any point.
+
+**The lap's one variable was the FEEL** — anchors, labels, links,
+connector geometry untouched across both rounds, confirmed by diff
+each time.
+
+**A — snap-on-settle.** Native scroll drives the camera the whole
+time; once settled (`scrollend`, debounce fallback), eases to the
+nearest of establish/dwell-mid/release — `SETTLE_TARGETS` is the
+complete, exhaustive set, so nothing mid-transition is ever a valid
+landing.
+
+**B — cadence.** Runway cut 760vh→400vh, one knob scaling the locked
+hold/trans/dwell/exit ratios together. Inter-stop cycle ~55.7vh.
+
+**C — stop framing, and the lap's one accepted deviation.** The
+ignition key's literal instruction was "raise data-s." Building it
+that way surfaced a real interaction bug: `data-s` is read through the
+same wide-viewport `k` compensation that's already maxed on desktop,
+so a mobile zoom-boost compounds through that ceiling too — a stop
+that read as "commands the screen" on a phone became "all hair, no
+face" at 1440px. Decoupled instead: `data-s` stays exactly R-1's
+Commander-approved values (untouched, still LOCKED); a JS-only mobile
+zoom lift and a vy anchor-placement bias (upper-middle instead of
+`vh/2`) both taper to a hard no-op at `k`'s 1.35 ceiling, so desktop's
+transform is byte-identical to pre-lap — verified by direct transform
+inspection, not just claimed. Tower accepted this as superior to the
+key's own instruction, not drift: **the key's letter yielded to the
+key's actual intent** (mobile framing fixed, desktop untouched) once
+the two turned out to be in tension.
+
+**Then: the tune pass.** Commander's first walk passed the framing but
+flagged the feel — three findings, diagnosed and fixed on the same
+branch, same PR, per standing rule for a retune:
+
+- **Snap-back purgatory (Sourcils↔Eyeliner).** Root cause: the debounce
+  fallback was gated `if (hasScrollend) return` — on any browser
+  reporting `scrollend` support, the entire safety net was skipped,
+  betting the whole settle response on one native event whose firing
+  latency isn't part of the feature-detection contract (and is
+  documented to lag behind on WebKit after momentum scrolling). Fixed
+  by running debounce unconditionally in parallel (~140ms after the
+  last `scroll` event) — `scrollend`, when prompt, still wins by
+  clearing the pending timer; `settle()`'s own epsilon check makes
+  firing both harmless. Compounding second cause: nearest-target
+  picking was a flat 50/50 split, judging a normal flick's travel as
+  "lazy" and snapping it back — a normal user was never meant to pay
+  the same cost for a slightly-short advance as for a genuinely lazy
+  drag. Ruling: bias the tie-break asymmetrically. The direction the
+  gesture was already headed needs only 30% coverage of the gap to
+  advance; reversing that direction needs 70% — advancing is the
+  default assumption, snap-back is reserved for a drag that covers
+  less than the 30% floor (`ADVANCE_BIAS_FRAC = 0.20`, tune value not
+  a law). The asymmetry is deliberate: a false "advance" costs the
+  user one extra flick backward to correct; a false "snap-back" costs
+  the exact purgatory Commander hit — the two mistakes are not equally
+  expensive, so the threshold isn't centered.
+- **First transition read as a slam** (establish→Sourcils crossed in
+  ~0.25s, both mobile touch and desktop wheel). A flick uses up a
+  short transition's runway near-instantly regardless of its easing
+  curve — `smootherstep` already ramps from/to zero velocity at both
+  ends, so the fix is distance, not curve shape. Runway 400vh→**428vh**,
+  all 28 of the added vh going to the establish→Sourcils transition
+  alone (`FIRST_TRANS_BONUS_VH`), added on top of the total rather than
+  carved from another segment — every other stop's B-tuned cadence is
+  unchanged in absolute vh.
+- **Lèvres pill stutter** (quick-appear/disappear/stabilize on
+  arrival). Root cause: the pill's active state was tied to the
+  literal dwell-segment boundary; a brief momentum overshoot just past
+  it — which settle() correctly corrects right back — flickered the
+  class through active→inactive→active fast enough to read as a bug,
+  though each instant was technically correct. Same narrow-dwell-zone
+  mechanism as the purgatory finding, manifesting as a stutter instead
+  of a wrong-stop snap. Fixed with hysteresis: the active check now
+  tests each dwell's own padded range directly (`ACTIVE_PAD = DWELL ×
+  0.35`) instead of `findSegment`'s exact boundary. Camera position
+  itself is untouched — framing stays pixel-identical to C.
+- `?khdebug=1` console instrumentation shipped and kept, not stripped
+  before merge: logs settle source/position/target/decision, silent
+  by default. Built because no iOS Simulator was available on the
+  build machine to capture real device numbers directly (no full
+  Xcode install) — this is what the next device-inspector session
+  reads if any of the three tune values above need another turn.
+
+**One Tower error, corrected by the Hands — same shelf as the
+silhouette-bbox anchor miscalculation in entry #29.** The ignition
+key's verification item (d) demanded proof that reduced-motion on the
+SCRUB tier settles as an instant jump. That state doesn't exist: the
+gate architecture (pre-existing, untouched by this lap) only adds
+`html.js-kh` when `prefers-reduced-motion` reads false, `.kh__scrub`
+is `display:none` without that class, and `hero-scroll.js` returns at
+line 11 before any of this lap's code runs — scrub and reduced-motion
+are mutually exclusive by construction, not by omission. Confirmed
+with Chrome's actual `--force-prefers-reduced-motion=reduce` flag
+against the built branch: static tier renders, scrub tier does not.
+The Hands flagged this as a premise correction rather than staging a
+misleading test to manufacture compliance, and proved the underlying
+code path (the `prefersReducedMotion` branch inside `settle()`) correct
+by inspection instead: it reads the identical `matchMedia` query the
+gate already evaluated to decide whether `hero-scroll.js` runs at all,
+so it is provably `false` on every path that reaches `settle()` today
+— defensive-only, correct if the gate is ever loosened, not exercisable
+now. Item discharged by premise correction, not by screenshot.
+
+PR #18 merged into `main` via a merge commit
+(`d2867ae0dce728fb1a9813205de329eda349238d`, two parents — not
+squashed, not rebased): both rounds' history — the initial build, the
+data-s deviation, and the three-finding tune pass — is part of the
+record and now lives in `main` alongside this LEDGER. 24 before/after
+certification screenshots (all six stops, both mobile heights) and the
+reduced-motion proof screenshot live at `docs/qa/r2-scroll-feel/`, not
+deleted post-merge — the audit trail stays in-repo.
+
+**Scroll Feel landed; Commander's eye passed twice, Tower cert twice.**
+No open debts — the three tune-pass values (`ADVANCE_BIAS_FRAC`,
+`FIRST_TRANS_BONUS_VH`, `ACTIVE_PAD`) are live constants, not hardcoded
+forever, should a future device walk ever want another turn, but
+nothing here is flagged soft or accepted-as-is.
+
+Session retires at this boundary. Next: wherever the Tower routes —
+R-3 (scroll indicator) was named out-of-scope twice now, in R-1 and
+again here.
