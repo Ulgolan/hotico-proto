@@ -253,6 +253,12 @@ html.js-kh .kh__static{display:none;}
    transparent by her mid-torso (head/shoulders/upper torso stay
    completely clear), ~90% ivory by the time it reaches the paragraph/
    socials. */
+/* R-3b — the 40vh/40dvh top padding below is the DESKTOP/fallback value
+   (>=768px, LAW). Below 768px, hero-scroll.js's recalc() sets an inline
+   padding-top that lifts this up as part of the mobile establishing-frame
+   lift (see ESTABLISH_LIFT_PX_MOBILE) and clears the override back to
+   this rule at 768px and up — so this declaration is never edited for
+   the mobile case, only overridden inline. */
 .kh__establish{
   position:absolute;inset:0;
   display:flex;flex-direction:column;align-items:center;justify-content:flex-start;
