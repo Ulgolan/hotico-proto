@@ -17,6 +17,7 @@ untouched from `_intake/` — no transformation applied.
 | `spec-cicatrices.png` | 755110 | — |
 | `spec-areole.png` | 754374 | — |
 | `spec-anchors-v3.png` | 1925538 | — |
+| `spec-anchors-v3-1.png` | 839284 | — |
 
 The xlsx SHA-256 is the chain-of-custody anchor referenced by the ignition
 key for all verbatim trilingual text pulled in future laps. The spec PNGs
@@ -32,3 +33,9 @@ kintsugi-v2.webp` are history now, not live spec — kept per constitution
 `assets/img/statue-kintsugi-v3.webp`, both built from the new master
 `assets/src/Hero_Hotico2_4x.png` (4096×6144, replacing `Hero_Hotico_4x.png`
 as the live source; the old master stays in `assets/src/` as history too).
+
+**Correction pass (2026-08-07):** Commander walked the v3 preview and
+red-lined three stops (Sourcils, Alopécie, Lèvres). `spec-anchors-v3-1.png`
+is the Tower-final correction sheet for those three; the other three
+stops (Eyeliner, Cicatrices, Aréole) from `spec-anchors-v3.png` are
+unchanged and still live.

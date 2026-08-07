@@ -288,7 +288,7 @@ html.js-kh .kh__static{display:none;}
    visual-viewport split, which is what put every dot ~one body-zone
    too high. */
 .kh__stop{position:absolute;left:0;top:0;pointer-events:none;}
-.kh__stop .kh__caption-line{height:var(--kh-connector-len);}
+.kh__stop .kh__caption-line{height:var(--kh-connector-len);margin:0;}
 
 .kh__stop .kh__caption{
   /* center horizontally, then shift up by the dot's own radius so the
