@@ -138,12 +138,13 @@
   // ---- viewport-derived camera constants (resize-only recompute) ----
   var vw, vh, coverScale, containScale, establishScale, k;
   var ESTABLISH_K = 0.92;     // fraction of contain-fit — "large, fully present"
-  var ESTABLISH_TOP_RATIO = 0.18; // share of the vertical slack left ABOVE the
-                                   // head; the rest goes below. A fixed fy
-                                   // (K-3's 0.5, dead center) put half the
-                                   // slack above her crown at every aspect —
-                                   // fine on tall mobile viewports where slack
-                                   // is generous, but on short/wide desktop
+  var ESTABLISH_TOP_RATIO = 0.18; // LAW past 768px — share of the vertical
+                                   // slack left ABOVE the head; the rest goes
+                                   // below. A fixed fy (K-3's 0.5, dead
+                                   // center) put half the slack above her
+                                   // crown at every aspect — fine on tall
+                                   // mobile viewports where slack is
+                                   // generous, but on short/wide desktop
                                    // viewports the image is nearly height-
                                    // bound already, so half-above reads as a
                                    // dead band under the header. Sizing the
@@ -151,6 +152,31 @@
                                    // exists (rather than a fixed fy) keeps the
                                    // crown clear of the header at every width
                                    // without ever pushing it off-screen.
+  // R-3b — on a narrow/tall phone containScale is width-bound (recalc()
+  // below), leaving a LOT of vertical slack; 18% of a big number is still
+  // a big dead band above the crown, and main.css's .kh__establish carried
+  // a flat 40vh copy padding-top on top of that, independent of where the
+  // statue actually sat. Commander's device walk (390x844/764, Brave)
+  // read the sum as a dead crown of space while the scroll hint crowded
+  // the bottom chrome. Fix: one shared upward PIXEL shift, applied
+  // identically to the image's gap-above (ESTABLISH_TOP_RATIO's result)
+  // and the copy's padding-top, so the two move as a single rigid
+  // ensemble — the gap between image-bottom and copy-top (what the
+  // .kh__veil gradient, untouched, was tuned against) stays exactly what
+  // it was, just relocated higher in the pin. Independent deltas were
+  // tried first and broke that relationship: the copy slid up faster
+  // than the image, landing over a less-washed part of the statue.
+  // Tapered by raw viewport WIDTH — not the k/wideT aspect taper below
+  // (that one's shaped for in-scroll dwell framing, and leaks partial
+  // values into in-between aspects like a tall 768-wide window).
+  // establishMobileT() matches the literal 768px line main.css already
+  // draws between mobile and desktop rules: any viewport >=768px wide is
+  // mt=0, so both values below stay their exact ORIGINAL numbers,
+  // unconditionally — desktop composition is untouched by construction.
+  var ESTABLISH_LIFT_PX_MOBILE = 55; // tune target for device walk
+  function establishMobileT() {
+    return clamp01((768 - vw) / (768 - 390));
+  }
   // K-6 FIX 1 — single measured viewport, used by every formula below
   // (film transform, establishing fy, progress) and by the marker
   // projection. window.innerWidth/Height is the LAYOUT viewport —
@@ -177,8 +203,25 @@
 
     var imgH = establishScale * IMG_H;
     var slack = Math.max(0, vh - imgH);
-    // solved from: gap_top = slack/2 - imgH*(fy-0.5) = slack*ESTABLISH_TOP_RATIO
-    ESTABLISH_KF.fy = 0.5 + (slack * (0.5 - ESTABLISH_TOP_RATIO)) / imgH;
+    var mt = establishMobileT();
+    var lift = ESTABLISH_LIFT_PX_MOBILE * mt; // 0 at >=768px — desktop untouched
+    // gapTopBase is the original LAW formula's result (ESTABLISH_TOP_RATIO,
+    // never edited); gapTop is that same number minus the shared lift,
+    // floored at 0 so the image can never be pushed above the pin's own
+    // top edge. solved from: gap_top = slack/2 - imgH*(fy-0.5)
+    var gapTopBase = slack * ESTABLISH_TOP_RATIO;
+    var gapTop = Math.max(0, gapTopBase - lift);
+    ESTABLISH_KF.fy = 0.5 + (slack / 2 - gapTop) / imgH;
+
+    // R-3b — copy block (H1/intro/socials/hint) moves with the statue by
+    // the exact same `lift` px. mt===0 clears the inline override so
+    // main.css's 40vh/40dvh alone governs, byte-identical to pre-lap.
+    if (mt > 0) {
+      var paddingBase = vh * 0.40;
+      establish.style.paddingTop = Math.max(0, paddingBase - lift) + 'px';
+    } else {
+      establish.style.paddingTop = '';
+    }
   }
 
   // Shared by getScale() and effectiveVy(): 0 at k=1 (mobile/reference
