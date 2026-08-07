@@ -1713,3 +1713,80 @@ iPhone gate passed.** Open debts carried forward:
 Seven laps, one campaign, closed. Next: wherever the Tower routes —
 tidy lap on the orphaned assets, or the next service page's own
 front-door treatment.
+
+---
+
+## Entry #29 — 2026-08-07 — LAP R-0: ASSET FOUNDRY — MERGE & CLOSE
+
+**GATE PASSED.** Files-only lap: refonte homepage v2 raw material
+landed — spec vault, statue and étapes serving assets, six service
+pill crop proposals. No DOM/CSS/JS touched, per brief.
+
+**Spec vault** (`docs/spec/refonte/`): six Commander anchor mockups
+and `hotico-fr-content.xlsx` archived untouched from `_intake/`. xlsx
+SHA-256 `21d20ae18325...086641` recorded in `MANIFEST.md` as the
+chain-of-custody anchor for all verbatim trilingual text pulled in
+future laps.
+
+**Statue & étapes**: `Hero_Hotico_4x.png` (4488×5608) and the three
+étapes renders archived to `assets/src/`; whole-frame-resized serving
+webps produced — `statue-kintsugi-v2.webp` (1639×2048, no crop, alpha
+preserved) and three 2400×2400 étapes squares with a pixel-measured
+band-check (subject vertical center, mobile 16:9 band coverage,
+desktop banner-strip coverage) reported per file.
+
+**Anchor table correction — Hands STOP caught a Tower error.** The
+original R-1 anchor table was verified against the actual delivered
+`Hero_Hotico_4x.png` before cropping and found off: `alopécie` and
+`lèvres` landed in pure transparent background, `sourcils` on the
+forehead instead of the eyebrow, `eyeliner` on the cheek instead of
+the eye. Flagged rather than silently cropped or self-corrected — a
+silhouette-bbox registration error on Tower's side, ledgered. Tower
+re-derived a v2 table by pixel correlation + visual placement,
+verified again before use, Commander-gated.
+
+**Étapes naming slip** — `_intake` names didn't match the Figma
+triptych meaning. Commander ruling: content swapped so
+`etapes-procedure` = the rough-hewn rock, `etapes-entretien` = the
+gold-veined sphere. `etapes-conseil` (cube) untouched. Applied to both
+`assets/src/` masters and `assets/img/` webps; band-check table
+relabeled to match, not recomputed (same underlying files).
+
+**Pill crops, twice re-cut.** v1 (centered on the broken anchors) was
+scrapped. v2 (Tower's corrected anchors, still centered) landed on
+real anatomy for 4/6 but `alopécie` and `cicatrices` stayed weak. v3
+(this round, Tower rule): window offset so the feature sits in the
+left third of the strip — inside the `.pill__img` mask's fully-opaque
+0–55% zone — with zero transparent pixels, clamped fully inside the
+statue silhouette. Verified programmatically per crop
+(`alpha.getextrema()[0] == 255`, all six). Five landed clean at the
+target x-fraction (~0.17, essentially the ideal 1/6). `pill-levres`
+could not hit both the left-third target and stay legible — the
+chin/jaw silhouette leaves almost no opaque margin there; exact 1/6
+placement forced a 104px source crop that blurred to mush at 495px
+output, relaxed to x-fraction ≈0.085 (still inside the left third) to
+keep a 400px crop. Flagged soft — source-limited, not a cropping
+mistake — and accepted by Commander as-is for this lap.
+
+PR #16 merged into `main` via a merge commit
+(`2c948d110dd4624ac8ec39972b1528d24cd8c990`, two parents — not
+squashed, not rebased): the v1→v2→v3 correction history is part of
+the record and now lives in `main` alongside this LEDGER.
+`_intake/` confirmed absent from `main` — never tracked, source files
+moved out to their vault/archive homes; the local empty directory
+was cleared.
+
+**Asset Foundry landed; Commander's eye passed.** Open debts carried
+forward:
+- **`pill-levres` framing** — accepted soft this lap; may need a
+  different anchor point or a different pill treatment to solve
+  properly. Future lap.
+- **`pill-alopecie` semantic drift** — geometrically valid (zero
+  transparency, correct x-fraction) but the v2 anchor still points at
+  the eye corner, not scalp/hairline. Carried forward unresolved from
+  v2; not a v3 cropping issue.
+- **`cicatrices`** — legible as "a scar line" but no strong focal
+  mass. Usable, not dramatic.
+
+Session retires at this boundary. Next: wherever the Tower routes —
+R-1 territory (HTML/CSS/JS) now has real assets to build against.
