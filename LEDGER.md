@@ -2177,3 +2177,121 @@ device walk if one is ever wanted, not hardcoded-forever and not
 flagged soft.
 
 Session retires at this boundary.
+
+---
+
+## Entry #34 — 2026-08-08 — LAP R-2b: SCROLL FEEL II — THE POLISH — MERGE & CLOSE
+
+**The lap's one variable:** the MOTION QUALITY of the settle ease.
+`SETTLE_TARGETS`, the 30/70 advance bias, and the 428vh cadence —
+LAW from R-2 — did not change; only how the ease moves did.
+
+**Finding A — the slam, root cause and fix.** Tower's frame-level
+motion analysis of the Commander's device recording measured a full
+stop-to-stop settle completing in ~0.5s with near-instant rise to
+peak velocity (0→max in under 100ms). Root cause: `settle()` handed
+the actual motion to `window.scrollTo({behavior:'smooth'})` — native
+smooth-scroll picks a fixed, short duration regardless of distance,
+with a curve that's front-loaded rather than eased in. Fix: the ease
+is now owned — an rAF loop writing `scrollTo` per frame — so both
+duration and curve are ours. Curve: `smootherstep` (already defined
+for the camera's spatial easing) reused in the *time* domain, zero
+velocity at both t=0 and t=1 by construction — gather, glide, land,
+no instant peak; one curve serving both what the camera does in
+space and what the settle now does in time. Duration:
+distance-proportional, 220ms (a small in-gesture correction) to
+640ms (a full inter-stop travel), normalized against the largest gap
+between two adjacent `SETTLE_TARGETS` rather than a hardcoded pixel
+number, so the formula keeps working un-retuned if that spacing is
+ever retuned.
+
+**Finding B — the straggler fight, root cause and fix.** Measured
+pattern: drag plateau → 2-frame hard freeze → violent slam →
+mid-slam hiccup (a velocity dip between two peaks) → freeze →
+resume. Root cause: native smooth-scroll exposes no cancel API and
+no "still running" query — the only way the old code could react to
+a late iOS momentum event arriving after the 140ms debounce had
+already started a settle was to call `scrollTo` again, which starts
+a *second* competing animation instead of replacing the first; the
+hiccup was that collision. Fix: owning the loop makes it
+interruptible. `activeEase` is the single source of truth for
+"a settle is in flight"; any `scroll` event that isn't our own
+per-frame write cancels it cleanly (`cancelAnimationFrame`, no
+leftover animation to fight) and re-arms the debounce for a fresh
+attempt once things actually go quiet. Self vs. foreign is told
+apart with a single-frame flag (`expectingSelfScroll`) set right
+before our own write and consumed by the very next `scroll` listener
+call — per spec, a synchronous write's scroll event dispatches
+within that same frame's render-update step, so the flag never races
+across frames. The `scrollend` listener got the matching guard: our
+own instant per-frame writes can each read to the browser as a
+discrete, already-ended scroll, so `scrollend` firing mid-ease is not
+treated as the ease's own completion signal — the rAF loop's own
+`frac>=1` check is.
+
+**The 140ms debounce — deliberately not touched, reasoning on
+record.** The ignition key asked whether the debounce window itself
+needed tuning. It answers a different question — "how long has it
+been quiet since the last scroll input" — than the one Finding B's
+bug actually turned on: the ease fighting an event that arrives
+*while it's running*, not the wait before it starts. That fight is
+what the self/foreign split removes; the 140ms figure keeps its
+original, R-2-tune-pass, device-measured meaning, untouched.
+
+**Reduced-motion instant-jump branch — untouched, semantically.**
+Tower's diff-cert noted the branch moved structurally (pulled into
+its own early-return inside the rewritten `settle()`) but confirmed
+it byte-behaviorally identical: still a single unconditional instant
+`scrollTo({behavior:'auto'})`, no ease, still a dead code path today
+(the `js-kh` gate in `<head>` keeps reduced-motion off this file
+entirely) — accepted as the same law, relocated by the shape of the
+rewrite around it, not changed.
+
+**Verification.** A standalone Node trace mirroring the exact
+`smootherstep`/duration formulas confirmed zero velocity at both
+ends of the ease and the distance-proportional split (260ms for a
+short correction, 640ms for a full stop-to-stop). A live browser
+trace (`?khdebug=1`) confirmed four clean
+`settle → ease start → ease complete → rest confirmed` sequences on
+mobile — both directions, varying distances, correct biased targets,
+correct rail-pill activation — and one clean sequence on a 1440×900
+desktop viewport, no console errors either width. The straggler-
+cancel branch itself could not be made to fire live in the build
+machine's headless test harness — a backgrounded browser tab
+throttles/pauses `requestAnimationFrame` hard enough that a short
+(220–640ms) ease collapses into a single frame before a same-session
+interrupt can be timed against it — so that path was shipped
+verified by code inspection only, flagged honestly as needing the
+Commander's actual device walk, where the ease runs at real 60fps.
+**Closed there:** the Commander's walk certified it directly — phone
+flicks including mid-glide interrupts, "sublime smooth" — the only
+place the straggler-cancel branch could actually be exercised, and
+it was.
+
+**Cache-bust.** `hero-scroll.js` v9→v10 — only page that references
+it (`index.html`). `main.css` untouched, no bump.
+
+**Gate.** Commander's eye: PASS on both instruments — phone flicks
+(mid-glide interrupts included) and desktop wheel. Tower diff-cert
+via codeload tarballs: PASS — scope held to two files
+(`hero-scroll.js` + the one `index.html` cache-bust line); LAW
+constants byte-identical (`TOTAL_VH=428`, `ADVANCE_BIAS_FRAC=0.20`,
+`SETTLE_DEBOUNCE_MS=140`, `SETTLE_TARGETS` construction); owned-ease
+machinery verified (`smootherstep` time-domain, 220–640ms
+distance-proportional, `cancelAnimationFrame` cancel-and-rearm);
+zero `preventDefault`.
+
+PR #21 merged into `main` via a merge commit (`4016a04`, two
+parents — not squashed, not rebased): the build commit (`f3fab26`)
+and the merge commit both live in `main`'s history alongside this
+LEDGER entry.
+
+**No open debts.**
+
+**THE HERO IS COMPLETE.** R-0 through R-2b — statue and asset
+foundry, anchors, scroll feel (twice: cadence and now motion
+quality), the indicator, the mobile establishing-frame cadrage —
+close together here. This entry closes the hero chapter of Campagne
+REFONTE.
+
+Session retires at this boundary.
