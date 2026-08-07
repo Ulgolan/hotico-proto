@@ -34,11 +34,42 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches);
   } catch (e) {}
 
-  // ---- LOCKED TIMELINE (see docs/IGNITION_kintsugi-scroll.md) ----
-  var ESTABLISH_HOLD = 0.075;
-  var ESTABLISH_FADE = 0.035;
-  var DWELL = 0.062;
-  var EXIT = 0.09;
+  // ---- LOCKED TIMELINE (see docs/IGNITION_kintsugi-scroll.md), in
+  // absolute vh so R-2 B's cadence tuning and this tune-pass's
+  // first-transition bonus (below) can both be exact, independent
+  // numbers instead of fractions fighting over one shared denominator.
+  // .kh__scrubwrap's height must equal TOTAL_VH — see main.css.
+  var TOTAL_VH = 428; // 400 (R-2 B) + 28 (tune pass, finding 2 — see below)
+  var HOLD_VH = 30;                      // 0.075 * 400, B's tuned value
+  var DWELL_VH = 24.8;                   // 0.062 * 400, B's tuned value
+  var EXIT_VH = 36;                      // 0.09  * 400, B's tuned value
+  var N_STOPS = 6;
+  var TRANS_VH = (400 - HOLD_VH - DWELL_VH * N_STOPS - EXIT_VH) / N_STOPS; // ~30.87, B's tuned value
+  // R-2 tune pass, finding 2 — Commander's recording measured the
+  // establish->Sourcils crossing at ~0.25s on a normal flick, both on
+  // mobile touch and desktop wheel; it read as a slam. A flick uses up
+  // a short transition's runway near-instantly regardless of its easing
+  // curve (smootherstep already ramps from/to zero velocity at both
+  // ends — the "slam" is a DISTANCE problem, not a curve-shape one).
+  // Fix: more runway for just this one segment. Added on top of the
+  // total instead of carved out of another segment, so every other
+  // stop's cadence stays exactly what B tuned — this doesn't touch
+  // TRANS_VH/DWELL_VH/EXIT_VH above, it just pushes stop 1 onward
+  // later by a fixed 28vh. Roughly doubles the first transition's own
+  // length. Tune target for the next device walk, not a hard law.
+  var FIRST_TRANS_BONUS_VH = 28;
+
+  var ESTABLISH_HOLD = HOLD_VH / TOTAL_VH;
+  var ESTABLISH_FADE = 0.035 * 400 / TOTAL_VH; // same absolute-vh fade distance as B tuned
+  var DWELL = DWELL_VH / TOTAL_VH;
+  var EXIT = EXIT_VH / TOTAL_VH;
+  var TRANS = TRANS_VH / TOTAL_VH;
+  var FIRST_TRANS_EXTRA = FIRST_TRANS_BONUS_VH / TOTAL_VH;
+  // R-2 tune pass, finding 3 — hysteresis margin on the dwell-active
+  // check only (see update()); TRANS (~31-59vh) is far larger than
+  // 2*ACTIVE_PAD (~17vh combined), so adjacent stops' padded ranges
+  // never touch.
+  var ACTIVE_PAD = DWELL * 0.35;
 
   // R-2 C — per-stop viewport anchor placement (vertical fraction of the
   // pin the anchor point lands on, replacing the old flat vh/2 center).
@@ -83,12 +114,6 @@
   // the 'exit' segment's `to` holds a reference to this same object.
   var ESTABLISH_KF = { fx: 0.5, fy: 0.5, vy: 0.5, isEstablish: true };
 
-  // Transitions fill whatever the locked hold/dwell/exit figures leave
-  // behind, split evenly across the N camera moves (establish→1, then
-  // between each consecutive pair). Not a separately-locked number —
-  // arithmetic on the ones that are.
-  var TRANS = (1 - ESTABLISH_HOLD - DWELL * N - EXIT) / N;
-
   // ---- build the segment timeline ----
   var segments = [];
   segments.push({ type: 'hold', start: 0, end: ESTABLISH_HOLD });
@@ -96,7 +121,9 @@
   var prevKF = ESTABLISH_KF;
   var dwellByIndex = [];
   for (var i = 0; i < N; i++) {
-    var transStart = t, transEnd = t + TRANS;
+    // finding 2 — only segment 0 (establish->Sourcils) gets the bonus.
+    var thisTrans = TRANS + (i === 0 ? FIRST_TRANS_EXTRA : 0);
+    var transStart = t, transEnd = t + thisTrans;
     segments.push({ type: 'trans', start: transStart, end: transEnd, from: prevKF, to: STOPS[i], stopIndex: i });
     t = transEnd;
     var dwellStart = t, dwellEnd = t + DWELL;
@@ -256,8 +283,26 @@
       }
     }
 
-    // per-stop dwell UI
-    var activeStop = seg.type === 'dwell' ? seg.stopIndex : -1;
+    // per-stop dwell UI — R-2 tune pass, finding 3: arrival at Lèvres
+    // (desktop) showed the pill quick-appear/disappear/stabilize.
+    // Root cause: activeStop was tied to the LITERAL dwell boundary via
+    // findSegment(); a brief momentum overshoot just past that boundary
+    // (settle() corrects it right back within a couple of ticks) flips
+    // active->inactive->active fast enough to read as a flicker, even
+    // though each individual state was technically correct for that
+    // instant. Fix: hysteresis — the active check now uses each dwell's
+    // OWN padded range directly (independent of findSegment/exact
+    // boundary), so a small in-and-out doesn't cross it. Only the pill
+    // visibility is padded; the camera's actual position (fx/fy/scale)
+    // is untouched, so framing stays pixel-identical to R-2 C.
+    var activeStop = -1;
+    for (var di = 0; di < N; di++) {
+      var d = dwellByIndex[di];
+      if (progress >= d.start - ACTIVE_PAD && progress <= d.end + ACTIVE_PAD) {
+        activeStop = di;
+        break;
+      }
+    }
     STOPS.forEach(function (stop, idx) {
       var active = idx === activeStop;
       if (active === stop.el.__khActive) return;
@@ -315,29 +360,74 @@
   })).concat([1]);
   var SETTLE_EPS = 0.004; // already resting within ~tolerance — skip the no-op scrollTo
 
+  // R-2 tune pass, finding 1 — debug instrumentation. Off by default;
+  // append ?khdebug=1 to log settle triggers (source, position, chosen
+  // target, direction) to the console for a device-inspector session.
+  // No iOS Simulator on this build machine (no full Xcode) to capture
+  // real numbers directly — this is what the NEXT device walk reads.
+  var KH_DEBUG = /[?&]khdebug=1\b/.test(location.search);
+  function khlog() {
+    if (KH_DEBUG && window.console) {
+      console.log.apply(console, ['[kh]'].concat(Array.prototype.slice.call(arguments)));
+    }
+  }
+
   function currentProgress() {
     var rect = wrap.getBoundingClientRect();
     var total = rect.height - measuredVH();
     return total > 0 ? clamp01(-rect.top / total) : 0;
   }
 
-  function nearestSettleTarget(p) {
-    var best = SETTLE_TARGETS[0], bestDist = Math.abs(p - best);
-    for (var i = 1; i < SETTLE_TARGETS.length; i++) {
-      var d = Math.abs(p - SETTLE_TARGETS[i]);
-      if (d < bestDist) { bestDist = d; best = SETTLE_TARGETS[i]; }
+  // lastRestProgress doubles as "where this gesture started": it only
+  // ever updates when settle() confirms rest (see below), so for the
+  // whole duration of a gesture it correctly holds the position the
+  // user was at before they started moving — no separate gesture-start
+  // tracking needed.
+  var lastRestProgress = 0;
+
+  // R-2 tune pass, finding 1b — Commander's normal flick off Sourcils
+  // needed two tries to reach Eyeliner: the plain nearest-target pick
+  // (a flat 50/50 split) judged his flick's travel as "lazy" and
+  // snapped it back. Biased pick instead: figure out which way the
+  // gesture was headed (current progress vs. where it started) and
+  // require LESS travel in that direction to advance, MORE to reverse
+  // it — advancing is the default assumption, snap-back is reserved
+  // for a drag that covers less than ADVANCE_BIAS_FRAC of the gap.
+  // 0.20 -> forward needs 30% coverage to advance (was 50%), backward
+  // needs 70% coverage to reverse into advancing instead. Tune target
+  // for the next device walk, not a hard law.
+  var ADVANCE_BIAS_FRAC = 0.20;
+
+  function biasedSettleTarget(p, ref) {
+    var lo = SETTLE_TARGETS[0], hi = SETTLE_TARGETS[SETTLE_TARGETS.length - 1];
+    for (var i = 0; i < SETTLE_TARGETS.length - 1; i++) {
+      if (p >= SETTLE_TARGETS[i] && p <= SETTLE_TARGETS[i + 1]) {
+        lo = SETTLE_TARGETS[i]; hi = SETTLE_TARGETS[i + 1];
+        break;
+      }
     }
-    return best;
+    if (hi === lo) return lo;
+    var fracFromLo = (p - lo) / (hi - lo);
+    var movingForward = p >= ref;
+    var advanceThreshold = movingForward ? (0.5 - ADVANCE_BIAS_FRAC) : (0.5 + ADVANCE_BIAS_FRAC);
+    return fracFromLo >= advanceThreshold ? hi : lo;
   }
 
   // No re-entrancy flag: this same handler fires again once its own
   // scrollTo comes to rest (scrollend, or the debounce fallback after
   // its last synthesized scroll event) — by then progress is within
   // SETTLE_EPS of `target` and the function is a no-op. Self-terminating.
-  function settle() {
+  function settle(source) {
     var p = currentProgress();
-    var target = nearestSettleTarget(p);
-    if (Math.abs(target - p) < SETTLE_EPS) return;
+    var target = biasedSettleTarget(p, lastRestProgress);
+    if (Math.abs(target - p) < SETTLE_EPS) {
+      khlog('rest confirmed, source=', source, 'p=', p.toFixed(4));
+      lastRestProgress = target;
+      return;
+    }
+
+    khlog('settle, source=', source, 'p=', p.toFixed(4), 'ref=', lastRestProgress.toFixed(4),
+      'target=', target.toFixed(4), 'action=', target > p ? 'advance' : 'back');
 
     var rectNow = wrap.getBoundingClientRect();
     var totalNow = rectNow.height - measuredVH();
@@ -349,19 +439,32 @@
     });
   }
 
+  // R-2 tune pass, finding 1a — debounce used to be skipped entirely
+  // whenever `scrollend` was supported, betting the whole settle
+  // response on that one native event. That bet is the "1+ second of
+  // frozen, pill-less limbo" Commander hit: iOS Safari's `scrollend`
+  // is documented to sometimes fire well after motion looks finished
+  // (feature-detecting `'onscrollend' in window` says nothing about
+  // its firing latency). Now both run in parallel as of this pass —
+  // debounce is a ~140ms-after-last-scroll-event safety net regardless
+  // of whether/when scrollend shows up; scrollend, when prompt, wins
+  // by clearing the pending debounce timer and settling immediately.
+  // settle()'s own epsilon short-circuit makes firing both harmless.
   var hasScrollend = 'onscrollend' in window;
   var settleTimer = null;
-  var SETTLE_DEBOUNCE_MS = 140; // iOS Safari fallback where scrollend is unsupported
+  var SETTLE_DEBOUNCE_MS = 140;
 
   function scheduleSettleFallback() {
-    if (hasScrollend) return;
     clearTimeout(settleTimer);
-    settleTimer = setTimeout(settle, SETTLE_DEBOUNCE_MS);
+    settleTimer = setTimeout(function () { settle('debounce'); }, SETTLE_DEBOUNCE_MS);
   }
 
   window.addEventListener('scroll', scheduleSettleFallback, { passive: true });
   if (hasScrollend) {
-    window.addEventListener('scrollend', settle, { passive: true });
+    window.addEventListener('scrollend', function () {
+      clearTimeout(settleTimer);
+      settle('scrollend');
+    }, { passive: true });
   }
 
   railBtns.forEach(function (btn) {
