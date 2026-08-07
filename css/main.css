@@ -210,13 +210,19 @@ html.js-kh .kh__static{display:none;}
    above it — standard fallback order, not a typo. */
 .kh__scrubwrap{position:relative;height:760vh;height:760dvh;}
 
-.kh__pin{position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;}
+.kh__pin{
+  position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;
+  /* R-1 Anchor C — one shared connector length for all six scrub
+     stops, 0.066 of the rendered statue frame (this pin) height. */
+  --kh-connector-len:6.6vh;
+  --kh-connector-len:6.6dvh;
+}
 
 .kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
 
 .kh__film{
   position:absolute;top:0;left:0;
-  width:1024px;height:1536px;max-width:none;
+  width:1639px;height:2048px;max-width:none;
   transform-origin:0 0;
   will-change:transform;
   /* K-3 FIX 2 — permanent bottom-edge fade. Travels WITH the image
@@ -282,6 +288,7 @@ html.js-kh .kh__static{display:none;}
    visual-viewport split, which is what put every dot ~one body-zone
    too high. */
 .kh__stop{position:absolute;left:0;top:0;pointer-events:none;}
+.kh__stop .kh__caption-line{height:var(--kh-connector-len);}
 
 .kh__stop .kh__caption{
   /* center horizontally, then shift up by the dot's own radius so the
