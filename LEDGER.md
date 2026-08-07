@@ -2060,3 +2060,120 @@ and the merge commit both live in `main`'s history alongside this
 LEDGER entry.
 
 **No open debts.** Session retires at this boundary.
+
+---
+
+## Entry #33 — 2026-08-08 — LAP R-3b: CADRAGE — MERGE & CLOSE
+
+**The lap's one variable:** the mobile establishing-frame vertical
+composition. Commander's device walk (390-wide, Brave, 23:11
+screenshot) found "DÉFILER VERS LE BAS" licking the browser chrome
+while a dead crown of space sat above the statue's head. The whole
+ensemble — statue, H1, paragraph, socials, indicator — is raised as
+one unit.
+
+**Diagnosis, all three suspects, before anything was touched.**
+Suspect (a), hero height unit: ruled out — `.kh__pin` and
+`.kh__scrubwrap` already carry the vh+dvh fallback pattern from K-6.
+Suspect (b), header-to-hero spacing: ruled out — no stray margin or
+padding sits between `.hdr` and `.kh`; the gap measured was the
+header's own natural height (~92px), not a bug. Suspect (c), the
+establishing camera state: the actual cause, and it was two bugs
+compounding, not one. On a narrow/tall phone `containScale` is
+width-bound, leaving a large vertical slack; `ESTABLISH_TOP_RATIO`
+(0.18, LAW past 768px) reserved 18% of that slack above the crown as
+a flat, unconditional ratio. Independently, `.kh__establish`'s CSS
+carried a flat `40vh`/`40dvh` copy padding-top on top of that — with
+no formula tying the two together, they were each eating the same
+dead space with no relationship to each other or to where the statue
+actually sat.
+
+**The honest first attempt, scrapped.** The first build moved the
+statue's gap and the copy's padding-top by independent deltas (a
+tapered top-ratio for the image, a separately-tapered vh fraction for
+the copy). It overshot: the copy slid up faster than the image and
+landed over a less-washed part of the statue, breaking the
+`.kh__veil` legibility relationship the original 40vh value had been
+tuned against. Caught by screenshot before it reached a PR, not after.
+
+**The landed fix: one shared rigid-ensemble lift.** A single pixel
+value, `ESTABLISH_LIFT_PX_MOBILE` (tune target 55px), subtracted
+identically from both the image's gap-above-head and the copy's
+padding-top, each floored at 0 independently — so image and copy move
+as one rigid body up to the point the image goes flush against the
+pin's top edge, after which the copy alone continues closing the
+remaining distance. The gap between image-bottom and copy-top that
+`.kh__veil` was tuned against is preserved throughout, just relocated
+higher in the pin.
+
+**One accepted deviation from the key, ruled by the Tower.** The key
+suggested the existing k/wideT aspect-ratio taper (the mechanism
+already driving `DWELL_VY`/`MOBILE_ZOOM_BOOST`) as the tapering
+discipline. The build used a raw viewport-WIDTH taper instead
+(`establishMobileT()`), hard-gated at 768px to match main.css's own
+mobile/desktop line. Reasoning offered at PR time: the aspect taper
+leaks partial values into in-between aspects (e.g. a tall 768-wide
+window sits at k≈1.15, not the 1.35 ceiling), which would have made
+this specific composition fix not-quite-byte-identical on some
+literally-desktop-width viewports — a real risk for a composition
+guardrail specifically, even though the existing aspect taper is
+correct and accepted for in-scroll dwell framing. The Tower accepts
+this as tighter than ordered, not a scope violation: desktop is
+byte-identical by construction at every width `>=768px`, not merely
+identical at the specific bands walked.
+
+**Static tier checked, not touched.** `js-kh` forced off to render
+`.kh__static`: it already sits flush against the header with zero
+dead space — a structurally different layout (`height:auto`,
+bottom-anchored copy, no `establishScale`/`ESTABLISH_TOP_RATIO` math
+in play at all), never exposed to this bug. Left byte-identical.
+
+**Six stops and the establish→Sourcils transition — untouched,
+verified.** This change only ever reads/writes `ESTABLISH_KF` and
+`.kh__establish`'s padding-top; dwell state (`fx`/`fy`/`s`,
+`DWELL_VY`, `MOBILE_ZOOM_BOOST`) is a separate code path, byte-
+identical. The establish→Sourcils gather was walked at progress 0.14
+(mid-transition) and 0.205 (arrival) post-fix — same smootherstep
+mechanism, landing on a different (higher) start point, no jump.
+
+**Measured, 390×764 (the worst-case gate — chrome eats more here than
+764).** Gap above statue (film `ty`): 40.6px → 0px. Copy padding-top:
+305.6px → 250.6px. Indicator clearance to viewport bottom: 60.6px →
+115.6px. Void-above-head reduction, measured against the source
+image's own pixel content (a canvas scan found the statue's hairline
+begins 6.3% into the asset, i.e. a fixed, untranslatable ~34px of
+headroom baked into the art) and excluding the header's own fixed
+chrome: ~55% at 764, ~62% at 390×844 — both clear the key's "at least
+50%" floor.
+
+**Verification.** Screenshots at 390×844, 390×764, and 375×667
+(mobile, all three clean); band-walk 768×900/1024×768/1440×900/1920×1080
+(desktop) — film transform values compared numerically against
+pre-lap baseline and found identical at 768 and 1440, inline
+padding-top override confirmed empty (never set) at all four widths.
+
+**Cache-bust.** `main.css` v20→v21, bumped on all three referencing
+pages (`index.html`, `servicii/areola.html`,
+`servicii/in-curand.html`). `hero-scroll.js` v8→v9 — only page that
+references it.
+
+**Gate.** Commander's eye: PASS (r3b-cadrage preview — composition
+validated, void killed, indicator clear). Tower diff-cert via codeload
+tarballs: PASS — scope held to 5 files; index.html cache-bust lines
+only; CSS carries one documenting comment, the 40vh rule itself
+untouched; JS carries the shared `ESTABLISH_LIFT_PX_MOBILE` ensemble
+lift, width-gated at 768px, zero at desktop by construction; stop
+markup byte-identical; zero `preventDefault`.
+
+PR #20 merged into `main` via a merge commit (`bfcb104`, two
+parents — not squashed, not rebased): the build commit (`978ab56`)
+and the merge commit both live in `main`'s history alongside this
+LEDGER entry.
+
+**One open tunable, not a debt.** `ESTABLISH_LIFT_PX_MOBILE = 55` is a
+live constant, same standing as R-2's `ADVANCE_BIAS_FRAC`/
+`FIRST_TRANS_BONUS_VH`/`ACTIVE_PAD` — a tune target for the next
+device walk if one is ever wanted, not hardcoded-forever and not
+flagged soft.
+
+Session retires at this boundary.
