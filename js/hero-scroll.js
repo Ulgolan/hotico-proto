@@ -368,6 +368,11 @@
   var raf = window.requestAnimationFrame
     ? window.requestAnimationFrame.bind(window)
     : function (cb) { return setTimeout(cb, 32); };
+  // R-2b — cancel half of the raf/caf pair, needed once the settle ease
+  // owns its own rAF loop (below) and must be able to stop cleanly.
+  var caf = window.cancelAnimationFrame
+    ? window.cancelAnimationFrame.bind(window)
+    : clearTimeout;
 
   function onTick() {
     if (ticking) return;
@@ -456,9 +461,116 @@
     return fracFromLo >= advanceThreshold ? hi : lo;
   }
 
+  // ---- R-2b — the settle ease itself, owned instead of native ----
+  // R-2's settle() handed the actual motion to the browser via
+  // `window.scrollTo({behavior:'smooth'})`. Tower's frame-level motion
+  // analysis of the Commander's device recording found two problems with
+  // that, both traced to the same root cause: native smooth-scroll gives
+  // us no control over its duration/curve and no way to cancel it short of
+  // starting a second one.
+  //
+  // FINDING A — THE SLAM. A full stop-to-stop settle completed in ~0.5s
+  // with near-instant rise to peak velocity (0->max in under 100ms),
+  // read as violent. Fix: an ease we drive ourselves, frame by frame, so
+  // duration and curve are both ours to set instead of whatever the
+  // platform's native smooth-scroll happens to pick.
+  //
+  // FINDING B — THE STRAGGLER FIGHT. drag plateau -> 2-frame freeze ->
+  // slam -> mid-slam hiccup -> freeze -> resume. Diagnosis: a late iOS
+  // momentum scroll event arrives after the 140ms debounce has already
+  // started a settle; the only way the old code had to react was to call
+  // scrollTo again, which starts a SECOND native animation racing the
+  // first instead of replacing it — the hiccup is that collision. Fix:
+  // own the loop, so an incoming foreign scroll event can cancel it
+  // outright (cancelAnimationFrame, no leftover animation to fight) and
+  // re-arm the debounce for a fresh attempt once things go quiet.
+  //
+  // Curve: smootherstep (already defined above for the camera's spatial
+  // easing) reused here in the TIME domain — zero velocity at both t=0
+  // and t=1 by construction, i.e. gather, glide, land, no instant peak.
+  // One curve, one mental model, for both what the camera does in space
+  // and what the settle does in time.
+  //
+  // Duration: distance-proportional, normalized against the largest gap
+  // between two adjacent SETTLE_TARGETS (computed once below) rather than
+  // a hardcoded pixel number — a small in-gesture correction stays quick,
+  // a full inter-stop travel is visibly longer, and the formula keeps
+  // working un-retuned if SETTLE_TARGETS' own spacing ever changes.
+  var SETTLE_EASE_MIN_MS = 220; // shortest ease — a small correction
+  var SETTLE_EASE_MAX_MS = 640; // longest ease — a full stop-to-stop travel
+  var SETTLE_MAX_GAP = (function () {
+    var max = 0;
+    for (var i = 0; i < SETTLE_TARGETS.length - 1; i++) {
+      max = Math.max(max, SETTLE_TARGETS[i + 1] - SETTLE_TARGETS[i]);
+    }
+    return max;
+  })();
+
+  function settleEaseDuration(distanceFrac) {
+    var t = SETTLE_MAX_GAP > 0 ? clamp01(distanceFrac / SETTLE_MAX_GAP) : 1;
+    return SETTLE_EASE_MIN_MS + (SETTLE_EASE_MAX_MS - SETTLE_EASE_MIN_MS) * t;
+  }
+
+  function now() {
+    return (window.performance && performance.now) ? performance.now() : Date.now();
+  }
+
+  // activeEase is the single source of truth for "is a settle in flight";
+  // expectingSelfScroll distinguishes OUR per-frame scrollTo write (about
+  // to fire its own 'scroll' event) from a foreign one arriving in the
+  // same window. Per-spec, a scroll event queued by a synchronous write
+  // dispatches during that frame's render-update step — after this frame's
+  // rAF callbacks finish, before the next one runs — so the flag set right
+  // before the write and consumed by the very next 'scroll' listener call
+  // never races across frames.
+  var activeEase = null;
+  var expectingSelfScroll = false;
+
+  function cancelEase() {
+    if (!activeEase) return;
+    if (activeEase.rafId != null) caf(activeEase.rafId);
+    activeEase = null;
+  }
+
+  function easeTick(frameTime) {
+    if (!activeEase) return;
+    var e = activeEase;
+    // frameTime is the rAF-supplied timestamp — same clock as now()
+    // (performance.now()-based where available), read once by the
+    // browser per frame rather than re-queried here.
+    var elapsed = (typeof frameTime === 'number' ? frameTime : now()) - e.startTime;
+    var frac = e.duration > 0 ? clamp01(elapsed / e.duration) : 1;
+    var eased = smootherstep(frac);
+    var y = e.startY + e.deltaY * eased;
+    expectingSelfScroll = true;
+    window.scrollTo({ top: y, behavior: 'auto' });
+    if (frac >= 1) {
+      activeEase = null;
+      lastRestProgress = e.targetProgress;
+      khlog('ease complete, target=', e.targetProgress.toFixed(4));
+      return;
+    }
+    e.rafId = raf(easeTick);
+  }
+
+  function startEase(targetY, targetProgress, distanceFrac) {
+    cancelEase();
+    activeEase = {
+      startTime: now(),
+      startY: window.pageYOffset,
+      deltaY: targetY - window.pageYOffset,
+      duration: settleEaseDuration(Math.abs(distanceFrac)),
+      targetProgress: targetProgress,
+      rafId: null
+    };
+    khlog('ease start, duration=', Math.round(activeEase.duration) + 'ms',
+      'target=', targetProgress.toFixed(4));
+    activeEase.rafId = raf(easeTick);
+  }
+
   // No re-entrancy flag: this same handler fires again once its own
-  // scrollTo comes to rest (scrollend, or the debounce fallback after
-  // its last synthesized scroll event) — by then progress is within
+  // ease comes to rest (scrollend, or the debounce fallback after its
+  // last synthesized scroll event) — by then progress is within
   // SETTLE_EPS of `target` and the function is a no-op. Self-terminating.
   function settle(source) {
     var p = currentProgress();
@@ -476,10 +588,17 @@
     var totalNow = rectNow.height - measuredVH();
     if (totalNow <= 0) return;
     var wrapTopAbs = window.pageYOffset + rectNow.top;
-    window.scrollTo({
-      top: wrapTopAbs + target * totalNow,
-      behavior: prefersReducedMotion ? 'auto' : 'smooth'
-    });
+    var targetY = wrapTopAbs + target * totalNow;
+
+    if (prefersReducedMotion) {
+      // untouched — instant jump, no ease. Dead code path today (the
+      // js-kh gate in <head> keeps reduced-motion off this file
+      // entirely) but kept exact in case that gate is ever loosened.
+      window.scrollTo({ top: targetY, behavior: 'auto' });
+      return;
+    }
+
+    startEase(targetY, target, target - p);
   }
 
   // R-2 tune pass, finding 1a — debounce used to be skipped entirely
@@ -493,11 +612,33 @@
   // of whether/when scrollend shows up; scrollend, when prompt, wins
   // by clearing the pending debounce timer and settling immediately.
   // settle()'s own epsilon short-circuit makes firing both harmless.
+  //
+  // R-2b — the 140ms figure itself is untouched. It answers "how long
+  // has it been quiet since the last scroll input", which is orthogonal
+  // to finding B's bug (the ease fighting an event that arrives WHILE
+  // it's running, not the wait before it starts). That fight is what the
+  // self/foreign split below removes; 140ms keeps its original,
+  // device-measured meaning.
   var hasScrollend = 'onscrollend' in window;
   var settleTimer = null;
   var SETTLE_DEBOUNCE_MS = 140;
 
   function scheduleSettleFallback() {
+    if (activeEase) {
+      if (expectingSelfScroll) {
+        // our own per-frame write — expected, not a new event. Leave the
+        // ease running and don't touch the debounce timer at all while
+        // it's live: the ease knows exactly when it's done (easeTick's
+        // own frac>=1 check), it doesn't need the debounce to confirm it.
+        expectingSelfScroll = false;
+        return;
+      }
+      // a scroll landed that we didn't write — finding B's straggler.
+      // Cancel cleanly instead of letting a second write fight the
+      // first, then fall through to re-arm the debounce below.
+      khlog('foreign scroll during ease — cancel + rearm');
+      cancelEase();
+    }
     clearTimeout(settleTimer);
     settleTimer = setTimeout(function () { settle('debounce'); }, SETTLE_DEBOUNCE_MS);
   }
@@ -505,6 +646,13 @@
   window.addEventListener('scroll', scheduleSettleFallback, { passive: true });
   if (hasScrollend) {
     window.addEventListener('scrollend', function () {
+      if (activeEase) {
+        // our own instant per-frame writes can each read to the browser
+        // as a discrete, already-ended scroll — scrollend firing mid-ease
+        // is not a signal the EASE is done; easeTick's own completion
+        // check is. Ignore it here.
+        return;
+      }
       clearTimeout(settleTimer);
       settle('scrollend');
     }, { passive: true });
