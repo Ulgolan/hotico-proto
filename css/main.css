@@ -208,7 +208,18 @@ html.js-kh .kh__static{display:none;}
    `dvh` tracks whichever is actually on screen. Browsers that don't
    parse `dvh` drop the whole declaration and keep the `vh` line
    above it — standard fallback order, not a typo. */
-.kh__scrubwrap{position:relative;height:760vh;height:760dvh;}
+/* R-2 B — runway shortened 760vh→400vh, one knob scaling hold/trans/
+   dwell/exit together (their ratios are still the locked timeline).
+   At 400vh, one inter-stop cycle (trans+dwell) is ~55.7vh — under one
+   mobile screen, so a normal flick's momentum clears the ~28vh midpoint
+   into the next stop's territory, while a lazy partial drag (no real
+   momentum) falls short and snap-on-settle (hero-scroll.js) puts it
+   back. Tune target for the Commander's device walk, not a hard law.
+   R-2 tune pass, finding 2 — +28vh (400→428), all of it added to the
+   establish->Sourcils transition only (TOTAL_VH/FIRST_TRANS_BONUS_VH
+   in hero-scroll.js); every other stop's absolute-vh cadence from B is
+   unchanged. Must match hero-scroll.js's TOTAL_VH exactly. */
+.kh__scrubwrap{position:relative;height:428vh;height:428dvh;}
 
 .kh__pin{
   position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;
