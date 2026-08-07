@@ -21,7 +21,7 @@
   var rail = scrub.querySelector('[data-kh-rail]');
   var railBtns = Array.prototype.slice.call(rail.querySelectorAll('[data-kh-go]'));
 
-  var IMG_W = 1639, IMG_H = 2048;
+  var IMG_W = 1365, IMG_H = 2048;
 
   // ---- LOCKED TIMELINE (see docs/IGNITION_kintsugi-scroll.md) ----
   var ESTABLISH_HOLD = 0.075;

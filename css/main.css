@@ -222,7 +222,7 @@ html.js-kh .kh__static{display:none;}
 
 .kh__film{
   position:absolute;top:0;left:0;
-  width:1639px;height:2048px;max-width:none;
+  width:1365px;height:2048px;max-width:none;
   transform-origin:0 0;
   will-change:transform;
   /* K-3 FIX 2 — permanent bottom-edge fade. Travels WITH the image
