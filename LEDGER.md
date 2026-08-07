@@ -2007,3 +2007,56 @@ nothing here is flagged soft or accepted-as-is.
 Session retires at this boundary. Next: wherever the Tower routes —
 R-3 (scroll indicator) was named out-of-scope twice now, in R-1 and
 again here.
+
+---
+
+## Entry #32 — 2026-08-07 — LAP R-3: INDICATOR — MERGE & CLOSE
+
+**The lap's one variable:** the hero's empty scroll-indicator box
+becomes a labeled invitation. `.kh__hint` was a bare 1px vertical
+line above the word "Défiler" — no arrow, no direction, no invitation
+a first-time visitor could read at a glance. It is now inline text,
+"DÉFILER VERS LE BAS", followed by a down-arrow.
+
+**Arrow — one accepted deviation, ruled by Commander's eye against his
+own stem-arrow mock.** The key called for "an inline Ivory-Loom-style
+primitive SVG." Rather than draw a new primitive, the build reused the
+filled-triangle chevron already living in this codebase
+(`.scard__arrow` / `.field__caret` — `viewBox="0 0 16 16"`, path
+`M3.4 5.8h9.2L8 11.2 3.4 5.8Z`), wired through `fill:currentColor` so
+`.kh__hint`'s `color:var(--cocoa)` — Cocoa `#3C2F2F` — drives it, per
+the key's explicit color instruction. Commander's eye passed this
+against the mock: same weight class, same quiet register, one fewer
+one-off asset in the repo.
+
+**Everything else held to the letter.** Existing micro-typography
+tokens carried over unchanged — `.75rem` size, `.28em` letterspacing,
+uppercase via `text-transform` (source markup stays lowercase,
+`"Défiler vers le bas"`, matching the file's existing pattern of
+letting CSS do the capitalization). No new type size invented. No
+scroll affordance added — the pre-lap element had no click handler or
+animation tied to it (`hero-scroll.js` grep confirmed zero references
+to `.kh__hint`), so none was added now. Homepage only; stop markup and
+`hero-scroll.js` untouched.
+
+**Verification.** 390×844 and 1440 desktop screenshots on record,
+band-walk 768/1024/1920 spot-checked — indicator clears the statue
+and H1 at every width, no collision at any band.
+
+**Cache-bust.** `main.css` v19→v20, bumped on all three referencing
+pages (`index.html`, `servicii/areola.html`,
+`servicii/in-curand.html`) since CSS was touched (`.kh__hint` layout
+flipped column→row, new `.kh__hint-arrow` rule added, `.kh__hint-line`
+rule retired as dead weight once the line it drew was replaced).
+
+**Gate.** Commander's eye: PASS (mobile walk, screenshot on record).
+Tower diff-cert via codeload tarballs: PASS — scope held to hint
+markup + hint CSS + the three v20 cache-busts; `hero-scroll.js` and
+stop markup byte-identical to `main` throughout.
+
+PR #19 merged into `main` via a merge commit
+(`7cc20a5`, two parents — not squashed, not rebased): the build commit
+and the merge commit both live in `main`'s history alongside this
+LEDGER entry.
+
+**No open debts.** Session retires at this boundary.
