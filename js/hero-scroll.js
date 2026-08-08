@@ -453,6 +453,59 @@
   var corridorWatchY = null;
   var corridorFired = false;
 
+  // R-2f BOUNCE — touch gate. The one-motionless-frame trigger below is
+  // sound against a wheel and unsound against a finger, and the Commander's
+  // device found the difference: a slow iOS drag is not a smooth stream, it
+  // is motion interleaved with genuinely motionless frames at every micro-
+  // pause of the finger. Pre-emption read those pauses as rest, declared a
+  // settle UNDER AN ACTIVE TOUCH, and the ease then fought the finger — each
+  // fight cancelled by scheduleSettleFallback's foreign-scroll path and
+  // re-armed two frames later, which machine-gunned: fire, fight, cancel,
+  // fire. Reproduced in the harness once touch was modelled explicitly, at
+  // 10-18 pre-empts and 9-17 cancels in a single swipe, peak inter-frame
+  // magnitude 18.2px against the Tower's measured 17-20 on glass. The 140ms
+  // debounce made that loop unsustainable (each cycle cost a fresh 140ms of
+  // stillness); the one-frame trigger made it inevitable.
+  //
+  // So pre-emption may only fire when no touch is down. On lift it engages
+  // from the first post-lift motionless frame, which is what the corridor
+  // ruling actually needs — a lifted finger inside the window is exactly the
+  // parked-white case, and a finger still on the glass is not a rest at all,
+  // it is a gesture mid-flight.
+  //
+  // Listeners are PASSIVE, standing law, and never call preventDefault —
+  // they only read. touchend/touchcancel both resolve through e.touches,
+  // whose length is the number of contacts STILL down, so a second finger
+  // lifting off a two-finger gesture does not falsely clear the gate; and
+  // touchcancel is registered because a touch stolen by a system gesture
+  // fires no touchend at all, which would otherwise strand touchActive at
+  // true and disable pre-emption for the rest of the page's life.
+  //
+  // Desktop is byte-identical by construction: no touch event ever fires, so
+  // touchActive is false for the whole session and the gate is a no-op.
+  // The 140ms debounce path is untouched — it predates this lap.
+  //
+  // The lift MUST kick the render loop, and this was not optional — caught by
+  // this lap's own verification before it shipped. update() only re-runs while
+  // something asks it to: a scroll event, or its own self-continuation at the
+  // bottom of this file's update(). During a finger-down pause both go quiet —
+  // no scroll events (nothing is moving) and the corridor clause is gated off
+  // by touchActive — so by the time the finger lifts, nothing is scheduled and
+  // no scroll event is ever coming, because the page is already at rest.
+  // Without this onTick() the watch would simply never get another frame:
+  // pre-emption would be dead on touch entirely and mobile would quietly fall
+  // back to the 167ms white room this lap exists to remove. Traced as exactly
+  // that failure (0 pre-empts, ever) before the call was added.
+  var touchActive = false;
+  function onTouchDown() { touchActive = true; }
+  function onTouchUp(e) {
+    touchActive = !!(e && e.touches && e.touches.length);
+    if (!touchActive) onTick();
+  }
+  window.addEventListener('touchstart', onTouchDown, { passive: true });
+  window.addEventListener('touchend', onTouchUp, { passive: true });
+  window.addEventListener('touchcancel', onTouchUp, { passive: true });
+
   // ---- render ----
   var ticking = false;
 
@@ -721,8 +774,11 @@
     // is a hoisted declaration and the two vars are initialised during the
     // same IIFE evaluation that ends before update() is ever reachable (the
     // first call is the deferred raf(update) on the last line of the file).
+    // R-2f BOUNCE — !touchActive is the gate; see its declaration above for
+    // why a finger-down pause is not a rest. Everything else in this block
+    // is unchanged from the desktop-passed build.
     var inCorridor = targetFadeT > 0 && targetFadeT < 1;
-    if (inCorridor && !activeEase) {
+    if (inCorridor && !activeEase && !touchActive) {
       var yNow = window.pageYOffset;
       if (corridorWatchY !== yNow) {
         corridorWatchY = yNow;
@@ -753,7 +809,7 @@
     // the frame the watch fires, since the ease it starts drives its own
     // rAF loop from there — no eternal idle frames here either.
     if (renderedFadeT !== targetFadeT ||
-        (inCorridor && !activeEase && !corridorFired)) onTick();
+        (inCorridor && !activeEase && !touchActive && !corridorFired)) onTick();
   }
 
   var raf = window.requestAnimationFrame
