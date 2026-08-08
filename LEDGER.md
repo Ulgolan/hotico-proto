@@ -2669,3 +2669,139 @@ same ~half-second lifting the veil, only the SCROLL itself still
 answers to the hand that threw it.
 
 Session retires at this boundary.
+
+---
+
+## Entry #38 — 2026-08-08 — LAP F3: LE BLANC FINAL — MERGE & CLOSE
+
+**The lap's one variable:** the trailing white below the "DÉFILER
+VERS LE BAS" hint on the MOBILE establishing frame. Known and
+measured since R-2c (carried finding F3, PR #22 record): ~163.6px at
+390×844 (19.4%), growing to ~212.8px at 390×926-equivalent
+(chrome-collapsed, 23.0%). By this session's own re-measurement,
+post-R-3b, the numbers had grown further — R-3b's flush-under-header
+lift shifted MORE of the slack downward, not less: 255.4px (30.3%) at
+390×844, 304.6px (32.9%) at 390×926-equivalent, the actual worst case
+this lap closed against.
+
+**Two compounding root causes, not one — diagnosis went past the
+key's own framing.** (1) `establishScale` (`ESTABLISH_K *
+containScale`) is WIDTH-bound on every phone aspect tested —
+`containScale = min(vw/IMG_W, vh/IMG_H)` pins to width whenever the
+phone is taller/narrower than the image itself, true across the
+entire mobile range. The statue's rendered height is then a function
+of `vw` ALONE — `vh` never enters it — so every extra pixel of
+viewport height became blank `.kh__stage` ivory below the statue.
+(2) Independently, the copy block's (H1/intro/socials/hint)
+`padding-top` was a flat `vh*0.40` fraction, decoupled from the
+copy's own roughly-fixed, content-driven height. As `vh` grew, the
+gap between `padding-top + content` and the pin's bottom edge grew
+with it, unbounded. Root cause (2) alone accounts for the literal
+"trailing white below the hint" metric — establishScale never enters
+that formula at all — but leaving (1) unfixed meant a bigger,
+closer-cropped statue was still the compositional target ("fills the
+phone" per the key), not just a text-positioning patch. Combination
+(c), per the key's own menu.
+
+**Mechanism — (a) height-aware establish scale.** `establishScale`'s
+basis now blends 40% of the way from `containScale` toward
+`coverScale` (height-bound: `vh/IMG_H` on these aspects), tapered by
+the existing `establishMobileT()` — the same mobile-width gate
+R-3b's lift already used. Not blended to 1 (full height-bound): that
+crops ~29% off each side of the statue at the tightest tested aspect
+(390×926) — a "large, fully-present" full-body establishing shot
+doesn't tolerate that. 0.4 grows the statue meaningfully (538px→634px
+tall at 390×844) while keeping the crop under 12%/side at the same
+tightest aspect (390×926 was worst; 375×667 stayed at 0% crop).
+**Explicitly a VIEW crop, not an asset crop** — the film layer's own
+`transform:scale()`/`translate3d()` is what changes; `IMG_W`/`IMG_H`
+and the image asset itself are untouched, so the Never-Crop Frame Law
+(protects the asset's own coordinate system) does not apply here and
+was not at risk.
+
+**Mechanism — (b) content-relative padding-top.** Replaced the flat
+`vh*0.40` with a target: padding-top now sizes so the copy's OWN
+measured height (`establishCopy.offsetHeight` — self-adjusting, no
+hardcoded content-height constant) lands its bottom edge a fixed
+~20px above the pin's bottom, before the shared `lift` (R-3b, LAW,
+untouched) pulls the whole ensemble up further on top of that. Lerp'd
+against the original `vh*0.40` base by the same `establishMobileT()`
+so the inline override still resolves to exactly `main.css`'s
+`40vh`/`40dvh` at the 768px boundary — continuous, no snap, and
+`mt=0` collapses BOTH new formulas to their exact pre-lap values,
+proving desktop untouched by construction rather than by promise.
+
+**Numbers — trailing white, before → after, all four gated
+viewports:** 390×844: 255.4px (30.3%) → 75.0px (8.9%). 390×926-equiv
+(chrome collapsed, worst case): 304.6px (32.9%) → 75.0px (8.1%).
+390×764: 207.4px (27.2%) → 75.0px (9.8%). 375×667: 149.2px (22.4%) →
+75.0px (11.2%). The after-column's near-constant ~75px is not a
+coincidence — the target formula solves directly for a fixed pixel
+margin (`M + lift`, `M=20`), independent of `vh` by construction,
+which is why it lands inside such a tight band across four very
+different viewport heights.
+
+**Establish→Sourcils transition — feel-relevant numbers, flagged per
+the key's own CAUTION, not silently absorbed.** A bigger, closer
+establishing frame means a gentler zoom-in punch into the first stop:
+zoom ratio 2.54x→2.16x at 390×844, 2.79x→2.26x at 390×926 (~15-20%
+smaller across the board). The segment's own runway/timing
+(`FIRST_TRANS_BONUS_VH`, `TRANS_VH`, smootherstep easing) is
+completely untouched — only the STARTING scale differs. Whether the
+transition still "gathers correctly" from the new scale was a feel
+call for the device, not a number this session could certify alone —
+Commander's device walk confirmed it: PASS, gentler punch accepted.
+
+**Static tier — checked, found structurally immune, no fix applied.**
+`.kh__static-img{width:100%;height:auto}` sizes the frame from the
+image's own aspect ratio (no vh-bound box exists there at all), and
+`.kh__static-copy{position:absolute;bottom:0}` pins directly to the
+image's own bottom edge. The disease this key targets — slack
+opening between a vh-sized frame and content that doesn't grow with
+it — cannot occur in a layout with no vh-sized frame in the first
+place. Verified, not assumed, before reporting it closed.
+
+**Verification note — a limitation this session's own testing
+surfaced, not just repeated from precedent.** The preview sandbox's
+tab reports `document.hidden === true`, the same condition
+[[entry #37]] recorded for `requestAnimationFrame` tempo measurement.
+This session confirmed the limitation runs deeper than rAF alone: it
+blocks COMPOSITING too — a live DOM/style mutation (verified correct
+via `getBoundingClientRect`, which forces synchronous layout and is
+NOT rAF-gated) failed to reach even an unmissable debug `outline`
+applied directly to the film element in a screenshot taken moments
+later. Screenshots in this environment cannot be trusted for verifying
+any post-load paint change; only computed geometry can. The
+establishScale/crop/zoom-ratio numbers above were verified by
+`getBoundingClientRect` against the file's own live formulas, not by
+screenshot. Commander's device walk remains the only place the actual
+visual composition has ever been certified, same precedent as
+[[entry #37]]'s tempo.
+
+**Cache-bust.** `hero-scroll.js` v16→v17. `main.css` untouched (no
+CSS touched this lap) — stays at v32.
+
+**Gate.** Commander device walk: PASS — trailing white closed to
+~75px breathing room across all four gated viewports, establishing
+composition approved, gentler establish→Sourcils punch accepted,
+desktop unaffected. Tower diff-cert via codeload tarballs: PASS —
+scope confirmed as two files (the height-blend + content-relative
+padding retarget, both riding the R-3b `mt` taper to zero at 768px by
+construction, plus the version bust); every LAW constant across every
+prior polish lap (timeline, fade, R-3b's own lift formula, cadence,
+dwells, settle targets) byte-identical; stop markup/anchors/labels
+untouched; zero `preventDefault` anywhere; static tier proven
+structurally immune rather than left unchecked.
+
+PR [#25](https://github.com/Ulgolan/hotico-proto/pull/25) merged into
+`main` via a merge commit (`2163dfc`), two parents — not squashed,
+not rebased.
+
+**LE BLANC FINAL IS BREATHING ROOM NOW, NOT ABSENCE.** The
+establishing frame's own composition — statue, headline, socials,
+hint — now reads as a single deliberate ensemble filling the phone,
+with a small constant margin at the foot instead of a void that grew
+with every extra pixel of screen. F3, open since the R-2c session,
+closes here.
+
+Session retires at this boundary.
