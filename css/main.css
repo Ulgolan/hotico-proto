@@ -143,11 +143,12 @@ button{
    there in plain normal flow — no margin pull, no z-index dance.
    The pin's own painted content (statue + ivory stage) still renders
    past .kh's new edge via the overflow (sticky doesn't care about an
-   ancestor's box); hero-scroll.js dissolves it — a scroll-linked
-   opacity fade, not an instant hide, see .kh__pin.is-fading/
-   is-dissolved below and that file's fadeT — over the following
-   FADE_DISTANCE_VH of scroll, so nothing opaque is left rendering
-   into the reclaimed space by the time it matters.
+   ancestor's box); hero-scroll.js dissolves it — a scroll-linked,
+   two-phase opacity fade (statue first, then the ivory stage itself,
+   through white — see .kh__film/.kh__stage's own opacity and this
+   file's .is-fading/is-dissolved below), timed to finish BEFORE this
+   point is even reached (that file's fadeT/FADE_END_OFFSET_VH), so
+   nothing opaque is ever left rendering into the reclaimed space.
    Gated to html.js-kh: the no-JS/reduced-motion .kh__static fallback
    has no sticky pin and needs .kh's natural (auto) height for its
    own, differently-sized content — untouched. */
@@ -299,19 +300,21 @@ html.js-kh .kh__static{display:none;}
   --kh-connector-len:6.6dvh;
 }
 
-/* R-2c REVISED — THE DISSOLVE. Commander's ruling: the statue fades
-   as you scroll through the release, not a binary teleport (the
-   previous pass's instant is-released visibility toggle read as
-   execution, not release). The fade itself is opacity, driven
-   per-frame from JS as a plain inline style (see update()'s fadeT) —
-   deliberately no `transition` property anywhere near .kh__pin: a
-   CSS transition would race/lag the scroll-driven value instead of
-   tracking it exactly, breaking the "reverse the scroll, she
-   re-materializes symmetrically" requirement.
-   .is-fading (pointer-events) and .is-dissolved (visibility) are the
-   only two things still toggled as discrete classes, both dictated
-   by exact thresholds on that same fadeT, not by feel — see their
-   comments in hero-scroll.js for why each threshold is where it is. */
+/* R-2c TUNE — THE DISSOLVE, through white. Commander's C2: never a
+   crossfade (no frame may show statue-over-video) — .kh__film and
+   .kh__stage (below) each carry their OWN opacity, driven per-frame
+   from JS as plain inline styles (see update()'s phase1T/phase2T),
+   so the statue fades to nothing first while the stage's opaque
+   ivory background holds — a pure white veil — before THAT fades in
+   turn to reveal whatever's beneath. Deliberately no `transition`
+   property anywhere near either: a CSS transition would race/lag the
+   scroll-driven value instead of tracking it exactly, breaking the
+   "reverse the scroll, she re-materializes symmetrically" requirement.
+   .is-fading (pointer-events) and .is-dissolved (visibility) stay on
+   .kh__pin itself — the outer container, unaffected by which of its
+   two children is currently fading — both dictated by exact
+   thresholds on the same fadeT, not by feel; see their comments in
+   hero-scroll.js for why each threshold is where it is. */
 .kh__pin.is-fading{pointer-events:none;}
 .kh__pin.is-dissolved{visibility:hidden;}
 
@@ -409,6 +412,16 @@ html.js-kh .kh__static{display:none;}
   pointer-events:auto;
   transition:opacity .45s ease .3s,transform .45s ease .3s;
 }
+/* R-2c TUNE — measured: ACTIVE_PAD's hysteresis (LAW, hero-scroll.js)
+   keeps a just-left stop .is-active — and so this rule's own
+   pointer-events:auto — alive for a few vh past its literal dwell
+   end, which the dissolve's compressed window now overlaps (see
+   hero-scroll.js's own comment by stopsWrap.style.opacity for the
+   measured numbers). .kh__stops's opacity fades in step with the
+   statue already (JS), but opacity never disables clicks — this
+   backstops pointer-events specifically, at higher specificity than
+   the rule above so it always wins regardless of is-active. */
+.kh__pin.is-fading .kh__stop.is-active .kh__caption{pointer-events:none;}
 
 /* K-6 SECONDARY RULE — per-stop escape hatch: if a pill (default
    below the dot) would cover its own featured zone, flip it above.
