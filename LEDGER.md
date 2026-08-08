@@ -2295,3 +2295,173 @@ close together here. This entry closes the hero chapter of Campagne
 REFONTE.
 
 Session retires at this boundary.
+
+---
+
+## Entry #35 — 2026-08-08 — LAP R-2c: LA SORTIE — MERGE & CLOSE
+
+**The lap's one variable:** the film's exit handoff — the gap between
+the statue's release and the Découvrez video section's arrival. This
+entry tells the whole war honestly: three architectures, two bounced,
+two Tower errors caught by the Hands before they shipped.
+
+**Root cause, measured before any fix was attempted.** `.kh__pin` is
+a 100vh/100dvh sticky child of the tall `.kh__scrubwrap`. By
+construction of any sticky-pin-in-a-tall-wrapper pattern, the pin's
+sticky offset maxes out (the "release") exactly one pin-height
+*before* the wrapper's own bottom edge — past that point the pin is
+just an ordinary flow box occupying the wrapper's own last 100vh,
+no longer scrubbed, and `.kh` (unshrunk) reserved and painted its
+ivory background across that same trailing 100vh regardless. Measured
+directly via `getBoundingClientRect`, not estimated: exactly 100vh of
+dead white at both 1440×900 and 390×844 before any of this lap's
+code ran.
+
+**Architecture 1 — margin-pull + opaque band. BOUNCED on Commander's
+walk.** Pulled the next section up by one pin-height via negative
+margin so it started exactly at the release point, with an opaque
+fill to cover the spent pin. Proved occlusion at the seam and shipped
+on that proof alone — insufficient. Commander's walk found the
+approach itself broken: the pulled-up section's box geometrically
+overlapped document space that was still live film for roughly the
+last quarter of the scrub, so the incoming band visibly crept up over
+the running statue from Cicatrices onward (F1), and the band's own
+opaque fill covered only the band, leaving the video carousel's own
+un-filled span to let the motionless pin bleed through underneath it
+(F2). A document overlap is not occlusion — the pin has to actually
+stop rendering, not just be out-raced by whatever's pulled over it.
+
+**Architecture 2 — `.kh` shrunk to 328vh + instant `is-released`
+visibility toggle. Geometry RETAINED; the toggle BOUNCED.** Root
+cause fixed properly this round: `.kh` itself (not `.kh__scrubwrap`,
+kept at full height, LAW) shrunk to end exactly one pin-height early,
+`overflow:visible` so the sticky pin — governed only by
+`.kh__scrubwrap`, a level below `.kh` — is completely unaffected. The
+next section now starts in plain normal flow at the exact release
+point, zero overlap with the running film at any point in the scrub.
+This architecture held for the rest of the lap. What didn't hold: an
+instant `visibility:hidden` toggle at the exact release instant read,
+on Commander's walk, as the statue being *executed*, not released —
+a teleport, not a handoff. **Tower error, on record:** "instant" was
+the Tower's own bounce-brief specification, not a choice made in
+`hero-scroll.js` — corrected by Commander's ruling (Option A, The
+Dissolve) rather than re-litigated.
+
+**Architecture 3 — the Dissolve, through white. Commander-ruled,
+certified.** A scroll-driven, two-phase opacity fade replaced the
+toggle: `.kh__film` fades to nothing first while `.kh__stage`'s own
+opaque ivory background holds — a pure white veil, no frame ever
+shows statue-over-video — then the veil itself fades to reveal the
+section beneath. `fadeT` is a pure function of signed scroll distance
+from the release point (`pxFromRelease`, derived from `rect.top`),
+never of the clamped `progress` value and never of time, so reversing
+the scroll re-traces the identical curve with no pop either direction
+— proven by matching state at identical scrollY regardless of
+approach, not merely asserted. First cut placed the fade window
+*after* release and drew Commander's C1: the reveal read as late, the
+incoming section's top already scrolled above the viewport by the
+time the fade finished. Moved the window to *before* release instead,
+timed so the fade completes with the section's top no higher than
+Commander's comfort ruling — mid-viewport.
+
+**Tower error #2, caught by measurement before implementation —
+same shelf as the reduced-motion premise error in entry #31.** The
+exit-extension ignition key ordered "`TOTAL_VH` 428→478, additive" in
+the same breath as "every per-stop scroll distance byte-identical" —
+mathematically contradictory as written under the existing
+architecture: `total` (real scroll px) is `(TOTAL_VH-100)/100*vh`, so
+naively growing the shared `TOTAL_VH` denominator grows the real
+length of *every* segment measured against it, not only the exit's.
+The Hands measured this before writing a line of the fix (a +3.19%
+universal drift, confirmed by computing both formulas side by side)
+rather than implementing the letter of the key and finding out on
+Commander's walk. The corrected mechanism: every existing fraction
+keeps dividing by the historical `TOTAL_VH_BASE` (428, formulas
+untouched), uniformly rescaled by `R_BASE/R_NEW` (328/378 — old real
+scroll range over new) to exactly cancel that drift, with the exit
+bonus added on top of the rescaled exit fraction alone. Proven exact
+algebraically (the full set sums to 1 by construction) and empirically
+— a live scroll-distance table at 1440×900 showing all 14 non-exit
+segments (hold, six transitions, six dwells) at `diff = 0` to the
+pixel, the exit alone growing by exactly 450px (50vh at that
+viewport). With that runway, Commander's uncompressed 50vh/25vh
+window fit the ~77.6vh exit segment with margin, and the section top
+lands within a hair of exact mid-viewport (49.5–50.1% measured across
+both viewports) at full reveal.
+
+**Latent bugs found and fixed en route, none of them guessed at —
+each one measured via `elementsFromPoint`/`elementFromPoint` before
+being called a bug.** The `.video` carousel's own `position:relative`
+internals out-stacked the sticky pin mid-scrub (confirmed exactly at
+the Cicatrices dwell) despite `.kh` itself being positioned one level
+up — fixed with an explicit `z-index` on `.kh__pin` rather than
+relying on ancestor promotion, which doesn't reach across sibling
+subtrees. `.kh`/`.kh__scrub`/`.kh__scrubwrap`, still hit-testable even
+where nothing paints once the pin dissolves, silently swallowed
+clicks meant for the section now occupying that reclaimed space —
+cut off with `pointer-events:none` at `.kh`, the common ancestor,
+restored on `.kh__pin` alone. `ACTIVE_PAD`'s hysteresis (LAW, R-2 tune
+pass finding 3, never touched) keeps a just-left stop's caption
+`opacity:1`/`pointer-events:auto` alive for several vh past its
+literal dwell end — which the compressed fade window's first draft
+opened into for roughly two-thirds of its own length, leaving
+Aréole's pill visibly clickable through most of the dissolve. Fixed
+without touching `ACTIVE_PAD` or the dwell system it belongs to: the
+stops wrapper fades in the same breath as the statue, and a
+higher-specificity CSS rule backstops pointer-events specifically,
+since opacity alone never disables a click.
+
+**Carried findings, deliberately NOT fixed this lap — one variable
+stays one variable.** F3: mobile establish trailing white below the
+scroll hint, measured (not estimated) at ~164px/19.4% of viewport at
+390×844, growing to ~213px/23.0% at 390×926 (chrome-collapsed
+approximation) — `containScale` is width-bound at this aspect ratio,
+so the establish image doesn't grow with a taller viewport, only the
+trailing gap does. Reported in-lap, held for its own key. The
+Alopécie stop-skip: no per-gesture clamp exists today on how far a
+single flick can advance through the dwell sequence, diagnosed but
+explicitly out of scope here — its own key, R-2d « LE CRAN », already
+written and Commander-ratified, waiting in the queue.
+
+**Verification, both certified walks.** Commander: mid-viewport
+reveal honored, dissolve-through-white honored (no crossfade frame at
+any sampled point), reversible both directions, feel regression
+clean against R-2/R-2b's certified cadence and ease. Tower diff-cert,
+fourth pass: `TOTAL_VH_BASE=428` preserved as the universal divisor
+for every pre-existing fraction, `EXIT_BONUS_VH=50` purely additive,
+the rescale proven byte-identical on all 14 non-exit segments via a
+live table (diff=0 to the pixel), CSS runway (478vh/378vh) consistent
+with the JS constants it must match, every other preserved LAW
+constant (`ADVANCE_BIAS_FRAC`, `SETTLE_DEBOUNCE_MS`, `SETTLE_TARGETS`
+construction, the R-2b owned-ease machinery) byte-identical, stop
+markup/anchors/labels/links untouched, zero `preventDefault`
+anywhere.
+
+**Cache-bust.** `hero-scroll.js` v10→v14 across the four passes this
+lap took; `main.css` v24→v32; `index.html`/`servicii/areola.html`/
+`servicii/in-curand.html` bumped to match at every pass.
+
+**Gate.** Commander's eye: PASS. Tower diff-cert: PASS, fourth pass,
+detailed above.
+
+PR #22 merged into `main` via a merge commit
+(`92011688e2b568b61b33d57996a0c42be5e8ff9b`, two parents — not
+squashed, not rebased): all three architectures' full history — the
+bounced margin-pull, the bounced instant toggle, the certified
+Dissolve, and the exit extension that gave it room — is part of the
+record and now lives in `main` alongside this LEDGER entry.
+
+**No open debts on the variable this lap owned.** Two carried
+findings are named above, each with its own future key rather than
+folded in here. The measure-before-obeying discipline that caught
+both Tower errors this lap — the reduced-motion premise in entry #31,
+the byte-identical/additive contradiction here — is noted in the
+record as a pattern, not a one-off: the Hands check the brief's own
+arithmetic against the actual architecture before implementing it,
+every time, and say so when the two disagree.
+
+**LA SORTIE IS CLOSED.** The hero's exit now reads as a single
+continuous gesture — statue, white, video — with no dead scroll, no
+teleport, and no crossfade anywhere in it.
+
+Session retires at this boundary.
