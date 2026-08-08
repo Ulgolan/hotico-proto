@@ -119,22 +119,26 @@ button{
 .kh{position:relative;background:var(--ivory);}
 
 /* R-2c — the film's exit handoff. .kh__pin is a 100vh/100dvh sticky
-   child of the 428vh .kh__scrubwrap (LAW, untouched — every segment
-   boundary in hero-scroll.js is a fraction of that number). By
-   construction of ANY sticky-pin-in-a-tall-wrapper pattern, the pin's
-   sticky offset maxes out (the "release", progress===1) exactly one
-   pin-height BEFORE .kh__scrubwrap's own bottom edge — past that
-   point the pin is just an ordinary flow box occupying the wrapper's
-   OWN last 100vh, no longer scrubbed. .kh, un-shrunk, would reserve
-   (and paint its ivory background across) that same trailing 100vh —
-   which is exactly the dead gap this lap exists to close, and, tried
-   first: painting an opaque section over that gap instead doesn't
-   work either, because .kh (position:relative) still outranks any
-   plain in-flow sibling there regardless, hiding that section's own
-   content underneath .kh's background instead of the reverse.
+   child of .kh__scrubwrap. .kh__scrubwrap's own height must equal
+   TOTAL_VH in hero-scroll.js — 428vh at this lap's start, now 478vh
+   (R-2c EXIT EXTENSION: +50vh, additive, all of it landing in the
+   exit segment — see EXIT_BONUS_VH in that file for the full
+   reasoning and the byte-identical proof for every other segment).
+   By construction of ANY sticky-pin-in-a-tall-wrapper pattern, the
+   pin's sticky offset maxes out (the "release", progress===1)
+   exactly one pin-height BEFORE .kh__scrubwrap's own bottom edge —
+   past that point the pin is just an ordinary flow box occupying the
+   wrapper's OWN last 100vh, no longer scrubbed. .kh, un-shrunk, would
+   reserve (and paint its ivory background across) that same trailing
+   100vh — which is exactly the dead gap this lap exists to close, and,
+   tried first: painting an opaque section over that gap instead
+   doesn't work either, because .kh (position:relative) still
+   outranks any plain in-flow sibling there regardless, hiding that
+   section's own content underneath .kh's background instead of the
+   reverse.
    Fix: give .kh itself a height of exactly one pin-height LESS than
-   .kh__scrubwrap's (428vh - 100vh = 328vh, computed from the same
-   two LAW numbers, not a tuned figure) with overflow:visible. The
+   .kh__scrubwrap's (478vh - 100vh = 378vh, tracking hero-scroll.js's
+   R_NEW exactly, not a tuned figure) with overflow:visible. The
    wrapper and its sticky pin are completely unaffected — sticky
    positioning is governed by .kh__scrubwrap's own box, a level
    below, never by .kh's. What changes is only whichever box's edge
@@ -152,10 +156,10 @@ button{
    Gated to html.js-kh: the no-JS/reduced-motion .kh__static fallback
    has no sticky pin and needs .kh's natural (auto) height for its
    own, differently-sized content — untouched. */
-html.js-kh .kh{height:328vh;height:328dvh;overflow:visible;}
+html.js-kh .kh{height:378vh;height:378dvh;overflow:visible;}
 
 /* R-2c — .kh__scrubwrap and .kh__scrub (both auto-sized to their
-   428vh content) still physically span the full height even though
+   478vh content) still physically span the full height even though
    .kh's own box above now ends 100vh earlier; overflow:visible means
    they (and the unstuck pin inside them, once past release) still
    render into that reclaimed space, just as before. Neither paints
@@ -273,8 +277,13 @@ html.js-kh .kh__static{display:none;}
    R-2 tune pass, finding 2 — +28vh (400→428), all of it added to the
    establish->Sourcils transition only (TOTAL_VH/FIRST_TRANS_BONUS_VH
    in hero-scroll.js); every other stop's absolute-vh cadence from B is
-   unchanged. Must match hero-scroll.js's TOTAL_VH exactly. */
-.kh__scrubwrap{position:relative;height:428vh;height:428dvh;}
+   unchanged.
+   R-2c EXIT EXTENSION — +50vh (428→478), same additive precedent,
+   all of it landing in the exit segment this time
+   (TOTAL_VH/EXIT_BONUS_VH in hero-scroll.js — that file's comment
+   there has the byte-identical proof for every other segment).
+   Must match hero-scroll.js's TOTAL_VH exactly. */
+.kh__scrubwrap{position:relative;height:478vh;height:478dvh;}
 
 .kh__pin{
   position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;

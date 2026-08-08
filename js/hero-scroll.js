@@ -42,7 +42,7 @@
   // first-transition bonus (below) can both be exact, independent
   // numbers instead of fractions fighting over one shared denominator.
   // .kh__scrubwrap's height must equal TOTAL_VH — see main.css.
-  var TOTAL_VH = 428; // 400 (R-2 B) + 28 (tune pass, finding 2 — see below)
+  var TOTAL_VH_BASE = 428; // 400 (R-2 B) + 28 (tune pass, finding 2 — see below). LAW: every fraction formula below still divides by THIS number, unchanged — see EXIT_BONUS_VH for why TOTAL_VH itself (used only for CSS height / the exit's own bonus term) is a different, larger number.
   var HOLD_VH = 30;                      // 0.075 * 400, B's tuned value
   var DWELL_VH = 24.8;                   // 0.062 * 400, B's tuned value
   var EXIT_VH = 36;                      // 0.09  * 400, B's tuned value
@@ -62,12 +62,44 @@
   // length. Tune target for the next device walk, not a hard law.
   var FIRST_TRANS_BONUS_VH = 28;
 
-  var ESTABLISH_HOLD = HOLD_VH / TOTAL_VH;
-  var ESTABLISH_FADE = 0.035 * 400 / TOTAL_VH; // same absolute-vh fade distance as B tuned
-  var DWELL = DWELL_VH / TOTAL_VH;
-  var EXIT = EXIT_VH / TOTAL_VH;
-  var TRANS = TRANS_VH / TOTAL_VH;
-  var FIRST_TRANS_EXTRA = FIRST_TRANS_BONUS_VH / TOTAL_VH;
+  // R-2c EXIT EXTENSION — Commander ratified the dissolve's mid-
+  // viewport timing (C1's uncompressed anchors, restored below) and
+  // ordered the exit segment given the runway to actually hold it,
+  // same precedent as FIRST_TRANS_BONUS_VH above: additive, not
+  // carved out of anything else.
+  // The naive version of "additive" — just bumping the shared
+  // TOTAL_VH denominator from 428 to 478 and leaving every other
+  // fraction's own /TOTAL_VH untouched — does NOT give byte-identical
+  // per-stop distances: `total` (real scroll px, see update()) is
+  // (TOTAL_VH-100)/100*vh, so growing TOTAL_VH alone grows the shared
+  // denominator every OTHER segment's real length is measured
+  // against too (measured: +3.19% drift on every non-exit segment at
+  // 900px vh, HOLD 206.92px -> 213.51px, checked before writing this
+  // — the SAME class of drift the original FIRST_TRANS_BONUS_VH pass
+  // likely carried too, just never audited to this precision).
+  // Fix: keep every EXISTING fraction dividing by the historical
+  // TOTAL_VH_BASE (428, byte-identical formulas, untouched above)
+  // exactly as before, then uniformly RESCALE all of them by
+  // R_BASE/R_NEW — the ratio of the OLD real scroll range (328vh,
+  // TOTAL_VH_BASE-100) to the NEW one (378vh, +EXIT_BONUS_VH) — which
+  // exactly cancels the shared-denominator growth for every segment
+  // EXCEPT the exit, which gets EXIT_BONUS_VH added on top, in real
+  // vh terms, after the rescale. Algebraically the whole set still
+  // sums to exactly 1 (RESCALE + EXIT_BONUS_VH/R_NEW = R_NEW/R_NEW),
+  // and the scroll-distance table (PR) proves every non-exit segment
+  // unchanged to the pixel at two viewports.
+  var EXIT_BONUS_VH = 50;
+  var R_BASE = TOTAL_VH_BASE - 100; // 328 — the OLD real scroll range, vh-equivalent
+  var R_NEW = R_BASE + EXIT_BONUS_VH; // 378 — the NEW real scroll range; only the exit grew
+  var TOTAL_VH = R_NEW + 100; // 478 — CSS height (.kh__scrubwrap/.kh, see main.css) follows this
+  var RESCALE = R_BASE / R_NEW;
+
+  var ESTABLISH_HOLD = (HOLD_VH / TOTAL_VH_BASE) * RESCALE;
+  var ESTABLISH_FADE = (0.035 * 400 / TOTAL_VH_BASE) * RESCALE; // same absolute-vh fade distance as B tuned
+  var DWELL = (DWELL_VH / TOTAL_VH_BASE) * RESCALE;
+  var EXIT = (EXIT_VH / TOTAL_VH_BASE) * RESCALE + (EXIT_BONUS_VH / R_NEW);
+  var TRANS = (TRANS_VH / TOTAL_VH_BASE) * RESCALE;
+  var FIRST_TRANS_EXTRA = (FIRST_TRANS_BONUS_VH / TOTAL_VH_BASE) * RESCALE;
   // R-2 tune pass, finding 3 — hysteresis margin on the dwell-active
   // check only (see update()); TRANS (~31-59vh) is far larger than
   // 2*ACTIVE_PAD (~17vh combined), so adjacent stops' padded ranges
@@ -293,19 +325,19 @@
   // 1:1 once it's in normal flow, so "top at mid-viewport" is simply
   // "FADE_END_OFFSET_VH of scroll left before release").
   //
-  // Ideal, Commander-ruled anchors: end the fade 50vh before release,
-  // running for 25vh before that (a 75vh window). MEASURED first,
-  // per the brief: the exit segment itself — Aréole's dwell end to
-  // release, the only room this window is allowed to occupy — is
-  // EXIT_VH/TOTAL_VH*(TOTAL_VH-100) = 36/428*328 ≈ 27.59vh. 75vh
-  // does not fit; both anchors are compressed by the same ≈0.368
-  // factor (preserving their 2:1 ratio) to land safely inside it:
-  // 50->18, 25->9, a 27vh window with ~0.6vh to spare — the fade can
-  // never begin before Aréole's own dwell ends. Report both pairs;
-  // the ideal values are what to restore first if the timeline's own
-  // runway (TOTAL_VH/EXIT_VH) ever changes and reopens headroom.
-  var FADE_END_OFFSET_VH = 18;  // ideal 50, compressed to fit the exit segment
-  var FADE_DISTANCE_VH = 9;     // ideal 25, compressed to fit the exit segment
+  // Commander-ruled anchors, RESTORED to their uncompressed values:
+  // end the fade 50vh before release, running for 25vh before that (a
+  // 75vh window) — the exit segment's top lands EXACTLY at
+  // mid-viewport when the dissolve completes. The first pass of this
+  // ruling had to compress these (50->18, 25->9) because the exit
+  // segment was only ~27.59vh long; per the EXIT EXTENSION above
+  // (EXIT_BONUS_VH, additive, same precedent as FIRST_TRANS_BONUS_VH)
+  // the exit segment is now EXIT_VH*R_BASE/TOTAL_VH_BASE +
+  // EXIT_BONUS_VH = 36*328/428 + 50 ≈ 77.59vh — the 75vh window fits
+  // with ~2.59vh to spare, still never opening before Aréole's own
+  // dwell ends.
+  var FADE_END_OFFSET_VH = 50;
+  var FADE_DISTANCE_VH = 25;
 
   // ---- render ----
   var ticking = false;
