@@ -20,6 +20,7 @@
   var film = scrub.querySelector('[data-kh-film]');
   var stopsWrap = scrub.querySelector('[data-kh-stops]');
   var establish = scrub.querySelector('[data-kh-establish]');
+  var establishCopy = establish.querySelector('.kh__establish-copy');
   var stopEls = Array.prototype.slice.call(scrub.querySelectorAll('[data-kh-stop]'));
   var rail = scrub.querySelector('[data-kh-rail]');
   var railBtns = Array.prototype.slice.call(rail.querySelectorAll('[data-kh-go]'));
@@ -209,6 +210,38 @@
   // mt=0, so both values below stay their exact ORIGINAL numbers,
   // unconditionally — desktop composition is untouched by construction.
   var ESTABLISH_LIFT_PX_MOBILE = 55; // tune target for device walk
+  // F3 LE BLANC FINAL — establishScale (ESTABLISH_K * containScale) is
+  // WIDTH-bound on every phone aspect this lap tunes against (containScale
+  // = min(vw/IMG_W, vh/IMG_H) pins to width whenever the phone is taller/
+  // narrower than the image itself) — the statue's rendered height is then
+  // a function of vw ALONE, vh never enters it, so on a tall phone every
+  // extra pixel of viewport height becomes blank .kh__stage ivory below
+  // the statue. Fix: blend the establish scale's own BASIS partway from
+  // containScale toward coverScale (vh/IMG_H when height-bound) — more of
+  // the frame's height, literally — tapered by the same establishMobileT()
+  // as the lift above, so desktop (mt=0) still resolves to establishScale
+  // = containScale * ESTABLISH_K, byte-identical. Not blended to 1 (full
+  // height-bound): that crops ~29% off each side of the statue at the
+  // tightest tested aspect (390x926) — a "large, fully-present" full-body
+  // establishing shot doesn't tolerate that. 0.4 grows the statue
+  // meaningfully while keeping the crop under 10% per side at that same
+  // aspect. Tune target for the device walk, not a hard law.
+  var ESTABLISH_HEIGHT_BLEND_MOBILE = 0.4;
+  // The trailing white this key targets is measured below the COPY block
+  // (H1/intro/socials/hint), not below the statue — and the copy's own
+  // padding-top (R-3b, in recalc() below) was a flat vh*0.40 fraction,
+  // decoupled from the copy's own roughly-fixed content height. As vh
+  // grows, the gap between padding-top+content and the pin's bottom edge
+  // grows with it, unbounded — the actual mechanism behind the void R-2c's
+  // session measured. Fix: on mobile, target the gap directly — size
+  // padding-top so the copy's OWN measured height (offsetHeight, self-
+  // adjusting, no magic content-height constant) lands its bottom edge
+  // this many px above the pin's bottom, before the shared `lift` above
+  // pulls the whole ensemble up further on top of that. Lerp'd against the
+  // original vh*0.40 base by establishMobileT() so the inline override
+  // still resolves to exactly main.css's 40vh/40dvh at the 768px boundary
+  // — continuous, no snap.
+  var ESTABLISH_TRAILING_TARGET_PX = 20;
   function establishMobileT() {
     return clamp01((768 - vw) / (768 - 390));
   }
@@ -232,13 +265,17 @@
     vh = measuredVH();
     coverScale = Math.max(vw / IMG_W, vh / IMG_H);
     containScale = Math.min(vw / IMG_W, vh / IMG_H);
-    establishScale = containScale * ESTABLISH_K;
+    var mt = establishMobileT();
+    // F3 — see ESTABLISH_HEIGHT_BLEND_MOBILE above. mt=0 (>=768px)
+    // collapses this to containScale exactly, so establishScale below is
+    // byte-identical to pre-lap on desktop.
+    var establishBasis = containScale + (coverScale - containScale) * ESTABLISH_HEIGHT_BLEND_MOBILE * mt;
+    establishScale = establishBasis * ESTABLISH_K;
     var kRaw = 1 + ((vw / vh) / (390 / 844) - 1) * 0.18;
     k = Math.max(1, Math.min(1.35, kRaw));
 
     var imgH = establishScale * IMG_H;
     var slack = Math.max(0, vh - imgH);
-    var mt = establishMobileT();
     var lift = ESTABLISH_LIFT_PX_MOBILE * mt; // 0 at >=768px — desktop untouched
     // gapTopBase is the original LAW formula's result (ESTABLISH_TOP_RATIO,
     // never edited); gapTop is that same number minus the shared lift,
@@ -251,8 +288,14 @@
     // R-3b — copy block (H1/intro/socials/hint) moves with the statue by
     // the exact same `lift` px. mt===0 clears the inline override so
     // main.css's 40vh/40dvh alone governs, byte-identical to pre-lap.
+    // F3 — paddingBase itself now lerps (by mt) from that original flat
+    // vh*0.40 toward ESTABLISH_TRAILING_TARGET_PX's target (see above);
+    // `lift` still applies on top, exactly as before.
     if (mt > 0) {
-      var paddingBase = vh * 0.40;
+      var copyH = establishCopy.offsetHeight;
+      var paddingBaseOriginal = vh * 0.40;
+      var paddingBaseTarget = Math.max(0, vh - copyH - ESTABLISH_TRAILING_TARGET_PX);
+      var paddingBase = lerp(paddingBaseOriginal, paddingBaseTarget, mt);
       establish.style.paddingTop = Math.max(0, paddingBase - lift) + 'px';
     } else {
       establish.style.paddingTop = '';
