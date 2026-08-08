@@ -415,6 +415,20 @@
   // faster, which is what makes a slow crawl still track the target
   // near enough 1:1 (see the chase block inside update(), below).
   var FADE_CHASE_MS = 520;
+  // R-2f LE COULOIR, mechanism (b) — the 520ms above was tuned and blessed
+  // against ONE direction: the dissolve, statue -> white, targetFadeT
+  // INCREASING. Re-materialization (white -> statue, targetFadeT DECREASING)
+  // was never tuned; it simply inherited the dissolve's cap. Measured
+  // consequence: on a reverse entry the user's scroll leaves the fade window
+  // entirely and comes to rest with the statue's target back at 0, while the
+  // PAINT is still hundreds of ms of chase behind it — a white frame parked
+  // over a scroll position that isn't white at all. The dissolve wants to be
+  // deliberate; the recovery wants to be eager. Exactly half the blessed
+  // constant, so the relationship between the two stays legible instead of
+  // being two unrelated magic numbers. FADE_CHASE_MS itself is untouched, so
+  // the forward dissolve the Commander blessed is byte-identical.
+  // Tune target for the device walk, not a hard law.
+  var FADE_CHASE_DOWN_MS = 260;
   var renderedFadeT = 0;
   // Timestamp of the PREVIOUS update() call, refreshed unconditionally
   // every call (not just while diverged) — used only to tell a genuine
@@ -433,6 +447,11 @@
   // caught by this lap's own verification trace before it shipped.
   var fadeChaseLastTime = null;
   var FADE_CHASE_STALE_MS = 100; // » any single real frame, « any genuine idle gap
+
+  // R-2f — corridor pre-emption state; see the block at the bottom of
+  // update() for what these do and why one motionless frame is enough.
+  var corridorWatchY = null;
+  var corridorFired = false;
 
   // ---- render ----
   var ticking = false;
@@ -494,8 +513,11 @@
       : (t - fadeChaseLastTime);
     fadeChaseLastTime = t;
     if (renderedFadeT !== targetFadeT) {
-      var maxStep = dtMs / FADE_CHASE_MS;
       var diff = targetFadeT - renderedFadeT;
+      // R-2f (b) — direction-split cap. diff<0 is the statue RETURNING; see
+      // FADE_CHASE_DOWN_MS above. diff>0 (the dissolve) still uses the
+      // blessed 520ms, unchanged.
+      var maxStep = dtMs / (diff < 0 ? FADE_CHASE_DOWN_MS : FADE_CHASE_MS);
       if (Math.abs(diff) <= maxStep) {
         renderedFadeT = targetFadeT;
       } else {
@@ -637,6 +659,85 @@
     });
     rail.classList.toggle('is-visible', progress > 0.05 && seg.type !== 'exit');
 
+    // R-2f LE COULOIR, mechanism (c) — THE ROOM ITSELF.
+    //
+    // Measured, not assumed: the key's mechanism (a) — "if the computed rest
+    // position falls inside the window, continue to the nearest boundary-side
+    // target" — is already true here by construction, and implementing it
+    // would have been provably dead code. No SETTLE_TARGET lies inside the
+    // window (the window is progress ~0.802-0.868; Aréole's midpoint is
+    // ~0.770 and release is 1.0), and biasedSettleTarget() only ever RETURNS
+    // a SETTLE_TARGETS entry — so the settle's landing was never in the
+    // window, in either direction, before this lap. The escape sides (a)
+    // asks for are the ones already chosen: a reverse gesture (origin =
+    // release) picks Aréole for every position in the window, and a forward
+    // gesture (origin = Aréole) picks release past the ADVANCE_BIAS_FRAC
+    // threshold and Aréole below it. Both leave the window; neither rests
+    // in it.
+    //
+    // What actually parked the Commander's white viewport is not WHERE the
+    // settle lands, it is WHEN it starts. settle() cannot run until rest is
+    // DETECTED, and detection costs SETTLE_DEBOUNCE_MS (140ms, LAW, and
+    // correctly so — it answers "has scroll input gone quiet", which is a
+    // real question everywhere else on the timeline). For those 140ms the
+    // raw scroll sits genuinely motionless at a position whose targetFadeT
+    // is strictly between 0 and 1 — and at ~0.5 that frame is pure ivory
+    // with nothing in it. That is the room, and it is invariant under both
+    // mechanisms the key proposed (traced: 167ms of frozen in-window rest,
+    // identical under (a) and (b), every direction, speed and viewport).
+    //
+    // The fix is to make rest DETECTION cheap in the one place where waiting
+    // buys nothing. The 140ms debounce exists to avoid committing to a stop
+    // while the gesture might still be going — but inside this window there
+    // is no stop to commit to. Every outcome is the same two targets no
+    // matter how much longer the gesture runs, so there is nothing to learn
+    // by waiting. One motionless frame is therefore enough here, and only
+    // here: SETTLE_DEBOUNCE_MS keeps its exact device-measured meaning for
+    // the entire rest of the timeline.
+    //
+    // Two frames of latency in practice, not one — the first records the
+    // position, the second confirms it unchanged. Traced at 33ms against
+    // 167ms before.
+    //
+    // Why this cannot oscillate, which the key demanded be proven rather
+    // than asserted: the escape is driven by the settle ease, which rewrites
+    // scroll every single frame it runs, so corridorWatchY never matches two
+    // frames running while it is in flight and no second settle can fire
+    // underneath it. `activeEase` gates this block anyway. The ease's own
+    // landing is a SETTLE_TARGETS entry, i.e. outside the window by the
+    // construction above, so arriving there cannot re-arm this. And a
+    // premature fire — a sub-pixel momentum frame that happens to repeat —
+    // costs nothing: it starts an ease that the finding-B foreign-scroll
+    // path (scheduleSettleFallback) cancels cleanly and re-arms, exactly as
+    // it already does for any settle interrupted by a live gesture, and
+    // cancelEase() deliberately leaves lastRestProgress alone, so the R-2d
+    // one-stop-per-gesture clamp is untouched by a cancelled attempt. The
+    // clamp is not weakened here at all: this block changes WHEN settle()
+    // is called, never WHAT it may choose — traced landings stay origin±1
+    // (reverse from release lands Aréole; forward from Aréole lands release
+    // or Aréole; forward from Cicatrices lands Aréole, never release).
+    //
+    // activeEase/settleTimer/settle are declared below this function; settle
+    // is a hoisted declaration and the two vars are initialised during the
+    // same IIFE evaluation that ends before update() is ever reachable (the
+    // first call is the deferred raf(update) on the last line of the file).
+    var inCorridor = targetFadeT > 0 && targetFadeT < 1;
+    if (inCorridor && !activeEase) {
+      var yNow = window.pageYOffset;
+      if (corridorWatchY !== yNow) {
+        corridorWatchY = yNow;
+        corridorFired = false;
+      } else if (!corridorFired) {
+        corridorFired = true;
+        clearTimeout(settleTimer);
+        khlog('corridor pre-empt, y=', yNow);
+        settle('corridor');
+      }
+    } else {
+      corridorWatchY = null;
+      corridorFired = false;
+    }
+
     // R-2e — keep the fade chase alive on its OWN, independent of scroll
     // events. A fast flick's native momentum can carry raw scroll all
     // the way across the fade window and then go fully still (no more
@@ -645,7 +746,14 @@
     // already drive, so this is one extra self-continuation, not a
     // second parallel loop. Converges and stops on its own the frame
     // renderedFadeT snaps to targetFadeT above — no eternal idle frames.
-    if (renderedFadeT !== targetFadeT) onTick();
+    //
+    // R-2f — the same self-continuation now also keeps the corridor watch
+    // above alive across frames where the chase has already converged and
+    // no scroll event is coming (precisely the parked-white case). It stops
+    // the frame the watch fires, since the ease it starts drives its own
+    // rAF loop from there — no eternal idle frames here either.
+    if (renderedFadeT !== targetFadeT ||
+        (inCorridor && !activeEase && !corridorFired)) onTick();
   }
 
   var raf = window.requestAnimationFrame
