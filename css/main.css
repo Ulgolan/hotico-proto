@@ -118,6 +118,65 @@ button{
 
 .kh{position:relative;background:var(--ivory);}
 
+/* R-2c — the film's exit handoff. .kh__pin is a 100vh/100dvh sticky
+   child of .kh__scrubwrap. .kh__scrubwrap's own height must equal
+   TOTAL_VH in hero-scroll.js — 428vh at this lap's start, now 478vh
+   (R-2c EXIT EXTENSION: +50vh, additive, all of it landing in the
+   exit segment — see EXIT_BONUS_VH in that file for the full
+   reasoning and the byte-identical proof for every other segment).
+   By construction of ANY sticky-pin-in-a-tall-wrapper pattern, the
+   pin's sticky offset maxes out (the "release", progress===1)
+   exactly one pin-height BEFORE .kh__scrubwrap's own bottom edge —
+   past that point the pin is just an ordinary flow box occupying the
+   wrapper's OWN last 100vh, no longer scrubbed. .kh, un-shrunk, would
+   reserve (and paint its ivory background across) that same trailing
+   100vh — which is exactly the dead gap this lap exists to close, and,
+   tried first: painting an opaque section over that gap instead
+   doesn't work either, because .kh (position:relative) still
+   outranks any plain in-flow sibling there regardless, hiding that
+   section's own content underneath .kh's background instead of the
+   reverse.
+   Fix: give .kh itself a height of exactly one pin-height LESS than
+   .kh__scrubwrap's (478vh - 100vh = 378vh, tracking hero-scroll.js's
+   R_NEW exactly, not a tuned figure) with overflow:visible. The
+   wrapper and its sticky pin are completely unaffected — sticky
+   positioning is governed by .kh__scrubwrap's own box, a level
+   below, never by .kh's. What changes is only whichever box's edge
+   the REST of the page treats as "where .kh ends": now the release
+   point exactly, instead of 100vh later. The section after .kh lands
+   there in plain normal flow — no margin pull, no z-index dance.
+   The pin's own painted content (statue + ivory stage) still renders
+   past .kh's new edge via the overflow (sticky doesn't care about an
+   ancestor's box); hero-scroll.js dissolves it — a scroll-linked,
+   two-phase opacity fade (statue first, then the ivory stage itself,
+   through white — see .kh__film/.kh__stage's own opacity and this
+   file's .is-fading/is-dissolved below), timed to finish BEFORE this
+   point is even reached (that file's fadeT/FADE_END_OFFSET_VH), so
+   nothing opaque is ever left rendering into the reclaimed space.
+   Gated to html.js-kh: the no-JS/reduced-motion .kh__static fallback
+   has no sticky pin and needs .kh's natural (auto) height for its
+   own, differently-sized content — untouched. */
+html.js-kh .kh{height:378vh;height:378dvh;overflow:visible;}
+
+/* R-2c — .kh__scrubwrap and .kh__scrub (both auto-sized to their
+   478vh content) still physically span the full height even though
+   .kh's own box above now ends 100vh earlier; overflow:visible means
+   they (and the unstuck pin inside them, once past release) still
+   render into that reclaimed space, just as before. Neither paints
+   anything of its own there (nothing is EVER visually painted once
+   the pin is hidden — see above), but every ancestor from .kh down
+   is still hit-testable there by default (confirmed via
+   elementsFromPoint — even with .kh__scrubwrap alone opted out,
+   .kh__scrub was still catching it), silently swallowing clicks
+   meant for whatever section now occupies that reclaimed space.
+   Cut it off at .kh itself, the common ancestor, rather than
+   patching each wrapper level piecemeal. .kh__pin opts back in below
+   so the stop links / Aréole CTA and the rail nav stay reachable
+   during the actual scrub (.kh__rail already manages its own
+   pointer-events independently, via .is-visible — untouched, that
+   override still wins over this). */
+html.js-kh .kh{pointer-events:none;}
+
 .kh__scrub{display:none;}
 html.js-kh .kh__scrub{display:block;}
 html.js-kh .kh__static{display:none;}
@@ -218,16 +277,55 @@ html.js-kh .kh__static{display:none;}
    R-2 tune pass, finding 2 — +28vh (400→428), all of it added to the
    establish->Sourcils transition only (TOTAL_VH/FIRST_TRANS_BONUS_VH
    in hero-scroll.js); every other stop's absolute-vh cadence from B is
-   unchanged. Must match hero-scroll.js's TOTAL_VH exactly. */
-.kh__scrubwrap{position:relative;height:428vh;height:428dvh;}
+   unchanged.
+   R-2c EXIT EXTENSION — +50vh (428→478), same additive precedent,
+   all of it landing in the exit segment this time
+   (TOTAL_VH/EXIT_BONUS_VH in hero-scroll.js — that file's comment
+   there has the byte-identical proof for every other segment).
+   Must match hero-scroll.js's TOTAL_VH exactly. */
+.kh__scrubwrap{position:relative;height:478vh;height:478dvh;}
 
 .kh__pin{
   position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;
+  /* R-2c — restores pointer-events under the blanket
+     .kh__scrubwrap{pointer-events:none} above (see that rule's
+     comment), so the stop links / Aréole CTA stay reachable during
+     the actual scrub. */
+  pointer-events:auto;
+  /* R-2c — measured, not theoretical: .video's carousel carries its
+     own position:relative internals (.carousel/.video__frame/
+     .video__embed), and confirmed via elementsFromPoint, that local
+     promotion was enough to win screen-space priority over this
+     sticky pin mid-scrub (Cicatrices dwell, well before release) —
+     .kh being position:relative one level up did NOT protect against
+     it. An explicit z-index sidesteps the whole "whose ancestor is
+     positioned" question: while the pin is visible it must win
+     against literally anything it happens to share screen space
+     with, not just .kh's specific siblings. */
+  z-index:1;
   /* R-1 Anchor C — one shared connector length for all six scrub
      stops, 0.066 of the rendered statue frame (this pin) height. */
   --kh-connector-len:6.6vh;
   --kh-connector-len:6.6dvh;
 }
+
+/* R-2c TUNE — THE DISSOLVE, through white. Commander's C2: never a
+   crossfade (no frame may show statue-over-video) — .kh__film and
+   .kh__stage (below) each carry their OWN opacity, driven per-frame
+   from JS as plain inline styles (see update()'s phase1T/phase2T),
+   so the statue fades to nothing first while the stage's opaque
+   ivory background holds — a pure white veil — before THAT fades in
+   turn to reveal whatever's beneath. Deliberately no `transition`
+   property anywhere near either: a CSS transition would race/lag the
+   scroll-driven value instead of tracking it exactly, breaking the
+   "reverse the scroll, she re-materializes symmetrically" requirement.
+   .is-fading (pointer-events) and .is-dissolved (visibility) stay on
+   .kh__pin itself — the outer container, unaffected by which of its
+   two children is currently fading — both dictated by exact
+   thresholds on the same fadeT, not by feel; see their comments in
+   hero-scroll.js for why each threshold is where it is. */
+.kh__pin.is-fading{pointer-events:none;}
+.kh__pin.is-dissolved{visibility:hidden;}
 
 .kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
 
@@ -323,6 +421,16 @@ html.js-kh .kh__static{display:none;}
   pointer-events:auto;
   transition:opacity .45s ease .3s,transform .45s ease .3s;
 }
+/* R-2c TUNE — measured: ACTIVE_PAD's hysteresis (LAW, hero-scroll.js)
+   keeps a just-left stop .is-active — and so this rule's own
+   pointer-events:auto — alive for a few vh past its literal dwell
+   end, which the dissolve's compressed window now overlaps (see
+   hero-scroll.js's own comment by stopsWrap.style.opacity for the
+   measured numbers). .kh__stops's opacity fades in step with the
+   statue already (JS), but opacity never disables clicks — this
+   backstops pointer-events specifically, at higher specificity than
+   the rule above so it always wins regardless of is-active. */
+.kh__pin.is-fading .kh__stop.is-active .kh__caption{pointer-events:none;}
 
 /* K-6 SECONDARY RULE — per-stop escape hatch: if a pill (default
    below the dot) would cover its own featured zone, flip it above.

@@ -15,7 +15,10 @@
   if (!scrub) return;
 
   var wrap = scrub.querySelector('[data-kh-wrap]');
+  var pin = scrub.querySelector('[data-kh-pin]');
+  var stage = scrub.querySelector('[data-kh-stage]');
   var film = scrub.querySelector('[data-kh-film]');
+  var stopsWrap = scrub.querySelector('[data-kh-stops]');
   var establish = scrub.querySelector('[data-kh-establish]');
   var stopEls = Array.prototype.slice.call(scrub.querySelectorAll('[data-kh-stop]'));
   var rail = scrub.querySelector('[data-kh-rail]');
@@ -39,7 +42,7 @@
   // first-transition bonus (below) can both be exact, independent
   // numbers instead of fractions fighting over one shared denominator.
   // .kh__scrubwrap's height must equal TOTAL_VH — see main.css.
-  var TOTAL_VH = 428; // 400 (R-2 B) + 28 (tune pass, finding 2 — see below)
+  var TOTAL_VH_BASE = 428; // 400 (R-2 B) + 28 (tune pass, finding 2 — see below). LAW: every fraction formula below still divides by THIS number, unchanged — see EXIT_BONUS_VH for why TOTAL_VH itself (used only for CSS height / the exit's own bonus term) is a different, larger number.
   var HOLD_VH = 30;                      // 0.075 * 400, B's tuned value
   var DWELL_VH = 24.8;                   // 0.062 * 400, B's tuned value
   var EXIT_VH = 36;                      // 0.09  * 400, B's tuned value
@@ -59,12 +62,44 @@
   // length. Tune target for the next device walk, not a hard law.
   var FIRST_TRANS_BONUS_VH = 28;
 
-  var ESTABLISH_HOLD = HOLD_VH / TOTAL_VH;
-  var ESTABLISH_FADE = 0.035 * 400 / TOTAL_VH; // same absolute-vh fade distance as B tuned
-  var DWELL = DWELL_VH / TOTAL_VH;
-  var EXIT = EXIT_VH / TOTAL_VH;
-  var TRANS = TRANS_VH / TOTAL_VH;
-  var FIRST_TRANS_EXTRA = FIRST_TRANS_BONUS_VH / TOTAL_VH;
+  // R-2c EXIT EXTENSION — Commander ratified the dissolve's mid-
+  // viewport timing (C1's uncompressed anchors, restored below) and
+  // ordered the exit segment given the runway to actually hold it,
+  // same precedent as FIRST_TRANS_BONUS_VH above: additive, not
+  // carved out of anything else.
+  // The naive version of "additive" — just bumping the shared
+  // TOTAL_VH denominator from 428 to 478 and leaving every other
+  // fraction's own /TOTAL_VH untouched — does NOT give byte-identical
+  // per-stop distances: `total` (real scroll px, see update()) is
+  // (TOTAL_VH-100)/100*vh, so growing TOTAL_VH alone grows the shared
+  // denominator every OTHER segment's real length is measured
+  // against too (measured: +3.19% drift on every non-exit segment at
+  // 900px vh, HOLD 206.92px -> 213.51px, checked before writing this
+  // — the SAME class of drift the original FIRST_TRANS_BONUS_VH pass
+  // likely carried too, just never audited to this precision).
+  // Fix: keep every EXISTING fraction dividing by the historical
+  // TOTAL_VH_BASE (428, byte-identical formulas, untouched above)
+  // exactly as before, then uniformly RESCALE all of them by
+  // R_BASE/R_NEW — the ratio of the OLD real scroll range (328vh,
+  // TOTAL_VH_BASE-100) to the NEW one (378vh, +EXIT_BONUS_VH) — which
+  // exactly cancels the shared-denominator growth for every segment
+  // EXCEPT the exit, which gets EXIT_BONUS_VH added on top, in real
+  // vh terms, after the rescale. Algebraically the whole set still
+  // sums to exactly 1 (RESCALE + EXIT_BONUS_VH/R_NEW = R_NEW/R_NEW),
+  // and the scroll-distance table (PR) proves every non-exit segment
+  // unchanged to the pixel at two viewports.
+  var EXIT_BONUS_VH = 50;
+  var R_BASE = TOTAL_VH_BASE - 100; // 328 — the OLD real scroll range, vh-equivalent
+  var R_NEW = R_BASE + EXIT_BONUS_VH; // 378 — the NEW real scroll range; only the exit grew
+  var TOTAL_VH = R_NEW + 100; // 478 — CSS height (.kh__scrubwrap/.kh, see main.css) follows this
+  var RESCALE = R_BASE / R_NEW;
+
+  var ESTABLISH_HOLD = (HOLD_VH / TOTAL_VH_BASE) * RESCALE;
+  var ESTABLISH_FADE = (0.035 * 400 / TOTAL_VH_BASE) * RESCALE; // same absolute-vh fade distance as B tuned
+  var DWELL = (DWELL_VH / TOTAL_VH_BASE) * RESCALE;
+  var EXIT = (EXIT_VH / TOTAL_VH_BASE) * RESCALE + (EXIT_BONUS_VH / R_NEW);
+  var TRANS = (TRANS_VH / TOTAL_VH_BASE) * RESCALE;
+  var FIRST_TRANS_EXTRA = (FIRST_TRANS_BONUS_VH / TOTAL_VH_BASE) * RESCALE;
   // R-2 tune pass, finding 3 — hysteresis margin on the dwell-active
   // check only (see update()); TRANS (~31-59vh) is far larger than
   // 2*ACTIVE_PAD (~17vh combined), so adjacent stops' padded ranges
@@ -280,6 +315,30 @@
     return { fx: fx, fy: fy, vy: vy, scale: scale };
   }
 
+  // R-2c TUNE — THE DISSOLVE, timed against the release point rather
+  // than past it. Commander's C1: under the first cut (fade window
+  // AFTER release), the incoming section's top had already climbed
+  // above the viewport by the time the fade finished — the reveal
+  // read as late. Fix: the window now sits BEFORE release, timed so
+  // the fade COMPLETES while the incoming section's top is still no
+  // higher than mid-viewport (that section's top tracks scrollY
+  // 1:1 once it's in normal flow, so "top at mid-viewport" is simply
+  // "FADE_END_OFFSET_VH of scroll left before release").
+  //
+  // Commander-ruled anchors, RESTORED to their uncompressed values:
+  // end the fade 50vh before release, running for 25vh before that (a
+  // 75vh window) — the exit segment's top lands EXACTLY at
+  // mid-viewport when the dissolve completes. The first pass of this
+  // ruling had to compress these (50->18, 25->9) because the exit
+  // segment was only ~27.59vh long; per the EXIT EXTENSION above
+  // (EXIT_BONUS_VH, additive, same precedent as FIRST_TRANS_BONUS_VH)
+  // the exit segment is now EXIT_VH*R_BASE/TOTAL_VH_BASE +
+  // EXIT_BONUS_VH = 36*328/428 + 50 ≈ 77.59vh — the 75vh window fits
+  // with ~2.59vh to spare, still never opening before Aréole's own
+  // dwell ends.
+  var FADE_END_OFFSET_VH = 50;
+  var FADE_DISTANCE_VH = 25;
+
   // ---- render ----
   var ticking = false;
 
@@ -292,6 +351,88 @@
 
     var seg = findSegment(progress);
     var cam = camera(seg, progress);
+
+    // R-2c TUNE — THE DISSOLVE, through white. Commander's C2: no
+    // frame may ever show statue-over-video (a crossfade reads as
+    // info-over-info); the handoff must read as white LIFTING OFF
+    // content. Two-phase, both driven off the same fadeT:
+    //   phase 1 (fadeT 0->0.5): the statue (.kh__film) fades to
+    //   nothing while .kh__stage's own ivory background — the "veil"
+    //   — stays fully opaque. By fadeT=0.5 the frame is pure ivory,
+    //   indistinguishable from the page background; nothing of the
+    //   arriving section is visible yet.
+    //   phase 2 (fadeT 0.5->1): the veil itself (.kh__stage) fades,
+    //   revealing whatever's beneath. film is already at opacity 0
+    //   by this phase, so fading its ancestor (stage) on top doesn't
+    //   double-fade anything visible — 0 times anything is still 0.
+    // No new markup for the veil: .kh__stage already IS an opaque
+    // ivory layer wrapping the film (see main.css), so fading it
+    // directly is simpler than adding a dedicated overlay element,
+    // and keeps this lap's footprint to JS + one data-hook.
+    //
+    // pxFromRelease is raw, UNCAPPED, and SIGNED scroll distance
+    // relative to the release point (negative before it, 0 at it,
+    // positive past it) — a pure function of current scroll position
+    // (rect.top), never of `progress` (which clamps to 1 at release
+    // and can't express "before" it) or of time, so reversing the
+    // scroll re-traces the exact same curve, symmetrically, with no
+    // pop at any point either direction. The window itself now sits
+    // BEFORE release (C1) — see FADE_END_OFFSET_VH/FADE_DISTANCE_VH
+    // above for why those two specific numbers.
+    var pxFromRelease = -rect.top - total;
+    var fadeWindowStartPx = -(FADE_END_OFFSET_VH + FADE_DISTANCE_VH) / 100 * vh;
+    var fadeDistancePx = FADE_DISTANCE_VH / 100 * vh;
+    var fadeT = clamp01((pxFromRelease - fadeWindowStartPx) / fadeDistancePx);
+    var phase1T = clamp01(fadeT / 0.5);
+    var phase2T = clamp01((fadeT - 0.5) / 0.5);
+    var chromeOpacity = 1 - smootherstep(phase1T);
+    film.style.opacity = chromeOpacity;
+    stage.style.opacity = 1 - smootherstep(phase2T);
+    // Measured, not assumed: the compressed window opens only ~0.6vh
+    // after Aréole's literal dwell end (see FADE_END_OFFSET_VH's own
+    // comment), but ACTIVE_PAD (LAW, R-2 tune pass finding 3,
+    // untouched) keeps a just-left stop's .is-active — and therefore
+    // its caption's own opacity:1/pointer-events:auto, main.css —
+    // alive for a further ~6.7vh past that. The two overlap: for
+    // roughly the first two-thirds of this window, Aréole's pill is
+    // still technically on screen and clickable even as the statue
+    // starts to fade, unless addressed here. Rather than touch
+    // ACTIVE_PAD or the dwell system it belongs to (LAW), fold the
+    // SAME chromeOpacity into .kh__stops (the pill is exactly the
+    // "film chrome" phase 1 already claims) — an inactive stop is
+    // already opacity:0 so this is a no-op for it, and whichever
+    // stop is still mid-hysteresis fades out in the same breath as
+    // the statue instead of lingering. main.css's
+    // .kh__pin.is-fading .kh__stop.is-active .kh__caption rule
+    // backstops pointer-events specifically, since opacity alone
+    // never disables clicks.
+    stopsWrap.style.opacity = chromeOpacity;
+    // The trap: a fading-but-still-solid pin sits, in stacking terms,
+    // ABOVE the video/carousel now showing through it (z-index:1,
+    // see main.css) — pointer-events:auto there would let a
+    // half-transparent ghost keep eating clicks meant for what's
+    // underneath. Drops the INSTANT any fade starts (fadeT>0, not
+    // just at full dissolve) and restores only once fully back at
+    // rest (fadeT===0 exactly). Aréole's own CTA is fully interactive
+    // through its entire dwell, which ends before this window can
+    // open — verified via elementFromPoint mid-dwell, not just by
+    // this reasoning; the overlap handled above is purely the
+    // hysteresis tail, not the dwell itself.
+    var fading = fadeT > 0;
+    if (fading !== pin.__khFading) {
+      pin.__khFading = fading;
+      pin.classList.toggle('is-fading', fading);
+    }
+    // visibility:hidden is a paint-cost cut only, valid exactly at
+    // fadeT===1 (both film and stage are already opacity 0 there
+    // regardless) and un-set the instant fadeT drops below 1 —
+    // clamp01 above means fadeT cannot exceed 1, so `>= 1` is exact
+    // equality, not a fuzzy epsilon threshold.
+    var dissolved = fadeT >= 1;
+    if (dissolved !== pin.__khDissolved) {
+      pin.__khDissolved = dissolved;
+      pin.classList.toggle('is-dissolved', dissolved);
+    }
 
     var tx = vw / 2 - cam.scale * cam.fx * IMG_W;
     var ty = vh * cam.vy - cam.scale * cam.fy * IMG_H;
