@@ -2551,3 +2551,121 @@ one flick, one stop, in either direction, no matter how hard it's
 thrown.
 
 Session retires at this boundary.
+
+---
+
+## Entry #37 — 2026-08-08 — LAP R-2e: LE VOILE — MERGE & CLOSE
+
+**The lap's one variable:** the dissolve's TEMPO under speed.
+Commander verdict from the device, post-R-2d-clamp: at violent-flick
+speed the statue→white→video handoff read as a FLASHBANG. Diagnosis:
+`fadeT` is (LAW, untouched) a pure function of scroll position — its
+wall-clock speed equals gesture speed. Crawl speed was Commander-
+blessed; a clamped violent flick still settles across the whole 75vh
+fade window in one fast eased motion, compressing the white veil into
+a flash. Target: the dissolve reads calm at ANY input speed.
+
+**Mechanism chosen — (a) rendered-opacity smoothing, per the Tower's
+lean.** `fadeT` (renamed `targetFadeT`, formula byte-identical) stays
+the TARGET — scroll position is still the only source of truth, LAW
+untouched. A new `renderedFadeT` is the PAINTED value: it chases the
+target at a rate capped by `FADE_CHASE_MS` (520ms, the midpoint of
+the key's own 450–600ms range for a full 0→1 sweep) instead of
+jumping to it every frame. **(b) — stretching the settle ease's own
+duration through the window — was rejected**: it can only slow
+gestures `settle()` itself drives. A hard flick's own native momentum
+fires a real `scroll` event every frame throughout its deceleration
+and can carry raw scroll position across the entire fade window
+*before* `settle()` ever engages — (b) has no hook into that motion
+at all; only (a) can reach it, exactly the key's own diagnosis.
+
+**Rate cap, not exponential decay.** An exponential chase
+(`renderedFadeT += (target-renderedFadeT)*k`) never actually reaches
+its target — the "eternal 0.98 opacity" the key explicitly warned
+against. A capped rate-of-change (constant-speed chase, clamped to
+the remaining distance each frame) reaches the target in FINITE time
+and then stops exactly — no epsilon-fudging needed for convergence.
+
+**The target/rendered split forced a class-keying decision, both
+ways.** `is-fading` (pointer-events lockout, `main.css`'s
+`.kh__pin.is-fading{pointer-events:none}`) stays keyed to
+`targetFadeT`, per the key's own guardrail: a ghost is untouchable
+from the first target-fade pixel even while the paint lags behind it.
+`is-dissolved` (`visibility:hidden`, a paint-cost cut only) moves the
+OTHER way, to `renderedFadeT` — pre-R-2e code keyed it to the same
+`fadeT` because target and rendered were the same value; once they
+split, keeping it on the target would cut a still-visibly-fading
+frame to `visibility:hidden` mid-chase, a pop, the exact defect this
+lap exists to remove. Reasoned deviation from the literal old
+condition, not an oversight — recorded here since it's the one place
+this lap's own two new variables disagree on which to key off.
+
+**The chase self-continues on its own, reusing existing plumbing.**
+A hard flick's momentum can go fully still (zero further `scroll`
+events) before `FADE_CHASE_MS` has elapsed. Fix: at the bottom of
+`update()`, `if (renderedFadeT !== targetFadeT) onTick();` — the same
+`ticking`/`raf` machinery scroll events already drive, one extra
+self-continuation call rather than a second parallel rAF loop.
+Converges and stops scheduling itself the instant `renderedFadeT`
+snaps to `targetFadeT` — no eternal idle frames once at rest.
+
+**A bug the session's own verification trace caught before it
+shipped.** First draft reset the chase's timing baseline
+(`fadeChaseLastTime`) to `null` the instant `renderedFadeT` caught up
+to `targetFadeT` — correct reasoning for a genuinely idle chase, wrong
+for a *continuously moving* target: a slow scroll crawl re-diverges
+almost every frame, and resetting on every one of those micro-
+convergences forced `dt=0` on the very next frame each time, turning
+smooth 1:1 tracking into a one-frame sawtooth stutter. Caught by
+running the verbatim chase logic standalone against the file's own
+constants (see PR) before any device time was spent on it — not
+caught on the device, caught by the harness this session built for
+itself. Fixed with gap-based staleness detection instead: the
+previous `update()` call's timestamp is refreshed unconditionally on
+every call, and only a gap larger than `FADE_CHASE_STALE_MS` (100ms —
+bigger than any single real frame, smaller than any genuine idle gap)
+makes `dt` read as 0. A standalone resume-from-idle trace (8s at
+rest, then a fresh flick) confirmed the fix: the first frame of the
+new chase does not snap.
+
+**Proof — 4 scenarios, verbatim-copied chase logic against the file's
+real `FADE_CHASE_MS`/`FADE_CHASE_STALE_MS`:** an instant jump across
+the whole window still takes its full ~520ms minimum to converge;
+a slow crawl tracks the target within one frame-step the entire time,
+no drift; a mid-fade reversal keeps every frame-to-frame delta inside
+the rate cap, symmetric, no pop at the reversal instant; a fresh
+gesture after 8s idle starts its chase from zero rather than snapping.
+Live in-browser trace (scroll jumped into the fade window, `film`/
+`stage` inline opacity and `is-fading` sampled over real wall-clock
+time) confirmed the wiring end-to-end — no console/server errors,
+`is-fading` flips true immediately on divergence, opacity moves
+gradually rather than snapping — but the sandbox tab reported
+backgrounded (`document.hidden === true`), throttling
+`requestAnimationFrame` too heavily to measure exact tempo there,
+same category of limitation [[entry #36]] recorded for scroll events
+in this environment. Commander's device walk was the first, and only,
+place the actual tempo was ever certified.
+
+**Cache-bust.** `hero-scroll.js` v15→v16. `main.css` untouched (no
+geometry/CSS touched this lap) — stays at v32.
+
+**Gate.** Commander device walk: PASS — violent flick reads as a
+breath, crawl unchanged from the blessed version, mid-fade reversal
+smooth. Tower diff-cert via codeload tarballs: PASS — scope confirmed
+as two files (the chase machinery plus the version bust); every
+timeline/bias/fade LAW constant (`fadeT` formula, window anchors,
+two-phase-through-white choreography, mid-viewport reveal, R-2d's
+one-stop clamp, cadence, dwells, settle targets) byte-identical; stop
+markup/anchors/labels untouched; zero `preventDefault` anywhere;
+static tier untouched.
+
+PR [#24](https://github.com/Ulgolan/hotico-proto/pull/24) merged into
+`main` via a merge commit (`3300c0b`), two parents — not squashed,
+not rebased.
+
+**LE VOILE LIFTS SLOWLY NOW.** The dissolve's speed is no longer the
+gesture's speed — a violent flick and a slow crawl both spend the
+same ~half-second lifting the veil, only the SCROLL itself still
+answers to the hand that threw it.
+
+Session retires at this boundary.
