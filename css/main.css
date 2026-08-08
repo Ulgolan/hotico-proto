@@ -381,7 +381,43 @@ html.js-kh .kh__static{display:none;}
 
 /* ---------- c. GOLD BAND ---------- */
 
+/* R-2c — the film's exit handoff. .kh__pin is a 100vh/100dvh sticky
+   child of the 428vh .kh__scrubwrap (LAW, untouched); by construction
+   of that pattern, the pin's sticky offset always maxes out (the
+   "release", hero-scroll.js's progress===1) exactly ONE pin-height
+   BEFORE the scrubwrap's own bottom edge — the pin, now unstuck,
+   still has to scroll past normally as ordinary flow before the next
+   section arrives. That trailing pin-height is structurally
+   unavoidable while .kh__scrubwrap's height (and therefore the JS
+   progress math / every per-stop scroll distance) stays exactly what
+   R-2 B/tune-pass/R-2b certified — shrinking the wrapper itself to
+   close the gap would compress that cadence instead.
+   Fix: pull the divider immediately after .kh (.rule--kh-exit, see
+   index.html) up by exactly one pin-height, so ITS box — not the
+   band's — starts where the pin's sticky offset caps out, not 100vh
+   later. .band then follows the rule in normal flow, landing right
+   behind it. Both .rule and .kh carry position:relative already
+   (existing rule), so paint order between them still follows DOM
+   order — the rule (and everything after it) now paints ON TOP of
+   the spent, motionless pin instead of 100vh of dead scroll preceding
+   it, and the section transition still gets its usual gold rule,
+   exactly at the handoff instead of buried mid-gutter.
+   -100vh/-100dvh mirrors .kh__pin's own height declaration exactly
+   (see main.css's .kh__pin rule) — not a tuned number, a mirrored
+   one, so it stays correct at any viewport height without retuning.
+   .band still needs its own opaque fill: the rule's box is only 1px
+   (plus its own ::after shadow) tall, nowhere near covering the
+   pin's full former footprint on its own.
+   Gated to html.js-kh — same gate .kh__scrub/.kh__static already use
+   above. The no-JS / reduced-motion .kh__static fallback is plain
+   normal-flow content with no sticky pin and no trailing gutter to
+   close; pulling the rule up there would just eat 100vh of its own
+   (real, needed) content instead. */
+html.js-kh .rule--kh-exit{margin-top:-100vh;margin-top:-100dvh;}
+
 .band{padding-top:1.9rem;padding-bottom:1.5rem;}
+
+html.js-kh .band{background:var(--ivory);position:relative;}
 
 .band__title{
   font-family:var(--font-head);
