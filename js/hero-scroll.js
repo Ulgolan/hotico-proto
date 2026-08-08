@@ -281,6 +281,14 @@
     return { fx: fx, fy: fy, vy: vy, scale: scale };
   }
 
+  // R-2c REVISED — THE DISSOLVE. How far (in vh, past the release
+  // point) the pin takes to fade fully out once .kh__scrubwrap's own
+  // sticky range ends — see update()'s pxPastRelease/fadeT. Commander-
+  // ruled starting value; retune target for the device walk, not a
+  // hard law, same status as this file's other approximate figures
+  // (ADVANCE_BIAS_FRAC, ESTABLISH_LIFT_PX_MOBILE, etc).
+  var FADE_DISTANCE_VH = 25;
+
   // ---- render ----
   var ticking = false;
 
@@ -294,25 +302,59 @@
     var seg = findSegment(progress);
     var cam = camera(seg, progress);
 
-    // R-2c — the exit handoff. .kh__pin's sticky offset always maxes
+    // R-2c REVISED — THE DISSOLVE. Commander's ruling on the previous
+    // pass: an instant is-released visibility toggle read as the
+    // statue being EXECUTED, not released — a teleport, not a
+    // handoff. (That "instant" was the Tower's own bounce-brief
+    // spec, not this file's choice — logged for the ledger at close,
+    // not re-litigated here.) .kh__pin's sticky offset still maxes
     // out (progress===1, the release) one pin-height before
-    // .kh__scrubwrap's own bottom edge — main.css shrinks .kh itself
-    // to end exactly at that release point (see its comment), so the
-    // section after .kh now starts right there in plain normal flow.
-    // That still leaves the pin's own painted content (statue + ivory
-    // stage) rendering into that reclaimed space via overflow, since
-    // sticky positioning only answers to .kh__scrubwrap, a level
-    // below .kh, and doesn't know or care that .kh's own box got
-    // shorter. This toggle is what actually hides it, exactly at
-    // progress===1, not a moment before or after. clamp01 above means
-    // progress cannot exceed 1, so `>= 1` is exact equality, not a
-    // fuzzy epsilon threshold. No transition is defined on
-    // .is-released (see main.css) — instant both ways, so scrolling
-    // back up un-hides the pin exactly as sharply.
-    var released = progress >= 1;
-    if (released !== pin.__khReleased) {
-      pin.__khReleased = released;
-      pin.classList.toggle('is-released', released);
+    // .kh__scrubwrap's own bottom edge, and .kh itself still ends
+    // exactly there (main.css, unchanged this pass) — the section
+    // after .kh still starts in plain normal flow right at that
+    // point, so there is nothing to occlude except the pin's OWN
+    // painted content (statue + ivory stage) still rendering past
+    // .kh's edge via overflow, same as before. What changes is HOW
+    // that content leaves: it fades, scroll-linked, over the next
+    // FADE_DISTANCE_VH of scrolling — not a hard cut at the release
+    // boundary itself.
+    //
+    // pxPastRelease is raw, UNCAPPED scroll distance past the release
+    // point: rect.top keeps moving once .kh__scrubwrap's own bottom
+    // edge scrolls further up, even though `progress` above stays
+    // clamped at 1 there (camera() correctly keeps rendering the
+    // settled establish framing — the CAMERA's motion is already
+    // complete, LAW, untouched; this fade is purely additional, on
+    // top of that frozen frame). Deliberately NOT derived from
+    // `progress` — a pure function of current scroll position
+    // (rect.top), not time, so reversing the scroll re-traces the
+    // exact same curve, symmetrically, with no pop at any point in
+    // either direction.
+    var pxPastRelease = -rect.top - total;
+    var fadeT = clamp01(pxPastRelease / (FADE_DISTANCE_VH / 100 * vh));
+    pin.style.opacity = 1 - smootherstep(fadeT);
+    // The trap: a fading-but-still-solid pin sits, in stacking terms,
+    // ABOVE the video/carousel now showing through it (z-index:1,
+    // see main.css) — pointer-events:auto there would let a
+    // half-transparent ghost keep eating clicks meant for what's
+    // underneath. Drops the INSTANT any fade starts (fadeT>0, not
+    // just at full dissolve) and restores only once fully back at
+    // rest (fadeT===0 exactly) — same asymmetric-looking but correct
+    // shape as the opacity curve's own endpoints.
+    var fading = fadeT > 0;
+    if (fading !== pin.__khFading) {
+      pin.__khFading = fading;
+      pin.classList.toggle('is-fading', fading);
+    }
+    // visibility:hidden is a paint-cost cut only, valid exactly at
+    // fadeT===1 (opacity is already 0 there regardless) and un-set
+    // the instant fadeT drops below 1 — clamp01 above means fadeT
+    // cannot exceed 1, so `>= 1` is exact equality, not a fuzzy
+    // epsilon threshold.
+    var dissolved = fadeT >= 1;
+    if (dissolved !== pin.__khDissolved) {
+      pin.__khDissolved = dissolved;
+      pin.classList.toggle('is-dissolved', dissolved);
     }
 
     var tx = vw / 2 - cam.scale * cam.fx * IMG_W;

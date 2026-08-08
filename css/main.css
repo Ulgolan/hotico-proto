@@ -143,9 +143,11 @@ button{
    there in plain normal flow — no margin pull, no z-index dance.
    The pin's own painted content (statue + ivory stage) still renders
    past .kh's new edge via the overflow (sticky doesn't care about an
-   ancestor's box), but hero-scroll.js hides it at that exact instant
-   (.kh__pin.is-released, see that file) — so nothing opaque is ever
-   left rendering into the reclaimed space.
+   ancestor's box); hero-scroll.js dissolves it — a scroll-linked
+   opacity fade, not an instant hide, see .kh__pin.is-fading/
+   is-dissolved below and that file's fadeT — over the following
+   FADE_DISTANCE_VH of scroll, so nothing opaque is left rendering
+   into the reclaimed space by the time it matters.
    Gated to html.js-kh: the no-JS/reduced-motion .kh__static fallback
    has no sticky pin and needs .kh's natural (auto) height for its
    own, differently-sized content — untouched. */
@@ -297,12 +299,21 @@ html.js-kh .kh__static{display:none;}
   --kh-connector-len:6.6dvh;
 }
 
-/* R-2c — see hero-scroll.js's release toggle. No transition property
-   here on purpose: the hide/reveal must be instant both directions,
-   not eased — the exit segment's own ease (LAW, untouched) already
-   handles the graceful part; this is just the handoff, after that
-   ease has already fully settled. */
-.kh__pin.is-released{visibility:hidden;}
+/* R-2c REVISED — THE DISSOLVE. Commander's ruling: the statue fades
+   as you scroll through the release, not a binary teleport (the
+   previous pass's instant is-released visibility toggle read as
+   execution, not release). The fade itself is opacity, driven
+   per-frame from JS as a plain inline style (see update()'s fadeT) —
+   deliberately no `transition` property anywhere near .kh__pin: a
+   CSS transition would race/lag the scroll-driven value instead of
+   tracking it exactly, breaking the "reverse the scroll, she
+   re-materializes symmetrically" requirement.
+   .is-fading (pointer-events) and .is-dissolved (visibility) are the
+   only two things still toggled as discrete classes, both dictated
+   by exact thresholds on that same fadeT, not by feel — see their
+   comments in hero-scroll.js for why each threshold is where it is. */
+.kh__pin.is-fading{pointer-events:none;}
+.kh__pin.is-dissolved{visibility:hidden;}
 
 .kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
 
