@@ -339,10 +339,62 @@
   var FADE_END_OFFSET_VH = 50;
   var FADE_DISTANCE_VH = 25;
 
+  // R-2e THE VOILE — dissolve TEMPO under speed. Commander verdict: a
+  // clamped violent flick (R-2d) still crosses the whole 75vh fade
+  // window in one fast eased motion, since fadeT above is (LAW,
+  // untouched) a pure function of scroll position — its wall-clock
+  // speed equals gesture speed. Crawl speed was blessed; flick speed
+  // read as a flashbang.
+  //
+  // Mechanism chosen: (a) rendered-opacity smoothing, per the Tower's
+  // lean. fadeT (renamed targetFadeT below, formula byte-identical)
+  // stays the TARGET — scroll position is still the only source of
+  // truth, LAW untouched. What's new is `renderedFadeT`, a PAINTED
+  // value that chases the target at a capped rate instead of jumping
+  // to it. (b) — stretching the settle ease's own duration through the
+  // window — was the alternative; rejected because it can only slow
+  // gestures settle() itself drives. A hard flick's OWN native
+  // momentum can carry raw scroll position across the entire window
+  // before settle ever engages (scroll events fire every frame
+  // throughout native momentum, same as this window's crossing) — (b)
+  // has no hook into that motion at all, only (a) can reach it,
+  // per the key's own diagnosis.
+  //
+  // Rate cap, not exponential decay: an exponential chase
+  // (renderedFadeT += (target-renderedFadeT)*k) never actually
+  // reaches its target — the "eternal 0.98 opacity" the key explicitly
+  // warns against. A capped rate-of-change (constant-speed chase,
+  // clamped to the remaining distance) reaches the target in FINITE
+  // time and then stops exactly, no epsilon-fudging needed.
+  // FADE_CHASE_MS is the wall-clock time for a full 0->1 (or 1->0)
+  // sweep at that capped rate — the key's own 450-600ms range,
+  // picked at its midpoint. Any partial sweep is proportionally
+  // faster, which is what makes a slow crawl still track the target
+  // near enough 1:1 (see the chase block inside update(), below).
+  var FADE_CHASE_MS = 520;
+  var renderedFadeT = 0;
+  // Timestamp of the PREVIOUS update() call, refreshed unconditionally
+  // every call (not just while diverged) — used only to tell a genuine
+  // inter-frame gap apart from a stale one. update() runs at least once
+  // per rAF frame throughout any active chase (see onTick() call at the
+  // bottom of this function), so consecutive calls while diverged are
+  // always ~1 frame apart; a gap bigger than FADE_CHASE_STALE_MS means
+  // update() sat idle (fully converged, or the tab was backgrounded) and
+  // this call's dt must NOT be trusted as a real rate measurement — else
+  // a fresh gesture starting from a long-idle rest would read as an
+  // arbitrarily large dt and snap the paint instantly, exactly the
+  // flashbang this lap exists to remove. An earlier draft reset this to
+  // null the instant renderedFadeT caught up to targetFadeT instead of
+  // gap-timing it — that broke a continuously-moving target (a slow
+  // crawl re-diverges almost every frame) into a one-frame sawtooth,
+  // caught by this lap's own verification trace before it shipped.
+  var fadeChaseLastTime = null;
+  var FADE_CHASE_STALE_MS = 100; // » any single real frame, « any genuine idle gap
+
   // ---- render ----
   var ticking = false;
 
-  function update() {
+  function update(frameTime) {
     ticking = false;
 
     var rect = wrap.getBoundingClientRect();
@@ -382,9 +434,34 @@
     var pxFromRelease = -rect.top - total;
     var fadeWindowStartPx = -(FADE_END_OFFSET_VH + FADE_DISTANCE_VH) / 100 * vh;
     var fadeDistancePx = FADE_DISTANCE_VH / 100 * vh;
-    var fadeT = clamp01((pxFromRelease - fadeWindowStartPx) / fadeDistancePx);
-    var phase1T = clamp01(fadeT / 0.5);
-    var phase2T = clamp01((fadeT - 0.5) / 0.5);
+    var targetFadeT = clamp01((pxFromRelease - fadeWindowStartPx) / fadeDistancePx);
+
+    // R-2e — chase renderedFadeT toward targetFadeT at a rate capped by
+    // FADE_CHASE_MS (see that constant's own comment for why a rate cap,
+    // not exponential decay). `t` mirrors easeTick's own frameTime
+    // fallback below it — same clock, same reasoning. dt is trusted only
+    // when the previous update() call was recent (see FADE_CHASE_STALE_MS
+    // above); a stale/absent previous timestamp makes this frame's dt 0
+    // instead of an arbitrarily large "time since whenever update() last
+    // happened to run" — the fresh-gesture-from-rest case fadeChaseLastTime
+    // exists specifically to keep exact.
+    var t = typeof frameTime === 'number' ? frameTime : now();
+    var dtMs = (fadeChaseLastTime == null || (t - fadeChaseLastTime) > FADE_CHASE_STALE_MS)
+      ? 0
+      : (t - fadeChaseLastTime);
+    fadeChaseLastTime = t;
+    if (renderedFadeT !== targetFadeT) {
+      var maxStep = dtMs / FADE_CHASE_MS;
+      var diff = targetFadeT - renderedFadeT;
+      if (Math.abs(diff) <= maxStep) {
+        renderedFadeT = targetFadeT;
+      } else {
+        renderedFadeT += (diff > 0 ? 1 : -1) * maxStep;
+      }
+    }
+
+    var phase1T = clamp01(renderedFadeT / 0.5);
+    var phase2T = clamp01((renderedFadeT - 0.5) / 0.5);
     var chromeOpacity = 1 - smootherstep(phase1T);
     film.style.opacity = chromeOpacity;
     stage.style.opacity = 1 - smootherstep(phase2T);
@@ -418,17 +495,29 @@
     // open — verified via elementFromPoint mid-dwell, not just by
     // this reasoning; the overlap handled above is purely the
     // hysteresis tail, not the dwell itself.
-    var fading = fadeT > 0;
+    //
+    // R-2e — keyed to targetFadeT (scroll position), NOT renderedFadeT,
+    // per this lap's own guardrail: a ghost must be untouchable from
+    // the first target-fade pixel even while the PAINT lags behind it.
+    // The alternative (keying to renderedFadeT) would leave a few
+    // frames of a not-yet-visibly-fading pin still eating clicks meant
+    // for the section underneath during a fast chase — worse than the
+    // flashbang this lap exists to fix.
+    var fading = targetFadeT > 0;
     if (fading !== pin.__khFading) {
       pin.__khFading = fading;
       pin.classList.toggle('is-fading', fading);
     }
-    // visibility:hidden is a paint-cost cut only, valid exactly at
-    // fadeT===1 (both film and stage are already opacity 0 there
-    // regardless) and un-set the instant fadeT drops below 1 —
-    // clamp01 above means fadeT cannot exceed 1, so `>= 1` is exact
-    // equality, not a fuzzy epsilon threshold.
-    var dissolved = fadeT >= 1;
+    // visibility:hidden is a paint-cost cut only — valid exactly once
+    // the PAINTED fade is done, both film and stage genuinely at
+    // opacity 0. R-2e split targetFadeT from renderedFadeT specifically
+    // so the paint can lag the target; keying this to targetFadeT (as
+    // pre-R-2e code did, back when the two were the same value) would
+    // now cut a still-visibly-fading frame to visibility:hidden mid-
+    // chase — a pop, the exact defect this lap exists to remove.
+    // renderedFadeT reaching exactly 1 is the chase's own convergence
+    // condition above (no epsilon needed, same reasoning as there).
+    var dissolved = renderedFadeT >= 1;
     if (dissolved !== pin.__khDissolved) {
       pin.__khDissolved = dissolved;
       pin.classList.toggle('is-dissolved', dissolved);
@@ -504,6 +593,16 @@
       btn.classList.toggle('is-active', idx === activeStop);
     });
     rail.classList.toggle('is-visible', progress > 0.05 && seg.type !== 'exit');
+
+    // R-2e — keep the fade chase alive on its OWN, independent of scroll
+    // events. A fast flick's native momentum can carry raw scroll all
+    // the way across the fade window and then go fully still (no more
+    // 'scroll' events at all) well before FADE_CHASE_MS has elapsed —
+    // onTick() reuses the exact same ticking/raf plumbing scroll events
+    // already drive, so this is one extra self-continuation, not a
+    // second parallel loop. Converges and stops on its own the frame
+    // renderedFadeT snaps to targetFadeT above — no eternal idle frames.
+    if (renderedFadeT !== targetFadeT) onTick();
   }
 
   var raf = window.requestAnimationFrame
