@@ -2465,3 +2465,89 @@ continuous gesture — statue, white, video — with no dead scroll, no
 teleport, and no crossfade anywhere in it.
 
 Session retires at this boundary.
+
+## Entry #36 — 2026-08-08 — LAP R-2d: LE CRAN — MERGE & CLOSE
+
+**The lap's one variable:** settle target selection gains a clamp.
+Commander law, ruled on device evidence — Alopécie skipped outright
+by one vigorous flick, Tower frame-forensics on record — a single
+gesture may advance AT MOST ONE stop from the stop where it began.
+
+**Mechanism — three lines, no new state.** `biasedSettleTarget()`'s
+existing bracket search picks `lo`/`hi` from the MOMENTARY scroll
+progress; on a hard flick that progress can already sit two or three
+`SETTLE_TARGETS` past where the gesture started, so the old bias
+check was choosing between two candidates neither adjacent to the
+origin — the search itself was never wrong, only unclamped. Fix: find
+both the origin's and the biased pick's index in `SETTLE_TARGETS`,
+clamp the pick's index to `[originIdx-1, originIdx+1]`, return that.
+Origin is `lastRestProgress` — no new tracking variable was needed,
+because R-2's own machinery already freezes that value for a
+gesture's entire duration (it updates only at rest-confirmed or at an
+ease's completion) and R-2b's `ref` parameter already threaded it
+into this exact function. The clamp leans on architecture already
+built to do something adjacent; it does not duplicate it.
+
+**Gesture boundary — defined and reported, per the key's own ask:
+settle completion or rest confirmed.** Those are the two, and only
+two, places `lastRestProgress` is written. Consequence worth stating
+plainly: this is why a desktop wheel burst-chain still walks multiple
+stops — each discrete burst's own settle/ease completion re-arms the
+origin before the next burst is read, so a chain of separate bursts
+correctly advances one stop at a time across several settles, while a
+single unbroken gesture is capped at exactly one. Establish (0) and
+release (1) are ordinary `SETTLE_TARGETS` entries and clamp like any
+other stop, per instruction — no special-casing needed since they
+were already members of the same array.
+
+**Proof — 5 scenarios, verbatim-copied logic against the real
+`SETTLE_TARGETS`** (computed from the file's own timeline constants,
+not approximated): a flick landing 3 targets past origin clamps to
+origin+1 exactly; the same reversed clamps to origin-1 exactly; a
+flick past release stays inside array bounds at the last valid index;
+a two-burst wheel chain walks index 1→2→3, one stop per settle. All
+five PASS.
+
+**The honest gap, carried rather than hidden.** This session's
+browser sandbox could not dispatch real `scroll` events — neither a
+programmatic `scrollTo` nor the tooling's synthetic wheel input
+reached the page's own scroll listener (0 events observed after
+either). The DOM-trace proof above is real code, run against the
+file's real constants, but it is not a live gesture. Commander's
+device walk was therefore the FIRST live gesture this code ever
+received — not a re-confirmation of a prior device pass. It passed:
+violent flicks land exactly origin+1 in both directions, Alopécie is
+unskippable, gentle walking is uncaged, wheel burst-chains still walk
+stop-by-stop. Recorded so a future session doesn't mistake sandbox
+math for device proof.
+
+**A slip caught before it mattered.** The Hands began the first edit
+of this lap on `main` — against the constitution's own first standing
+law, never build on main — noticed it before any commit existed, and
+moved the (still-uncommitted) change to `lap/r2d-cran` before writing
+history. Nothing landed on `main` out of turn; noted here as the same
+measure-before-shipping discipline the ledger has recorded before
+([[entry #31]]'s reduced-motion premise, [[entry #35]]'s two Tower
+errors), not as a debt.
+
+**Cache-bust.** `hero-scroll.js` v14→v15. No CSS/geometry touched —
+`main.css` stays at v32.
+
+**Gate.** Commander device walk: PASS, both directions, both flick
+strengths, burst-chains intact. Tower diff-cert via codeload
+tarballs: PASS — scope confirmed as two files, a three-line clamp in
+`biasedSettleTarget` plus the version bust; every timeline/bias/fade
+LAW constant (`TOTAL_VH_BASE`, `RESCALE`, `EXIT_BONUS_VH`,
+`ADVANCE_BIAS_FRAC`, `SETTLE_EASE_MIN_MS`/`MAX_MS`, `SETTLE_TARGETS`
+construction) byte-identical; stop markup/anchors/labels untouched;
+zero `preventDefault` anywhere.
+
+PR [#23](https://github.com/Ulgolan/hotico-proto/pull/23) merged into
+`main` via a merge commit (`a9e4705`), two parents — not squashed,
+not rebased.
+
+**LE CRAN IS SET.** A gesture can no longer out-run its own dwell —
+one flick, one stop, in either direction, no matter how hard it's
+thrown.
+
+Session retires at this boundary.
