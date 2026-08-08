@@ -587,6 +587,38 @@
   // for the next device walk, not a hard law.
   var ADVANCE_BIAS_FRAC = 0.20;
 
+  // R-2d — one-stop-per-gesture clamp. Commander law, ruled on device
+  // evidence (a single vigorous flick skipped Alopécie outright, Tower
+  // frame-forensics confirmed it): a gesture may advance AT MOST ONE
+  // stop from the stop it began at, no matter how far the raw scroll
+  // distance traveled. The bracket search above picks lo/hi from the
+  // MOMENTARY progress `p` — on a hard flick that's already landed two
+  // or three SETTLE_TARGETS past where the gesture started, so the old
+  // code was biasing a choice between two targets neither of which was
+  // adjacent to the origin. This clamps the outcome, not the search.
+  //
+  // Origin = `ref`, i.e. lastRestProgress. No new state needed: as the
+  // comment above lastRestProgress's declaration already establishes,
+  // it only ever updates at a GESTURE BOUNDARY — settle() confirming
+  // rest, or an ease completing (easeTick's frac>=1 branch) — so for
+  // the entire duration of one gesture it already holds exactly "the
+  // stop where the gesture began". That's the same definition this key
+  // asks for; reusing it is what keeps a wheel burst-chain correct too
+  // (each burst's settle/ease completion re-arms the origin for the
+  // next burst, so a chain can still walk multiple stops one at a
+  // time — only a single unbroken gesture is capped at one).
+  //
+  // Establish (0) and release (1) are ordinary entries in SETTLE_TARGETS
+  // and clamp like any other stop, per the key's own instruction.
+  function settleTargetIndex(value) {
+    var closest = 0, closestDist = Infinity;
+    for (var i = 0; i < SETTLE_TARGETS.length; i++) {
+      var d = Math.abs(SETTLE_TARGETS[i] - value);
+      if (d < closestDist) { closestDist = d; closest = i; }
+    }
+    return closest;
+  }
+
   function biasedSettleTarget(p, ref) {
     var lo = SETTLE_TARGETS[0], hi = SETTLE_TARGETS[SETTLE_TARGETS.length - 1];
     for (var i = 0; i < SETTLE_TARGETS.length - 1; i++) {
@@ -599,7 +631,12 @@
     var fracFromLo = (p - lo) / (hi - lo);
     var movingForward = p >= ref;
     var advanceThreshold = movingForward ? (0.5 - ADVANCE_BIAS_FRAC) : (0.5 + ADVANCE_BIAS_FRAC);
-    return fracFromLo >= advanceThreshold ? hi : lo;
+    var picked = fracFromLo >= advanceThreshold ? hi : lo;
+
+    var originIdx = settleTargetIndex(ref);
+    var pickedIdx = settleTargetIndex(picked);
+    var clampedIdx = Math.max(originIdx - 1, Math.min(originIdx + 1, pickedIdx));
+    return SETTLE_TARGETS[clampedIdx];
   }
 
   // ---- R-2b — the settle ease itself, owned instead of native ----
