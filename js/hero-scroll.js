@@ -925,6 +925,53 @@
     return closest;
   }
 
+  // R-2f THE DOOR RULE — Commander-experience-derived, corridor-local.
+  //
+  // The straddle it fixes: the Aréole->release gap is deliberately long
+  // (EXIT_BONUS_VH, +50vh), so ADVANCE_BIAS_FRAC's 30% advance line lands at
+  // progress ~0.839 — INSIDE the fade window (~0.802-0.868). A gentle gesture
+  // off Aréole toward the exit dies at 14-29% coverage, short of that line,
+  // and the coverage bias marched it straight back to Aréole. Escape required
+  // airborne momentum past 30%. The veil became a cell.
+  //
+  // The rule: the veil is a doorway, and entering it deliberately in a
+  // direction MEANS passing through in that direction. Inside the window the
+  // target is chosen by DIRECTION, not by how much of the gap was covered.
+  //
+  // The signal, exactly: net scroll displacement in CSS px since the
+  // gesture's origin, (p - ref) * total, where ref is lastRestProgress —
+  // which, as its own declaration establishes, only ever updates at a gesture
+  // boundary and therefore already holds "where this gesture began". Nothing
+  // new is tracked. Sign alone decides; magnitude only has to clear
+  // DOOR_EPS_VH to prove the gesture was deliberate rather than a jiggle.
+  //
+  // Scope is positional, not code-path: the rule keys off "p is inside the
+  // window", so a settle arriving from the debounce, from scrollend, or from
+  // corridor pre-emption all resolve a corridor position the same way. Keying
+  // it to the pre-emption path alone would have made the outcome depend on
+  // which timer happened to win — the same position marching back or through
+  // depending on whether a finger was still down — which is exactly the
+  // inconsistency the Commander's rule exists to remove.
+  //
+  // ADVANCE_BIAS_FRAC is untouched and still governs every position outside
+  // the window, exactly as certified.
+  var DOOR_EPS_VH = 2;
+
+  // Returns +1 (through, toward release), -1 (back, toward Aréole), or 0
+  // meaning "not a corridor question — use the certified coverage bias".
+  function corridorDoorDir(p, ref) {
+    var rect = wrap.getBoundingClientRect();
+    var vhNow = measuredVH();
+    var totalNow = rect.height - vhNow;
+    if (totalNow <= 0) return 0;
+    var startPx = -(FADE_END_OFFSET_VH + FADE_DISTANCE_VH) / 100 * vhNow;
+    var ft = clamp01(((p - 1) * totalNow - startPx) / (FADE_DISTANCE_VH / 100 * vhNow));
+    if (ft <= 0 || ft >= 1) return 0;
+    var netPx = (p - ref) * totalNow;
+    if (Math.abs(netPx) < DOOR_EPS_VH / 100 * vhNow) return 0;
+    return netPx > 0 ? 1 : -1;
+  }
+
   function biasedSettleTarget(p, ref) {
     var lo = SETTLE_TARGETS[0], hi = SETTLE_TARGETS[SETTLE_TARGETS.length - 1];
     for (var i = 0; i < SETTLE_TARGETS.length - 1; i++) {
@@ -934,11 +981,27 @@
       }
     }
     if (hi === lo) return lo;
-    var fracFromLo = (p - lo) / (hi - lo);
-    var movingForward = p >= ref;
-    var advanceThreshold = movingForward ? (0.5 - ADVANCE_BIAS_FRAC) : (0.5 + ADVANCE_BIAS_FRAC);
-    var picked = fracFromLo >= advanceThreshold ? hi : lo;
 
+    var picked;
+    var door = corridorDoorDir(p, ref);
+    if (door !== 0) {
+      picked = door > 0 ? hi : lo;
+    } else {
+      var fracFromLo = (p - lo) / (hi - lo);
+      var movingForward = p >= ref;
+      var advanceThreshold = movingForward ? (0.5 - ADVANCE_BIAS_FRAC) : (0.5 + ADVANCE_BIAS_FRAC);
+      picked = fracFromLo >= advanceThreshold ? hi : lo;
+    }
+
+    // The R-2d clamp still binds, and cannot deadlock against the door: every
+    // SETTLE_TARGETS entry lies OUTSIDE the window by construction (the window
+    // is progress ~0.802-0.868; the nearest entries are Aréole at ~0.770 and
+    // release at 1.0), so whatever index the clamp lands on, it is never a
+    // position inside the corridor. Proven exhaustively over every origin
+    // index against both door directions, not just argued. Where the two
+    // disagree the clamp wins — a violent flick from Cicatrices through the
+    // window still gets pulled back to Aréole rather than skipping it — which
+    // is the one-stop-per-gesture law doing its job, not the door failing.
     var originIdx = settleTargetIndex(ref);
     var pickedIdx = settleTargetIndex(picked);
     var clampedIdx = Math.max(originIdx - 1, Math.min(originIdx + 1, pickedIdx));
