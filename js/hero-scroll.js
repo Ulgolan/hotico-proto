@@ -957,18 +957,33 @@
   // the window, exactly as certified.
   var DOOR_EPS_VH = 2;
 
+  // One definition of the window, shared by the Door Rule and the Southern
+  // Border below, so the corridor's two edges can never drift apart: the
+  // border IS this function returning 1, the corridor IS it returning
+  // strictly between 0 and 1. Same anchors as update()'s own targetFadeT
+  // (LAW, untouched) — this is that formula expressed in progress rather
+  // than in the live rect, so a settle can ask about a position it is only
+  // considering rather than one the page is currently at.
+  function scrollTotalPx() {
+    return wrap.getBoundingClientRect().height - measuredVH();
+  }
+  function fadeTAtProgress(p) {
+    var vhNow = measuredVH();
+    var totalNow = scrollTotalPx();
+    if (totalNow <= 0) return 0;
+    var startPx = -(FADE_END_OFFSET_VH + FADE_DISTANCE_VH) / 100 * vhNow;
+    return clamp01(((p - 1) * totalNow - startPx) / (FADE_DISTANCE_VH / 100 * vhNow));
+  }
+
   // Returns +1 (through, toward release), -1 (back, toward Aréole), or 0
   // meaning "not a corridor question — use the certified coverage bias".
   function corridorDoorDir(p, ref) {
-    var rect = wrap.getBoundingClientRect();
-    var vhNow = measuredVH();
-    var totalNow = rect.height - vhNow;
-    if (totalNow <= 0) return 0;
-    var startPx = -(FADE_END_OFFSET_VH + FADE_DISTANCE_VH) / 100 * vhNow;
-    var ft = clamp01(((p - 1) * totalNow - startPx) / (FADE_DISTANCE_VH / 100 * vhNow));
+    var ft = fadeTAtProgress(p);
     if (ft <= 0 || ft >= 1) return 0;
+    var totalNow = scrollTotalPx();
+    if (totalNow <= 0) return 0;
     var netPx = (p - ref) * totalNow;
-    if (Math.abs(netPx) < DOOR_EPS_VH / 100 * vhNow) return 0;
+    if (Math.abs(netPx) < DOOR_EPS_VH / 100 * measuredVH()) return 0;
     return netPx > 0 ? 1 : -1;
   }
 
@@ -1121,6 +1136,58 @@
   // SETTLE_EPS of `target` and the function is a no-op. Self-terminating.
   function settle(source) {
     var p = currentProgress();
+
+    // R-2f THE SOUTHERN BORDER — the film's settle jurisdiction ends at the
+    // fade window's completion edge (release-50vh, FADE_END_OFFSET_VH above
+    // release). Past it fadeT is exactly 1: the statue is gone, the veil is
+    // gone, and what fills the viewport is ordinary page content revealed by
+    // the R-2c mid-viewport ruling. The film has no business correcting a
+    // rest there.
+    //
+    // The collision this ends, latent since R-2c and only reachable now that
+    // the reveal zone became worth visiting: the 30/70 bias brackets ANY
+    // position between Aréole and release, including the whole 50vh reveal
+    // band. A reader resting there to read the section title sat at ~66%
+    // coverage of that gap — under the reverse 70% line — so a settle judged
+    // the gesture "lazy" and marched them back to Aréole, dragging them
+    // BACKWARDS through the veil they had already passed. Nearer the border
+    // it was the mirror defect: a rest just short of 70% snapped forward to
+    // release. Neither is a film question. Both are the standing bias law
+    // outliving its jurisdiction.
+    //
+    // The no-rest-inside-the-window law is NOT weakened by this: that law
+    // protects the STATUE's dissolve from being parked mid-fade, and here
+    // there is no statue and no fade left to park in. The corridor keeps the
+    // Door Rule exactly as certified; only fadeT===1 is free.
+    //
+    // The bias constants are untouched — as with the corridor, what changes
+    // is the DOMAIN they govern, not their values.
+    //
+    // Origin handling, stated exactly because the key asked: a free-zone
+    // rest records lastRestProgress as release (1), a release-SIDE origin.
+    // It is the only honest answer — the reader is past the veil, so for
+    // both the clamp and the Door Rule the gesture that starts here starts
+    // from the far side. A subsequent upward gesture dying in the corridor
+    // therefore reads net-negative and the door sends it back to Aréole,
+    // which is the deliberate return working; and the clamp, seeing origin
+    // index 7, still permits exactly Aréole and no further.
+    //
+    // This governs where a settle may CAPTURE a rest, never where an ease may
+    // LAND: release stays a perfectly valid target for a door or bias trip
+    // arriving from above, and such a trip finishes at release and is then
+    // recorded here as a free-zone rest at 1 — the same value easeTick's own
+    // completion writes, so nothing is disturbed.
+    if (fadeTAtProgress(p) >= 1) {
+      lastRestProgress = 1;
+      // Deliberately worded so it cannot be confused with the corrective
+      // 'settle, source=' line: "no settle, source=" contains that exact
+      // substring, and this lap's own tooling double-counted it as a second
+      // settle before the wording was fixed. "capture" is also the truer
+      // word — the border governs capture, never where an ease may land.
+      khlog('free zone, no capture, source=', source, 'p=', p.toFixed(4));
+      return;
+    }
+
     var target = biasedSettleTarget(p, lastRestProgress);
     if (Math.abs(target - p) < SETTLE_EPS) {
       khlog('rest confirmed, source=', source, 'p=', p.toFixed(4));
