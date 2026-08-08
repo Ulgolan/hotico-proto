@@ -15,6 +15,7 @@
   if (!scrub) return;
 
   var wrap = scrub.querySelector('[data-kh-wrap]');
+  var pin = scrub.querySelector('[data-kh-pin]');
   var film = scrub.querySelector('[data-kh-film]');
   var establish = scrub.querySelector('[data-kh-establish]');
   var stopEls = Array.prototype.slice.call(scrub.querySelectorAll('[data-kh-stop]'));
@@ -292,6 +293,27 @@
 
     var seg = findSegment(progress);
     var cam = camera(seg, progress);
+
+    // R-2c — the exit handoff. .kh__pin's sticky offset always maxes
+    // out (progress===1, the release) one pin-height before
+    // .kh__scrubwrap's own bottom edge — main.css shrinks .kh itself
+    // to end exactly at that release point (see its comment), so the
+    // section after .kh now starts right there in plain normal flow.
+    // That still leaves the pin's own painted content (statue + ivory
+    // stage) rendering into that reclaimed space via overflow, since
+    // sticky positioning only answers to .kh__scrubwrap, a level
+    // below .kh, and doesn't know or care that .kh's own box got
+    // shorter. This toggle is what actually hides it, exactly at
+    // progress===1, not a moment before or after. clamp01 above means
+    // progress cannot exceed 1, so `>= 1` is exact equality, not a
+    // fuzzy epsilon threshold. No transition is defined on
+    // .is-released (see main.css) — instant both ways, so scrolling
+    // back up un-hides the pin exactly as sharply.
+    var released = progress >= 1;
+    if (released !== pin.__khReleased) {
+      pin.__khReleased = released;
+      pin.classList.toggle('is-released', released);
+    }
 
     var tx = vw / 2 - cam.scale * cam.fx * IMG_W;
     var ty = vh * cam.vy - cam.scale * cam.fy * IMG_H;

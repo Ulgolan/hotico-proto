@@ -118,6 +118,58 @@ button{
 
 .kh{position:relative;background:var(--ivory);}
 
+/* R-2c — the film's exit handoff. .kh__pin is a 100vh/100dvh sticky
+   child of the 428vh .kh__scrubwrap (LAW, untouched — every segment
+   boundary in hero-scroll.js is a fraction of that number). By
+   construction of ANY sticky-pin-in-a-tall-wrapper pattern, the pin's
+   sticky offset maxes out (the "release", progress===1) exactly one
+   pin-height BEFORE .kh__scrubwrap's own bottom edge — past that
+   point the pin is just an ordinary flow box occupying the wrapper's
+   OWN last 100vh, no longer scrubbed. .kh, un-shrunk, would reserve
+   (and paint its ivory background across) that same trailing 100vh —
+   which is exactly the dead gap this lap exists to close, and, tried
+   first: painting an opaque section over that gap instead doesn't
+   work either, because .kh (position:relative) still outranks any
+   plain in-flow sibling there regardless, hiding that section's own
+   content underneath .kh's background instead of the reverse.
+   Fix: give .kh itself a height of exactly one pin-height LESS than
+   .kh__scrubwrap's (428vh - 100vh = 328vh, computed from the same
+   two LAW numbers, not a tuned figure) with overflow:visible. The
+   wrapper and its sticky pin are completely unaffected — sticky
+   positioning is governed by .kh__scrubwrap's own box, a level
+   below, never by .kh's. What changes is only whichever box's edge
+   the REST of the page treats as "where .kh ends": now the release
+   point exactly, instead of 100vh later. The section after .kh lands
+   there in plain normal flow — no margin pull, no z-index dance.
+   The pin's own painted content (statue + ivory stage) still renders
+   past .kh's new edge via the overflow (sticky doesn't care about an
+   ancestor's box), but hero-scroll.js hides it at that exact instant
+   (.kh__pin.is-released, see that file) — so nothing opaque is ever
+   left rendering into the reclaimed space.
+   Gated to html.js-kh: the no-JS/reduced-motion .kh__static fallback
+   has no sticky pin and needs .kh's natural (auto) height for its
+   own, differently-sized content — untouched. */
+html.js-kh .kh{height:328vh;height:328dvh;overflow:visible;}
+
+/* R-2c — .kh__scrubwrap and .kh__scrub (both auto-sized to their
+   428vh content) still physically span the full height even though
+   .kh's own box above now ends 100vh earlier; overflow:visible means
+   they (and the unstuck pin inside them, once past release) still
+   render into that reclaimed space, just as before. Neither paints
+   anything of its own there (nothing is EVER visually painted once
+   the pin is hidden — see above), but every ancestor from .kh down
+   is still hit-testable there by default (confirmed via
+   elementsFromPoint — even with .kh__scrubwrap alone opted out,
+   .kh__scrub was still catching it), silently swallowing clicks
+   meant for whatever section now occupies that reclaimed space.
+   Cut it off at .kh itself, the common ancestor, rather than
+   patching each wrapper level piecemeal. .kh__pin opts back in below
+   so the stop links / Aréole CTA and the rail nav stay reachable
+   during the actual scrub (.kh__rail already manages its own
+   pointer-events independently, via .is-visible — untouched, that
+   override still wins over this). */
+html.js-kh .kh{pointer-events:none;}
+
 .kh__scrub{display:none;}
 html.js-kh .kh__scrub{display:block;}
 html.js-kh .kh__static{display:none;}
@@ -223,11 +275,34 @@ html.js-kh .kh__static{display:none;}
 
 .kh__pin{
   position:sticky;top:0;height:100vh;height:100dvh;overflow:hidden;
+  /* R-2c — restores pointer-events under the blanket
+     .kh__scrubwrap{pointer-events:none} above (see that rule's
+     comment), so the stop links / Aréole CTA stay reachable during
+     the actual scrub. */
+  pointer-events:auto;
+  /* R-2c — measured, not theoretical: .video's carousel carries its
+     own position:relative internals (.carousel/.video__frame/
+     .video__embed), and confirmed via elementsFromPoint, that local
+     promotion was enough to win screen-space priority over this
+     sticky pin mid-scrub (Cicatrices dwell, well before release) —
+     .kh being position:relative one level up did NOT protect against
+     it. An explicit z-index sidesteps the whole "whose ancestor is
+     positioned" question: while the pin is visible it must win
+     against literally anything it happens to share screen space
+     with, not just .kh's specific siblings. */
+  z-index:1;
   /* R-1 Anchor C — one shared connector length for all six scrub
      stops, 0.066 of the rendered statue frame (this pin) height. */
   --kh-connector-len:6.6vh;
   --kh-connector-len:6.6dvh;
 }
+
+/* R-2c — see hero-scroll.js's release toggle. No transition property
+   here on purpose: the hide/reveal must be instant both directions,
+   not eased — the exit segment's own ease (LAW, untouched) already
+   handles the graceful part; this is just the handoff, after that
+   ease has already fully settled. */
+.kh__pin.is-released{visibility:hidden;}
 
 .kh__stage{position:relative;width:100%;height:100%;background:var(--ivory);}
 
@@ -381,43 +456,7 @@ html.js-kh .kh__static{display:none;}
 
 /* ---------- c. GOLD BAND ---------- */
 
-/* R-2c — the film's exit handoff. .kh__pin is a 100vh/100dvh sticky
-   child of the 428vh .kh__scrubwrap (LAW, untouched); by construction
-   of that pattern, the pin's sticky offset always maxes out (the
-   "release", hero-scroll.js's progress===1) exactly ONE pin-height
-   BEFORE the scrubwrap's own bottom edge — the pin, now unstuck,
-   still has to scroll past normally as ordinary flow before the next
-   section arrives. That trailing pin-height is structurally
-   unavoidable while .kh__scrubwrap's height (and therefore the JS
-   progress math / every per-stop scroll distance) stays exactly what
-   R-2 B/tune-pass/R-2b certified — shrinking the wrapper itself to
-   close the gap would compress that cadence instead.
-   Fix: pull the divider immediately after .kh (.rule--kh-exit, see
-   index.html) up by exactly one pin-height, so ITS box — not the
-   band's — starts where the pin's sticky offset caps out, not 100vh
-   later. .band then follows the rule in normal flow, landing right
-   behind it. Both .rule and .kh carry position:relative already
-   (existing rule), so paint order between them still follows DOM
-   order — the rule (and everything after it) now paints ON TOP of
-   the spent, motionless pin instead of 100vh of dead scroll preceding
-   it, and the section transition still gets its usual gold rule,
-   exactly at the handoff instead of buried mid-gutter.
-   -100vh/-100dvh mirrors .kh__pin's own height declaration exactly
-   (see main.css's .kh__pin rule) — not a tuned number, a mirrored
-   one, so it stays correct at any viewport height without retuning.
-   .band still needs its own opaque fill: the rule's box is only 1px
-   (plus its own ::after shadow) tall, nowhere near covering the
-   pin's full former footprint on its own.
-   Gated to html.js-kh — same gate .kh__scrub/.kh__static already use
-   above. The no-JS / reduced-motion .kh__static fallback is plain
-   normal-flow content with no sticky pin and no trailing gutter to
-   close; pulling the rule up there would just eat 100vh of its own
-   (real, needed) content instead. */
-html.js-kh .rule--kh-exit{margin-top:-100vh;margin-top:-100dvh;}
-
 .band{padding-top:1.9rem;padding-bottom:1.5rem;}
-
-html.js-kh .band{background:var(--ivory);position:relative;}
 
 .band__title{
   font-family:var(--font-head);
