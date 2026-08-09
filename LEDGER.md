@@ -3087,3 +3087,431 @@ device. **Feel was certified only on the Commander's glass**, every time.
 R-2f closes, and with it the scroll-feel campaign.
 
 Session retires at this boundary.
+
+---
+
+## Entry #40 — 2026-08-09 — PHASE C: HERO CHAPTER CLOSE (findings, AAR, integrity, baton)
+
+**Read-only lap. ZERO FIXES.** No code, CSS, HTML or asset was changed. The
+only write in this lap is this entry. Every item below is a finding routed to
+backlog, never to a patch — including the ones that were tempting.
+
+Boundary declared by the Commander: the HERO CHAPTER — R-0 → R-2f plus F3,
+LEDGER entries **#29–#39** — is complete. Phase C runs per PROJECT-GENESIS §3.
+
+Scope of the sweep: `index.html` hero region, `js/hero-scroll.js` (1493 lines,
+v24), `css/main.css` hero blocks, and the `servicii/` hero-adjacent surface.
+Precondition verified before starting: `main` at `98b4a9f`, LEDGER #39 +
+reconciliation present, `hero-scroll.js?v=24` at `index.html:1021`.
+
+---
+
+### 1. FINDINGS — quality review, read-only
+
+#### CRITICAL
+
+**C1 — TWO COMPASSES, AND THE STALE ONE SITS WHERE THE LAW POINTS.**
+`docs/POLARIS.md` is the **superseded 2026-08-01** brief. The live compass is
+root `POLARIS.md`, sealed 2026-08-04, whose own first line reads "Supersedes
+2026-08-01 brief". `docs/POLARIS.md` last moved at `9a92de9` (2026-08-02) and
+has never been retired. CLAUDE.md names `docs/` as law; a reader obeying the
+constitution literally lands on the wrong brief. Two files, one name, one of
+them wrong, and the wrong one is the one the constitution points at.
+*Remedy is a Tower/Commander act (Trash, never delete) — not this session's.*
+
+**C2 — THE INTERACTION SPEC IS TWO ERAS BEHIND THE ARTIFACT.**
+`docs/STATE-MAP.md` — "the interaction spec", law — last moved at the same
+`9a92de9` (2026-08-02), which **predates the entire kintsugi hero** (K-1 landed
+at `e0ec3d1`). Its `## HOMEPAGE` item 2 still specifies *"marble kintsugi
+torso, tagline «Pielea: singurul tău veșmânt.»"* — the D-2 split hero, in
+Romanian. What ships is a 478vh scroll film with the French tagline *«La peau :
+ton seul vêtement.»* Eleven laps of certified behaviour — the settle, the
+clamp, the door, the border, the corridor — exist in **no spec document at
+all**. CLAUDE.md is explicit that this session does not author STATE-MAP.
+Reported, not touched.
+
+**C3 — THE CERTIFIED CHOREOGRAPHY SPEC HAS NO ARTIFACT.**
+Entry #39 declares: *"The 240-cell GESTURE MATRIX was authored here and becomes
+the certified choreography spec."* It is not in `docs/`. It is not in `docs/qa/`.
+It exists as **one sentence of LEDGER prose** plus a pass count (210/210 + four
+new families: go-home 12, launch 14, keyboard 8, rail 32). Nothing can be
+re-run. No future change can be diffed against it. The campaign's single most
+valuable verification asset — the thing that convicted the stale anchor, the
+Aréole jail, the abduction and the symmetric clamp — is unrecoverable outside
+the executor session that built it. Measured against POLARIS success criterion
+3 ("spec-grade… a future Hands builds without inventing a design decision"),
+this is the largest hole the chapter leaves. **Highest-value backlog item.**
+
+**C4 — THE SCRUB TIER HAS NO FAILURE MODE.**
+The `<head>` gate (`index.html:10`) sets `html.js-kh` on **any** browser not
+asking for reduced motion. That single class hides `.kh__static` and shows
+`.kh__scrub` (`main.css:180-182`). `hero-scroll.js` is the only thing that ever
+writes a transform to `.kh__film`; CSS gives that element no resting transform
+at all — `position:absolute;top:0;left:0;width:1365px;height:2048px`
+(`main.css:332-343`). So if that one file 404s, is blocked, or throws before
+its first `raf(update)`, the page renders a raw 1365×2048 statue pinned
+top-left inside a 378vh empty section, with the perfectly good static tier
+hidden. **The IIFE's own guards make this worse, not better**: `if (!scrub)
+return;` (`:15`) exits silently into exactly that state, and `:23`/`:25-26`
+dereference `establish`/`rail` with no guard at all. no-JS is protected.
+reduced-motion is protected. **Script-failure is not.** Latent — never observed
+— but the outcome is total and there is no fallback.
+
+**C5 — COLOUR LAW BREACHED IN THE HERO BLOCKS.**
+CLAUDE.md: *"`css/tokens.css` is the **only** source of colour… No hex value…
+is written anywhere else."* Four hero rules hardcode colours that already exist
+as tokens:
+- `main.css:194` `.kh__h1` text-shadow — `rgba(245,245,245,.85)` ×2 = `--ivory`
+- `main.css:237` `.kh__static-veil` — `rgba(245,245,245,.9/,0)` = `--ivory`
+- `main.css:371` `.kh__veil` — `rgba(245,245,245,.94/,0)` = `--ivory`
+- `main.css:214` `.kh__caption-dot` — `rgba(201,168,106,.25)` = `--gold`
+
+Outside the hero, `:911` does the same for `--hotico-pink` and admits it in its
+own comment. The `#000` mask stops (`:341-342`, `:648-649`) are **not** a breach
+— `:647` correctly rules them alpha, not colour — and `:1101-1103` is the
+Romanian flag, i.e. content. **Cosmetically invisible; constitutionally a
+breach.** The cause is structural, not sloppy: `rgba()` needs channel triplets
+and tokens are whole colours, so obeying the law requires *adding* to
+`tokens.css` (e.g. `--ivory-rgb`, `--gold-rgb`) — which is a Tower act. Filed,
+not fixed.
+
+#### MINOR
+
+**M1 — I6 (reduced-motion tier): structurally sound, evidentially stale.**
+Carried from the key, now measured. The only artifact on record is
+`docs/qa/r2-scroll-feel/reduced-motion_static-tier.png`, added at `94ea7cf`
+(R-2). Since that shot, `js/hero-scroll.js` has changed in **20 commits** and
+`main.css`'s `.kh` blocks in several. Structural review says the tier is intact
+**by construction** — every rule R-2c/R-2f could have leaked through it is
+gated behind `html.js-kh` (`main.css:159` height, `:178` pointer-events,
+`:180-182` display), and the JS never runs at all. But *by construction* is an
+argument, not a device pass. **Needs matrix cells + one device pass.**
+
+**M2 — I8 (pointer-keying): the touch gate is keyed to touch only.**
+Carried, and confirmed exact. Corridor pre-emption is gated on `touchActive`
+(`:888`), fed solely by `touchstart`/`touchend`/`touchcancel` (`:505-507`). A
+pen/stylus on a hybrid device raises pointer events without necessarily raising
+touch events — the gate then reads "no finger down" mid-gesture and the
+one-motionless-frame trigger can fire under an active stylus drag. That is
+**structurally Bounce 1's mobile seizure**, on an input class the campaign never
+exercised. Untested, no device on hand, no evidence of it in the wild.
+**Needs matrix cells + one device pass.**
+
+**M3 — Comment archaeology, sharpened: `lastRestProgress` is dead state.**
+The carried item said "stale `lastRestProgress` narratives". All twelve
+occurrences were read; every narrative is post-addendum **accurate**. The real
+finding is underneath them: the variable has **one declaration (`:989`), four
+writes (`:1279`, `:1353`, `:1370`, `:1480`) and ZERO READS.** Every consumer
+migrated to `gestureAnchor`/`gestureStartP` in the R-2f addendum. It is
+write-only residue, and `:983-988` still dignifies it with a paragraph
+explaining that it "keeps only its literal meaning" — a meaning nothing
+consults. Harmless at runtime. Post-freeze.
+
+**M4 — CSS/JS constant-sync debt.** `TOTAL_VH` = 478 is *derived* at
+`hero-scroll.js:95` and *restated by hand* as `478vh` at `main.css:286`;
+`TOTAL_VH - 100` = 378 is restated again at `main.css:159`. Three numbers, two
+files, no shared source. Both files carry comments instructing the reader to
+keep them in sync manually (`hero-scroll.js:45`, `main.css:122-129`). Production
+debt, exactly as carried.
+
+**M5 — The rail leaves 77.6vh early.** `rail.is-visible` is keyed to
+`seg.type !== 'exit'` (`:820`), set at K-1 (`0785fc9`) when the exit segment was
+~27.6vh. R-2c's `EXIT_BONUS_VH` grew it to **~77.6vh**. The behaviour was never
+re-examined against its own grown segment: the rail now vanishes at Aréole's
+dwell end and stays gone for the whole long final approach, while the statue is
+still fully solid and the reader may still want to go back. Unchanged code,
+changed meaning. **Observation for the Commander's eye, not a defect ruling.**
+
+**M6 — `doorPick`'s unnamed sub-case.** `:1134-1137` — "started inside the
+segment itself", reachable only after a cancelled ease leaves a gesture
+mid-segment. Falls back to nearest end. **Self-flagged in the code by its own
+author**, no ruling ever issued. Carried forward.
+
+**M7 — Orphan assets: 29 unreferenced files under `assets/`.** Full sweep
+(every file cross-referenced against all HTML/CSS/JS):
+`img/hero-torso.png` (the carried tidy-lap item); the three superseded statues
+`statue-kintsugi.png`, `statue-kintsugi.webp`, `statue-kintsugi-v2.webp`; all
+six `img/pill-*.webp` (superseded by `img/services/strip-0*.png`); three
+`img/etapes-*.webp` + their three `src/etapes-*.png` sources; ten
+`brand/icons/icon-*.png`; four `brand/pattern/pattern-*.png`; both
+`brand/logo-lockup-alt-*.png`; `img/temp-1x/lips-before-after-composite.png`;
+`img/services/strip-small.png`. **`temp-1x` itself is NOT orphaned** — its
+`lips-before/after.png` are live behind 15 references in `index.html`, and its
+README correctly marks the whole directory as placeholder-grade pending 2x
+Figma exports. **Removals go to Trash, never hard-delete** (standing law).
+
+**M8 — `pill-levres` soft framing.** Carried. Judge dressed in R-5. Untouched
+here, and `pill-levres.webp` is among M7's orphans — the two items should be
+reconciled together, not separately.
+
+**M9 — `tel:` country code, +40 vs +41.** `tel:+40723344555` (Romanian prefix)
+sits against `wa.me/41796472106` (Swiss) on all three pages —
+`index.html:984`, `servicii/areola.html:645`, `servicii/in-curand.html:28`.
+Verified **consistent across the whole site**, so this is a single content
+decision, not drift. **CLIENT QUESTION. NEVER EDIT UNILATERALLY.**
+
+**M10 — Finding B: the desktop staccato ruling.** PENDING Commander. No
+deadline. Carried unchanged.
+
+**M11 — Clamp-vs-border collision.** A flick violent enough to overshoot past
+the Southern Border is not captured at all; the border currently wins. Flagged
+twice in #39, **still unruled**. Carried.
+
+**M12 — Establish→Sourcils gap length.** Carries `FIRST_TRANS_BONUS` at 77.6vh.
+The launch door now covers it, but the gap's own length remains an open tuning
+question. Carried.
+
+#### TUNING KNOBS ON RECORD (not findings — the dial positions, for the record)
+
+| Knob | Value | Governs |
+|---|---|---|
+| `DOOR_COMMIT_VH` | **7.5** | launch eagerness AND exit commitment — one number for both |
+| `FADE_CHASE_MS` | **520** | the dissolve, deliberate |
+| `FADE_CHASE_DOWN_MS` | **260** | re-materialisation, twice as eager |
+| `SETTLE_DEBOUNCE_MS` | **140** | rest detection, and the wheel-gesture boundary reusing it |
+| `ADVANCE_BIAS_FRAC` | **0.20** | 30/70 coverage bias, retired from launch+exit segments only |
+| `ACTIVE_PAD` | **DWELL × 0.35** | pill hysteresis |
+
+#### PASS
+
+- **Standing law — robots.** `<meta name="robots" content="noindex,nofollow">`
+  present at line 6 of all three pages. **PASS.**
+- **Standing law — desktop grace floor.** `body{max-width:480px}` at
+  `tokens.css:46`, single declaration, unopposed. **PASS.**
+- **Passivity law.** Ten `window` listeners, every one `{passive:true}`; zero
+  `preventDefault` in the file. Re-counted at v24. **PASS.**
+- **I8, the fade path.** `is-fading` (pointer-events kill) keys to
+  **`targetFadeT`** — semantic, immediate. `is-dissolved` (`visibility:hidden`)
+  keys to **`renderedFadeT`** — paint. Stop `.is-active` / `tabindex` /
+  `aria-hidden` and the establish links' `tabindex` key to **`progress`**.
+  Paint lags; semantics do not. Exactly I8. **PASS.**
+- **Blast radius.** Neither `servicii/areola.html` nor `servicii/in-curand.html`
+  loads `hero-scroll.js` or carries any `.kh__*` markup. Eleven laps of hero
+  work never reached the servicii surface. **PASS.**
+- **Type/shadow law.** Zero `font-family` and zero `box-shadow` declarations
+  outside `var(--font-*)` / `var(--shadow-*)` tokens. **PASS.** (Colour alone
+  breaks — see C5.)
+
+---
+
+### 2. AAR — HERO CHAPTER, entries #29–#39
+
+#### STRATEGY — what we set out to do
+
+Replace the D-2 split hero with a single scroll-driven film: one statue, six
+locked keyframes, native scroll as the only motive force, and a handoff that
+reads as white lifting off content rather than a crossfade. The front door had
+to carry the whole vision in one gesture, on a phone, without ever taking the
+scroll away from the reader.
+
+#### ACHIEVED — by the numbers
+
+- **11 laps**, **11 LEDGER entries** (#29–#39), **11 PRs** (#16–#26).
+- **45 commits** on `main` since the R-0 merge; **20** of them to
+  `js/hero-scroll.js`, carrying it **v1 → v24**. `css/main.css` sat at **v32,
+  untouched**, through the entire R-2f lap — two files, start to finish.
+- **240-cell gesture matrix** authored; **210/210** green under amended
+  intentions, plus four new families (go-home 12, launch 14, keyboard 8,
+  rail 32).
+- **8 invariants** constituted — I1–I5 from the engine, I6–I8 transcribed
+  verbatim from the external audit and appended by Tower reconciliation.
+- **Two architectures bounced on the Commander's eye** (R-2c: margin-pull +
+  opaque band; the instant visibility toggle). **Three in-lap bounces and three
+  addenda** in R-2f alone.
+- Measured wins on record: in-window frozen rest **167ms → 33ms**; paint tail
+  **667 → 317ms**; abduction **379.8px → 0px**; billing error from true start
+  **0.0vh**; launch threshold **35vh → 8vh**.
+- Commander's armistice walk: **PASS, both devices.** Tower diff-cert at v24:
+  **PASS.**
+
+#### SUSTAIN — what the doctrine should keep doing
+
+1. **MEASURE BEFORE IMPLEMENTING — including the Tower's own lean.** The single
+   most valuable act of the chapter was the executor proving mechanism (a) was
+   **dead code by construction** before writing a line of it. The doctrine's
+   habit of demanding a trace instead of an argument paid for itself.
+2. **THE EXECUTOR AUDITS ITS OWN FIX.** R-2f's touch gate shipped a silent
+   regression (`update()` stopped self-continuing; zero pre-empts, ever, on
+   touch) and the executor **caught it itself**, from its own trace, while the
+   headline metric read clean. That is the behaviour that makes single-executor
+   laps safe.
+3. **LEDGER THE TOOLING DEFECTS, NOT JUST THE CODE DEFECTS.** Six harness bugs
+   were recorded in #39 — the false-passing matrix set, the hoisted
+   `WHEEL_GESTURE_GAP_MS`, the substring double-count. A harness that can pass
+   a build it was written to indict is the most dangerous object in the room,
+   and this doctrine now names them out loud.
+4. **ADDITIVE RUNWAY, NEVER CARVED.** `FIRST_TRANS_BONUS_VH`, then
+   `EXIT_BONUS_VH` with its `RESCALE` cancellation — every extension paid for
+   with new distance and proved byte-identical on every untouched segment. The
+   precedent held three times.
+5. **NO SESSION CERTIFIES ITS OWN WORK.** Feel was certified on the Commander's
+   glass, every single time, and the entries say so plainly rather than
+   implying device coverage the harness never had.
+6. **VERIFY EXTERNAL AUDIT CLAIMS BEFORE ACTING.** All three §29/§30/§31 items
+   were reproduced first. §30's rail clamp defect was **confirmed, then fixed** —
+   in that order.
+
+#### IMPROVE — what it should do differently
+
+1. **THE TOWER LEANED ON UNMEASURED MECHANISM, REPEATEDLY.** Mechanism (a) was
+   the Tower's root-fix recommendation and was **provably dead code**. The
+   `[5,10]`-vs-clause-(d) knob contradiction shipped in a brief that could not
+   be satisfied by one direction-agnostic constant. The false binary and the
+   unproven reconstruction were caught only by Tribunal. Four Tower errors in
+   one lap. **A brief that names a mechanism must name the measurement that
+   would falsify it, in the same brief.**
+2. **THE LAW OUTLIVED ITS JURISDICTION THREE SEPARATE TIMES.** The 30/70 bias
+   ruling the R-2c reveal band (the abduction). The bias ruling the 87vh exit
+   strip (dead taps). The symmetric clamp ruling an upward go-home flick (Le
+   Sens Unique). Same disease, three convictions, each found only by the
+   Commander's thumb. **When a lap changes a SEGMENT'S GEOMETRY, the standing
+   laws governing that segment must be re-audited in the same lap** — geometry
+   changes are jurisdiction changes.
+3. **THE SPEC WAS NEVER WRITTEN DOWN.** C1, C2 and C3 are one failure with
+   three faces: a superseded compass left in the law directory, an interaction
+   spec eleven laps stale, and the certified matrix living in prose. The
+   doctrine ledgered *narrative* superbly and produced *artifacts* not at all.
+   **A lap that certifies behaviour must emit the certification as a file.**
+4. **THE INVARIANTS ARRIVED LAST, AND FROM OUTSIDE.** I1–I5 were written at
+   the chapter's *close*, and I6–I8 came from an **external audit**, not from
+   the eleven laps that built the thing. The engine ran for ten laps without a
+   written constitution to test against — which is precisely why the same
+   jurisdiction bug could be committed three times.
+5. **VERIFICATION NEVER REACHED A REAL DEVICE.** The standing limitation is
+   restated honestly in every entry — `document.hidden === true` in the sandbox
+   kills rAF, so every number came from a Node DOM shim. That shim is the real
+   file with real closures, and it earned its keep. **It is still not glass.**
+   I6 and I8 (M1, M2) are unexercised today for exactly this reason.
+6. **RULE ZERO NEEDED TO EXIST.** That this close had to be declared
+   explicitly ZERO FIXES is itself a finding: an eleven-lap chapter builds
+   enough momentum that a review session's default is to patch. Phase C should
+   be read-only **by doctrine**, not by per-key instruction.
+
+---
+
+### 3. INTEGRITY AUDIT — PASS 1
+
+Three sources compared. **ALL THREE AGREE.**
+
+| Source | Result |
+|---|---|
+| Local working tree | **CLEAN** — `git status --porcelain -uall` empty; zero modified, zero untracked, zero stashes |
+| Local git log (`HEAD`) | `98b4a9f80e66912ad7fac9ebfad7b1b398bf9a5a` on branch `main` |
+| Remote (`git ls-remote origin refs/heads/main`, live) | `98b4a9f80e66912ad7fac9ebfad7b1b398bf9a5a` |
+
+`git rev-list --left-right --count origin/main...HEAD` → **`0  0`** (zero
+ahead, zero behind). Upstream correctly tracked as `origin/main`.
+`git diff --stat HEAD` against `js/hero-scroll.js`, `index.html`, `css/main.css`
+→ **empty**: the files reviewed above are byte-identical to the certified
+commit. `index.html:1021` carries `hero-scroll.js?v=24`, matching #39's
+certification.
+
+**INTEGRITY: PASS.** No divergence of any kind between tree, log and origin.
+
+---
+
+### 4. CERTIFICATION
+
+This session certifies nothing. Read-only lap; findings are findings until the
+Commander's eye rules on them. The Tower certifies this entry post-hoc via raw
+pull.
+
+**THE HERO CHAPTER CLOSES. THE FILM IS CERTIFIED; THE SPEC IS NOT WRITTEN.**
+
+---
+
+## >> BATON — HANDOFF FROM PHASE C
+
+**STATE**
+- Repo `Ulgolan/hotico-proto`, branch `main` at **`98b4a9f`**, clean, in sync
+  with `origin/main`. No open branches, no stashes, no PR in flight.
+- Live hero: `js/hero-scroll.js` **v24** (1493 lines), `css/main.css` **v32**,
+  `css/tokens.css` **v8**, referenced from `index.html`.
+- The hero is a 478vh scroll film — `TOTAL_VH` 478 in JS, `.kh__scrubwrap`
+  478vh and `html.js-kh .kh` 378vh in CSS. Six stops (Sourcils, Eyeliner,
+  Alopécie, Lèvres, Cicatrices, Aréole), one statue
+  (`assets/img/statue-kintsugi-v3.webp`), native scroll only, zero
+  `preventDefault`, ten passive listeners.
+- Two tiers coexist in the DOM: `.kh__static` (no-JS / reduced-motion) and
+  `.kh__scrub`, switched by `html.js-kh` set pre-paint by the gate at
+  `index.html:10`.
+
+**CERTIFIED**
+- Commander's armistice walk, **both devices, PASS** (#39).
+- Tower diff-cert at v24, **PASS** (#39).
+- Gesture matrix **210/210** + four new families (go-home 12, launch 14,
+  keyboard 8, rail 32) — **result certified, artifact missing (see OPEN C3)**.
+- Invariants **I1–I8** constituted (#39 + reconciliation `98b4a9f`).
+  I1 drift immunity · I2 (amended) one semantic stop per gesture in the story
+  direction, upward free · I3 door obedience · I4 border supremacy ·
+  I5 mobile/desktop agreement · I6 reduced motion gets real content ·
+  I7 native scroll is the source of truth · I8 paint may lag, semantics may not.
+- **I6 and I8 are constituted but UNEXERCISED** — no device pass, no matrix
+  cells. See OPEN M1/M2.
+
+**OPEN** *(all findings-only; nothing below has been fixed)*
+- **C1** `docs/POLARIS.md` is the superseded 2026-08-01 brief; live compass is
+  root `POLARIS.md` (2026-08-04). Retire to Trash — Tower act.
+- **C2** `docs/STATE-MAP.md` two eras stale (specs the D-2 torso hero). Tower
+  authors it; this session may not.
+- **C3** 240-cell gesture matrix has **no artifact** — prose only. Highest-value
+  backlog item.
+- **C4** `.kh__scrub` has no script-failure fallback; silent guards at
+  `hero-scroll.js:15/23/25-26` exit into the broken state.
+- **C5** Colour law breached: `--ivory`/`--gold` hardcoded as `rgba()` at
+  `main.css:194/214/237/371`. Fix requires new `*-rgb` tokens — Tower act.
+- **M1** I6 device pass + matrix cells. Evidence 20 hero-scroll commits stale.
+- **M2** I8 pointer-keying: touch gate blind to pen/stylus. Matrix cells + device.
+- **M3** `lastRestProgress` is write-only dead state (4 writes, 0 reads).
+  Post-freeze.
+- **M4** CSS/JS constant-sync debt (478/378 hand-restated across two files).
+- **M5** Rail leaves 77.6vh before release — unchanged code, changed meaning.
+- **M6** `doorPick` unnamed sub-case (`:1134-1137`), self-flagged, unruled.
+- **M7** 29 orphan assets under `assets/` — **Trash, never delete**.
+- **M8** `pill-levres` soft framing — judge dressed in R-5; reconcile with M7.
+- **M9** `tel:+40` vs `wa.me/41` — **CLIENT QUESTION, never edit unilaterally**.
+- **M10** Finding B, desktop staccato — **PENDING COMMANDER**, no deadline.
+- **M11** Clamp-vs-border collision — flagged twice, **still unruled**.
+- **M12** Establish→Sourcils 77.6vh gap length — open tuning question.
+
+**NEXT**
+- Nothing is scheduled. The hero chapter is closed by Commander declaration and
+  the scroll-feel campaign closed with R-2f.
+- **R-2g «LA CONSTITUTION»** is the named next hero lap if called: I6 + I8
+  matrix cells and one device pass. It is the only OPEN item that can close an
+  invariant.
+- The three documentation criticals (C1/C2/C3) are **Tower work, not executor
+  work** — `docs/` is law and this tier does not author it.
+- POLARIS (root, 2026-08-04) still points at the **desktop campaign**: both
+  pages composed at reference widths, milestone mobile walk, house furnished
+  spec-grade. The hero chapter served criterion 1; **criterion 3 is where C3
+  bites**.
+
+**TRAPS** *(read before touching anything in the hero)*
+1. **NEVER re-tune a segment without re-auditing the laws over it.** Three
+   separate convictions this chapter came from a standing law outliving its
+   jurisdiction after a geometry change.
+2. **`TOTAL_VH_BASE` (428) is the LAW denominator; `TOTAL_VH` (478) is NOT.**
+   Every existing fraction divides by 428 and is then uniformly rescaled by
+   `R_BASE/R_NEW`. Bumping the shared denominator instead drifts **every**
+   non-exit segment (+3.19% measured). See `hero-scroll.js:66-96`.
+3. **`SETTLE_DEBOUNCE_MS` is read at event time, never cached.** Its `var` is
+   declared ~800 lines below the wheel listener that reads it; caching it makes
+   every comparison `> undefined` and silently restores the stale-anchor bug.
+4. **The corridor's one-frame trigger MUST stay gated on `!touchActive`,** and
+   `onTouchUp` **must** kick `onTick()`. Removing either is silent: the first
+   machine-guns the finger, the second kills pre-emption on touch entirely
+   while every metric still reads clean.
+5. **`is-fading` keys to `targetFadeT`; `is-dissolved` keys to `renderedFadeT`.**
+   Swapping either breaks I8 in one direction and pops the paint in the other.
+6. **Editing `.kh` CSS heights without editing `hero-scroll.js` (or vice versa)
+   desynchronises the film from its own scroll range.** No shared source
+   exists — see OPEN M4.
+7. **The preview sandbox reports `document.hidden === true`**, killing rAF and
+   throttling timers. **No time-domain hero code can be traced in-browser
+   here.** Every number in this chapter came from a Node DOM shim running the
+   real file. **Feel is certified on the Commander's glass, only.**
+8. **File removals go to Trash, never hard-delete** — assets, docs, code alike.
+   Applies to every OPEN item above that proposes a removal.
+
+Session retires here.
