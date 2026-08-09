@@ -825,10 +825,6 @@ html.js-kh .kh__static{display:none;}
   box-shadow:none;
 }
 
-/* temp-1x card crops carry their own gold border + label in the
-   pixels (same defect as video-thumb). object-fit:cover keeps that
-   chrome cropped out, exactly as the resting card does — do not
-   switch to contain until clean 2x exports land. See LEDGER. */
 .steps-cards.is-focused .scard img{
   aspect-ratio:16/9;
   object-fit:cover;
