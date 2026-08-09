@@ -569,9 +569,30 @@
   // their thumb had moved at all.
   var gestureAnchor = 0;
   var gestureStartP = 0;
+  // R-2f ADDENDUM 3 — the door's ruler is RAW SCROLL PX, which is what the Door
+  // Rule specified in the first place ("net scroll displacement in CSS px").
+  // gestureStartP * total was a proxy for it, and the proxy breaks at the
+  // clamps: currentProgress() pins to 0 for the whole header offset, so at the
+  // page top a 15vh flick registered as ZERO net and the launch could not see
+  // it at all. Measuring pageYOffset directly is identical everywhere the two
+  // agree and simply correct where they do not.
+  var gestureStartY = 0;
   var lastWheelTime = null;
+  // R-2f ADDENDUM 3 §31 — gesture VISIBILITY. PROTECTS amended I2.
+  //
+  // touchstart and wheel cover finger and trackpad, and nothing else. Keyboard
+  // (PageDown/PageUp/Home/End/Space) and scrollbar dragging move the page with
+  // no such event at all, so before this the anchor stayed wherever the last
+  // rest left it and a chain of PageDowns re-ran the stale-anchor class this
+  // lap already killed for touch. restConfirmed is the hook: exactly one
+  // foreign scroll after a confirmed rest opens a gesture. Afterwards it is
+  // false until the next rest, so momentum stragglers, rubber-band bounce
+  // events and our own ease writes cannot re-anchor mid-gesture.
+  var restConfirmed = true;
   function beginGesture(source) {
+    restConfirmed = false;
     gestureStartP = currentProgress();
+    gestureStartY = window.pageYOffset;
     gestureAnchor = SETTLE_TARGETS[settleTargetIndex(gestureStartP)];
     khlog('gesture start, source=', source, 'anchor=', gestureAnchor.toFixed(4),
       'startP=', gestureStartP.toFixed(4));
@@ -959,11 +980,12 @@
     return total > 0 ? clamp01(-rect.top / total) : 0;
   }
 
-  // lastRestProgress doubles as "where this gesture started": it only
-  // ever updates when settle() confirms rest (see below), so for the
-  // whole duration of a gesture it correctly holds the position the
-  // user was at before they started moving — no separate gesture-start
-  // tracking needed.
+  // lastRestProgress records the last position actually CONFIRMED at rest.
+  // It used to double as "where this gesture started" — that reading is what
+  // the R-2f addendum convicted, since a chained gesture never confirms rest
+  // and the anchor froze. The gesture's own origin is gestureAnchor /
+  // gestureStartP, snapshotted at gesture start; this value keeps only its
+  // literal meaning.
   var lastRestProgress = 0;
 
   // R-2 tune pass, finding 1b — Commander's normal flick off Sourcils
@@ -989,16 +1011,10 @@
   // code was biasing a choice between two targets neither of which was
   // adjacent to the origin. This clamps the outcome, not the search.
   //
-  // Origin = `ref`, i.e. lastRestProgress. No new state needed: as the
-  // comment above lastRestProgress's declaration already establishes,
-  // it only ever updates at a GESTURE BOUNDARY — settle() confirming
-  // rest, or an ease completing (easeTick's frac>=1 branch) — so for
-  // the entire duration of one gesture it already holds exactly "the
-  // stop where the gesture began". That's the same definition this key
-  // asks for; reusing it is what keeps a wheel burst-chain correct too
-  // (each burst's settle/ease completion re-arms the origin for the
-  // next burst, so a chain can still walk multiple stops one at a
-  // time — only a single unbroken gesture is capped at one).
+  // Origin = `ref`, which since the R-2f addendum is gestureAnchor, snapshotted
+  // at the gesture's own start. It was lastRestProgress; that was wrong for any
+  // chained gesture, because a cancelled ease deliberately does not confirm
+  // rest and the anchor froze at the pre-chain stop. See beginGesture.
   //
   // Establish (0) and release (1) are ordinary entries in SETTLE_TARGETS
   // and clamp like any other stop, per the key's own instruction.
@@ -1053,9 +1069,11 @@
   // started on. Commander tunes by thumb.
   var DOOR_COMMIT_VH = 7.5;
 
-  // Aréole's dwell end — where the exit segment begins. Read from the timeline
-  // rather than restated, so it cannot drift from it.
+  // The two long gaps, read from the timeline rather than restated so they
+  // cannot drift from it. Aréole's dwell end opens the exit segment; Sourcils'
+  // dwell start closes the launch segment.
   var EXIT_START_P = dwellByIndex[N - 1].end;
+  var LAUNCH_END_P = dwellByIndex[0].start;
 
   // One definition of the fade window, shared by the door and the Southern
   // Border, so the two can never drift apart: the border IS this returning 1.
@@ -1073,24 +1091,49 @@
     return clamp01(((p - 1) * totalNow - startPx) / (FADE_DISTANCE_VH / 100 * vhNow));
   }
 
-  // Returns the chosen target, or null for "not an exit-segment question —
-  // use the certified coverage bias".
-  function exitDoorPick(p, lo, hi) {
-    if (p <= EXIT_START_P) return null;          // still in Aréole's own dwell
-    if (fadeTAtProgress(p) >= 1) return null;    // past the Southern Border: free zone, and settle() already declined to capture
+  // R-2f ADDENDUM 3 — THE LAUNCH, measured call. PROTECTS INVARIANT I1.
+  //
+  // The requirement: one deliberate flick off the establishing frame launches
+  // to Sourcils; accidental drifts settle home. Measured on v23: 5/10/15/20/25
+  // and even 30vh all died back to establish; 35vh was the first that launched.
+  //
+  // Why: establish->Sourcils is 77.6vh — it carries R-2's FIRST_TRANS_BONUS —
+  // so the 30/70 bias demands 23.3vh, and the header adds ~10.9vh of scroll
+  // before `progress` leaves 0 at all. Structurally this is the SAME disease as
+  // the exit strip: a gap roughly twice the ~43vh the bias was tuned against.
+  //
+  // So the mechanism is the same door, the same knob, no new constant — the
+  // geometry argued for identical treatment, not special treatment. What it did
+  // NOT argue for is moving the boundary: the launch segment opens at progress
+  // 0 rather than at the hold's end, because the hold is where the establishing
+  // COPY fades, not a dwell the camera rests in the middle of. The residual
+  // threshold is the header offset, which is honest geometry — the film has not
+  // begun until the wrap is on screen — and it lands the launch at ~18.4vh of
+  // scroll instead of ~33vh.
+  //
+  // Returns the chosen target, or null for "not a door question — use the
+  // certified coverage bias".
+  function doorPick(p, lo, hi) {
+    var seg;
+    if (p < LAUNCH_END_P) seg = 'launch';        // includes progress 0: the header offset is scroll the film cannot see
+    else if (p > EXIT_START_P && fadeTAtProgress(p) < 1) seg = 'exit';
+    else return null;                            // a dwell, or past the Southern Border
     var totalNow = scrollTotalPx();
     if (totalNow <= 0) return null;
     var commitPx = DOOR_COMMIT_VH / 100 * measuredVH();
-    var netPx = (p - gestureStartP) * totalNow;
+    var netPx = window.pageYOffset - gestureStartY;
     // Committed: the door obeys the direction actually travelled.
     if (Math.abs(netPx) > commitPx) return netPx > 0 ? hi : lo;
     // Uncommitted: back to the side this gesture started on.
-    if (gestureStartP <= EXIT_START_P) return lo;             // started at Aréole
-    if (fadeTAtProgress(gestureStartP) >= 1) return hi;       // started in the free zone
-    // Started inside the exit segment itself — only reachable after a cancelled
-    // ease leaves a gesture mid-segment. Neither named side applies, so fall
-    // back to whichever end is nearer. This is the one sub-case the ruling does
-    // not name; flagged rather than smuggled.
+    if (seg === 'launch') {
+      if (gestureStartY <= wrap.getBoundingClientRect().top + window.pageYOffset) return lo;   // started at or above the wrap top = establish
+      return (p - 0) < (LAUNCH_END_P - p) ? lo : hi;
+    }
+    if (gestureStartP <= EXIT_START_P) return lo;            // started at Aréole
+    if (fadeTAtProgress(gestureStartP) >= 1) return hi;      // started in the free zone
+    // Started inside the segment itself — only reachable after a cancelled ease
+    // leaves a gesture mid-segment. Neither named side applies, so fall back to
+    // whichever end is nearer. The one sub-case no ruling names; flagged.
     return (p - EXIT_START_P) < (1 - p) ? lo : hi;
   }
 
@@ -1105,7 +1148,7 @@
     if (hi === lo) return lo;
 
     var picked;
-    var door = exitDoorPick(p, lo, hi);
+    var door = doorPick(p, lo, hi);
     if (door !== null) {
       picked = door;
     } else {
@@ -1124,9 +1167,27 @@
     // disagree the clamp wins — a violent flick from Cicatrices through the
     // window still gets pulled back to Aréole rather than skipping it — which
     // is the one-stop-per-gesture law doing its job, not the door failing.
+    // R-2f ADDENDUM 3 — LE SENS UNIQUE. AMENDS INVARIANT I2.
+    //
+    // I2 was "a captured landing is never more than one stop from the origin",
+    // symmetric in both directions. The Commander's go-home flick convicted the
+    // symmetry: a violent up-flick off Cicatrices reaches the page top, and the
+    // clamp then hauled the landing from establish all the way back to
+    // origin-1 — the machine autonomously DESCENDING four stops from the top,
+    // logging it, in its own words, as `action= advance`. Autopsied on v23 with
+    // an iOS rubber-band model: the anchor was correct (touchstart, Cicatrices)
+    // and the bounce was irrelevant (identical with and without). The law was
+    // the defect, not the plumbing.
+    //
+    // I2 now reads: one semantic stop per gesture IN THE STORY DIRECTION.
+    // Downward, LE CRAN is byte-identical — Alopécie stays unskippable, which
+    // is the whole point of R-2d. Upward is navigation: going home is a
+    // destination, not a page of the story, so it lands where it lands.
     var originIdx = settleTargetIndex(ref);
     var pickedIdx = settleTargetIndex(picked);
-    var clampedIdx = Math.max(originIdx - 1, Math.min(originIdx + 1, pickedIdx));
+    var clampedIdx = pickedIdx > originIdx
+      ? Math.min(originIdx + 1, pickedIdx)   // downward: LE CRAN, unchanged
+      : pickedIdx;                            // upward: free navigation
     return SETTLE_TARGETS[clampedIdx];
   }
 
@@ -1218,6 +1279,8 @@
       lastRestProgress = e.targetProgress;
       gestureAnchor = e.targetProgress;
       gestureStartP = e.targetProgress;
+      gestureStartY = window.pageYOffset;
+      restConfirmed = true;
       khlog('ease complete, target=', e.targetProgress.toFixed(4));
       return;
     }
@@ -1290,6 +1353,8 @@
       lastRestProgress = 1;
       gestureAnchor = 1;
       gestureStartP = p;   // the raw free-zone position, NOT release — Crime 2
+      gestureStartY = window.pageYOffset;
+      restConfirmed = true;
       // Deliberately worded so it cannot be confused with the corrective
       // 'settle, source=' line: "no settle, source=" contains that exact
       // substring, and this lap's own tooling double-counted it as a second
@@ -1305,6 +1370,8 @@
       lastRestProgress = target;
       gestureAnchor = target;
       gestureStartP = target;
+      gestureStartY = window.pageYOffset;
+      restConfirmed = true;
       return;
     }
 
@@ -1365,6 +1432,10 @@
       // first, then fall through to re-arm the debounce below.
       khlog('foreign scroll during ease — cancel + rearm');
       cancelEase();
+    } else if (restConfirmed) {
+      // First foreign scroll since a confirmed rest, and no ease of ours is
+      // running: a gesture whose start we could not see. Anchor it here.
+      beginGesture('foreign');
     }
     clearTimeout(settleTimer);
     settleTimer = setTimeout(function () { settle('debounce'); }, SETTLE_DEBOUNCE_MS);
@@ -1391,6 +1462,23 @@
       var dwellSeg = dwellByIndex[idx];
       if (!dwellSeg) return;
       var mid = (dwellSeg.start + dwellSeg.end) / 2;
+      // R-2f ADDENDUM 3 §30 — PROTECTS amended I2. The rail hands its motion to
+      // native smooth-scroll, which raises scroll events that are not our
+      // per-frame ease writes and would therefore read as a foreign gesture:
+      // §31's hook would anchor at the ORIGIN stop, and LE CRAN would then clamp
+      // a six-stop rail ride down to one. Seed the anchor at the DESTINATION —
+      // the value the arriving settle will compute anyway — so that settle is a
+      // no-op, and clear restConfirmed so the ride's own events open nothing. A
+      // finger or wheel arriving mid-flight still calls beginGesture itself and
+      // takes the ride over, which is the interrupt behaviour we want.
+      var railRect = wrap.getBoundingClientRect();
+      var totalNowRail = railRect.height - measuredVH();
+      var wrapTopAbsNow = window.pageYOffset + railRect.top;
+      gestureAnchor = mid;
+      gestureStartP = mid;
+      gestureStartY = wrapTopAbsNow + mid * totalNowRail;
+      lastRestProgress = mid;
+      restConfirmed = false;
       var rectNow = wrap.getBoundingClientRect();
       var totalNow = rectNow.height - measuredVH();
       var wrapTopAbs = window.pageYOffset + rectNow.top;
