@@ -3515,3 +3515,80 @@ pull.
    Applies to every OPEN item above that proposes a removal.
 
 Session retires here.
+
+## Entry #41 — 2026-08-09 — LAP C4: LE FILET — MERGE & CLOSE
+
+**Merge SHA `af9d7fbd0dd3c67330abe969c7ee34f2a9d7c1a9`** — PR
+[#27](https://github.com/Ulgolan/hotico-proto/pull/27) merged into
+`main` via a merge commit, per repo convention. `js/hero-scroll.js`
+v24 → **v25**; `css/main.css` untouched at v32. Two files, +9/−2,
+one lap, zero bounces. Branch `c4-fallback` preserved on remote
+(`c72205f`) and local.
+
+### The object — boot failure demotes to the static tier
+
+The head gate stamps `js-kh` before paint and nothing verified the
+promise was kept. Three boot-death modes left a blank 378vh hero
+with `pointer-events:none` over the whole door: script never loads
+(no `onerror`), the scrub guard exits silently, an exception thrown
+during synchronous init. Worst of the three, proven by the Hands'
+controls against the un-netted engine: the guard exit dies with
+**zero console signal**. Shipped: `khDemote()` — remove `js-kh`,
+CSS falls to `.kh__static`, real statue, real stops, real scroll.
+Coverage: inline `onerror` on the script tag (load death) ·
+demoting guard (silent exit) · `try/catch` bracketing the
+synchronous boot only, inserted without re-indenting the frozen
+file. Runtime failure after successful boot is OUT OF SCOPE by
+ruling — yanking the film mid-scroll would be worse than the
+disease. **Invariant named: I6** (real content under degradation);
+whether this mints as I9 proper is parked with the Commander.
+
+### Certification
+
+Tower diff-cert from codeload tarballs: footprint exactly the
+intended edits, nothing else in the tree. Harness V1–V3 with
+controls; V1 transform byte-identical to v24
+(`translate3d(419.254px, 10.368px, 0) scale(0.323437)`). Commander
+glass, both paths: happy path re-certified on charged device;
+blocked-script path certified desktop DevTools — static tier
+rendered, caption pills confirmed honest (inert labels, no fake
+affordance).
+
+### Branch point ruling
+
+Key pinned main at `98b4a9f`; live main was `7525160`. Hands
+measured the delta (LEDGER-only, entry #40), flagged, proceeded.
+Tower independently verified and RATIFIED. Measure-before-obeying,
+working as doctrine.
+
+### Tower errors (own the record)
+
+The key contradicted itself on `khDemote` placement (step 2 anchor
+vs step 4 parenthetical). Hands tiebroke on the anchored
+instruction — correct — behaviorally identical, no re-roll. Error
+is the Tower's. Same session, error two: the Tower handed the
+Commander a terminal task for this very entry — file work is the
+Hands' seat, always.
+
+### Same-evening rulings (Commander recording, Tower forensics)
+
+- **Stutter convicted as environmental**: 7% battery / Low Power
+  Mode throttled settle eases to ~6–8 rendered frames. Re-test on
+  charged device restored certified feel. CLOSED, not an engine
+  defect.
+- **The 26–28s haul (rip down, ~48% giveback)**: machine-vs-thumb
+  UNPROVEN — iOS recordings carry no touch overlay, and the border
+  code reads current position at settle time, which should forbid
+  it. On MONITOR-WATCH; standing trap: `?khdebug=1` + console
+  capture on repro. Autopsy before law holds.
+- **I2 under energetic use**: one-stop-per-gesture experienced as
+  confiscation under hard flicks. This is the LAW as constituted,
+  not a defect. Amendment options A (keep) / B (momentum tiers) /
+  C (nearest-ahead free flight) / D (split desktop/touch
+  jurisdiction — absorbs Finding B) are on the Commander's desk.
+  No ruling yet.
+- **M11 CLOSED**: free-zone-wins, as built — Commander ratified.
+
+Next per Commander's ruled order: R-6 ÉTAPES, then R-4 vs R-5
+ruling. C1/C2 documentation criticals remain Tower work, queued as
+their own doc-only lap after R-6.
