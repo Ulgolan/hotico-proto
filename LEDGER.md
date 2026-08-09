@@ -3046,11 +3046,21 @@ resolves the way you travelled, never against your own thumb. **I4** border
 supremacy — a gesture ending at or past the Southern Border is never captured.
 **I5** agreement — mobile and desktop resolve identically.
 
-*Numbering note for the Tower:* the order names **I1–I8** in the audit's
-formulation. This session authored and verified only the five above; the
-audit's I6–I8 are not in this session's possession and have **not** been
-invented here. The Tower should append them and reconcile the numbering
-against this list.
+The remaining three are the external audit's own formulation (§38),
+Tower-transcribed verbatim:
+
+**I6** — Reduced motion gets real content, not broken animation. The static
+experience remains complete.
+
+**I7** — Native scroll remains the physical source of truth. The hero augments
+scrolling rather than replacing browser scrolling.
+
+**I8** — Paint may lag scroll, semantic interaction must not. Pointer/focus
+state follows target visibility and jurisdiction rather than waiting for the
+visual opacity chase.
+
+I6–I8 appended by Tower reconciliation, 2026-08-09, from the filed external
+audit.
 
 ### Certification
 
