@@ -8,11 +8,16 @@
 (function () {
   'use strict';
 
+  function khDemote() {
+    document.documentElement.classList.remove('js-kh');
+  }
+
   if (!document.documentElement.classList.contains('js-kh')) return;
 
+  try {
   var section = document.querySelector('[data-kh]');
   var scrub = section && section.querySelector('[data-kh-scrub]');
-  if (!scrub) return;
+  if (!scrub) { khDemote(); return; }
 
   var wrap = scrub.querySelector('[data-kh-wrap]');
   var pin = scrub.querySelector('[data-kh-pin]');
@@ -1490,4 +1495,5 @@
   raf(update); // deferred one frame: painting the transform synchronously,
                // before the browser's first layout/paint cycle settles,
                // left the film layer unpainted until the next repaint trigger
+  } catch (e) { khDemote(); }
 }());
