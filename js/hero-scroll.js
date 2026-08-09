@@ -415,6 +415,20 @@
   // faster, which is what makes a slow crawl still track the target
   // near enough 1:1 (see the chase block inside update(), below).
   var FADE_CHASE_MS = 520;
+  // R-2f LE COULOIR, mechanism (b) — the 520ms above was tuned and blessed
+  // against ONE direction: the dissolve, statue -> white, targetFadeT
+  // INCREASING. Re-materialization (white -> statue, targetFadeT DECREASING)
+  // was never tuned; it simply inherited the dissolve's cap. Measured
+  // consequence: on a reverse entry the user's scroll leaves the fade window
+  // entirely and comes to rest with the statue's target back at 0, while the
+  // PAINT is still hundreds of ms of chase behind it — a white frame parked
+  // over a scroll position that isn't white at all. The dissolve wants to be
+  // deliberate; the recovery wants to be eager. Exactly half the blessed
+  // constant, so the relationship between the two stays legible instead of
+  // being two unrelated magic numbers. FADE_CHASE_MS itself is untouched, so
+  // the forward dissolve the Commander blessed is byte-identical.
+  // Tune target for the device walk, not a hard law.
+  var FADE_CHASE_DOWN_MS = 260;
   var renderedFadeT = 0;
   // Timestamp of the PREVIOUS update() call, refreshed unconditionally
   // every call (not just while diverged) — used only to tell a genuine
@@ -433,6 +447,171 @@
   // caught by this lap's own verification trace before it shipped.
   var fadeChaseLastTime = null;
   var FADE_CHASE_STALE_MS = 100; // » any single real frame, « any genuine idle gap
+
+  // R-2f — corridor pre-emption state; see the block at the bottom of
+  // update() for what these do and why one motionless frame is enough.
+  var corridorWatchY = null;
+  var corridorFired = false;
+
+  // R-2f BOUNCE — touch gate. The one-motionless-frame trigger below is
+  // sound against a wheel and unsound against a finger, and the Commander's
+  // device found the difference: a slow iOS drag is not a smooth stream, it
+  // is motion interleaved with genuinely motionless frames at every micro-
+  // pause of the finger. Pre-emption read those pauses as rest, declared a
+  // settle UNDER AN ACTIVE TOUCH, and the ease then fought the finger — each
+  // fight cancelled by scheduleSettleFallback's foreign-scroll path and
+  // re-armed two frames later, which machine-gunned: fire, fight, cancel,
+  // fire. Reproduced in the harness once touch was modelled explicitly, at
+  // 10-18 pre-empts and 9-17 cancels in a single swipe, peak inter-frame
+  // magnitude 18.2px against the Tower's measured 17-20 on glass. The 140ms
+  // debounce made that loop unsustainable (each cycle cost a fresh 140ms of
+  // stillness); the one-frame trigger made it inevitable.
+  //
+  // So pre-emption may only fire when no touch is down. On lift it engages
+  // from the first post-lift motionless frame, which is what the corridor
+  // ruling actually needs — a lifted finger inside the window is exactly the
+  // parked-white case, and a finger still on the glass is not a rest at all,
+  // it is a gesture mid-flight.
+  //
+  // Listeners are PASSIVE, standing law, and never call preventDefault —
+  // they only read. touchend/touchcancel both resolve through e.touches,
+  // whose length is the number of contacts STILL down, so a second finger
+  // lifting off a two-finger gesture does not falsely clear the gate; and
+  // touchcancel is registered because a touch stolen by a system gesture
+  // fires no touchend at all, which would otherwise strand touchActive at
+  // true and disable pre-emption for the rest of the page's life.
+  //
+  // Desktop is byte-identical by construction: no touch event ever fires, so
+  // touchActive is false for the whole session and the gate is a no-op.
+  // The 140ms debounce path is untouched — it predates this lap.
+  //
+  // The lift MUST kick the render loop, and this was not optional — caught by
+  // this lap's own verification before it shipped. update() only re-runs while
+  // something asks it to: a scroll event, or its own self-continuation at the
+  // bottom of this file's update(). During a finger-down pause both go quiet —
+  // no scroll events (nothing is moving) and the corridor clause is gated off
+  // by touchActive — so by the time the finger lifts, nothing is scheduled and
+  // no scroll event is ever coming, because the page is already at rest.
+  // Without this onTick() the watch would simply never get another frame:
+  // pre-emption would be dead on touch entirely and mobile would quietly fall
+  // back to the 167ms white room this lap exists to remove. Traced as exactly
+  // that failure (0 pre-empts, ever) before the call was added.
+  var touchActive = false;
+  function onTouchDown() { touchActive = true; beginGesture('touchstart'); }
+  function onTouchUp(e) {
+    touchActive = !!(e && e.touches && e.touches.length);
+    if (!touchActive) onTick();
+  }
+  window.addEventListener('touchstart', onTouchDown, { passive: true });
+  window.addEventListener('touchend', onTouchUp, { passive: true });
+  window.addEventListener('touchcancel', onTouchUp, { passive: true });
+
+  // R-2f ADDENDUM — THE STALE ANCHOR.
+  //
+  // R-2d's Commander ruling was "a gesture may advance at most one stop from
+  // the stop THE GESTURE BEGAN AT". The implementation read that as "from the
+  // last CONFIRMED REST", reusing lastRestProgress. Those two are the same
+  // thing only while every gesture is allowed to finish. They diverge the
+  // moment gestures chain — swipe, cancel the settle mid-ease, swipe again —
+  // because a cancelled ease deliberately does NOT confirm rest (cancelEase
+  // leaves lastRestProgress alone, correctly, so an interrupted attempt can't
+  // corrupt it). Rest is then never confirmed for the whole chain and the
+  // anchor freezes at the pre-chain stop.
+  //
+  // Traced on main v17, three committed down-swipes 200ms apart, each covering
+  // 75% of a gap — far past the 30% advance line:
+  //   settle p= 0.4028 ref= 0.3182 target= 0.4310 action= advance
+  //   settle p= 0.4979 ref= 0.3182 target= 0.4310 action= back
+  //   settle p= 0.5677 ref= 0.3182 target= 0.4310 action= back
+  // ref frozen, p marching away, action flipping to `back`, target pinned at
+  // origin+1. Five links were hauled back 934px. Down-swipes, up-yank — the
+  // Commander's exact signature. Latent on main since R-2d merged.
+  //
+  // Fix: the clamp/bias/door anchor is the gesture's OWN start position, which
+  // is what the ruling said. lastRestProgress keeps its own meaning (the last
+  // position actually confirmed at rest) and its other duties untouched.
+  //
+  // GESTURE START, per input modality:
+  //   Touch — touchstart, full stop. Scroll events after touchend are momentum
+  //   stragglers belonging to the gesture that already ended; they may cancel
+  //   an ease (finding B's path, unchanged) but they must NOT re-anchor, or a
+  //   single violent flick would re-anchor mid-momentum and land further than
+  //   origin+1. Momentum produces neither touchstart nor wheel, so it cannot
+  //   reach beginGesture() at all — the skip clamp is safe by construction,
+  //   not by timing.
+  //   Wheel — the first wheel event after WHEEL_GESTURE_GAP_MS of wheel
+  //   silence. `wheel` is used rather than `scroll` precisely because touch
+  //   momentum raises scroll events but never wheel events, so the two
+  //   modalities cannot contaminate each other. A wheel event fires BEFORE the
+  //   scroll it causes, so currentProgress() here is genuinely the pre-gesture
+  //   position.
+  //
+  // WHEEL_GESTURE_GAP_MS reuses SETTLE_DEBOUNCE_MS's 140ms rather than
+  // inventing a number: that value already IS this codebase's device-measured
+  // answer to "has scroll input gone quiet", which is the same question a
+  // gesture boundary asks. A trackpad's own inertia fires wheel events far
+  // faster than 140ms apart, so one flick stays one gesture; two deliberate
+  // bursts separated by a real pause stay two, which is the burst-chain
+  // behaviour R-2d's own comment describes. Disclosed consequence: a wheel
+  // chain now re-anchors after 140ms of silence rather than after the ease
+  // finishes (~360-780ms), so bursts walk stop-by-stop more readily than
+  // before — that is the defect being fixed, seen from the wheel side.
+  //
+  // Anchor is also resynced wherever a rest IS confirmed, so any input this
+  // file does not model as a gesture (keyboard, scrollbar, the rail buttons'
+  // own scrollTo) keeps exactly its pre-addendum behaviour instead of running
+  // against a stale snapshot.
+  // Two snapshots, because the clamp and the door ask different questions.
+  // gestureAnchor (snapped to a stop) answers "which stop did you depart" —
+  // the R-2d one-stop rule. gestureStartP (raw) answers "how far did you
+  // actually move" — the door's ruler. Conflating them is Crime 2: a reader
+  // resting 40vh above release was billed for the ~50vh between them before
+  // their thumb had moved at all.
+  var gestureAnchor = 0;
+  var gestureStartP = 0;
+  // R-2f ADDENDUM 3 — the door's ruler is RAW SCROLL PX, which is what the Door
+  // Rule specified in the first place ("net scroll displacement in CSS px").
+  // gestureStartP * total was a proxy for it, and the proxy breaks at the
+  // clamps: currentProgress() pins to 0 for the whole header offset, so at the
+  // page top a 15vh flick registered as ZERO net and the launch could not see
+  // it at all. Measuring pageYOffset directly is identical everywhere the two
+  // agree and simply correct where they do not.
+  var gestureStartY = 0;
+  var lastWheelTime = null;
+  // R-2f ADDENDUM 3 §31 — gesture VISIBILITY. PROTECTS amended I2.
+  //
+  // touchstart and wheel cover finger and trackpad, and nothing else. Keyboard
+  // (PageDown/PageUp/Home/End/Space) and scrollbar dragging move the page with
+  // no such event at all, so before this the anchor stayed wherever the last
+  // rest left it and a chain of PageDowns re-ran the stale-anchor class this
+  // lap already killed for touch. restConfirmed is the hook: exactly one
+  // foreign scroll after a confirmed rest opens a gesture. Afterwards it is
+  // false until the next rest, so momentum stragglers, rubber-band bounce
+  // events and our own ease writes cannot re-anchor mid-gesture.
+  var restConfirmed = true;
+  function beginGesture(source) {
+    restConfirmed = false;
+    gestureStartP = currentProgress();
+    gestureStartY = window.pageYOffset;
+    gestureAnchor = SETTLE_TARGETS[settleTargetIndex(gestureStartP)];
+    khlog('gesture start, source=', source, 'anchor=', gestureAnchor.toFixed(4),
+      'startP=', gestureStartP.toFixed(4));
+  }
+  window.addEventListener('wheel', function () {
+    var t = now();
+    // SETTLE_DEBOUNCE_MS is read HERE, at event time, not captured into a
+    // constant at registration time: its own `var` is declared several hundred
+    // lines below this block, so at registration it is hoisted-but-undefined.
+    // An earlier draft did cache it, which silently made every comparison
+    // `> undefined` -> false, so the wheel anchor updated exactly once per page
+    // load and the whole wheel path kept the stale-anchor bug this addendum
+    // exists to kill. Caught by the harness (zero 'gesture start' lines across
+    // a three-burst wheel chain), not by reading.
+    if (lastWheelTime == null || (t - lastWheelTime) > SETTLE_DEBOUNCE_MS) {
+      beginGesture('wheel');
+    }
+    lastWheelTime = t;
+  }, { passive: true });
 
   // ---- render ----
   var ticking = false;
@@ -494,8 +673,11 @@
       : (t - fadeChaseLastTime);
     fadeChaseLastTime = t;
     if (renderedFadeT !== targetFadeT) {
-      var maxStep = dtMs / FADE_CHASE_MS;
       var diff = targetFadeT - renderedFadeT;
+      // R-2f (b) — direction-split cap. diff<0 is the statue RETURNING; see
+      // FADE_CHASE_DOWN_MS above. diff>0 (the dissolve) still uses the
+      // blessed 520ms, unchanged.
+      var maxStep = dtMs / (diff < 0 ? FADE_CHASE_DOWN_MS : FADE_CHASE_MS);
       if (Math.abs(diff) <= maxStep) {
         renderedFadeT = targetFadeT;
       } else {
@@ -637,6 +819,88 @@
     });
     rail.classList.toggle('is-visible', progress > 0.05 && seg.type !== 'exit');
 
+    // R-2f LE COULOIR, mechanism (c) — THE ROOM ITSELF.
+    //
+    // Measured, not assumed: the key's mechanism (a) — "if the computed rest
+    // position falls inside the window, continue to the nearest boundary-side
+    // target" — is already true here by construction, and implementing it
+    // would have been provably dead code. No SETTLE_TARGET lies inside the
+    // window (the window is progress ~0.802-0.868; Aréole's midpoint is
+    // ~0.770 and release is 1.0), and biasedSettleTarget() only ever RETURNS
+    // a SETTLE_TARGETS entry — so the settle's landing was never in the
+    // window, in either direction, before this lap. The escape sides (a)
+    // asks for are the ones already chosen: a reverse gesture (origin =
+    // release) picks Aréole for every position in the window, and a forward
+    // gesture (origin = Aréole) picks release past the ADVANCE_BIAS_FRAC
+    // threshold and Aréole below it. Both leave the window; neither rests
+    // in it.
+    //
+    // What actually parked the Commander's white viewport is not WHERE the
+    // settle lands, it is WHEN it starts. settle() cannot run until rest is
+    // DETECTED, and detection costs SETTLE_DEBOUNCE_MS (140ms, LAW, and
+    // correctly so — it answers "has scroll input gone quiet", which is a
+    // real question everywhere else on the timeline). For those 140ms the
+    // raw scroll sits genuinely motionless at a position whose targetFadeT
+    // is strictly between 0 and 1 — and at ~0.5 that frame is pure ivory
+    // with nothing in it. That is the room, and it is invariant under both
+    // mechanisms the key proposed (traced: 167ms of frozen in-window rest,
+    // identical under (a) and (b), every direction, speed and viewport).
+    //
+    // The fix is to make rest DETECTION cheap in the one place where waiting
+    // buys nothing. The 140ms debounce exists to avoid committing to a stop
+    // while the gesture might still be going — but inside this window there
+    // is no stop to commit to. Every outcome is the same two targets no
+    // matter how much longer the gesture runs, so there is nothing to learn
+    // by waiting. One motionless frame is therefore enough here, and only
+    // here: SETTLE_DEBOUNCE_MS keeps its exact device-measured meaning for
+    // the entire rest of the timeline.
+    //
+    // Two frames of latency in practice, not one — the first records the
+    // position, the second confirms it unchanged. Traced at 33ms against
+    // 167ms before.
+    //
+    // Why this cannot oscillate, which the key demanded be proven rather
+    // than asserted: the escape is driven by the settle ease, which rewrites
+    // scroll every single frame it runs, so corridorWatchY never matches two
+    // frames running while it is in flight and no second settle can fire
+    // underneath it. `activeEase` gates this block anyway. The ease's own
+    // landing is a SETTLE_TARGETS entry, i.e. outside the window by the
+    // construction above, so arriving there cannot re-arm this. And a
+    // premature fire — a sub-pixel momentum frame that happens to repeat —
+    // costs nothing: it starts an ease that the finding-B foreign-scroll
+    // path (scheduleSettleFallback) cancels cleanly and re-arms, exactly as
+    // it already does for any settle interrupted by a live gesture, and
+    // cancelEase() deliberately leaves lastRestProgress alone, so the R-2d
+    // one-stop-per-gesture clamp is untouched by a cancelled attempt. The
+    // clamp is not weakened here at all: this block changes WHEN settle()
+    // is called, never WHAT it may choose — traced landings stay origin±1
+    // (reverse from release lands Aréole; forward from Aréole lands release
+    // or Aréole; forward from Cicatrices lands Aréole, never release).
+    //
+    // activeEase/settleTimer/settle are declared below this function; settle
+    // is a hoisted declaration and the two vars are initialised during the
+    // same IIFE evaluation that ends before update() is ever reachable (the
+    // first call is the deferred raf(update) on the last line of the file).
+    // R-2f BOUNCE — !touchActive is the gate; see its declaration above for
+    // why a finger-down pause is not a rest. Everything else in this block
+    // is unchanged from the desktop-passed build.
+    var inCorridor = targetFadeT > 0 && targetFadeT < 1;
+    if (inCorridor && !activeEase && !touchActive) {
+      var yNow = window.pageYOffset;
+      if (corridorWatchY !== yNow) {
+        corridorWatchY = yNow;
+        corridorFired = false;
+      } else if (!corridorFired) {
+        corridorFired = true;
+        clearTimeout(settleTimer);
+        khlog('corridor pre-empt, y=', yNow);
+        settle('corridor');
+      }
+    } else {
+      corridorWatchY = null;
+      corridorFired = false;
+    }
+
     // R-2e — keep the fade chase alive on its OWN, independent of scroll
     // events. A fast flick's native momentum can carry raw scroll all
     // the way across the fade window and then go fully still (no more
@@ -645,7 +909,14 @@
     // already drive, so this is one extra self-continuation, not a
     // second parallel loop. Converges and stops on its own the frame
     // renderedFadeT snaps to targetFadeT above — no eternal idle frames.
-    if (renderedFadeT !== targetFadeT) onTick();
+    //
+    // R-2f — the same self-continuation now also keeps the corridor watch
+    // above alive across frames where the chase has already converged and
+    // no scroll event is coming (precisely the parked-white case). It stops
+    // the frame the watch fires, since the ease it starts drives its own
+    // rAF loop from there — no eternal idle frames here either.
+    if (renderedFadeT !== targetFadeT ||
+        (inCorridor && !activeEase && !touchActive && !corridorFired)) onTick();
   }
 
   var raf = window.requestAnimationFrame
@@ -709,11 +980,12 @@
     return total > 0 ? clamp01(-rect.top / total) : 0;
   }
 
-  // lastRestProgress doubles as "where this gesture started": it only
-  // ever updates when settle() confirms rest (see below), so for the
-  // whole duration of a gesture it correctly holds the position the
-  // user was at before they started moving — no separate gesture-start
-  // tracking needed.
+  // lastRestProgress records the last position actually CONFIRMED at rest.
+  // It used to double as "where this gesture started" — that reading is what
+  // the R-2f addendum convicted, since a chained gesture never confirms rest
+  // and the anchor froze. The gesture's own origin is gestureAnchor /
+  // gestureStartP, snapshotted at gesture start; this value keeps only its
+  // literal meaning.
   var lastRestProgress = 0;
 
   // R-2 tune pass, finding 1b — Commander's normal flick off Sourcils
@@ -739,16 +1011,10 @@
   // code was biasing a choice between two targets neither of which was
   // adjacent to the origin. This clamps the outcome, not the search.
   //
-  // Origin = `ref`, i.e. lastRestProgress. No new state needed: as the
-  // comment above lastRestProgress's declaration already establishes,
-  // it only ever updates at a GESTURE BOUNDARY — settle() confirming
-  // rest, or an ease completing (easeTick's frac>=1 branch) — so for
-  // the entire duration of one gesture it already holds exactly "the
-  // stop where the gesture began". That's the same definition this key
-  // asks for; reusing it is what keeps a wheel burst-chain correct too
-  // (each burst's settle/ease completion re-arms the origin for the
-  // next burst, so a chain can still walk multiple stops one at a
-  // time — only a single unbroken gesture is capped at one).
+  // Origin = `ref`, which since the R-2f addendum is gestureAnchor, snapshotted
+  // at the gesture's own start. It was lastRestProgress; that was wrong for any
+  // chained gesture, because a cancelled ease deliberately does not confirm
+  // rest and the anchor froze at the pre-chain stop. See beginGesture.
   //
   // Establish (0) and release (1) are ordinary entries in SETTLE_TARGETS
   // and clamp like any other stop, per the key's own instruction.
@@ -761,6 +1027,116 @@
     return closest;
   }
 
+  // R-2f ADDENDUM 2 — LA PORTE ENTIÈRE. The door is the whole exit segment.
+  //
+  // Two crimes, one root, both reproduced on v22 before this was written.
+  //
+  // CRIME 1, DEAD TAPS. The corridor-local door only began at the fade
+  // window's lower edge, +12.1vh past the Aréole stop. Between the dwell end
+  // (+9.5vh) and there sat a no-man's strip still ruled by the 30/70 bias —
+  // and because R-2c deliberately stretched this gap to ~87vh, "30%" means
+  // 26vh of travel. A relaunch flick of 5-10vh died and snapped home; it took
+  // two or three escalating attempts to restart the machine. Traced: 5vh and
+  // 10vh dead, both inputs, both viewports.
+  //
+  // CRIME 2, FREE-ZONE CAPTURE. Intent was billed from the SNAPPED anchor
+  // rather than the true start. A reader resting at release-40vh sits nearer
+  // release, so the anchor snapped there; a 10-15vh up-peek then billed as
+  // ~50vh net-up and the door returned them all the way to Aréole. On the far
+  // side of that snap midpoint (release-43.5vh) the same bug ran mirrored: the
+  // anchor snapped to Aréole, an up-peek billed net-DOWN, and the reader was
+  // pushed to release — the opposite way from their own thumb.
+  //
+  // The fix is one rule with one knob.
+  //
+  // JURISDICTION: the entire exit segment, Aréole's dwell end to the Southern
+  // Border, both directions. The 30/70 bias retires from this segment only —
+  // its VALUE is untouched and it still governs every other stop gap, where
+  // the gaps are ~43vh and 30% of one is a genuinely lazy 13vh. It was never
+  // wrong; it was being asked to rule a gap twice the size of the ones it was
+  // tuned against.
+  //
+  // THE RULER: net travel from the gesture's TRUE start position, not from the
+  // stop it was snapped to. beginGesture snapshots both — the snapped index
+  // for the R-2d clamp, which is about which stop you departed, and the raw
+  // position for the door, which is about how far you actually moved.
+  //
+  // THE KNOB: DOOR_COMMIT_VH, direction-agnostic. Derived from the recordings:
+  // accidental drifts measured under 5vh, deliberate-but-failing flicks 10-20vh.
+  // 7.5 is the midpoint of that separation band, which maximises margin on both
+  // sides. Above it a gesture is a decision and the door obeys its direction;
+  // below it the gesture is noise and the segment returns you to the side you
+  // started on. Commander tunes by thumb.
+  var DOOR_COMMIT_VH = 7.5;
+
+  // The two long gaps, read from the timeline rather than restated so they
+  // cannot drift from it. Aréole's dwell end opens the exit segment; Sourcils'
+  // dwell start closes the launch segment.
+  var EXIT_START_P = dwellByIndex[N - 1].end;
+  var LAUNCH_END_P = dwellByIndex[0].start;
+
+  // One definition of the fade window, shared by the door and the Southern
+  // Border, so the two can never drift apart: the border IS this returning 1.
+  // Same anchors as update()'s own targetFadeT (LAW, untouched) — that formula
+  // expressed in progress rather than in the live rect, so a settle can ask
+  // about a position it is only considering rather than one the page is at.
+  function scrollTotalPx() {
+    return wrap.getBoundingClientRect().height - measuredVH();
+  }
+  function fadeTAtProgress(p) {
+    var vhNow = measuredVH();
+    var totalNow = scrollTotalPx();
+    if (totalNow <= 0) return 0;
+    var startPx = -(FADE_END_OFFSET_VH + FADE_DISTANCE_VH) / 100 * vhNow;
+    return clamp01(((p - 1) * totalNow - startPx) / (FADE_DISTANCE_VH / 100 * vhNow));
+  }
+
+  // R-2f ADDENDUM 3 — THE LAUNCH, measured call. PROTECTS INVARIANT I1.
+  //
+  // The requirement: one deliberate flick off the establishing frame launches
+  // to Sourcils; accidental drifts settle home. Measured on v23: 5/10/15/20/25
+  // and even 30vh all died back to establish; 35vh was the first that launched.
+  //
+  // Why: establish->Sourcils is 77.6vh — it carries R-2's FIRST_TRANS_BONUS —
+  // so the 30/70 bias demands 23.3vh, and the header adds ~10.9vh of scroll
+  // before `progress` leaves 0 at all. Structurally this is the SAME disease as
+  // the exit strip: a gap roughly twice the ~43vh the bias was tuned against.
+  //
+  // So the mechanism is the same door, the same knob, no new constant — the
+  // geometry argued for identical treatment, not special treatment. What it did
+  // NOT argue for is moving the boundary: the launch segment opens at progress
+  // 0 rather than at the hold's end, because the hold is where the establishing
+  // COPY fades, not a dwell the camera rests in the middle of. The residual
+  // threshold is the header offset, which is honest geometry — the film has not
+  // begun until the wrap is on screen — and it lands the launch at ~18.4vh of
+  // scroll instead of ~33vh.
+  //
+  // Returns the chosen target, or null for "not a door question — use the
+  // certified coverage bias".
+  function doorPick(p, lo, hi) {
+    var seg;
+    if (p < LAUNCH_END_P) seg = 'launch';        // includes progress 0: the header offset is scroll the film cannot see
+    else if (p > EXIT_START_P && fadeTAtProgress(p) < 1) seg = 'exit';
+    else return null;                            // a dwell, or past the Southern Border
+    var totalNow = scrollTotalPx();
+    if (totalNow <= 0) return null;
+    var commitPx = DOOR_COMMIT_VH / 100 * measuredVH();
+    var netPx = window.pageYOffset - gestureStartY;
+    // Committed: the door obeys the direction actually travelled.
+    if (Math.abs(netPx) > commitPx) return netPx > 0 ? hi : lo;
+    // Uncommitted: back to the side this gesture started on.
+    if (seg === 'launch') {
+      if (gestureStartY <= wrap.getBoundingClientRect().top + window.pageYOffset) return lo;   // started at or above the wrap top = establish
+      return (p - 0) < (LAUNCH_END_P - p) ? lo : hi;
+    }
+    if (gestureStartP <= EXIT_START_P) return lo;            // started at Aréole
+    if (fadeTAtProgress(gestureStartP) >= 1) return hi;      // started in the free zone
+    // Started inside the segment itself — only reachable after a cancelled ease
+    // leaves a gesture mid-segment. Neither named side applies, so fall back to
+    // whichever end is nearer. The one sub-case no ruling names; flagged.
+    return (p - EXIT_START_P) < (1 - p) ? lo : hi;
+  }
+
   function biasedSettleTarget(p, ref) {
     var lo = SETTLE_TARGETS[0], hi = SETTLE_TARGETS[SETTLE_TARGETS.length - 1];
     for (var i = 0; i < SETTLE_TARGETS.length - 1; i++) {
@@ -770,14 +1146,48 @@
       }
     }
     if (hi === lo) return lo;
-    var fracFromLo = (p - lo) / (hi - lo);
-    var movingForward = p >= ref;
-    var advanceThreshold = movingForward ? (0.5 - ADVANCE_BIAS_FRAC) : (0.5 + ADVANCE_BIAS_FRAC);
-    var picked = fracFromLo >= advanceThreshold ? hi : lo;
 
+    var picked;
+    var door = doorPick(p, lo, hi);
+    if (door !== null) {
+      picked = door;
+    } else {
+      var fracFromLo = (p - lo) / (hi - lo);
+      var movingForward = p >= ref;
+      var advanceThreshold = movingForward ? (0.5 - ADVANCE_BIAS_FRAC) : (0.5 + ADVANCE_BIAS_FRAC);
+      picked = fracFromLo >= advanceThreshold ? hi : lo;
+    }
+
+    // The R-2d clamp still binds, and cannot deadlock against the door: every
+    // SETTLE_TARGETS entry lies OUTSIDE the window by construction (the window
+    // is progress ~0.802-0.868; the nearest entries are Aréole at ~0.770 and
+    // release at 1.0), so whatever index the clamp lands on, it is never a
+    // position inside the corridor. Proven exhaustively over every origin
+    // index against both door directions, not just argued. Where the two
+    // disagree the clamp wins — a violent flick from Cicatrices through the
+    // window still gets pulled back to Aréole rather than skipping it — which
+    // is the one-stop-per-gesture law doing its job, not the door failing.
+    // R-2f ADDENDUM 3 — LE SENS UNIQUE. AMENDS INVARIANT I2.
+    //
+    // I2 was "a captured landing is never more than one stop from the origin",
+    // symmetric in both directions. The Commander's go-home flick convicted the
+    // symmetry: a violent up-flick off Cicatrices reaches the page top, and the
+    // clamp then hauled the landing from establish all the way back to
+    // origin-1 — the machine autonomously DESCENDING four stops from the top,
+    // logging it, in its own words, as `action= advance`. Autopsied on v23 with
+    // an iOS rubber-band model: the anchor was correct (touchstart, Cicatrices)
+    // and the bounce was irrelevant (identical with and without). The law was
+    // the defect, not the plumbing.
+    //
+    // I2 now reads: one semantic stop per gesture IN THE STORY DIRECTION.
+    // Downward, LE CRAN is byte-identical — Alopécie stays unskippable, which
+    // is the whole point of R-2d. Upward is navigation: going home is a
+    // destination, not a page of the story, so it lands where it lands.
     var originIdx = settleTargetIndex(ref);
     var pickedIdx = settleTargetIndex(picked);
-    var clampedIdx = Math.max(originIdx - 1, Math.min(originIdx + 1, pickedIdx));
+    var clampedIdx = pickedIdx > originIdx
+      ? Math.min(originIdx + 1, pickedIdx)   // downward: LE CRAN, unchanged
+      : pickedIdx;                            // upward: free navigation
     return SETTLE_TARGETS[clampedIdx];
   }
 
@@ -867,6 +1277,10 @@
     if (frac >= 1) {
       activeEase = null;
       lastRestProgress = e.targetProgress;
+      gestureAnchor = e.targetProgress;
+      gestureStartP = e.targetProgress;
+      gestureStartY = window.pageYOffset;
+      restConfirmed = true;
       khlog('ease complete, target=', e.targetProgress.toFixed(4));
       return;
     }
@@ -894,14 +1308,74 @@
   // SETTLE_EPS of `target` and the function is a no-op. Self-terminating.
   function settle(source) {
     var p = currentProgress();
-    var target = biasedSettleTarget(p, lastRestProgress);
-    if (Math.abs(target - p) < SETTLE_EPS) {
-      khlog('rest confirmed, source=', source, 'p=', p.toFixed(4));
-      lastRestProgress = target;
+
+    // R-2f THE SOUTHERN BORDER — the film's settle jurisdiction ends at the
+    // fade window's completion edge (release-50vh, FADE_END_OFFSET_VH above
+    // release). Past it fadeT is exactly 1: the statue is gone, the veil is
+    // gone, and what fills the viewport is ordinary page content revealed by
+    // the R-2c mid-viewport ruling. The film has no business correcting a
+    // rest there.
+    //
+    // The collision this ends, latent since R-2c and only reachable now that
+    // the reveal zone became worth visiting: the 30/70 bias brackets ANY
+    // position between Aréole and release, including the whole 50vh reveal
+    // band. A reader resting there to read the section title sat at ~66%
+    // coverage of that gap — under the reverse 70% line — so a settle judged
+    // the gesture "lazy" and marched them back to Aréole, dragging them
+    // BACKWARDS through the veil they had already passed. Nearer the border
+    // it was the mirror defect: a rest just short of 70% snapped forward to
+    // release. Neither is a film question. Both are the standing bias law
+    // outliving its jurisdiction.
+    //
+    // The no-rest-inside-the-window law is NOT weakened by this: that law
+    // protects the STATUE's dissolve from being parked mid-fade, and here
+    // there is no statue and no fade left to park in. The corridor keeps the
+    // Door Rule exactly as certified; only fadeT===1 is free.
+    //
+    // The bias constants are untouched — as with the corridor, what changes
+    // is the DOMAIN they govern, not their values.
+    //
+    // Origin handling, stated exactly because the key asked: a free-zone
+    // rest records lastRestProgress as release (1), a release-SIDE origin.
+    // It is the only honest answer — the reader is past the veil, so for
+    // both the clamp and the Door Rule the gesture that starts here starts
+    // from the far side. A subsequent upward gesture dying in the corridor
+    // therefore reads net-negative and the door sends it back to Aréole,
+    // which is the deliberate return working; and the clamp, seeing origin
+    // index 7, still permits exactly Aréole and no further.
+    //
+    // This governs where a settle may CAPTURE a rest, never where an ease may
+    // LAND: release stays a perfectly valid target for a door or bias trip
+    // arriving from above, and such a trip finishes at release and is then
+    // recorded here as a free-zone rest at 1 — the same value easeTick's own
+    // completion writes, so nothing is disturbed.
+    if (fadeTAtProgress(p) >= 1) {
+      lastRestProgress = 1;
+      gestureAnchor = 1;
+      gestureStartP = p;   // the raw free-zone position, NOT release — Crime 2
+      gestureStartY = window.pageYOffset;
+      restConfirmed = true;
+      // Deliberately worded so it cannot be confused with the corrective
+      // 'settle, source=' line: "no settle, source=" contains that exact
+      // substring, and this lap's own tooling double-counted it as a second
+      // settle before the wording was fixed. "capture" is also the truer
+      // word — the border governs capture, never where an ease may land.
+      khlog('free zone, no capture, source=', source, 'p=', p.toFixed(4));
       return;
     }
 
-    khlog('settle, source=', source, 'p=', p.toFixed(4), 'ref=', lastRestProgress.toFixed(4),
+    var target = biasedSettleTarget(p, gestureAnchor);
+    if (Math.abs(target - p) < SETTLE_EPS) {
+      khlog('rest confirmed, source=', source, 'p=', p.toFixed(4));
+      lastRestProgress = target;
+      gestureAnchor = target;
+      gestureStartP = target;
+      gestureStartY = window.pageYOffset;
+      restConfirmed = true;
+      return;
+    }
+
+    khlog('settle, source=', source, 'p=', p.toFixed(4), 'ref=', gestureAnchor.toFixed(4),
       'target=', target.toFixed(4), 'action=', target > p ? 'advance' : 'back');
 
     var rectNow = wrap.getBoundingClientRect();
@@ -958,6 +1432,10 @@
       // first, then fall through to re-arm the debounce below.
       khlog('foreign scroll during ease — cancel + rearm');
       cancelEase();
+    } else if (restConfirmed) {
+      // First foreign scroll since a confirmed rest, and no ease of ours is
+      // running: a gesture whose start we could not see. Anchor it here.
+      beginGesture('foreign');
     }
     clearTimeout(settleTimer);
     settleTimer = setTimeout(function () { settle('debounce'); }, SETTLE_DEBOUNCE_MS);
@@ -984,6 +1462,23 @@
       var dwellSeg = dwellByIndex[idx];
       if (!dwellSeg) return;
       var mid = (dwellSeg.start + dwellSeg.end) / 2;
+      // R-2f ADDENDUM 3 §30 — PROTECTS amended I2. The rail hands its motion to
+      // native smooth-scroll, which raises scroll events that are not our
+      // per-frame ease writes and would therefore read as a foreign gesture:
+      // §31's hook would anchor at the ORIGIN stop, and LE CRAN would then clamp
+      // a six-stop rail ride down to one. Seed the anchor at the DESTINATION —
+      // the value the arriving settle will compute anyway — so that settle is a
+      // no-op, and clear restConfirmed so the ride's own events open nothing. A
+      // finger or wheel arriving mid-flight still calls beginGesture itself and
+      // takes the ride over, which is the interrupt behaviour we want.
+      var railRect = wrap.getBoundingClientRect();
+      var totalNowRail = railRect.height - measuredVH();
+      var wrapTopAbsNow = window.pageYOffset + railRect.top;
+      gestureAnchor = mid;
+      gestureStartP = mid;
+      gestureStartY = wrapTopAbsNow + mid * totalNowRail;
+      lastRestProgress = mid;
+      restConfirmed = false;
       var rectNow = wrap.getBoundingClientRect();
       var totalNow = rectNow.height - measuredVH();
       var wrapTopAbs = window.pageYOffset + rectNow.top;
