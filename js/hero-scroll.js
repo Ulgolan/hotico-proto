@@ -561,11 +561,20 @@
   // file does not model as a gesture (keyboard, scrollbar, the rail buttons'
   // own scrollTo) keeps exactly its pre-addendum behaviour instead of running
   // against a stale snapshot.
+  // Two snapshots, because the clamp and the door ask different questions.
+  // gestureAnchor (snapped to a stop) answers "which stop did you depart" —
+  // the R-2d one-stop rule. gestureStartP (raw) answers "how far did you
+  // actually move" — the door's ruler. Conflating them is Crime 2: a reader
+  // resting 40vh above release was billed for the ~50vh between them before
+  // their thumb had moved at all.
   var gestureAnchor = 0;
+  var gestureStartP = 0;
   var lastWheelTime = null;
   function beginGesture(source) {
-    gestureAnchor = SETTLE_TARGETS[settleTargetIndex(currentProgress())];
-    khlog('gesture start, source=', source, 'anchor=', gestureAnchor.toFixed(4));
+    gestureStartP = currentProgress();
+    gestureAnchor = SETTLE_TARGETS[settleTargetIndex(gestureStartP)];
+    khlog('gesture start, source=', source, 'anchor=', gestureAnchor.toFixed(4),
+      'startP=', gestureStartP.toFixed(4));
   }
   window.addEventListener('wheel', function () {
     var t = now();
@@ -1002,45 +1011,57 @@
     return closest;
   }
 
-  // R-2f THE DOOR RULE — Commander-experience-derived, corridor-local.
+  // R-2f ADDENDUM 2 — LA PORTE ENTIÈRE. The door is the whole exit segment.
   //
-  // The straddle it fixes: the Aréole->release gap is deliberately long
-  // (EXIT_BONUS_VH, +50vh), so ADVANCE_BIAS_FRAC's 30% advance line lands at
-  // progress ~0.839 — INSIDE the fade window (~0.802-0.868). A gentle gesture
-  // off Aréole toward the exit dies at 14-29% coverage, short of that line,
-  // and the coverage bias marched it straight back to Aréole. Escape required
-  // airborne momentum past 30%. The veil became a cell.
+  // Two crimes, one root, both reproduced on v22 before this was written.
   //
-  // The rule: the veil is a doorway, and entering it deliberately in a
-  // direction MEANS passing through in that direction. Inside the window the
-  // target is chosen by DIRECTION, not by how much of the gap was covered.
+  // CRIME 1, DEAD TAPS. The corridor-local door only began at the fade
+  // window's lower edge, +12.1vh past the Aréole stop. Between the dwell end
+  // (+9.5vh) and there sat a no-man's strip still ruled by the 30/70 bias —
+  // and because R-2c deliberately stretched this gap to ~87vh, "30%" means
+  // 26vh of travel. A relaunch flick of 5-10vh died and snapped home; it took
+  // two or three escalating attempts to restart the machine. Traced: 5vh and
+  // 10vh dead, both inputs, both viewports.
   //
-  // The signal, exactly: net scroll displacement in CSS px since the
-  // gesture's origin, (p - ref) * total, where ref is lastRestProgress —
-  // which, as its own declaration establishes, only ever updates at a gesture
-  // boundary and therefore already holds "where this gesture began". Nothing
-  // new is tracked. Sign alone decides; magnitude only has to clear
-  // DOOR_EPS_VH to prove the gesture was deliberate rather than a jiggle.
+  // CRIME 2, FREE-ZONE CAPTURE. Intent was billed from the SNAPPED anchor
+  // rather than the true start. A reader resting at release-40vh sits nearer
+  // release, so the anchor snapped there; a 10-15vh up-peek then billed as
+  // ~50vh net-up and the door returned them all the way to Aréole. On the far
+  // side of that snap midpoint (release-43.5vh) the same bug ran mirrored: the
+  // anchor snapped to Aréole, an up-peek billed net-DOWN, and the reader was
+  // pushed to release — the opposite way from their own thumb.
   //
-  // Scope is positional, not code-path: the rule keys off "p is inside the
-  // window", so a settle arriving from the debounce, from scrollend, or from
-  // corridor pre-emption all resolve a corridor position the same way. Keying
-  // it to the pre-emption path alone would have made the outcome depend on
-  // which timer happened to win — the same position marching back or through
-  // depending on whether a finger was still down — which is exactly the
-  // inconsistency the Commander's rule exists to remove.
+  // The fix is one rule with one knob.
   //
-  // ADVANCE_BIAS_FRAC is untouched and still governs every position outside
-  // the window, exactly as certified.
-  var DOOR_EPS_VH = 2;
+  // JURISDICTION: the entire exit segment, Aréole's dwell end to the Southern
+  // Border, both directions. The 30/70 bias retires from this segment only —
+  // its VALUE is untouched and it still governs every other stop gap, where
+  // the gaps are ~43vh and 30% of one is a genuinely lazy 13vh. It was never
+  // wrong; it was being asked to rule a gap twice the size of the ones it was
+  // tuned against.
+  //
+  // THE RULER: net travel from the gesture's TRUE start position, not from the
+  // stop it was snapped to. beginGesture snapshots both — the snapped index
+  // for the R-2d clamp, which is about which stop you departed, and the raw
+  // position for the door, which is about how far you actually moved.
+  //
+  // THE KNOB: DOOR_COMMIT_VH, direction-agnostic. Derived from the recordings:
+  // accidental drifts measured under 5vh, deliberate-but-failing flicks 10-20vh.
+  // 7.5 is the midpoint of that separation band, which maximises margin on both
+  // sides. Above it a gesture is a decision and the door obeys its direction;
+  // below it the gesture is noise and the segment returns you to the side you
+  // started on. Commander tunes by thumb.
+  var DOOR_COMMIT_VH = 7.5;
 
-  // One definition of the window, shared by the Door Rule and the Southern
-  // Border below, so the corridor's two edges can never drift apart: the
-  // border IS this function returning 1, the corridor IS it returning
-  // strictly between 0 and 1. Same anchors as update()'s own targetFadeT
-  // (LAW, untouched) — this is that formula expressed in progress rather
-  // than in the live rect, so a settle can ask about a position it is only
-  // considering rather than one the page is currently at.
+  // Aréole's dwell end — where the exit segment begins. Read from the timeline
+  // rather than restated, so it cannot drift from it.
+  var EXIT_START_P = dwellByIndex[N - 1].end;
+
+  // One definition of the fade window, shared by the door and the Southern
+  // Border, so the two can never drift apart: the border IS this returning 1.
+  // Same anchors as update()'s own targetFadeT (LAW, untouched) — that formula
+  // expressed in progress rather than in the live rect, so a settle can ask
+  // about a position it is only considering rather than one the page is at.
   function scrollTotalPx() {
     return wrap.getBoundingClientRect().height - measuredVH();
   }
@@ -1052,16 +1073,25 @@
     return clamp01(((p - 1) * totalNow - startPx) / (FADE_DISTANCE_VH / 100 * vhNow));
   }
 
-  // Returns +1 (through, toward release), -1 (back, toward Aréole), or 0
-  // meaning "not a corridor question — use the certified coverage bias".
-  function corridorDoorDir(p, ref) {
-    var ft = fadeTAtProgress(p);
-    if (ft <= 0 || ft >= 1) return 0;
+  // Returns the chosen target, or null for "not an exit-segment question —
+  // use the certified coverage bias".
+  function exitDoorPick(p, lo, hi) {
+    if (p <= EXIT_START_P) return null;          // still in Aréole's own dwell
+    if (fadeTAtProgress(p) >= 1) return null;    // past the Southern Border: free zone, and settle() already declined to capture
     var totalNow = scrollTotalPx();
-    if (totalNow <= 0) return 0;
-    var netPx = (p - ref) * totalNow;
-    if (Math.abs(netPx) < DOOR_EPS_VH / 100 * measuredVH()) return 0;
-    return netPx > 0 ? 1 : -1;
+    if (totalNow <= 0) return null;
+    var commitPx = DOOR_COMMIT_VH / 100 * measuredVH();
+    var netPx = (p - gestureStartP) * totalNow;
+    // Committed: the door obeys the direction actually travelled.
+    if (Math.abs(netPx) > commitPx) return netPx > 0 ? hi : lo;
+    // Uncommitted: back to the side this gesture started on.
+    if (gestureStartP <= EXIT_START_P) return lo;             // started at Aréole
+    if (fadeTAtProgress(gestureStartP) >= 1) return hi;       // started in the free zone
+    // Started inside the exit segment itself — only reachable after a cancelled
+    // ease leaves a gesture mid-segment. Neither named side applies, so fall
+    // back to whichever end is nearer. This is the one sub-case the ruling does
+    // not name; flagged rather than smuggled.
+    return (p - EXIT_START_P) < (1 - p) ? lo : hi;
   }
 
   function biasedSettleTarget(p, ref) {
@@ -1075,9 +1105,9 @@
     if (hi === lo) return lo;
 
     var picked;
-    var door = corridorDoorDir(p, ref);
-    if (door !== 0) {
-      picked = door > 0 ? hi : lo;
+    var door = exitDoorPick(p, lo, hi);
+    if (door !== null) {
+      picked = door;
     } else {
       var fracFromLo = (p - lo) / (hi - lo);
       var movingForward = p >= ref;
@@ -1187,6 +1217,7 @@
       activeEase = null;
       lastRestProgress = e.targetProgress;
       gestureAnchor = e.targetProgress;
+      gestureStartP = e.targetProgress;
       khlog('ease complete, target=', e.targetProgress.toFixed(4));
       return;
     }
@@ -1258,6 +1289,7 @@
     if (fadeTAtProgress(p) >= 1) {
       lastRestProgress = 1;
       gestureAnchor = 1;
+      gestureStartP = p;   // the raw free-zone position, NOT release — Crime 2
       // Deliberately worded so it cannot be confused with the corrective
       // 'settle, source=' line: "no settle, source=" contains that exact
       // substring, and this lap's own tooling double-counted it as a second
@@ -1272,6 +1304,7 @@
       khlog('rest confirmed, source=', source, 'p=', p.toFixed(4));
       lastRestProgress = target;
       gestureAnchor = target;
+      gestureStartP = target;
       return;
     }
 
