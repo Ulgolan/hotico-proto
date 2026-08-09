@@ -2805,3 +2805,275 @@ with every extra pixel of screen. F3, open since the R-2c session,
 closes here.
 
 Session retires at this boundary.
+
+---
+
+## Entry #39 — 2026-08-09 — LAP R-2f: LE COULOIR — MERGE & CLOSE
+
+**Merge SHA `a4a275f04cbf2cac30c8fcb2334990ffedd639a7`** — PR
+[#26](https://github.com/Ulgolan/hotico-proto/pull/26) merged into `main`
+via a merge commit, two parents (`9c25e49` + `9e4edf4`), not squashed, not
+rebased. `js/hero-scroll.js` v17 → **v24**; `css/main.css` untouched
+throughout at v32. Two files, start to finish.
+
+The longest lap of the campaign: one original object, three bounces, three
+addenda, one external audit and one Tribunal. The record in order.
+
+### The original object — the white room
+
+**The veil is a corridor, never a room.** Commander evidence: reverse entry
+from the site parked a fully-white viewport at rest for ~0.5–1s.
+
+The Tower's lean — mechanism (a), "window exclusion in settle" — was proven
+**DEAD CODE by executor measurement before implementation**. No
+`SETTLE_TARGET` lies inside the fade window (window ≈ progress 0.802–0.868;
+Aréole's midpoint 0.770, release 1.0), and `biasedSettleTarget()` only ever
+returns a `SETTLE_TARGETS` entry, so the settle's *landing* was never in the
+window in either direction. Traced: (a) and (b) each left the in-window
+frozen interval at **167ms, unchanged**, every direction, speed and viewport.
+
+Root cause was not *where* the settle lands but *when* it starts: rest
+detection costs `SETTLE_DEBOUNCE_MS`, and for those 140ms the raw scroll sits
+motionless at a `targetFadeT` strictly between 0 and 1 — at ~0.5 a pure ivory
+frame with nothing in it. Shipped: **corridor pre-emption** (inside the
+window one motionless frame declares rest, because there is no stop in there
+to commit to) plus **`FADE_CHASE_DOWN_MS` 260** (the 520ms cap was tuned
+against the dissolve only; re-materialisation had merely inherited it).
+Measured 167ms → **33ms** in-window rest; paint tail 667 → 317ms.
+
+### Bounce 1 — the mobile seizure
+
+One-frame pre-emption is sound against a wheel and **unsound against touch
+physiology**: a slow iOS drag is motion interleaved with genuinely motionless
+frames at every micro-pause, so pre-emption declared rest under an active
+touch and the ease fought the finger — fire, fight, cancel, fire.
+
+The executor reproduced the Commander's recording signature exactly, and
+identified **two** preconditions, the second of which explains why desktop
+passed: the loop only sustains when the programmatic write and the finger's
+own scroll are notified as **separate** scroll events; under one coalesced
+event per frame `expectingSelfScroll` swallows the fight. Measured v18 under
+separate notification: 10–18 pre-empts, all under finger, 9–17 cancels,
+oscillation span 1017–6067ms, peak inter-frame **18.2px** against the Tower's
+measured 17–20 on glass — arrived at independently.
+
+Shipped: **touch gate** (passive `touchstart`/`touchend`/`touchcancel`,
+resolved through `e.touches.length`, `touchcancel` registered because a
+system-stolen touch fires no `touchend`). **The executor then caught a silent
+regression in its own first fix**: gating the clause also stopped `update()`
+self-continuing, and nothing restarted it on lift — traced as *zero
+pre-empts, ever, on touch*, i.e. mobile quietly reverting to the 167ms white
+room while the oscillation metric read clean. `onTouchUp` now kicks
+`onTick()`; pre-emption fires at **+17ms** after lift.
+
+### Bounce 2 — the Aréole jail
+
+The corridor **straddled the 30% bias line** of the R-2c-extended gap. The
+Aréole→release gap carries `EXIT_BONUS_VH` (+50vh), so `ADVANCE_BIAS_FRAC`'s
+advance line lands at coverage 30% = progress ~0.839, inside a window
+spanning coverage 13.9–42.6%. A gentle gesture off Aréole died at 14–29%
+coverage and was marched back; escape required airborne momentum.
+
+Shipped: **the Door Rule** — inside the window the target is chosen by
+*direction*, not coverage, from net scroll displacement since the gesture's
+origin. Measured: 14/18/20/25/29% coverage all **jailed** on v19, all
+**through** on v20, both geometries. Clamp/door deadlock disproven
+exhaustively (16 origin × direction combinations, every clamped target
+outside the window — a consequence of no `SETTLE_TARGETS` entry lying inside
+it). `DOOR_EPS_VH` was implemented as specified and **reported dormant**:
+smallest reachable net was 102px against a 17px epsilon.
+
+### Bounce 3 — the abduction
+
+**The standing bias law outliving its jurisdiction** over the R-2c reveal
+band. The reverse 70% line falls at progress 0.9309 — **26.1vh above
+release** — cutting the 50vh reveal zone in two. Above it, a reader resting
+to read the section title was marched back to Aréole, *backwards through the
+veil already passed*. Below it, the mirror: a rest snapped forward to
+release. **The mirror defect was found and fixed unasked.**
+
+Shipped: **the Southern Border** — the film's settle jurisdiction ends at the
+fade window's completion edge; past it `fadeT` is exactly 1 and there is no
+statue and no fade left to park in, so `settle()` captures nothing. Measured
+v20 → v21: 168.8px / 253.2px / 379.8px of abduction → **0px, untouched**;
+the site-side upward peek's −397.5px to Aréole → **0px**. Zero `scrollTo`
+calls at seven positions across the band, both geometries, touch and wheel.
+
+### Addendum 1 — the stale anchor
+
+**R-2d implementation divergence from the Commander's ruling**, latent on
+`main` since that lap merged. The ruling said "one stop from where the
+GESTURE began"; the implementation read `lastRestProgress`, "from the last
+CONFIRMED REST". Identical only while every gesture is allowed to finish;
+they diverge the instant gestures chain, because a cancelled ease
+deliberately does not confirm rest.
+
+Convicted by discriminator (S1 vs S2), post-Tribunal. The v17 trace:
+
+```
+settle p= 0.4028 ref= 0.3182 target= 0.4310 action= advance
+settle p= 0.4979 ref= 0.3182 target= 0.4310 action= back
+settle p= 0.5677 ref= 0.3182 target= 0.4310 action= back
+```
+
+`ref` frozen, `p` marching away, target pinned at origin+1; hauls of
+181/406/869/934px. The control isolates it: at ≥500ms gaps every ease
+completes, refs advance, and there is **no yank at all**. A first draft of the
+discriminator used 100%-coverage links, which land exactly on a stop, trip
+`SETTLE_EPS` and refresh the anchor — a false all-clear with zero settles
+fired; 75% coverage is what exposes it.
+
+Shipped: **gesture-start anchoring** (`touchstart`, or the first `wheel`
+after `SETTLE_DEBOUNCE_MS` of wheel silence — the wheel-silence boundary),
+with **straggler immunity by construction**: momentum raises `scroll` events
+but never `wheel` or `touchstart`, so stragglers cannot reach `beginGesture`
+at all. 64 straggler cases land exactly origin±1.
+
+### Addendum 2 — La Porte Entière
+
+Two crimes, one root: intent billed from a **snapped** anchor instead of the
+true start. Dead taps — a bias-ruled no-man's strip between Aréole's dwell
+end (+9.5vh) and the old door (+12.1vh), where "30%" of an 87.1vh gap means
+26.1vh of travel. And free-zone capture — the anchor snapping to whichever
+stop is nearer, with the midpoint at release−43.5vh, so a 10–15vh up-peek
+billed as ~50vh. **The mirror face was found by the harness**: on the far
+side of that midpoint the anchor snapped to Aréole, an up-peek billed
+net-DOWN, and the reader was pushed to release, opposite their own thumb.
+
+Shipped: **true-start billing** (two snapshots — snapped for the clamp, raw
+for the door) and **one door over the whole exit segment**, with
+**`DOOR_COMMIT_VH = 7.5` as the single knob**, derived as the midpoint of the
+measured separation band (drifts <5vh, failing flicks 10–20vh). The 30/70
+bias retired from that segment only; its value untouched. Billing error from
+true start: **0.0vh in every case measured**.
+
+The **240-cell GESTURE MATRIX** was authored here and **becomes the certified
+choreography spec**, ledgered with this entry.
+
+### Addendum 3 — Le Sens Unique
+
+**The symmetric clamp convicted by autopsy.** A violent go-home up-flick
+reached the page top and the machine then descended 3–5 stops on its own. The
+log convicts in two lines:
+
+```
+gesture start, source= touchstart  anchor= 0.6567  startP= 0.6567
+settle p= 0.0000  ref= 0.6567  target= 0.5439  action= advance
+```
+
+**Anchor correct** (touchstart, the deep stop). **Bounce irrelevant** —
+identical with and without an iOS rubber-band model. The clamp took a landing
+at establish and hauled it to origin−1, logging it as `action= advance` while
+the user was going home. **The LAW was the defect, not the plumbing.**
+
+**INVARIANT I2 AMENDED — one semantic stop per gesture IN THE STORY
+DIRECTION.** Downward LE CRAN byte-identical, Alopécie unskippable, the whole
+downward suite passing with zero downward failures. Upward is navigation and
+lands nearest, unclamped: going home is a destination, not a page of the
+story.
+
+External audit contributions, all three verified before being acted on:
+§30 **rail clamp defect confirmed-then-fixed** (measured on v23: rail
+establish → Aréole landed **Sourcils**, clamped to origin+1; the rail now
+seeds its anchor at the destination); §31 **keyboard/scrollbar gesture
+visibility** via a foreign-scroll hook gated on a `restConfirmed` latch
+(PageDown ×3 now walks idx1→2→3→4); §29 **the launch door on raw px** —
+the proxy bug being that `currentProgress()` pins to 0 across the header
+offset, so a 15vh flick at the page top registered as *zero net* and the
+launch could not see it. Launch now fires at 8vh, drifts ≤7vh settle home,
+identical on both viewports, **no new constant**.
+
+### TOWER ERRORS, ledgered
+
+1. **The dead-code lean.** Mechanism (a) was the Tower's root-fix
+   recommendation and was already true by construction; implementing it would
+   have shipped provably dead code. Caught by executor measurement before any
+   line was written.
+2. **The "instant"** — begat none of this lap, cross-referenced here for the
+   record.
+3. **The `[5,10]` / clause (d) knob contradiction** in the Porte brief: (b)
+   put `DOOR_COMMIT_VH` in [5,10] while (d) required a 10vh peek to read as
+   accidental. Not both satisfiable with one direction-agnostic knob. Resolved
+   by the executor per the Commander's standing ruling that one deliberate
+   flick relaunches the machine, flagged in the PR with a thumb-tuning table
+   rather than papered over.
+4. **The false binary and the unproven reconstruction**, caught by Tribunal
+   before firing.
+
+### EXECUTOR TOOLING DEFECTS, self-caught and ledgered
+
+Recorded because the doctrine now expects them found: the harness fired
+`wheel` *after* the frame's motion when a real event fires before it (shifting
+the anchor a whole stop and making a legal origin−1 landing read as a clamp
+violation); a khlog line containing the exact substring `settle, source=`
+double-counted as a second settle; a test loop re-evaluating its bound as the
+drag consumed it, halving every link's travel below the 30% line; a matrix
+gesture set that omitted the Commander's own 10vh flick and so passed on the
+build it was meant to indict; a block replacement that deleted
+`scrollTotalPx`/`fadeTAtProgress` along with the old door; and
+`WHEEL_GESTURE_GAP_MS` caching a `var` declared 750 lines later — hoisted,
+undefined, every comparison false, which would have shipped the wheel path
+still broken.
+
+### TUNING NOTES — knobs, not bounces
+
+- **`DOOR_COMMIT_VH` 7.5** — launch eagerness and exit commitment, one number
+  for both. The launch is deliberately eager at 8vh.
+- **`FADE_CHASE_MS` 520 / `FADE_CHASE_DOWN_MS` 260** — dissolve deliberate,
+  recovery twice as eager.
+- **`SETTLE_DEBOUNCE_MS` 140** — rest detection, and the wheel-gesture
+  boundary that reuses it.
+
+### CARRIED — open, post-freeze
+
+- **Comment archaeology pass**: stale `lastRestProgress` narratives across the
+  file. This lap corrected only the two adjacent to touched code, per rider.
+- **CSS/JS constant-sync debt.**
+- **External audit filed as reference.**
+- **Clamp-vs-border collision** (a flick violent enough to overshoot past the
+  Southern Border is not captured at all; the border currently wins) — flagged
+  twice, still unruled.
+- **Establish→Sourcils gap** carries `FIRST_TRANS_BONUS` at 77.6vh; the launch
+  door now covers it, but the gap's own length remains a tuning question.
+
+### THE ENGINE'S CONSTITUTION
+
+Recorded alongside the matrix. **I1** drift immunity — a gesture ≤
+`DOOR_COMMIT_VH` never changes which stop you are on. **I2 (amended)** one
+semantic stop per gesture in the story direction; upward lands nearest.
+**I3** door obedience — a committed gesture ending inside a door segment
+resolves the way you travelled, never against your own thumb. **I4** border
+supremacy — a gesture ending at or past the Southern Border is never captured.
+**I5** agreement — mobile and desktop resolve identically.
+
+*Numbering note for the Tower:* the order names **I1–I8** in the audit's
+formulation. This session authored and verified only the five above; the
+audit's I6–I8 are not in this session's possession and have **not** been
+invented here. The Tower should append them and reconcile the numbering
+against this list.
+
+### Certification
+
+Commander's armistice walk: **PASS, both devices** — go-home free, launch
+eager, reading sovereign, relaunch true, keyboard and rail citizens. Tower
+diff-cert at v24: **PASS** — direction-aware clamp, door on the raw-px ruler,
+`LAUNCH_END_P`, foreign-scroll hook, rail anchor seeding; LAW battery
+byte-identical to `main`; stop markup/anchors identical; zero
+`preventDefault`, all ten listeners passive; matrix **210/210** under amended
+intentions plus four new families green (go-home 12, launch 14, keyboard 8,
+rail 32).
+
+**Standing verification limitation, unchanged and restated:** the preview
+sandbox reports `document.hidden === true`, which kills `requestAnimationFrame`
+*and* throttles timers, so no time-domain code can be traced in-browser. Every
+number in this lap comes from the real shipped file executed under a Node DOM
+shim with a synthetic 60fps frame clock — real constants, real closures, real
+`.style` writes — progressively taught touch state, finger-down pauses, lift,
+momentum, both scroll-notification regimes, iOS rubber-band, native
+smooth-scroll and foreign-scroll input. It is the real code. It is not a
+device. **Feel was certified only on the Commander's glass**, every time.
+
+**THE VEIL IS A CORRIDOR. THE DOOR IS WHOLE. THE CRAN POINTS ONE WAY.**
+R-2f closes, and with it the scroll-feel campaign.
+
+Session retires at this boundary.
