@@ -497,7 +497,7 @@
   // back to the 167ms white room this lap exists to remove. Traced as exactly
   // that failure (0 pre-empts, ever) before the call was added.
   var touchActive = false;
-  function onTouchDown() { touchActive = true; }
+  function onTouchDown() { touchActive = true; beginGesture('touchstart'); }
   function onTouchUp(e) {
     touchActive = !!(e && e.touches && e.touches.length);
     if (!touchActive) onTick();
@@ -505,6 +505,83 @@
   window.addEventListener('touchstart', onTouchDown, { passive: true });
   window.addEventListener('touchend', onTouchUp, { passive: true });
   window.addEventListener('touchcancel', onTouchUp, { passive: true });
+
+  // R-2f ADDENDUM — THE STALE ANCHOR.
+  //
+  // R-2d's Commander ruling was "a gesture may advance at most one stop from
+  // the stop THE GESTURE BEGAN AT". The implementation read that as "from the
+  // last CONFIRMED REST", reusing lastRestProgress. Those two are the same
+  // thing only while every gesture is allowed to finish. They diverge the
+  // moment gestures chain — swipe, cancel the settle mid-ease, swipe again —
+  // because a cancelled ease deliberately does NOT confirm rest (cancelEase
+  // leaves lastRestProgress alone, correctly, so an interrupted attempt can't
+  // corrupt it). Rest is then never confirmed for the whole chain and the
+  // anchor freezes at the pre-chain stop.
+  //
+  // Traced on main v17, three committed down-swipes 200ms apart, each covering
+  // 75% of a gap — far past the 30% advance line:
+  //   settle p= 0.4028 ref= 0.3182 target= 0.4310 action= advance
+  //   settle p= 0.4979 ref= 0.3182 target= 0.4310 action= back
+  //   settle p= 0.5677 ref= 0.3182 target= 0.4310 action= back
+  // ref frozen, p marching away, action flipping to `back`, target pinned at
+  // origin+1. Five links were hauled back 934px. Down-swipes, up-yank — the
+  // Commander's exact signature. Latent on main since R-2d merged.
+  //
+  // Fix: the clamp/bias/door anchor is the gesture's OWN start position, which
+  // is what the ruling said. lastRestProgress keeps its own meaning (the last
+  // position actually confirmed at rest) and its other duties untouched.
+  //
+  // GESTURE START, per input modality:
+  //   Touch — touchstart, full stop. Scroll events after touchend are momentum
+  //   stragglers belonging to the gesture that already ended; they may cancel
+  //   an ease (finding B's path, unchanged) but they must NOT re-anchor, or a
+  //   single violent flick would re-anchor mid-momentum and land further than
+  //   origin+1. Momentum produces neither touchstart nor wheel, so it cannot
+  //   reach beginGesture() at all — the skip clamp is safe by construction,
+  //   not by timing.
+  //   Wheel — the first wheel event after WHEEL_GESTURE_GAP_MS of wheel
+  //   silence. `wheel` is used rather than `scroll` precisely because touch
+  //   momentum raises scroll events but never wheel events, so the two
+  //   modalities cannot contaminate each other. A wheel event fires BEFORE the
+  //   scroll it causes, so currentProgress() here is genuinely the pre-gesture
+  //   position.
+  //
+  // WHEEL_GESTURE_GAP_MS reuses SETTLE_DEBOUNCE_MS's 140ms rather than
+  // inventing a number: that value already IS this codebase's device-measured
+  // answer to "has scroll input gone quiet", which is the same question a
+  // gesture boundary asks. A trackpad's own inertia fires wheel events far
+  // faster than 140ms apart, so one flick stays one gesture; two deliberate
+  // bursts separated by a real pause stay two, which is the burst-chain
+  // behaviour R-2d's own comment describes. Disclosed consequence: a wheel
+  // chain now re-anchors after 140ms of silence rather than after the ease
+  // finishes (~360-780ms), so bursts walk stop-by-stop more readily than
+  // before — that is the defect being fixed, seen from the wheel side.
+  //
+  // Anchor is also resynced wherever a rest IS confirmed, so any input this
+  // file does not model as a gesture (keyboard, scrollbar, the rail buttons'
+  // own scrollTo) keeps exactly its pre-addendum behaviour instead of running
+  // against a stale snapshot.
+  var gestureAnchor = 0;
+  var lastWheelTime = null;
+  function beginGesture(source) {
+    gestureAnchor = SETTLE_TARGETS[settleTargetIndex(currentProgress())];
+    khlog('gesture start, source=', source, 'anchor=', gestureAnchor.toFixed(4));
+  }
+  window.addEventListener('wheel', function () {
+    var t = now();
+    // SETTLE_DEBOUNCE_MS is read HERE, at event time, not captured into a
+    // constant at registration time: its own `var` is declared several hundred
+    // lines below this block, so at registration it is hoisted-but-undefined.
+    // An earlier draft did cache it, which silently made every comparison
+    // `> undefined` -> false, so the wheel anchor updated exactly once per page
+    // load and the whole wheel path kept the stale-anchor bug this addendum
+    // exists to kill. Caught by the harness (zero 'gesture start' lines across
+    // a three-burst wheel chain), not by reading.
+    if (lastWheelTime == null || (t - lastWheelTime) > SETTLE_DEBOUNCE_MS) {
+      beginGesture('wheel');
+    }
+    lastWheelTime = t;
+  }, { passive: true });
 
   // ---- render ----
   var ticking = false;
@@ -1109,6 +1186,7 @@
     if (frac >= 1) {
       activeEase = null;
       lastRestProgress = e.targetProgress;
+      gestureAnchor = e.targetProgress;
       khlog('ease complete, target=', e.targetProgress.toFixed(4));
       return;
     }
@@ -1179,6 +1257,7 @@
     // completion writes, so nothing is disturbed.
     if (fadeTAtProgress(p) >= 1) {
       lastRestProgress = 1;
+      gestureAnchor = 1;
       // Deliberately worded so it cannot be confused with the corrective
       // 'settle, source=' line: "no settle, source=" contains that exact
       // substring, and this lap's own tooling double-counted it as a second
@@ -1188,14 +1267,15 @@
       return;
     }
 
-    var target = biasedSettleTarget(p, lastRestProgress);
+    var target = biasedSettleTarget(p, gestureAnchor);
     if (Math.abs(target - p) < SETTLE_EPS) {
       khlog('rest confirmed, source=', source, 'p=', p.toFixed(4));
       lastRestProgress = target;
+      gestureAnchor = target;
       return;
     }
 
-    khlog('settle, source=', source, 'p=', p.toFixed(4), 'ref=', lastRestProgress.toFixed(4),
+    khlog('settle, source=', source, 'p=', p.toFixed(4), 'ref=', gestureAnchor.toFixed(4),
       'target=', target.toFixed(4), 'action=', target > p ? 'advance' : 'back');
 
     var rectNow = wrap.getBoundingClientRect();
