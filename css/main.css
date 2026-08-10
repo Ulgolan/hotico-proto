@@ -782,6 +782,10 @@ html.js-kh .kh__static{display:none;}
   background:var(--card);
   box-shadow:var(--shadow-neo);
   overflow:hidden;
+  isolation:isolate;   /* WEBKIT CLIPPING FIX — without this, iOS Safari
+                           fails to clip the transformed/scaled img under
+                           this element's border-radius; corners bleed
+                           square. Certifies only on Commander iPhone glass. */
 }
 
 .scard__btn{
@@ -794,6 +798,8 @@ html.js-kh .kh__static{display:none;}
   width:100%;
   aspect-ratio:1/1;
   object-fit:cover;
+  transform:scale(var(--etapes-zoom, 2.2));   /* LA LOUPE — closed-grid
+                           magnification; released (scale 1) on open. */
 }
 
 .scard__label{
@@ -828,6 +834,7 @@ html.js-kh .kh__static{display:none;}
 .steps-cards.is-focused .scard img{
   aspect-ratio:16/9;
   object-fit:cover;
+  transform:scale(1);   /* release, instant — see V0 in the lap report */
 }
 
 .steps-cards.is-focused .scard__arrow{display:none;}
