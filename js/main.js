@@ -1,14 +1,42 @@
-// main.js — Lap 1b: homepage choreography.
-// Vanilla only, no libraries. Three behaviours:
+// main.js — Lap 1b: homepage choreography. R-4 added video expand-in-place.
+// Vanilla only, no libraries. Four behaviours:
 //   A. Servicii pills — gold arrow toggles an inline panel (ABUNDANCE)
 //   B. Before/After comparison slider inside each panel
 //   C. Pasii transformarii — one card expands, others hide (FOCUS)
-// Out of scope this lap: video carousel, burger, form logic.
+//   D. Découvrez video — truncated long text expands in place (R-4)
+// Out of scope: burger, form logic.
 
 (function () {
   'use strict';
 
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ---------------------------------------------------------------
+     R-4 DIALS — dev-only, stripped at ratification. House pattern:
+     read from location.search, never active without the param; a
+     ratification commit later hard-codes the Commander's picks and
+     removes every dial (see LEDGER).
+  --------------------------------------------------------------- */
+  (function dials() {
+    var qs   = new URLSearchParams(location.search);
+    var root = document.documentElement.style;
+
+    if (qs.has('vp')) {
+      var lines = parseInt(qs.get('vp'), 10);
+      if (lines > 0) root.setProperty('--vl-lines', String(lines));
+    }
+    if (qs.get('valign') === 'center') {
+      root.setProperty('--vl-valign', 'center');
+    }
+    if (qs.has('vgap')) {
+      var gap = parseFloat(qs.get('vgap'));
+      if (!isNaN(gap)) root.setProperty('--vl-vgap', gap + 'rem');
+    }
+    if (qs.get('vdots') === 'video') {
+      var vdots = document.querySelector('[data-carousel="video"] .dots');
+      if (vdots) vdots.classList.add('is-video-aligned');
+    }
+  }());
 
   /* ---------------------------------------------------------------
      Height transition helper. <details>-free, so panels can animate
@@ -261,6 +289,86 @@
   }
 
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+
+  /* ---------------------------------------------------------------
+     D. Découvrez video — expand-in-place teaser (R-4).
+
+     .video__long is always rendered (never `hidden` the way the pill/
+     walk panels above start), so expand()/collapse() don't fit it as-
+     is — their `hidden` bookkeeping assumes a panel with no closed-
+     state box at all. This drives the SAME settle()/DUR engine on the
+     `height` property instead — the transitionend/timeout machinery
+     is not duplicated, only the open/close bookkeeping around it is
+     new, because the two components don't share a starting state.
+
+     TRAP 2 — the button sits on the carousel's swipe surface (see the
+     comment above initCarousel). stopPropagation on the button's own
+     pointerdown/touchstart keeps initCarousel's down() from ever
+     seeing the gesture, so a tap can never get axis-locked into a
+     drag and have its click eaten by move()'s preventDefault. Solved
+     entirely outside initCarousel, per brief.
+
+     Slide-change auto-collapse — also outside initCarousel: a
+     MutationObserver watches the dots' class attribute. go() toggles
+     .is-active there on every slide change, tap or swipe alike, so
+     this catches both without initCarousel exposing any hook.
+  --------------------------------------------------------------- */
+  document.querySelectorAll('[data-carousel="video"] .carousel__slide').forEach(function (slide) {
+    var long = slide.querySelector('[data-long]');
+    var btn  = slide.querySelector('[data-more]');
+    if (!long || !btn) return;
+
+    var closedPx = long.getBoundingClientRect().height;
+    var open = false;
+
+    function doOpen() {
+      open = true;
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Voir moins';
+      long.style.height = long.scrollHeight + 'px';
+      settle(long, function () { long.style.height = 'auto'; });
+    }
+
+    // homeAfter — Entry #45's law (viewport follows the card) applies
+    // to a reader-initiated close via the button. An auto-collapse
+    // triggered by changing slides is not the reader closing anything
+    // they were reading; it does not steal their scroll position.
+    function doClose(homeAfter) {
+      open = false;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Voir plus';
+      long.style.height = long.scrollHeight + 'px';
+      void long.offsetHeight;               // pin the current height before dropping it
+      long.style.height = closedPx + 'px';
+      settle(long, function () {
+        if (homeAfter && slide.getBoundingClientRect().top < 0) scrollHome(slide);
+      });
+    }
+
+    btn.addEventListener('click', function () {
+      if (open) doClose(true); else doOpen();
+    });
+
+    btn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    btn.addEventListener('touchstart', function (e) { e.stopPropagation(); }, { passive: true });
+
+    slide.__collapseVideoLong = function () { if (open) doClose(false); };
+  });
+
+  (function () {
+    var videoDots = document.querySelector('[data-carousel="video"] [data-dots]');
+    if (!videoDots) return;
+    var slides = document.querySelectorAll('[data-carousel="video"] .carousel__slide');
+    var lastActive = videoDots.querySelector('.dot.is-active');
+    new MutationObserver(function () {
+      var nowActive = videoDots.querySelector('.dot.is-active');
+      if (nowActive === lastActive) return;
+      lastActive = nowActive;
+      slides.forEach(function (slide) {
+        if (slide.__collapseVideoLong) slide.__collapseVideoLong();
+      });
+    }).observe(videoDots, { attributes: true, attributeFilter: ['class'], subtree: true });
+  }());
 
   /* ---------------------------------------------------------------
      A. Servicii pills — ABUNDANCE MODE, several may sit open.
