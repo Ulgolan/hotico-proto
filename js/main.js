@@ -1,9 +1,10 @@
-// main.js — Lap 1b: homepage choreography.
-// Vanilla only, no libraries. Three behaviours:
+// main.js — Lap 1b: homepage choreography. R-4 added video expand-in-place.
+// Vanilla only, no libraries. Four behaviours:
 //   A. Servicii pills — gold arrow toggles an inline panel (ABUNDANCE)
 //   B. Before/After comparison slider inside each panel
 //   C. Pasii transformarii — one card expands, others hide (FOCUS)
-// Out of scope this lap: video carousel, burger, form logic.
+//   D. Découvrez video — truncated long text expands in place (R-4)
+// Out of scope: burger, form logic.
 
 (function () {
   'use strict';
@@ -261,6 +262,98 @@
   }
 
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
+
+  /* ---------------------------------------------------------------
+     D. Découvrez video — expand-in-place teaser (R-4, sealed R-4 rat.).
+
+     .video__long is always rendered (never `hidden` the way the pill/
+     walk panels above start), so expand()/collapse() don't fit it as-
+     is — their `hidden` bookkeeping assumes a panel with no closed-
+     state box at all. This drives the SAME settle()/DUR engine on the
+     `height` property instead — the transitionend/timeout machinery
+     is not duplicated, only the open/close bookkeeping around it is
+     new, because the two components don't share a starting state.
+     Inline height is scratch space for the transition only: doClose()
+     releases it once settle() lands, so the stylesheet's em-based
+     clamp is back in control at rest and recomputes correctly across
+     a resize or rotation instead of staying pinned to a stale px.
+
+     TRAP 2 — the button sits on the carousel's swipe surface (see the
+     comment above initCarousel). stopPropagation on the button's own
+     pointerdown/touchstart keeps initCarousel's down() from ever
+     seeing the gesture, so a tap can never get axis-locked into a
+     drag and have its click eaten by move()'s preventDefault. Solved
+     entirely outside initCarousel, per brief.
+
+     Slide-change auto-collapse — also outside initCarousel: a
+     MutationObserver watches the dots' class attribute. go() toggles
+     .is-active there on every slide change, tap or swipe alike, so
+     this catches both without initCarousel exposing any hook.
+
+     Entry #45's stranding rescue (viewport follows the card) covers
+     both ways a card can close: a reader's own « Voir moins » tap
+     rescues to the SLIDE she was reading; a swipe that auto-collapses
+     her open card out from under her rescues to the SECTION, so she
+     lands oriented at its top with the newly active slide in view.
+     Same guard both times — rescue only when the target has scrolled
+     above the viewport — read after settle() so layout is at rest,
+     never mid-shrink.
+  --------------------------------------------------------------- */
+  var videoSection = document.querySelector('.video');
+
+  document.querySelectorAll('[data-carousel="video"] .carousel__slide').forEach(function (slide) {
+    var long = slide.querySelector('[data-long]');
+    var btn  = slide.querySelector('[data-more]');
+    if (!long || !btn) return;
+
+    var closedPx = long.getBoundingClientRect().height;
+    var open = false;
+
+    function doOpen() {
+      open = true;
+      btn.setAttribute('aria-expanded', 'true');
+      btn.textContent = 'Voir moins';
+      long.style.height = long.scrollHeight + 'px';
+      settle(long, function () { long.style.height = 'auto'; });
+    }
+
+    function doClose(rescueTarget) {
+      open = false;
+      btn.setAttribute('aria-expanded', 'false');
+      btn.textContent = 'Voir plus';
+      long.style.height = long.scrollHeight + 'px';
+      void long.offsetHeight;               // pin the current height before dropping it
+      long.style.height = closedPx + 'px';
+      settle(long, function () {
+        long.style.height = '';             // release — stylesheet clamp governs at rest
+        if (rescueTarget && rescueTarget.getBoundingClientRect().top < 0) scrollHome(rescueTarget);
+      });
+    }
+
+    btn.addEventListener('click', function () {
+      if (open) doClose(slide); else doOpen();
+    });
+
+    btn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
+    btn.addEventListener('touchstart', function (e) { e.stopPropagation(); }, { passive: true });
+
+    slide.__collapseVideoLong = function () { if (open) doClose(videoSection); };
+  });
+
+  (function () {
+    var videoDots = document.querySelector('[data-carousel="video"] [data-dots]');
+    if (!videoDots) return;
+    var slides = document.querySelectorAll('[data-carousel="video"] .carousel__slide');
+    var lastActive = videoDots.querySelector('.dot.is-active');
+    new MutationObserver(function () {
+      var nowActive = videoDots.querySelector('.dot.is-active');
+      if (nowActive === lastActive) return;
+      lastActive = nowActive;
+      slides.forEach(function (slide) {
+        if (slide.__collapseVideoLong) slide.__collapseVideoLong();
+      });
+    }).observe(videoDots, { attributes: true, attributeFilter: ['class'], subtree: true });
+  }());
 
   /* ---------------------------------------------------------------
      A. Servicii pills — ABUNDANCE MODE, several may sit open.
