@@ -799,7 +799,12 @@ html.js-kh .kh__static{display:none;}
 
 .scard__imgbox{
   width:100%;
-  aspect-ratio:1/1;
+  aspect-ratio:16/9;   /* LA PILE BOUNCE 1 — closed = open. Below 768
+                           the card has one image state, period; this
+                           is the mobile-open geometry, now also the
+                           mobile-closed geometry. Restored to 1/1 for
+                           768-1023 and 1024+ below, where the closed
+                           grid keeps its own established crop. */
   overflow:hidden;
   isolation:isolate;   /* WEBKIT CLIPPING FIX — see .scard note above. */
   border-radius:14px 14px 0 0;   /* top corners only — the label row
@@ -811,13 +816,13 @@ html.js-kh .kh__static{display:none;}
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:scale(var(--etapes-zoom-mobile,2));   /* LA PILE — stacked
-                           full-width photos read ~2.5x larger than the
-                           old 3-across columns, so the closed-grid
-                           magnification is retasted via dev param below
-                           768; hard default 2 pending Commander taste.
-                           Overridden outright by the desktop rule at
-                           768+, so the var has zero effect there. */
+  transform:scale(2.6);   /* LA PILE BOUNCE 1 — the picture does not
+                           move, resize, or re-crop between closed and
+                           open below 768; this is the certified
+                           mobile-open value, now the only mobile
+                           value. No dial left to taste — restored to
+                           scale(3) for 768-1023 and scale(3.4) for
+                           1024+ below. */
 }
 
 .scard__label{
@@ -850,13 +855,23 @@ html.js-kh .kh__static{display:none;}
 }
 
 .steps-cards.is-focused .scard__imgbox{
-  aspect-ratio:16/9;
+  aspect-ratio:16/9;   /* LA PILE BOUNCE 1 — redundant-but-harmless
+                           below 768 now that the base .scard__imgbox
+                           already carries 16/9 (closed=open); kept
+                           for the 768-1023 zone, where the base
+                           reverts to 1/1 and this is what still
+                           produces the banner crop on open. Left for
+                           the tidy lap to fold, not touched here. */
 }
 
 .steps-cards.is-focused .scard__imgbox img{
   transform:scale(2.6);   /* mobile-open loupe, Commander-certified —
                            instant apply/release, same reasoning as V0
-                           of the original lap report. */
+                           of the original lap report. Redundant-but-
+                           harmless below 768 now that the base rule
+                           already resolves to the same value; still
+                           load-bearing for the 768-1023 zone, where
+                           closed reverts to scale(3). */
 }
 
 .steps-cards.is-focused .scard__arrow{display:none;}
@@ -1555,6 +1570,10 @@ html.js-kh .kh__static{display:none;}
      keeps ≥768 byte-identical to pre-lap main now that the base rule
      itself has been repurposed for the mobile stack. */
   .steps-cards{grid-template-columns:repeat(3,1fr);}
+  .scard__imgbox{aspect-ratio:1/1;}   /* LA PILE BOUNCE 1 — the closed
+                           card box reverts to its own established
+                           square crop at 768+; the closed=open rule
+                           is a below-768 law only. */
   .scard__imgbox img{transform:scale(3);}
 }
 
