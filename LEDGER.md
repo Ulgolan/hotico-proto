@@ -3592,3 +3592,58 @@ Hands' seat, always.
 Next per Commander's ruled order: R-6 ÉTAPES, then R-4 vs R-5
 ruling. C1/C2 documentation criticals remain Tower work, queued as
 their own doc-only lap after R-6.
+
+## Entry #42 — 2026-08-09 — LAP R-6: ÉTAPES — MERGE & CLOSE
+
+**Merge SHA `909edf4ccbe5e4cfa3d80f85dd5a7bf797240edc`** — PR
+[#28](https://github.com/Ulgolan/hotico-proto/pull/28) merged into
+`main`. `css/main.css` v32 → **v33**; `js/hero-scroll.js` untouched
+at v25. Two files, five surgical changes, one lap, zero bounces.
+Branch `r6-etapes` preserved.
+
+### The object — chrome debt paid
+
+The three step cards trade `temp-1x/pasii-{cube,stone,sphere}.png`
+(baked gold border/label in the pixels) for the real 2400²
+`etapes-{conseil,procedure,entretien}.webp`. The obsolete
+baked-chrome comment above `.steps-cards.is-focused .scard img`
+retired; the crop rule beneath it ships byte-identical. `alt=""`
+preserved (decorative; labels carried by `.scard__label`). The
+line-1608 desktop media-query rule left untouched by correct scope
+judgment — the key named one comment block and the Hands held the
+line. Temp PNGs remain on disk for the queued tidy lap
+(Trash-never-delete).
+
+### Certification
+
+Tower diff-cert from codeload tarballs: footprint exact. Hands V4
+partial by honest flag: 900/1200/1440 band-walk verified via
+computed-style + resource-load only — their harness fought the hero
+pin (known limitation; behavior certifies on Commander glass).
+Commander's eye closed the gap: mobile impeccable, closed cards
+impeccable across bands, desktop banner strip PASS on function.
+
+### Finding R-6-A → lap R-6c opened
+
+Desktop 250px banner (central ~22% of the square) cuts the conseil
+and procédure subjects: generated finals grew past the band the
+spec drew (subject extents 29% and 41% of frame vs the ~20% the
+band law allows; entretien sphere at ~20% fits — proof the spec
+works). Ruled asset-vs-spec drift, NOT a code defect and NOT an
+R-6 execution error. Commander ruled REGEN over CSS slice-tuning:
+band-law assets are self-certifying; per-image object-position is
+scar tissue. R-6c pipeline: Commander generates loose → Tower
+measures (centroid/extent forensics) → Tower computes deterministic
+recenter crop → Hands cut, resample to 2400², overwrite in place.
+Conseil regen already measured GREEN on scale (7.5% height; 8%-low
+offset correctable by computed crop, full-res file pending); stone
+pending generation.
+
+### Standing template change (Tower)
+
+Every ignition key henceforth carries a PREVIEW: line with the
+computed Vercel URL so the Hands print the Commander's tappable
+link in their report.
+
+Next: R-6c asset lap, then the R-4 vs R-5 ruling per Commander's
+standing order. C1/C2 doc criticals remain queued Tower work.
