@@ -3647,3 +3647,41 @@ link in their report.
 
 Next: R-6c asset lap, then the R-4 vs R-5 ruling per Commander's
 standing order. C1/C2 doc criticals remain queued Tower work.
+
+## Entry #43 — 2026-08-10 — LAP R-6c: LE RECADRAGE — MERGE & CLOSE
+
+**Merge SHA `2d4ca84ab7a3f4410a9a043b721f48bd486aeaa4`** — PR
+[#29](https://github.com/Ulgolan/hotico-proto/pull/29) merged into
+`main`. Three binary files only: the étapes webps replaced in
+place, filenames law-stable, zero code touched.
+
+### The object — the band law made flesh
+
+The Commander regenerated the full triptych set (2508² exports,
+same studio, same light — including a fresh entretien for family
+unity). Tower forensics measured all three: subjects 13–15% of
+frame, centers within 2–4 points of the cross — band-fitting
+as-generated but with razor margins (0.1–0.4pt at the shadow
+line), inside measurement noise. Ruling: deterministic recenter
+crops (Tower-computed windows, ~92% of source side), resample to
+2400², overwrite in place. Post-crop independent verification:
+all subjects at (50±0.5, 50±0.2), 15–16% height, ~8pt clearance
+every side. The desktop banner now frames whole subjects by law,
+not luck. Pipeline ratified as standing practice for étapes
+assets: generate loose → Tower measures → Tower computes crop →
+Hands cut.
+
+### Finding R-6c-A → lap R-6d opened
+
+The band-lawful masters trade closed-card presence for open-state
+correctness: the 1:1 closed crop now shows small subjects in vast
+studio, and the Commander's eye mourned the old scale on scan.
+Ruled: one file CAN serve both worlds via a centered CSS zoom on
+the closed state (unlocked precisely by this lap's dead-centering)
+— releasing to scale 1 on open. Lap R-6d « LA LOUPE » keyed,
+Tribunal-amended (WebKit transform-clipping fix mandated; frozen-
+engine guard; transition-vs-container-morph autopsy V0), fires
+after this merge.
+
+Next: R-6d, then the R-4 vs R-5 ruling per Commander's standing
+order. C1/C2 doc criticals remain queued Tower work.
