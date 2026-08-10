@@ -773,7 +773,10 @@ html.js-kh .kh__static{display:none;}
 
 .steps-cards{
   list-style:none;margin:0 0 2rem;padding:0;
-  display:grid;grid-template-columns:repeat(3,1fr);gap:.75rem;
+  display:grid;grid-template-columns:1fr;gap:.75rem;   /* LA PILE — below
+                           768 the closed grid stacks single-column;
+                           768+ restores the 3-across grid, see media
+                           query below. */
 }
 
 .scard{
@@ -808,10 +811,13 @@ html.js-kh .kh__static{display:none;}
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:scale(3);   /* LA LOUPE — closed-grid magnification,
-                           Commander-certified. Clips against
-                           .scard__imgbox, not the whole card, so it
-                           never buries the label. Released on open. */
+  transform:scale(var(--etapes-zoom-mobile,2));   /* LA PILE — stacked
+                           full-width photos read ~2.5x larger than the
+                           old 3-across columns, so the closed-grid
+                           magnification is retasted via dev param below
+                           768; hard default 2 pending Commander taste.
+                           Overridden outright by the desktop rule at
+                           768+, so the var has zero effect there. */
 }
 
 .scard__label{
@@ -1541,6 +1547,15 @@ html.js-kh .kh__static{display:none;}
   }
   .ftr .wrap{text-align:center;}
   .ftr__nav, .ftr__contact, .ftr__socials{justify-content:center;}
+
+  /* LA PILE — .steps-cards' own 3-across tuning (gap 2rem, zoom 3.4,
+     the banner) doesn't land until the 1024px tier below; between
+     768-1023 it falls through to the base rule untouched (3 columns,
+     .75rem gap, scale(3)). Restoring that fall-through explicitly here
+     keeps ≥768 byte-identical to pre-lap main now that the base rule
+     itself has been repurposed for the mobile stack. */
+  .steps-cards{grid-template-columns:repeat(3,1fr);}
+  .scard__imgbox img{transform:scale(3);}
 }
 
 /* ===== SPLIT TIER (≥1024px) — voice left, media right =====
