@@ -297,11 +297,18 @@
   var walkLbl  = document.querySelector('[data-walk-label]');
   var collapseBtn = document.querySelector('[data-walk-collapse]');
 
+  var focusedCard = null;
+
   if (cards && walk) {
     cards.querySelectorAll('.scard__btn').forEach(function (btn) {
       btn.addEventListener('click', function () {
         var card = btn.closest('.scard');
         var img  = card.querySelector('img');
+        focusedCard = card;   // RIDER 2 — remembered for the close-time
+                           // scroll target below; the 3-across relic
+                           // scrolled to the section top, which stopped
+                           // matching the opened card once the stack
+                           // made cards vertically distinct.
 
         // costume: the chosen card stays, the other two recede
         cards.querySelectorAll('.scard').forEach(function (c) {
@@ -337,8 +344,22 @@
         // RIDER 1 — scroll home. The target is read AFTER the cards are
         // back and a reflow is forced: collapsing removes ~650px, and a
         // scroll aimed before that shrink lands short and strands the
-        // viewer mid-page.
-        if (pasii) scrollHome(pasii);
+        // viewer mid-page. RIDER 2 — width-split target, evaluated HERE
+        // (not cached at load, so a resize/rotation between open and
+        // close still gets the right answer). Below 768, the stack
+        // anchors to the card that was open (falls back to the section
+        // for the no-card-was-open case, which shouldn't occur since
+        // collapseBtn only exists while a card is focused) — the
+        // section top sits above the heading, well clear of whichever
+        // card the viewer was just reading. At 768+, the 3-across row
+        // keeps the original section target: Commander-ruled B —
+        // width-split — the certified desktop landing (heading visible
+        // on close) stays as campaign-certified, only mobile follows
+        // the card.
+        var closeTarget = window.matchMedia('(max-width: 767px)').matches
+          ? (focusedCard || pasii)
+          : pasii;
+        scrollHome(closeTarget);
       });
       cards.querySelectorAll('.scard__btn').forEach(function (b) {
         b.setAttribute('aria-expanded', 'false');
