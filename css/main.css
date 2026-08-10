@@ -699,6 +699,31 @@ html.js-kh .kh__static{display:none;}
   line-height:1;
 }
 
+/* --- DEV DIAL — R-5 bounce, geometry comparison only. TEMPORARY:
+   strip this whole block (+ the main.js reader) once the Commander
+   rules. --- */
+
+.pills.dial-a .pill{aspect-ratio:379/95;height:auto;}
+.pills.dial-a .pill__img{
+  width:100%;height:100%;
+  object-fit:contain;object-position:left center;
+}
+
+.pills.dial-b .pill{
+  aspect-ratio:379/95;height:auto;
+  width:100%;max-width:480px;margin-inline:auto;
+}
+.pills.dial-b .pill__img{
+  width:100%;height:100%;
+  object-fit:contain;object-position:left center;
+}
+
+.pills.dial-c .pill{height:95px;}
+.pills.dial-c .pill__img{
+  -webkit-mask-image:linear-gradient(90deg,#000 65%,transparent 98%);
+          mask-image:linear-gradient(90deg,#000 65%,transparent 98%);
+}
+
 .pill__arrow{
   position:relative;
   flex:0 0 auto;
