@@ -3733,3 +3733,63 @@ computed-style used as ground truth where it applied.
 
 Next: R-6e, then the R-4 vs R-5 ruling per Commander's standing
 order. C1/C2 doc criticals remain queued Tower work.
+
+## Entry #45 — 2026-08-10 — LAP R-6e: LA PILE — MERGE & CLOSE
+
+**Merge SHA `2387aeec92b3d9d2c7a864faddc9b88f022d96a3`** — PR
+[#31](https://github.com/Ulgolan/hotico-proto/pull/31) merged into
+`main`. Two bounces + one rider. `css/main.css` → **v38**;
+`js/main.js` → **v5** (first walk-toggler touch of the arc;
+hero-scroll.js byte-identical throughout, verified per bounce).
+
+### The object — the stack, then the simplification
+
+Mobile closed étapes cards stack single-column below the 768 gate
+(Commander: standard practice, caught on first true stare at the
+section). Bounce 1, Commander simplification ruling: below 768
+the image has ONE state — the certified mobile-open geometry
+(16/9, scale 2.6) whether open or closed; tapping the label
+toggles only the text. The picture does not move. All zoom dials
+retired; no live tunables remain (grep-verified; the
+--etapes-zoom-open ghost was confirmed already retired at the
+R-6d ratification). Redundant-but-load-bearing focused rules
+kept with comments for the tidy lap — they still serve the
+768–1023 fall-through zone.
+
+### The V0 dividends (autopsy clause, twice)
+
+(1) The key assumed the étapes desktop tuning gated at 768; the
+autopsy found it gates at 1024, with a 768–1023 fall-through
+zone the naive edit would have silently broken. Hands restored
+the fall-through explicitly inside the 768 block — ≥768 verified
+byte-equivalent. Ledgered as **Tower error #4** (unverified
+breakpoint assumption baked into a key; the autopsy clause is
+why it cost a paragraph, not a bounce). (2) Bounce 2's autopsy
+located the close-snapback relic precisely: a hard-coded section
+target in js/main.js's collapse handler, correct in the 3-across
+era, wrong on the stack.
+
+### Bounce 2 + rider — the viewport follows the card
+
+Close-time scroll target: below 768 → the card that was open
+(Conseil lands Conseil, Procédure lands Procédure); at ≥768 →
+the original section target preserved (heading visible — the
+Hands measured the 47px delta honestly and the Commander ruled
+the width-split rather than silently accepting either). Evaluated
+at close time via matchMedia, resize-safe. Focus law (siblings
+hide on open) RATIFIED as standing étapes doctrine.
+
+### Arc closure — R-6 → R-6c → R-6d → R-6e
+
+The étapes section retires from the campaign board: baked-chrome
+debt paid (#42), band-lawful centered masters (#43), the loupe
+with photo-box clipping (#44), and the stack with one-state
+images and card-anchored close (#45). Five Tower errors owned
+across the arc; three Tribunals paid dividends; the Commander's
+eye caught what every other layer missed, twice. The system
+worked in all directions.
+
+Next per Commander's standing order: the R-4 vs R-5 ruling.
+Parked: Procédure horizon drift (fix-on-itch); I2 amendment
+options A–D; Finding B; I9 minting; C1/C2 doc criticals (Tower,
+queued); the tidy lap.
