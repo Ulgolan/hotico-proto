@@ -3793,3 +3793,122 @@ Next per Commander's standing order: the R-4 vs R-5 ruling.
 Parked: Procédure horizon drift (fix-on-itch); I2 amendment
 options A–D; Finding B; I9 minting; C1/C2 doc criticals (Tower,
 queued); the tidy lap.
+
+## Entry #46 — 2026-08-10 — LAP R-4: DÉCOUVREZ — MERGE & CLOSE
+
+**Merge SHA `74d3077da82a3ec70abd5993bb9ff0a31465833a`** — PR
+[#32](https://github.com/Ulgolan/hotico-proto/pull/32) merged into
+`main`. Two commits: build + ratification, zero bounces. `css/main.css`
+→ **v40**; `js/main.js` → **v7**; `index.html` markup rebuilt across
+the section (`hero-scroll.js` byte-identical throughout, SHA-verified
+per commit; `initCarousel` untouched, diff-proven per commit).
+
+### The object — Alexandra's redesign, sealed
+
+The Découvrez section as the client drew it, annotated on one document
+(alexachanges 1–5), executed as one intent: desktop split flipped —
+video LEFT, text RIGHT, 600px/46vw cap preserved on the video column;
+the gold band retired and its title moved atop each slide's text
+column as Commander-ruled canon **« Découvrez HOTICO »** — one line,
+accent restored per the Tower's standing accent duty over the client's
+row-9 label (real `<h2>` on slide 1, `aria-hidden` repeats 2–5,
+pixel-identical); teaser italic, text untouched; long text truncated
+behind **« Voir plus » / « Voir moins »** (French labels ruled law over
+the mock's RO-site English) with expand-in-place through the page's
+existing settle()/DUR engine — judged honestly by the Hands as the
+right reuse when expand()/collapse()'s hidden-panel bookkeeping didn't
+fit a truncated-but-visible clamp.
+
+### Chain of custody — verbatim law, held mechanically
+
+All five long texts restored from the client's French master (xlsx,
+SHA-256 `21d20ae1…86641`, verified at session open, at key build, and
+at certification). The copy payload never passed through human or
+model retyping: the ignition key was generated programmatically from
+the verified sheet and the shipped markup round-tripped byte-exact —
+26 paragraphs, 10,491 rendered characters, five slides. All five
+Vimeo IDs + privacy hashes verified against the master. Teasers left
+byte-identical to prod, including slide 5's one-word divergence from
+the master (le/la) — preserved, not reconciled: prod is correct
+French, the master is the client's; the discrepancy travels on the
+Commander's side-list to the client with the unclosed guillemet
+(slide 1), the row-9 « Decouvrez » accent, and the tu/vous register
+breaks (slides 4–5, ammunition for the queued vous-conversion lap).
+Zero unilateral fixes.
+
+### Ratification — dials tasted, defaults crowned
+
+House taste-param ritual, four dials, Commander's thumb on the
+preview: closed clamp **5 lines** (`?vp=`), slide alignment **start**
+(`?valign=`), section gap **3.4rem** (`?vgap=`, byte-equivalent to the
+retired band's spacing), dot rail **section-centred** (`?vdots=`). All
+four picks matched the shipped defaults; ratification collapsed every
+`var()` to its fallback and stripped the machinery — grep-proven zero
+residue, computed-style-proven pixel-identical to the approved
+preview.
+
+### Traps paid before firing (two Tribunals on the Tower's own brief)
+
+The pre-mortem converted depth into breadth: **(1)** the slide grid's
+`align-items:center` would have re-centred the video down the page on
+every expand — mandated to `start` in the key, ratified by thumb;
+**(2)** « Voir plus » lands on the carousel's deliberate swipe surface
+(the iframe swallows pointer events, so the text IS the surface) —
+solved outside initCarousel via stopPropagation on the button's own
+pointerdown/touchstart, adversarially verified with a dispatched
+jittery-tap sequence; slide-change auto-collapse solved via a
+MutationObserver on the dots' class attribute, zero hooks added to the
+shared function. The Reviews carousel — same shared engine — verified
+unaffected.
+
+### Certification catch — Tower error #5 (own the record)
+
+The build shipped `doClose()` pinning an inline pixel height it never
+released: expand → collapse → rotate (or resize across the 1024 gate)
+left the clamp at a stale height, landing mid-line. Both Hands
+Tribunal chairs and the key's author missed it; the Tower caught it at
+tarball certification — but the Tower also *wrote* the key that
+specified height-over-max-height without specifying the release, so
+the error is ledgered on the Tower's side of the board. Fixed at
+ratification: inline height cleared in the settle callback, stylesheet
+governs at rest, verified across resize.
+
+### Ruling — the stranding rescue extends to the swipe path
+
+Entry #45's law (the viewport follows the card) was scoped at build to
+the reader's own « Voir moins » tap, with the Hands flagging the
+judgment call honestly. Tower ruling: the swipe surface is the text
+she is reading, so a swipe mid-read collapses ~1,500px beneath her —
+that IS the stranding #45 outlawed. Extended at ratification: both
+close paths rescue under one guard (only when scrolled above the
+viewport), differing only in target — button-close homes the slide,
+slide-change homes the section. The Hands improved the spec's shape
+in flight (one rescueTarget parameter over a boolean branch) —
+ledgered as the relay working upward. Verified in three scenarios:
+deep-scroll swipe rescues to section top; in-view swipe moves zero
+pixels; button path unchanged.
+
+### Tooling finding — TRAP 5 gains a third head
+
+Known screenshot defects (transformed-children blindness, blank
+deep-scroll captures) joined by a new one: the headless browser does
+not pump compositor frames during setTimeout-driven polling, so
+computed-style reads of in-flight transitions return pre-transition
+values indefinitely — chased as a phantom bug until a forced paint
+(screenshot call) between steps resolved it. Standing note: any
+future key verifying transition-dependent state mandates paint-forcing
+steps. Glass certifies feel; harness certifies math; and the harness
+must be made to blink.
+
+### Board
+
+The Découvrez front closes: annotated by the client, keyed from a
+SHA-verified master, twice-Tribunaled before firing, built in one
+pass, corrected at certification, sealed at ratification. Zero
+bounces — the pre-mortem did the bouncing before the Hands ever fired.
+
+Next per the vaulted 08-09 spec: **R-5 SERVICES** (in-curand FR copy,
+pill order, honest-facade links; the +40/+41 tel question travels to
+the client with the side-list). Parked: Procédure horizon drift
+(fix-on-itch); I2 amendment options A–D; Finding B; I9 minting; C1/C2
+doc criticals (Tower, queued); the tidy lap; R-2g.
