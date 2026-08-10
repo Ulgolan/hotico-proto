@@ -1,9 +1,9 @@
 // main.js — Lap 1b: homepage choreography. R-4 added video expand-in-place.
-// Vanilla only, no libraries. Four behaviours:
-//   A. Servicii pills — gold arrow toggles an inline panel (ABUNDANCE)
-//   B. Before/After comparison slider inside each panel
-//   C. Pasii transformarii — one card expands, others hide (FOCUS)
-//   D. Découvrez video — truncated long text expands in place (R-4)
+//   R-5 retired the Servicii pills' expand panel and before/after slider —
+//   pills are now plain whole-pill links (see index.html).
+// Vanilla only, no libraries. Two behaviours:
+//   A. Pasii transformarii — one card expands, others hide (FOCUS)
+//   B. Découvrez video — truncated long text expands in place (R-4)
 // Out of scope: burger, form logic.
 
 (function () {
@@ -74,89 +74,6 @@
       panel.style.height = '';
       if (onDone) onDone();
     });
-  }
-
-  /* ---------------------------------------------------------------
-     B. Before/After slider
-     The source is one composite photo split at the handle line, so
-     the two halves are different widths (173px / 212px). Each layer
-     is drawn at full panel size and only the clip moves — dragging
-     never rescales an image. Proto-grade; see LEDGER.
-  --------------------------------------------------------------- */
-  var START = 45; // % — matches the composite's own split (175/390)
-
-  function initSlider(ba) {
-    var before = ba.querySelector('[data-ba-before]');
-    var seam   = ba.querySelector('[data-ba-seam]');
-    var handle = ba.querySelector('[data-ba-handle]');
-    var dragging = false;
-
-    function set(pct) {
-      pct = Math.max(0, Math.min(100, pct));
-      before.style.clipPath = 'inset(0 ' + (100 - pct) + '% 0 0)';
-      seam.style.left = pct + '%';
-      handle.setAttribute('aria-valuenow', Math.round(pct));
-    }
-
-    function pctFromX(clientX) {
-      var r = ba.getBoundingClientRect();
-      return ((clientX - r.left) / r.width) * 100;
-    }
-
-    function onDown(e) {
-      dragging = true;
-      ba.classList.add('is-dragging');
-      if (e.pointerId != null && handle.setPointerCapture) {
-        try { handle.setPointerCapture(e.pointerId); } catch (err) {}
-      }
-      e.preventDefault();
-    }
-
-    function onMove(e) {
-      if (!dragging) return;
-      var x = e.clientX != null ? e.clientX
-            : (e.touches && e.touches[0] ? e.touches[0].clientX : null);
-      if (x == null) return;
-      set(pctFromX(x));
-      e.preventDefault();
-    }
-
-    function onUp() {
-      dragging = false;
-      ba.classList.remove('is-dragging');
-    }
-
-    if (window.PointerEvent) {
-      handle.addEventListener('pointerdown', onDown);
-      window.addEventListener('pointermove', onMove);
-      window.addEventListener('pointerup', onUp);
-      window.addEventListener('pointercancel', onUp);
-    } else {
-      handle.addEventListener('mousedown', onDown);
-      window.addEventListener('mousemove', onMove);
-      window.addEventListener('mouseup', onUp);
-      handle.addEventListener('touchstart', onDown, { passive: false });
-      window.addEventListener('touchmove', onMove, { passive: false });
-      window.addEventListener('touchend', onUp);
-    }
-
-    // tap anywhere on the sample jumps the seam there
-    ba.addEventListener('click', function (e) {
-      if (e.target.closest('[data-ba-handle]')) return;
-      set(pctFromX(e.clientX));
-    });
-
-    // keyboard
-    handle.addEventListener('keydown', function (e) {
-      var now = parseFloat(handle.getAttribute('aria-valuenow')) || START;
-      var step = e.shiftKey ? 10 : 2;
-      if (e.key === 'ArrowLeft')       { set(now - step); e.preventDefault(); }
-      else if (e.key === 'ArrowRight') { set(now + step); e.preventDefault(); }
-      else if (e.key === 'Home')       { set(0);   e.preventDefault(); }
-      else if (e.key === 'End')        { set(100); e.preventDefault(); }
-    });
-
-    set(START);
   }
 
   /* ---------------------------------------------------------------
@@ -264,7 +181,7 @@
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
 
   /* ---------------------------------------------------------------
-     D. Découvrez video — expand-in-place teaser (R-4, sealed R-4 rat.).
+     B. Découvrez video — expand-in-place teaser (R-4, sealed R-4 rat.).
 
      .video__long is always rendered (never `hidden` the way the pill/
      walk panels above start), so expand()/collapse() don't fit it as-
@@ -356,33 +273,7 @@
   }());
 
   /* ---------------------------------------------------------------
-     A. Servicii pills — ABUNDANCE MODE, several may sit open.
-  --------------------------------------------------------------- */
-  document.querySelectorAll('.pill__arrow').forEach(function (btn) {
-    var wrap  = btn.closest('.pill-wrap');
-    var pill  = wrap.querySelector('.pill');
-    var panel = wrap.querySelector('.panel');
-    var ba    = panel.querySelector('[data-ba]');
-    var ready = false;
-
-    btn.addEventListener('click', function () {
-      var open = btn.getAttribute('aria-expanded') === 'true';
-
-      if (open) {
-        btn.setAttribute('aria-expanded', 'false');
-        pill.classList.remove('is-open');
-        collapse(panel);
-      } else {
-        btn.setAttribute('aria-expanded', 'true');
-        pill.classList.add('is-open');
-        expand(panel);
-        if (!ready) { initSlider(ba); ready = true; }
-      }
-    });
-  });
-
-  /* ---------------------------------------------------------------
-     C. Pasii transformarii — FOCUS MODE, one card open at a time.
+     A. Pasii transformarii — FOCUS MODE, one card open at a time.
   --------------------------------------------------------------- */
   var cards    = document.querySelector('[data-cards]');
   var walk     = document.getElementById('walk');

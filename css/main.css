@@ -663,7 +663,8 @@ html.js-kh .kh__static{display:none;}
 .pill{
   position:relative;
   display:flex;align-items:center;
-  height:62px;
+  aspect-ratio:379/95;height:auto;
+  width:100%;max-width:480px;margin-inline:auto;
   padding-right:.5rem;
   border:1px solid var(--gold-line);
   border-radius:999px;
@@ -683,7 +684,8 @@ html.js-kh .kh__static{display:none;}
 /* strip image sits left and fades into the pill ground */
 .pill__img{
   position:absolute;left:0;top:0;
-  height:100%;width:auto;
+  width:100%;height:100%;
+  object-fit:contain;object-position:left center;
   border-radius:999px 0 0 999px;
   /* #000 here is mask alpha, not a colour — outside the colour law. */
   -webkit-mask-image:linear-gradient(90deg,#000 55%,transparent 92%);
