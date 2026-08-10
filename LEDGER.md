@@ -3685,3 +3685,51 @@ after this merge.
 
 Next: R-6d, then the R-4 vs R-5 ruling per Commander's standing
 order. C1/C2 doc criticals remain queued Tower work.
+
+## Entry #44 — 2026-08-10 — LAP R-6d: LA LOUPE — MERGE & CLOSE
+
+**Merge SHA `8869b56c66b0bae23fac7b9c57c3e0b33685c871`** — PR
+[#30](https://github.com/Ulgolan/hotico-proto/pull/30) merged into
+`main`. One bounce, one ratification. `css/main.css` → **v36**;
+markup change: three `.scard__imgbox` wrappers.
+
+### The object — one file, both worlds
+
+The band-lawful masters (Entry #43) traded closed-card presence
+for open-state correctness; this lap restores presence via a
+centered CSS zoom clipped to a dedicated photo box. Certified
+values, Commander's thumb: closed 3.0 mobile / 3.4 desktop;
+mobile-open 2.6; desktop banner scale(1), pixel-untouched.
+Instant apply/release ruled at V0 (an animated ease would fight
+the accordion's instant aspect-flip). isolation:isolate shipped
+on card and imgbox against the WebKit transform-clipping bleed;
+corners certified on Commander iPhone glass. Sharpness at 3.4
+certified on glass — no layout-zoom fallback needed.
+
+### Bounce 1 — Tower error #3 (own the record)
+
+The original key clipped the zoom against the whole card:
+subjects rode high, labels drowned at ≥2.2. Tribunal (three
+chairs) missed the clip-box geometry; the Commander's eye caught
+it. Fix: .scard__imgbox owns overflow/isolation/top-radius; the
+label row is structurally uncoverable at any magnification.
+Tribunal DID pre-catch: the WebKit clipping fix, the frozen-
+engine guard, the V0 transition autopsy, the zero-state control,
+and the child-combinator pre-flight — four traps paid, one
+missed. Also ledgered: the Hands isolated a session screenshot-
+tool defect (fails to paint transformed children under
+overflow:hidden clipping) with a proper overflow:visible control;
+computed-style used as ground truth where it applied.
+
+### Findings parked / opened
+
+- **Horizon drift (parked):** Procédure's horizon sits a few
+  points off its siblings — generation artifact, visible at high
+  zoom, Commander aware, fix-on-itch (measured re-crop available).
+- **R-6e « LA PILE » (opened):** mobile closed grid renders
+  3-across; Commander ruled stacked single-column per standard
+  practice. New lap; mobile closed zoom gets re-tasted there
+  (full-width cards change the feel).
+
+Next: R-6e, then the R-4 vs R-5 ruling per Commander's standing
+order. C1/C2 doc criticals remain queued Tower work.
