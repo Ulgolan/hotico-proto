@@ -3989,3 +3989,23 @@ TRAPS: areola.html form pointer stale (queued, don't panic-fix);
   Vercel hook occasionally silent — empty-commit trigger is the cure;
   screenshot harness dies on tall-pinned pages ≥900px — canvas
   sampling is the proven fallback.
+
+## Entry #48 — 2026-08-10 — PHASE C AUDIT — R-5 SESSION CLOSE
+
+Findings-only review, read-only, ZERO fixes applied. CRITICAL: none.
+MINOR (all → tidy-lap backlog): (1) pill webps render 1.55x density
+at the 480px cap band — the 186px resize spec predates the B-geometry
+ruling; re-encode ≥241px height from the Commander's 4548×1140
+masters (re-staging required; masters never entered the repo, by law).
+Corroborated independently: Hands observed visible softness in the
+tablet-band screenshot during the bake sweep — 1.55x explains it.
+(2) areola.html form.js?v=2b stale pointer. (3) dead selector
+families: .pill__arrow, .pill.is-open*, .panel*, .ba-*. (4) orphans:
+temp-1x/lips-*.png, services/strip-01..06.png. (5) record cure: in
+R-5, Hands' "byte-identical" cert claim on guarded main.js regions
+was code-exact but comment-loose (section relabels D→B, C→A) —
+disclosed in-session, Tower-verified harmless, now in the book.
+Integrity Pass 1: origin leg verified at content level (main ≡
+certified bake ≡ merge 3d7956b; ledger c26169; branch preserved);
+local leg per Hands' clean-tree attestation. Incident: not triggered.
+AAR: deferred to campaign close. Audit closes the R-5 session.
