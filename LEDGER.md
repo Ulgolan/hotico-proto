@@ -3912,3 +3912,80 @@ pill order, honest-facade links; the +40/+41 tel question travels to
 the client with the side-list). Parked: Procédure horizon drift
 (fix-on-itch); I2 amendment options A–D; Finding B; I9 minting; C1/C2
 doc criticals (Tower, queued); the tidy lap; R-2g.
+
+## Entry #47 — 2026-08-10 — LAP R-5: SERVICES — MERGE & CLOSE
+
+**Merge SHA `3d7956b42c58310534613fcea3106a7aa335b375`** — PR #33, branch r-5-services (alive per law).
+
+THE LAP: before/after widget cut (DOM + JS dead); six panel shells +
+abundance-mode block removed (Commander-ratified in session); pills
+reordered to the hero journey (Sourcils→Eyeliner→Alopécie→Lèvres→
+Cicatrices→Aréole); whole-pill single-tap links, arrows gone, five FR
+params character-exact + soon.js whitelist RO→FR (URLSearchParams);
+in-curand.html rewritten French, copy byte-certified against the vault
+(od-level: apostrophe, U+2039, every accent); stale pointers cured.
+
+ASSETS — PLAN A EXECUTED: Commander exported the six comp frames at
+@12x (4548×1140 = exactly 12× the 379×95 window; deterministic-by-
+construction, the anchor-derivation law's cleanest win). SHA-manifest
+ingest, name-map overwrite of the six pill-*.webp (semantic filenames
+killed all ambiguity), 742×186 WebP, 4–7KB each. Mask-rule amendment
+RATIFIED: silhouette edges permitted when part of the certified
+composition; any alpha flattened to white at ingest.
+
+THE BOUNCE ARC (the entry's heart): the Commander's eye bounced the
+lap's geometry on preview — art rendered 247px in pills stretching
+380–672px (a pre-existing frame mismatch made visible by the tighter
+art). Root diagnosis: build pill never matched the 379×95 comp frame.
+Dial lap (a: comp-ratio full-bleed / b: comp-ratio capped 480px /
+c: 95px conservative) walked on deployed preview at all six bands.
+COMMANDER RULED B. Baked as the base geometry at all widths, dial
+machinery stripped, sweep matched the certified table digit-for-digit
+(390:342×85.7 · 768/900:480×120.3 centered · 1024:304×76.2 ·
+1440/1920:362.7×90.9). Also inside the arc: the Commander bounced HIS
+OWN first aréole export and re-composed it (feature at 43% width,
+verified) — the taste gate held against its own gatekeeper. Ships as
+pill-areole.webp?v=2.
+
+TOWER ERRORS (the record; the pattern): #6 false "webps missing from
+main" ruling — subfolder-filtered grep; the Commander's Finder
+screenshot caught it. #7 R-5 v1 key ordered overwrite of unwired
+webps and never ordered the strip→webp rewire — Tribunal caught it
+pre-fire; live-source pull would have prevented it. #8 v2 micro-key
+dropped the push/preview exit condition (work stranded local, walk
+blocked) and its diff-scope contradicted the cache-bust law (forced a
+Hands revert). #9 Tower-authored dial-B CSS (post-Tribunal, un-
+reviewed) collapsed the pill to 103×26 at every band — Hands caught
+it, refused to improvise, reported. Lesson unchanged: keys are
+theories; every fired error traced to an unverified assumption, every
+catch to a pull of ground truth.
+
+HANDS CATCHES (with satisfaction): staged-aréole hash stop at gate
+zero; self-caught scope violation (areola pointer) with flagged
+revert; screenshot-harness death met with canvas pixel-sampling + WCAG
+math, method disclosed per band; Vercel hook silence diagnosed and
+cured by empty-commit trigger.
+
+TRIBUNAL RECORD: three full runs this lap — two AMBER (killed defects
+pre-fire), one GREEN on the bake key (first clean verdict of the
+campaign; scrutiny found the verification already done).
+
+STATE AFTER MERGE: main.css v42 · main.js v10 · soon.js v3 ·
+tokens v8 · form.js v3 · hero-scroll v25 FROZEN (SHA verified
+campaign-long). TIDY QUEUE grows: temp-1x/lips-*.png ·
+services/strip-01..06.png (unwired) · dead selectors (.pill__arrow,
+.pill.is-open*, .panel*, .ba-*) · areola.html form.js?v=2b stale
+pointer. 495×124 crops died by overwrite as planned.
+
+>> BATON
+STATE: R-5 merged; Services redesigned end-to-end; geometry B is law.
+CERTIFIED: Tower diff-cert at 4337e6e + 026e4b2 (tarball, byte-level).
+OPEN: R-4 vs R-5 docs? no — C1/C2 doc rewrites queued (Tower work);
+  Alexa side-list (5 items, draft on request); I2 A–D + Finding B;
+  I9 minting; R-2g; vous-conversion lap; tidy lap (queue above).
+NEXT: Commander's call — tidy lap is fat and cheap; C1/C2 rewrites
+  are Tower-only; Alexa side-list needs his clipboard.
+TRAPS: areola.html form pointer stale (queued, don't panic-fix);
+  Vercel hook occasionally silent — empty-commit trigger is the cure;
+  screenshot harness dies on tall-pinned pages ≥900px — canvas
+  sampling is the proven fallback.
