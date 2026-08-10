@@ -782,6 +782,10 @@ html.js-kh .kh__static{display:none;}
   background:var(--card);
   box-shadow:var(--shadow-neo);
   overflow:hidden;
+  isolation:isolate;   /* WEBKIT CLIPPING FIX — without this, iOS Safari
+                           fails to clip the transformed/scaled img under
+                           this element's border-radius; corners bleed
+                           square. Certifies only on Commander iPhone glass. */
 }
 
 .scard__btn{
@@ -790,10 +794,24 @@ html.js-kh .kh__static{display:none;}
   cursor:pointer;
 }
 
-.scard img{
+.scard__imgbox{
   width:100%;
   aspect-ratio:1/1;
+  overflow:hidden;
+  isolation:isolate;   /* WEBKIT CLIPPING FIX — see .scard note above. */
+  border-radius:14px 14px 0 0;   /* top corners only — the label row
+                           sits below, uncovered, in every state. */
+}
+
+.scard__imgbox img{
+  display:block;
+  width:100%;
+  height:100%;
   object-fit:cover;
+  transform:scale(3);   /* LA LOUPE — closed-grid magnification,
+                           Commander-certified. Clips against
+                           .scard__imgbox, not the whole card, so it
+                           never buries the label. Released on open. */
 }
 
 .scard__label{
@@ -825,9 +843,14 @@ html.js-kh .kh__static{display:none;}
   box-shadow:none;
 }
 
-.steps-cards.is-focused .scard img{
+.steps-cards.is-focused .scard__imgbox{
   aspect-ratio:16/9;
-  object-fit:cover;
+}
+
+.steps-cards.is-focused .scard__imgbox img{
+  transform:scale(2.6);   /* mobile-open loupe, Commander-certified —
+                           instant apply/release, same reasoning as V0
+                           of the original lap report. */
 }
 
 .steps-cards.is-focused .scard__arrow{display:none;}
@@ -1597,14 +1620,25 @@ html.js-kh .kh__static{display:none;}
     padding:.75rem .5rem .2rem;
   }
 
+  /* LA LOUPE — desktop closed grid gets its own certified magnitude,
+     stronger than mobile's, overriding the base-rule scale(3). */
+  .scard__imgbox img{
+    transform:scale(3.4);
+  }
+
   /* THE BANNER — is-focused card spans full content-max width,
      mirroring the mobile fusion (card carries image+label, walk
      continues the same frame beneath it) instead of the mobile
      16:9 crop, which would be too tall at this width */
-  .steps-cards.is-focused .scard img{
+  .steps-cards.is-focused .scard__imgbox{
     aspect-ratio:auto;
     height:250px;
+  }
+  .steps-cards.is-focused .scard__imgbox img{
     object-position:center;
+    transform:scale(1);   /* RE-ASSERT — the desktop banner stays
+                           untouched, unaffected by the closed-grid
+                           desktop override above. */
   }
   .steps-cards.is-focused .scard__label{
     font-size:1.4rem;
