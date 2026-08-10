@@ -794,12 +794,24 @@ html.js-kh .kh__static{display:none;}
   cursor:pointer;
 }
 
-.scard img{
+.scard__imgbox{
   width:100%;
   aspect-ratio:1/1;
+  overflow:hidden;
+  isolation:isolate;   /* WEBKIT CLIPPING FIX — see .scard note above. */
+  border-radius:14px 14px 0 0;   /* top corners only — the label row
+                           sits below, uncovered, in every state. */
+}
+
+.scard__imgbox img{
+  display:block;
+  width:100%;
+  height:100%;
   object-fit:cover;
-  transform:scale(var(--etapes-zoom, 2.2));   /* LA LOUPE — closed-grid
-                           magnification; released (scale 1) on open. */
+  transform:scale(var(--etapes-zoom, 3.0));   /* LA LOUPE — closed-grid
+                           magnification; clips against .scard__imgbox,
+                           not the whole card, so it never buries the
+                           label. Released (scale 1) on open. */
 }
 
 .scard__label{
@@ -831,10 +843,14 @@ html.js-kh .kh__static{display:none;}
   box-shadow:none;
 }
 
-.steps-cards.is-focused .scard img{
+.steps-cards.is-focused .scard__imgbox{
   aspect-ratio:16/9;
-  object-fit:cover;
-  transform:scale(1);   /* release, instant — see V0 in the lap report */
+}
+
+.steps-cards.is-focused .scard__imgbox img{
+  transform:scale(var(--etapes-zoom-open, 2.2));   /* mobile-open loupe —
+                           instant apply/release, same reasoning as V0
+                           of the original lap report. */
 }
 
 .steps-cards.is-focused .scard__arrow{display:none;}
@@ -1608,10 +1624,16 @@ html.js-kh .kh__static{display:none;}
      mirroring the mobile fusion (card carries image+label, walk
      continues the same frame beneath it) instead of the mobile
      16:9 crop, which would be too tall at this width */
-  .steps-cards.is-focused .scard img{
+  .steps-cards.is-focused .scard__imgbox{
     aspect-ratio:auto;
     height:250px;
+  }
+  .steps-cards.is-focused .scard__imgbox img{
     object-position:center;
+    transform:scale(1);   /* RE-ASSERT — the desktop banner must stay
+                           untouched regardless of a live ?zoomo= param;
+                           the cascade must not let the mobile-open
+                           zoom leak up into this breakpoint. */
   }
   .steps-cards.is-focused .scard__label{
     font-size:1.4rem;

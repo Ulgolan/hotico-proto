@@ -9,12 +9,13 @@
        flashes into the scrub-enhanced layout. -->
   <script>(function(){try{if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){document.documentElement.classList.add('js-kh');}}catch(e){}}());</script>
   <script>/* DEV-ONLY — stripped at ratification */(function(){try{var m=location.search.match(/[?&]zoom=([^&]+)/);if(!m)return;var z=parseFloat(m[1]);if(!isNaN(z)&&z>=1&&z<=4){document.documentElement.style.setProperty('--etapes-zoom',z);}}catch(e){}}());</script>
+  <script>/* DEV-ONLY — stripped at ratification */(function(){try{var m=location.search.match(/[?&]zoomo=([^&]+)/);if(!m)return;var z=parseFloat(m[1]);if(!isNaN(z)&&z>=1&&z<=4){document.documentElement.style.setProperty('--etapes-zoom-open',z);}}catch(e){}}());</script>
   <link rel="preload" as="image" href="assets/img/statue-kintsugi-v3.webp" type="image/webp">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css?v=8">
-  <link rel="stylesheet" href="css/main.css?v=34">
+  <link rel="stylesheet" href="css/main.css?v=35">
 </head>
 <body>
 
@@ -602,7 +603,7 @@
         <li class="scard" data-step="0">
           <button class="scard__btn" type="button" aria-expanded="false"
                   aria-controls="walk" aria-label="Ouvrir Conseil">
-            <img src="assets/img/etapes-conseil.webp" alt="">
+            <div class="scard__imgbox"><img src="assets/img/etapes-conseil.webp" alt=""></div>
             <span class="scard__label">Conseil</span>
             <span class="scard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg></span>
           </button>
@@ -610,7 +611,7 @@
         <li class="scard" data-step="1">
           <button class="scard__btn" type="button" aria-expanded="false"
                   aria-controls="walk" aria-label="Ouvrir Procédure">
-            <img src="assets/img/etapes-procedure.webp" alt="">
+            <div class="scard__imgbox"><img src="assets/img/etapes-procedure.webp" alt=""></div>
             <span class="scard__label">Procédure</span>
             <span class="scard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg></span>
           </button>
@@ -618,7 +619,7 @@
         <li class="scard" data-step="2">
           <button class="scard__btn" type="button" aria-expanded="false"
                   aria-controls="walk" aria-label="Ouvrir Entretien">
-            <img src="assets/img/etapes-entretien.webp" alt="">
+            <div class="scard__imgbox"><img src="assets/img/etapes-entretien.webp" alt=""></div>
             <span class="scard__label">Entretien</span>
             <span class="scard__arrow" aria-hidden="true"><svg viewBox="0 0 16 16"><path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/></svg></span>
           </button>
