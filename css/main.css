@@ -808,10 +808,10 @@ html.js-kh .kh__static{display:none;}
   width:100%;
   height:100%;
   object-fit:cover;
-  transform:scale(var(--etapes-zoom, 3.0));   /* LA LOUPE — closed-grid
-                           magnification; clips against .scard__imgbox,
-                           not the whole card, so it never buries the
-                           label. Released (scale 1) on open. */
+  transform:scale(3);   /* LA LOUPE — closed-grid magnification,
+                           Commander-certified. Clips against
+                           .scard__imgbox, not the whole card, so it
+                           never buries the label. Released on open. */
 }
 
 .scard__label{
@@ -848,7 +848,7 @@ html.js-kh .kh__static{display:none;}
 }
 
 .steps-cards.is-focused .scard__imgbox img{
-  transform:scale(var(--etapes-zoom-open, 2.2));   /* mobile-open loupe —
+  transform:scale(2.6);   /* mobile-open loupe, Commander-certified —
                            instant apply/release, same reasoning as V0
                            of the original lap report. */
 }
@@ -1620,6 +1620,12 @@ html.js-kh .kh__static{display:none;}
     padding:.75rem .5rem .2rem;
   }
 
+  /* LA LOUPE — desktop closed grid gets its own certified magnitude,
+     stronger than mobile's, overriding the base-rule scale(3). */
+  .scard__imgbox img{
+    transform:scale(3.4);
+  }
+
   /* THE BANNER — is-focused card spans full content-max width,
      mirroring the mobile fusion (card carries image+label, walk
      continues the same frame beneath it) instead of the mobile
@@ -1630,10 +1636,9 @@ html.js-kh .kh__static{display:none;}
   }
   .steps-cards.is-focused .scard__imgbox img{
     object-position:center;
-    transform:scale(1);   /* RE-ASSERT — the desktop banner must stay
-                           untouched regardless of a live ?zoomo= param;
-                           the cascade must not let the mobile-open
-                           zoom leak up into this breakpoint. */
+    transform:scale(1);   /* RE-ASSERT — the desktop banner stays
+                           untouched, unaffected by the closed-grid
+                           desktop override above. */
   }
   .steps-cards.is-focused .scard__label{
     font-size:1.4rem;
