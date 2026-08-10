@@ -12,33 +12,6 @@
   var REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------------------------------------------------------------
-     R-4 DIALS — dev-only, stripped at ratification. House pattern:
-     read from location.search, never active without the param; a
-     ratification commit later hard-codes the Commander's picks and
-     removes every dial (see LEDGER).
-  --------------------------------------------------------------- */
-  (function dials() {
-    var qs   = new URLSearchParams(location.search);
-    var root = document.documentElement.style;
-
-    if (qs.has('vp')) {
-      var lines = parseInt(qs.get('vp'), 10);
-      if (lines > 0) root.setProperty('--vl-lines', String(lines));
-    }
-    if (qs.get('valign') === 'center') {
-      root.setProperty('--vl-valign', 'center');
-    }
-    if (qs.has('vgap')) {
-      var gap = parseFloat(qs.get('vgap'));
-      if (!isNaN(gap)) root.setProperty('--vl-vgap', gap + 'rem');
-    }
-    if (qs.get('vdots') === 'video') {
-      var vdots = document.querySelector('[data-carousel="video"] .dots');
-      if (vdots) vdots.classList.add('is-video-aligned');
-    }
-  }());
-
-  /* ---------------------------------------------------------------
      Height transition helper. <details>-free, so panels can animate
      from 0 to their natural height and back without hardcoding px.
   --------------------------------------------------------------- */
@@ -291,7 +264,7 @@
   document.querySelectorAll('[data-carousel]').forEach(initCarousel);
 
   /* ---------------------------------------------------------------
-     D. Découvrez video — expand-in-place teaser (R-4).
+     D. Découvrez video — expand-in-place teaser (R-4, sealed R-4 rat.).
 
      .video__long is always rendered (never `hidden` the way the pill/
      walk panels above start), so expand()/collapse() don't fit it as-
@@ -300,6 +273,10 @@
      `height` property instead — the transitionend/timeout machinery
      is not duplicated, only the open/close bookkeeping around it is
      new, because the two components don't share a starting state.
+     Inline height is scratch space for the transition only: doClose()
+     releases it once settle() lands, so the stylesheet's em-based
+     clamp is back in control at rest and recomputes correctly across
+     a resize or rotation instead of staying pinned to a stale px.
 
      TRAP 2 — the button sits on the carousel's swipe surface (see the
      comment above initCarousel). stopPropagation on the button's own
@@ -312,7 +289,18 @@
      MutationObserver watches the dots' class attribute. go() toggles
      .is-active there on every slide change, tap or swipe alike, so
      this catches both without initCarousel exposing any hook.
+
+     Entry #45's stranding rescue (viewport follows the card) covers
+     both ways a card can close: a reader's own « Voir moins » tap
+     rescues to the SLIDE she was reading; a swipe that auto-collapses
+     her open card out from under her rescues to the SECTION, so she
+     lands oriented at its top with the newly active slide in view.
+     Same guard both times — rescue only when the target has scrolled
+     above the viewport — read after settle() so layout is at rest,
+     never mid-shrink.
   --------------------------------------------------------------- */
+  var videoSection = document.querySelector('.video');
+
   document.querySelectorAll('[data-carousel="video"] .carousel__slide').forEach(function (slide) {
     var long = slide.querySelector('[data-long]');
     var btn  = slide.querySelector('[data-more]');
@@ -329,11 +317,7 @@
       settle(long, function () { long.style.height = 'auto'; });
     }
 
-    // homeAfter — Entry #45's law (viewport follows the card) applies
-    // to a reader-initiated close via the button. An auto-collapse
-    // triggered by changing slides is not the reader closing anything
-    // they were reading; it does not steal their scroll position.
-    function doClose(homeAfter) {
+    function doClose(rescueTarget) {
       open = false;
       btn.setAttribute('aria-expanded', 'false');
       btn.textContent = 'Voir plus';
@@ -341,18 +325,19 @@
       void long.offsetHeight;               // pin the current height before dropping it
       long.style.height = closedPx + 'px';
       settle(long, function () {
-        if (homeAfter && slide.getBoundingClientRect().top < 0) scrollHome(slide);
+        long.style.height = '';             // release — stylesheet clamp governs at rest
+        if (rescueTarget && rescueTarget.getBoundingClientRect().top < 0) scrollHome(rescueTarget);
       });
     }
 
     btn.addEventListener('click', function () {
-      if (open) doClose(true); else doOpen();
+      if (open) doClose(slide); else doOpen();
     });
 
     btn.addEventListener('pointerdown', function (e) { e.stopPropagation(); });
     btn.addEventListener('touchstart', function (e) { e.stopPropagation(); }, { passive: true });
 
-    slide.__collapseVideoLong = function () { if (open) doClose(false); };
+    slide.__collapseVideoLong = function () { if (open) doClose(videoSection); };
   });
 
   (function () {
