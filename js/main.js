@@ -344,13 +344,22 @@
         // RIDER 1 — scroll home. The target is read AFTER the cards are
         // back and a reflow is forced: collapsing removes ~650px, and a
         // scroll aimed before that shrink lands short and strands the
-        // viewer mid-page. RIDER 2 — anchors to the card that was open
-        // (falls back to the section for the no-card-was-open case,
-        // which shouldn't occur since collapseBtn only exists while a
-        // card is focused), not the section top: on the stack, the
+        // viewer mid-page. RIDER 2 — width-split target, evaluated HERE
+        // (not cached at load, so a resize/rotation between open and
+        // close still gets the right answer). Below 768, the stack
+        // anchors to the card that was open (falls back to the section
+        // for the no-card-was-open case, which shouldn't occur since
+        // collapseBtn only exists while a card is focused) — the
         // section top sits above the heading, well clear of whichever
-        // card the viewer was just reading.
-        scrollHome(focusedCard || pasii);
+        // card the viewer was just reading. At 768+, the 3-across row
+        // keeps the original section target: Commander-ruled B —
+        // width-split — the certified desktop landing (heading visible
+        // on close) stays as campaign-certified, only mobile follows
+        // the card.
+        var closeTarget = window.matchMedia('(max-width: 767px)').matches
+          ? (focusedCard || pasii)
+          : pasii;
+        scrollHome(closeTarget);
       });
       cards.querySelectorAll('.scard__btn').forEach(function (b) {
         b.setAttribute('aria-expanded', 'false');
