@@ -350,17 +350,4 @@
       });
     });
   }
-
-  /* ---------------------------------------------------------------
-     DEV DIAL — R-5 bounce, Servicii pill geometry comparison only.
-     ?dial=a/b/c adds .dial-a/b/c to .pills; no param, no class, no
-     visual change. TEMPORARY: strip this block (and the three
-     .pills.dial-* rules in main.css) once the Commander rules.
-  --------------------------------------------------------------- */
-  (function () {
-    var dial = new URLSearchParams(location.search).get('dial');
-    if (dial !== 'a' && dial !== 'b' && dial !== 'c') return;
-    var pills = document.querySelector('.pills');
-    if (pills) pills.classList.add('dial-' + dial);
-  }());
 }());
