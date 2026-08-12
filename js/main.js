@@ -15,7 +15,7 @@
      Height transition helper. <details>-free, so panels can animate
      from 0 to their natural height and back without hardcoding px.
   --------------------------------------------------------------- */
-  var DUR = 340; // keep in step with .panel / .walk transition-duration
+  var DUR = 340; // keep in step with .walk transition-duration
 
   // Scroll a section back to the top of the viewport. Read the target
   // AFTER the caller has finished changing layout — collapsing the
