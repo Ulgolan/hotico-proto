@@ -4009,3 +4009,120 @@ Integrity Pass 1: origin leg verified at content level (main ≡
 certified bake ≡ merge 3d7956b; ledger c26169; branch preserved);
 local leg per Hands' clean-tree attestation. Incident: not triggered.
 AAR: deferred to campaign close. Audit closes the R-5 session.
+
+## Entry #49 — 2026-08-12 — CAMPAIGN CLOSE: HOTICO PROTO v1
+
+**Scope: the tidy queue, executed.** Branch `seal-v1`. This is the campaign's
+final lap. The repo REMAINS OPEN for future chapters; v1 becomes the
+certified reference, not a tombstone.
+
+WHAT SHIPPED: (1) `docs/qa/gesture-matrix.md` + `docs/qa/harness/` committed
+unmodified, recovered from the R-2f executor session — closes OPEN C3
+(artifact missing). (2) `servicii/areola.html` cache-bust:
+`form.js?v=2b` → `v=3`, stale pointer flagged since Entry #48 cured.
+(3) `js/main.js:18` comment de-fanged: the dead `.panel` reference dropped,
+`.walk` stands alone — code untouched. (4) `css/main.css`: the four retired
+Services families — `.pill__arrow`, `.pill.is-open*`, `.panel*`, `.ba*` —
+removed (111 lines), zero references anywhere in `*.html`/`css`/`js`
+confirmed before the cut; `.panel-tab` (live areola tabs) and `.walk`
+(live Découvrez) untouched. (5) prototype disclosure line landed in the
+`index.html` success panel: "Prototype — aucune donnée n'est envoyée.",
+muted via the existing `--placeholder` token, new `.success__note` rule
+only — no new color, no new font. (6) `CLAUDE.md`'s desktop-grace-floor
+law split at the 768px gate: `body{max-width:480px}` now scoped BELOW
+768px only, superseded above it by the ratified desktop campaign
+(root POLARIS, 2026-08-04; `main.css` `min-width:768` override).
+
+ORPHAN REPORT — verification law applied, no list trusted, every candidate
+grepped by filename across all `*.html`, `css/`, `js/` before the cut:
+
+*Removed to Trash (31 files, zero references found):*
+`assets/img/services/strip-01..06.png` + `strip-small.png` (7);
+`assets/img/temp-1x/lips-before-after-composite.png` (1);
+`assets/img/hero-torso.png` (1); `assets/img/statue-kintsugi.png`,
+`.webp`, `-v2.webp` (3, superseded by the live `statue-kintsugi-v3.webp`);
+`assets/src/etapes-conseil.png`, `-entretien.png`, `-procedure.png` (3,
+raw source exports, not the live `.webp` derivatives); `assets/brand/
+icons/icon-6..15.png` (10); `assets/brand/pattern/pattern-17..20.png`
+(4); `assets/brand/logo-lockup-alt-black.png` + `-white.png` (2).
+
+*Skipped — live, grep found references:* the six `img/pill-*.webp`
+(trap b named in the brief — live in `index.html`'s pill gallery,
+post-R-5; the M7 list at Entry #40 predates R-5 and is stale on them).
+`img/temp-1x/lips-before.png` / `lips-after.png` (trap a — 15 live
+references, only the composite was ever a candidate). **New finding,
+same shape as trap b:** the three `img/etapes-*.webp` are ALSO live
+(`index.html`'s Découvrez `scard__imgbox` images) despite M7 listing
+them as orphaned alongside their `src/etapes-*.png` sources — M7 is
+stale on these too. The grep, not either list, is what shipped.
+
+PRODUCTION DEBT (recorded, not fixed — out of this lap's scope):
+Découvrez's expand/collapse (`js/main.js:226` `closedPx`, consumed at
+`:243`) caches the collapsed height ONCE at init via
+`getBoundingClientRect()`. A prototype never resizes mid-session in any
+graded gesture, so this has never fired wrong here. Production must
+recompute the collapsed target from current geometry at collapse time,
+not trust a value cached before any resize, orientation change, or
+zoom the user performs between load and their first "Voir moins" tap.
+
+RECORD CORRECTION: Entry #39 credited the four added gesture families as
+*"go-home 12, launch 14, keyboard 8, rail 32"*. The rail figure was an
+arithmetic error carried from the PR report into the ledger. The
+recovered `docs/qa/gesture-matrix.md` (this lap, item 1 above) is
+authoritative and self-corrects: 7 origin→destination pairs + 2
+mid-flight interrupts × 2 viewports = **rail 18**, family total **52**,
+not 66. Nothing was invented to close the gap — the artifact already
+carried its own correction notice.
+
+KNOWN INVARIANT DEBT, CARRIED: I6 and I8 (reduced-motion completeness;
+paint-lag-but-not-interaction-lag) remain cell-less in the gesture
+matrix — appended to the constitution by Tower reconciliation after the
+R-2f lap closed, never exercised by the 240-cell matrix built before
+they existed. I7 is structurally safe by standing guardrail (zero
+`preventDefault`, verified every lap). I6's reduced-motion path is dead
+code behind the `js-kh` gate, never exercised; I8's pointer/focus rule
+was satisfied by reasoning recorded at the time (R-2e), not by a test.
+Documented in full in `docs/qa/gesture-matrix.md`. Holding I6/I8 to the
+I1–I5 standard requires cells that do not exist yet — carried, not
+closed.
+
+AAR: the full campaign-close audit — estate, findings, and Tower
+reconciliation — lives at
+`acp-doctrine/audits/2026-08-11-hotico-campaign-estate-audit.md`
+(outside this repo, Tower's book).
+
+>> BATON
+STATE: tidy queue executed on `seal-v1`; disclosure line and the
+  768px-gated grace-floor law land with it. Preview pending Commander's
+  eye; merge and the `hotico-proto-v1` tag are the two steps left in
+  this lap.
+CERTIFIED: pending — this entry documents the build, not a cert. Tower
+  certifies post-merge via raw pull at the `hotico-proto-v1` tag, per
+  this lap's exit condition.
+OPEN: everything already on record and untouched by this lap — R-2g;
+  vous-conversion lap; I2 A–D + Finding B (M10); I9 minting; C1/C2 doc
+  rewrites (Tower work); Alexa side-list (M9, client question, never
+  edited unilaterally); the Découvrez `closedPx` production debt above;
+  I6/I8 invariant debt above.
+NEXT: push `seal-v1`, confirm the Vercel preview, hand the preview URL
+  + HEAD SHA to the Commander. On his word: merge, then tag
+  `hotico-proto-v1` at the merge commit on `main`. Repo stays open
+  after — v1 is a certified reference, not a close-out.
+TRAPS: pill-*.webp AND etapes-*.webp both read as orphaned on the stale
+  M7 list — both are live; grep before touching any asset flagged only
+  by a list. Vercel hook occasionally silent — empty-commit trigger is
+  the cure. `.panel-tab` and `.walk` share name-shape with the retired
+  `.panel`/`.pill` families but are unrelated and live — don't let a
+  substring match pull them into a future cut.
+COST (new standing law, first application — figures below are a
+  one-time reconstruction, not a lap-by-lap log, since no prior entry
+  carried this line): 49 ledger entries/laps recorded 2026-08-02 →
+  2026-08-12 (~10 calendar days) across this campaign. Model mix mixed
+  across sessions — at least one graded lap (R-2f) ran its executor
+  session on Opus per `gesture-matrix.md`'s own header; this close
+  ran on Sonnet 5; per-lap model was not logged historically, so no
+  precise mix can be given. Hours were never tracked lap-by-lap before
+  this entry — no honest figure exists to report here. Going forward,
+  every lap's own BATON should carry its own COST line at close, so
+  this stops being a retroactive estimate and starts being a real
+  record.

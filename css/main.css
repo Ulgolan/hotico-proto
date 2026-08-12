@@ -701,117 +701,6 @@ html.js-kh .kh__static{display:none;}
   line-height:1;
 }
 
-.pill__arrow{
-  position:relative;
-  flex:0 0 auto;
-  width:44px;height:44px;border-radius:50%;
-  background:var(--gold);
-  display:flex;align-items:center;justify-content:center;
-}
-
-.pill__arrow svg{
-  width:19px;height:19px;fill:var(--cocoa);
-  transition:transform .28s ease;
-}
-
-/* --- A. open costume: corners rounded -> square-ish, arrow flips up --- */
-
-.pill.is-open{
-  border-radius:14px;
-  border-bottom-left-radius:0;
-  border-bottom-right-radius:0;
-}
-
-.pill.is-open .pill__img{border-radius:14px 0 0 0;}
-
-.pill.is-open .pill__arrow{border-radius:10px;}
-
-.pill.is-open .pill__arrow svg{transform:rotate(180deg);}
-
-/* --- the inline panel --- */
-
-.panel{
-  overflow:hidden;
-  height:0;
-  transition:height .34s ease;
-}
-
-.panel[hidden]{display:none;}
-
-.panel__inner{padding-top:2px;}
-
-/* --- B. before/after comparison slider --- */
-
-.ba{
-  position:relative;
-  width:100%;
-  aspect-ratio:390/303;      /* the split photo band, 1:1 with source */
-  overflow:hidden;
-  border:1px solid var(--gold-line);
-  border-top:0;
-  border-radius:0 0 14px 14px;
-  background:var(--card);
-  touch-action:pan-y;        /* horizontal drags belong to the handle */
-  user-select:none;
-}
-
-.ba__layer{
-  position:absolute;inset:0;
-  overflow:hidden;
-}
-
-.ba__layer img{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  object-fit:fill;           /* halves differ in width; see LEDGER */
-  pointer-events:none;
-}
-
-/* The "before" layer is the one that gets clipped. clip-path, not
-   width: both layers stay at full panel size, so dragging moves the
-   reveal without ever rescaling a photo. */
-.ba__before{clip-path:inset(0 55% 0 0);}
-
-.ba:not(.is-dragging) .ba__before{transition:clip-path .12s linear;}
-
-.ba__tag{
-  position:absolute;top:0;
-  padding:.3rem .9rem;
-  background:var(--white);
-  font-size:1rem;
-  line-height:1.3;
-  z-index:2;
-  pointer-events:none;
-}
-
-.ba__tag--before{left:0;}
-.ba__tag--after{right:0;}
-
-.ba__seam{
-  position:absolute;top:0;bottom:0;left:45%;
-  width:3px;margin-left:-1.5px;
-  background:var(--white);
-  z-index:3;
-}
-
-.ba:not(.is-dragging) .ba__seam{transition:left .12s linear;}
-
-.ba__handle{
-  position:absolute;top:50%;left:50%;
-  transform:translate(-50%,-50%);
-  width:46px;height:46px;border-radius:50%;
-  background:var(--white);
-  box-shadow:var(--shadow-neo);
-  display:flex;align-items:center;justify-content:center;gap:3px;
-  cursor:ew-resize;
-  touch-action:none;
-}
-
-.ba__handle i{
-  display:block;width:2px;height:15px;
-  background:var(--cocoa);
-}
-
 /* ---------- f. PASII TRANSFORMARII ---------- */
 
 .steps-cards{
@@ -1130,6 +1019,8 @@ html.js-kh .kh__static{display:none;}
 .success__btns{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.4rem;}
 
 .success__btns a{text-decoration:none;}
+
+.success__note{font-size:.875rem;color:var(--placeholder);margin:0 0 .8rem;}
 
 .success__back{
   background:none;font-size:.875rem;color:var(--cocoa);

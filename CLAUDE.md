@@ -32,7 +32,10 @@ Stop at every STOP in a brief. Report; do not improvise.
 ## Standing laws
 - `<meta name="robots" content="noindex,nofollow">` in the `<head>` of every
   page, every lap. Permanent.
-- `body{max-width:480px}` is law — the desktop grace floor.
+- body{max-width:480px} is law BELOW 768px — the mobile grace
+  floor. Above 768px it is superseded by the ratified desktop
+  campaign (root POLARIS, 2026-08-04; main.css min-width:768
+  override). Mobile canon still alters only by Commander ruling.
 - File removals go to **Trash**, never hard-delete. This applies to assets,
   docs, and code alike.
 - `LEDGER.md` is read on open and appended on close.
