@@ -1020,6 +1020,8 @@ html.js-kh .kh__static{display:none;}
 
 .success__btns a{text-decoration:none;}
 
+.success__note{font-size:.875rem;color:var(--placeholder);margin:0 0 .8rem;}
+
 .success__back{
   background:none;font-size:.875rem;color:var(--cocoa);
   cursor:pointer;text-decoration:underline;
