@@ -890,27 +890,26 @@ html.js-kh .kh__static{display:none;}
 
 /* ---------- Lap 2b: 3-step form ---------- */
 
-/* RIDER A: the track clips at its own box, and btn-pink carries a 2px
-   ring plus shadow-neo beyond its border. Widen the clipping box by
-   10px each side and pad the steps back, so the pill and its shadow
-   render whole while the content stays aligned with the rest of the
-   form. */
+/* RIDER A: btn-pink carries a 2px ring plus shadow-neo beyond its
+   border. Widen the box by 10px each side and pad the steps back, so
+   the pill and its shadow render whole while the content stays
+   aligned with the rest of the form. */
 .steps{
-  overflow:hidden;
-  transition:height .34s ease;
   margin:0 -10px;
 }
 
 .steps__track{
   display:flex;
   align-items:flex-start;
-  transition:transform .34s ease;
 }
 
-.step{flex:0 0 100%;min-width:0;padding:0 10px;}
+@keyframes stepIn{from{opacity:0}to{opacity:1}}
+
+.step{min-width:0;padding:0 10px;animation:stepIn .18s ease;}
 
 @media (prefers-reduced-motion:reduce){
   .steps,.steps__track{transition:none;}
+  .step{animation:none;}
 }
 
 .stepnav{

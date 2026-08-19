@@ -5155,3 +5155,160 @@ COST: single-session mobile-correction lap, Sonnet 5, same branch,
   width guard, one non-fix confirmed and recorded, three-file
   cache-bust rider (two `form.js` consumers, three `main.css`
   consumers).
+
+---
+
+## Entry #59 — 2026-08-19 — LAP F-4c: VIDEO GATE — SLIDE ENGINE RETIRED, STATIC REST STATE
+
+**Scope:** Root-caused from the Commander's device video (frame-
+analyzed): WebKit's focus-scroll teleports on step-2 fields and
+scroll-jumps on keyboard dismissal, traced in code to
+`.steps__track` holding `translateX(-100%)` at rest inside an
+`overflow:hidden` ancestor with a JS-pinned height — the exact
+ancestor combination that corrupts WebKit's scroll-into-view and
+scroll-restoration math. Fixed at the root, same branch
+(`f4-alexas-gate`, not merged): the wizard's rest state is now static
+DOM. No transform, no pinned height, ever — the disease's absence,
+not a counter-scroll.
+
+WHAT SHIPPED:
+
+1. Markup-first, both pages: `<div class="step" data-step="2">`
+   gains the `hidden` attribute directly in the HTML, so step 2 is
+   hidden before any script runs — kills the flash-of-all-steps on a
+   slow load. Step 1 ships visible as before.
+
+2. `js/form.js` slide engine retired:
+   - `go(n)` no longer writes `track.style.transform`. It toggles
+     `hidden` on every step — the active step loses it, every other
+     step gains it — then runs the unchanged label/bars logic.
+     `hidden = display:none` means input values persist under the
+     hood, so retour preservation holds by construction, not by
+     extra code.
+   - `sizeTo()` deleted along with every call site: both calls inside
+     the old `go()`, the 380ms settle `setTimeout`, the whole
+     `resize` listener with F-4b's `lastWidth` guard, and the two
+     remnant calls inside the reveal handler (`data-group` click) —
+     the `if (!revealName) { sizeTo(...); return; }` early return
+     lost only the `sizeTo` call, and the trailing `sizeTo(...)` at
+     the handler's end was deleted outright. The rest of that
+     handler's shape is untouched — broader dead-code cleanup there
+     is a future lap, not this one. `grep -c "sizeTo" js/form.js` →
+     `0`, confirmed post-edit. The now-unused `track` variable
+     (`[data-steps-track]` lookup, read only by the deleted transform
+     write) was removed alongside it — direct residue of this exact
+     change, not separate cleanup.
+   - `root.style.height` is never written anywhere in the file
+     post-edit; confirmed by reading the diff, not just by grep, since
+     the assignment site is gone along with `sizeTo` itself.
+   - Confirm, handoff (`window.open`, blessed template incl. Heure),
+     and reset (`go(1)`, navigation not wipe) flows: untouched beyond
+     what deleting `sizeTo`'s call sites required — no message-
+     composition or recap-read line was touched this lap.
+
+3. `css/main.css` slide styling retired: `.steps` loses
+   `overflow:hidden` and `transition:height` (margin `0 -10px` stays
+   — RIDER A's shadow-clearance reasoning still holds without the
+   clipping-box framing, so the comment above it was trimmed to match,
+   not deleted). `.steps__track` loses `transition:transform`; no
+   `transform` property is set on it anywhere. `.step` loses
+   `flex:0 0 100%` — steps are full-width blocks now, `min-width:0`
+   and the 10px side padding kept. New entrance: `@keyframes
+   stepIn{from{opacity:0}to{opacity:1}}` and `.step{animation:stepIn
+   .18s ease;}` — fires on every un-hide, including step 1 on first
+   paint, which is expected and left alone (subtle, not a bug). Inside
+   the existing `prefers-reduced-motion:reduce` block, `.step
+   {animation:none;}` joins the pre-existing `.steps,.steps__track
+   {transition:none;}` line (now itself vestigial since neither
+   selector carries a transition anymore, but left as the DO
+   specified — not this lap's cleanup).
+
+4. CACHE-BUST, consumer rider: `js/form.js` `v=9`→`v=10`
+   (`index.html`, `servicii/areola.html`); `css/main.css`
+   `v=50`→`v=51` (`index.html`, `servicii/areola.html`,
+   `servicii/in-curand.html`). `tokens.css` untouched at `v=10`,
+   three consumers.
+
+VERIFICATION — local static-server preview (scratch port; this
+session's Browser pane again could not reach another chat's dev
+server on the project's usual port), both pages, DOM/computed-style
+reads throughout. Static-state: `.step[data-step="2"]` computed
+`display:none` and `.hidden === true` at rest on fresh load (query
+scoped to `.step[data-step="2"]` specifically — a same-named
+`data-step="2"` exists on an unrelated `.scard` earlier in
+`index.html`'s DOM and was excluded from the check); `.step[data-step
+="1"]` visible; `[data-steps-track]` computed `transform: none`;
+`[data-steps]` root's `style` attribute `null` (no inline height ever
+written); `grep -c "sizeTo" js/form.js` → `0`; `grep -c "@keyframes
+stepIn" css/main.css` → `1`. Full walk (index): `Suivant` → step 1
+hides, step 2 un-hides with computed `animation-name: stepIn`, track
+transform stays `none`, root stays height-unset. `Retour`
+(`[data-back]`, step 2 → step 1) then `Suivant` again: date, heure,
+procedure dot, and all four contact fields read back byte-identical
+by direct value inspection — plain `hidden`-toggle persistence, no
+recap-restore code involved. Confirm: single `window.open` call,
+decoded `text=` byte-exact against the blessed template including
+`Heure`, success shown, bar 3 lit, label "3. Confirmation". Post-
+confirm retour (`[data-reset]`): back to step 2 with date, heure,
+dot, and nom all intact. Repeated on areola with a base+extra
+procedure (`Aréole + Sourcils`) — same shape, message composed
+correctly. Reveal-handler surviving territory exercised: clicked the
+one live `[data-group]` (procedure radiogroup, no `data-reveals` in
+current markup, so the early-return path this lap touched) —
+zero console errors before or after. `read_console_messages`
+(`onlyErrors`) clean on index, areola, and in-curand. `git diff
+f4-alexas-gate --stat` for this correction: `css/main.css`,
+`js/form.js`, `index.html`, `servicii/areola.html`,
+`servicii/in-curand.html` (pointer-only) — plus this entry in
+`LEDGER.md`; cumulative branch scope against main remains exactly the
+six files named in Entry #57's original brief. Pointers confirmed
+post-edit: `v=10` (two `form.js` consumers) / `v=51` (three
+`main.css` consumers) / `v=10` (`tokens.css`, untouched).
+
+STATE FOR THE COMMANDER: this session's tooling cannot reproduce iOS
+keyboard choreography — every check above is DOM state, computed
+style, and console output, not an on-device replay. The true
+certification of this fix is the Commander's own device gate.
+
+>> BATON
+STATE: `f4-alexas-gate` now carries Entry #57's batch, Entry #58's
+  mobile correction, and this video-gate root-cause fix — wizard rest
+  state is static DOM, no transform/height-pin/resize-listener
+  machinery survives — locally verified on index and areola across
+  static-state/full-walk/retour/confirm/console checks, in-curand
+  verified pointer-only. Not merged — holding for the Commander's
+  device gate.
+CERTIFIED: pending Tower, and specifically pending the Commander's
+  device — see STATE FOR THE COMMANDER above.
+OPEN: unchanged from Entry #57 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap; Entry
+  #57's mobile auto-open tradeoff stands, unrelated to this fix. NEW:
+  the reveal-handler's post-`sizeTo`-removal shape (the `data-group`
+  click handler's `data-reveals` branch) is noted dead-code-adjacent
+  and left for a future cleanup lap, per this lap's DO. The 180ms
+  `stepIn` fade replacing the slide is this session's taste call, not
+  a client ratification — may return as a future taste lap on the
+  Commander's ruling.
+NEXT: hold for the Commander's device gate on this pass; push and
+  report HEAD SHA once cleared to push.
+TRAPS: If the Commander's device gate still shows any focus teleport,
+  do NOT improvise counter-scrolls — report; the Tower hunts the next
+  transformed/filtered ancestor with the video method. Standing
+  lesson from this lap: a slide/carousel built on a persistent
+  `transform` inside a clipped, height-pinned ancestor is a known
+  WebKit scroll-corruption shape, not just a visual technique choice —
+  worth checking any *other* transform-based component (the
+  confirmation-screen testimonial carousel, `data-conf-carousel`,
+  still uses `ctrack.style.transform` for its slide) against the same
+  risk before it ships to a real device, though it was out of this
+  lap's scope and untouched.
+COST: single-session root-cause lap, Sonnet 5, same branch, one JS
+  function deleted with five call sites removed (two in `go()`, one
+  `setTimeout`, one whole `resize` listener, two in the reveal
+  handler) and one now-dead variable removed with it, three CSS rules
+  stripped of their transition/transform/flex properties and one
+  keyframe animation added, two markup attributes added
+  (`hidden` ×2), three-file cache-bust rider (two `form.js`
+  consumers, three `main.css` consumers) — no scroll/resize
+  "helpers" added, the fix is subtractive.

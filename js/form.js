@@ -8,7 +8,6 @@
   var root = document.querySelector('[data-steps]');
   if (!root) return;
 
-  var track  = root.querySelector('[data-steps-track]');
   var steps  = Array.prototype.slice.call(root.querySelectorAll('.step'));
   var label  = document.querySelector('[data-step-label]');
   var bars   = Array.prototype.slice.call(document.querySelectorAll('.stepper__bars i'));
@@ -24,22 +23,11 @@
 
   var index = 0;
 
-  function sizeTo(step) {
-    // guards a pending go() setTimeout (below) that can still fire after
-    // confirm() has moved `index` to 2 — a slot with no .step of its own.
-    if (!step) return;
-    root.style.height = step.getBoundingClientRect().height + 'px';
-  }
-
   function go(n) {
     index = Math.max(0, Math.min(steps.length - 1, n));
-    track.style.transform = 'translateX(' + (-index * 100) + '%)';
+    steps.forEach(function (step, i) { step.hidden = i !== index; });
     if (label) label.textContent = NAMES[index];
     bars.forEach(function (b, i) { b.classList.toggle('is-active', i === index); });
-    sizeTo(steps[index]);
-    // re-measure once the slide has settled: a step measured mid-transition
-    // can report the outgoing step's height and leave dead space below.
-    setTimeout(function () { sizeTo(steps[index]); }, 380);
   }
 
   root.addEventListener('click', function (e) {
@@ -65,7 +53,7 @@
 
       var revealName = group.getAttribute('data-reveals');
       var showOn     = group.getAttribute('data-reveal-on');
-      if (!revealName) { sizeTo(steps[index]); return; }
+      if (!revealName) { return; }
 
       var panel = document.querySelector('[data-reveal="' + revealName + '"]');
       if (panel) panel.hidden = value !== showOn;
@@ -80,7 +68,6 @@
           if (child) child.hidden = true;
         });
       }
-      sizeTo(steps[index]);
     });
   });
 
@@ -144,16 +131,6 @@
   }
 
   go(0);
-  // iOS fires height-only resizes as the keyboard/QuickType bar toggles
-  // while typing — re-measuring on those re-animates the wizard height
-  // under the user's thumb. Only a width change (rotation, real resize)
-  // should trigger a re-measure.
-  var lastWidth = window.innerWidth;
-  window.addEventListener('resize', function () {
-    if (window.innerWidth === lastWidth) return;
-    lastWidth = window.innerWidth;
-    sizeTo(steps[index]);
-  });
 
   /* ---- E. confirmation carousel — testimonials, no-op if absent.
      Namespaced data-conf-* throughout: the house `[data-carousel]`
