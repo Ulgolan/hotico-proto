@@ -548,7 +548,7 @@
 
       <div class="programare__form">
       <div class="stepper">
-        <span class="stepper__label" data-step-label>1. Contact</span>
+        <span class="stepper__label" data-step-label>1. Rendez-vous</span>
         <div class="stepper__bars" aria-hidden="true">
           <i class="is-active"></i><i></i><i></i>
         </div>
@@ -557,6 +557,36 @@
       <div class="steps" data-steps>
         <div class="steps__track" data-steps-track>
           <div class="step" data-step="1">
+            <div class="field">
+              <span class="field__label">Choisis la date</span>
+              <div class="field__box">
+                <svg class="field__caret" viewBox="0 0 24 24" aria-hidden="true"
+                     style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6">
+                  <rect x="3" y="5" width="18" height="16" rx="2"/>
+                  <path d="M3 10h18M8 3v4M16 3v4"/>
+                </svg>
+                <span class="field__ph">dd/mm/yyyy</span>
+              </div>
+            </div>
+
+            <div class="q">
+              <span class="q__label">Quelle procédure souhaites-tu ?</span>
+              <ul class="opts" data-group role="radiogroup"
+                  aria-label="Quelle procédure souhaites-tu ?">
+                <li><span class="opt__dot" data-val="Alopécie" role="radio" aria-checked="false" tabindex="0"></span>Alopécie</li>
+                <li><span class="opt__dot" data-val="Aréole" role="radio" aria-checked="false" tabindex="0"></span>Aréole</li>
+                <li><span class="opt__dot" data-val="Lèvres" role="radio" aria-checked="false" tabindex="0"></span>Lèvres</li>
+                <li><span class="opt__dot" data-val="Cicatrices" role="radio" aria-checked="false" tabindex="0"></span>Cicatrices</li>
+                <li><span class="opt__dot" data-val="Eyeliner" role="radio" aria-checked="false" tabindex="0"></span>Eyeliner</li>
+                <li><span class="opt__dot" data-val="Sourcils" role="radio" aria-checked="false" tabindex="0"></span>Sourcils</li>
+              </ul>
+            </div>
+
+            <div class="stepnav">
+              <button class="btn-pink" type="button" data-next>Suivant</button>
+            </div>
+          </div>
+          <div class="step" data-step="2">
 
       <div class="field">
         <span class="field__label">Nom (obligatoire)</span>
@@ -597,114 +627,10 @@
       </ul>
 
       <div class="stepnav">
-              <button class="btn-pink" type="button" data-next>Suivant</button>
-            </div>
-          </div>
-          <div class="step" data-step="2">
-            <div class="field">
-              <span class="field__label">Choisis la date</span>
-              <div class="field__box">
-                <svg class="field__caret" viewBox="0 0 24 24" aria-hidden="true"
-                     style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6">
-                  <rect x="3" y="5" width="18" height="16" rx="2"/>
-                  <path d="M3 10h18M8 3v4M16 3v4"/>
-                </svg>
-                <span class="field__ph">dd/mm/yyyy</span>
-              </div>
-            </div>
-
-            <div class="q">
-              <span class="q__label">Souhaites-tu une autre procédure ?</span>
-              <ul class="opts" data-group role="radiogroup"
-                  aria-label="Souhaites-tu une autre procédure ?">
-                <li><span class="opt__dot" data-val="Alopécie" role="radio" aria-checked="false" tabindex="0"></span>Alopécie</li>
-                <li><span class="opt__dot" data-val="Lèvres" role="radio" aria-checked="false" tabindex="0"></span>Lèvres</li>
-                <li><span class="opt__dot" data-val="Cicatrices" role="radio" aria-checked="false" tabindex="0"></span>Cicatrices</li>
-                <li><span class="opt__dot" data-val="Eyeliner" role="radio" aria-checked="false" tabindex="0"></span>Eyeliner</li>
-                <li><span class="opt__dot" data-val="Sourcils" role="radio" aria-checked="false" tabindex="0"></span>Sourcils</li>
-              </ul>
-            </div>
-
-            <div class="stepnav">
               <button class="backbtn" type="button" data-back aria-label="Retour">
                 <svg viewBox="0 0 16 16"><path d="M10.2 3.4v9.2L4.8 8l5.4-4.6Z"/></svg>
               </button>
-              <button class="btn-pink" type="button" data-next>Suivant</button>
-            </div>
-          </div>
-          <div class="step" data-step="3">
-            <h3 class="q__h">Particularités médicales ou cutanées</h3>
-            <div class="q">
-              <span class="q__label">As-tu subi une intervention chirurgicale dans la zone visée ?</span>
-              <ul class="opts" data-group data-reveals="chirurgie" data-reveal-on="oui" role="radiogroup">
-                <li><span class="opt__dot" data-val="oui" role="radio" aria-checked="false" tabindex="0"></span>oui</li>
-                <li><span class="opt__dot" data-val="non" role="radio" aria-checked="false" tabindex="0"></span>non</li>
-              </ul>
-            </div>
-            <div class="reveal" data-reveal="chirurgie" hidden>
-            <div class="q">
-              <span class="q__label">C'était quand ?</span>
-              <ul class="opts" data-group data-reveals="sub12" data-reveal-on="moins de 12 mois" role="radiogroup">
-                <li><span class="opt__dot" data-val="plus de 12 mois" role="radio" aria-checked="false" tabindex="0"></span>plus de 12 mois</li>
-                <li><span class="opt__dot" data-val="moins de 12 mois" role="radio" aria-checked="false" tabindex="0"></span>moins de 12 mois</li>
-              </ul>
-            </div>
-              <div class="reveal" data-reveal="sub12" hidden>
-                <p class="warn">*La peau a besoin d'un minimum de 12 mois pour
-                  cicatriser complètement avant une procédure paramédicale</p>
-                <div class="field">
-                  <span class="field__label">Combien de mois, exactement ?</span>
-                  <div class="field__box"><span class="field__ph">12</span></div>
-                </div>
-              </div>
-            </div>
-            <div class="q">
-              <span class="q__label">As-tu suivi une chimiothérapie ou une radiothérapie ?</span>
-              <ul class="opts" data-group role="radiogroup">
-                <li><span class="opt__dot" data-val="oui" role="radio" aria-checked="false" tabindex="0"></span>oui</li>
-                <li><span class="opt__dot" data-val="non" role="radio" aria-checked="false" tabindex="0"></span>non</li>
-              </ul>
-            </div>
-            <div class="q">
-              <span class="q__label">As-tu des affections cutanées ?</span>
-              <ul class="opts" data-group role="radiogroup">
-                <li><span class="opt__dot" data-val="dermatite" role="radio" aria-checked="false" tabindex="0"></span>dermatite</li>
-                <li><span class="opt__dot" data-val="eczéma" role="radio" aria-checked="false" tabindex="0"></span>eczéma</li>
-                <li><span class="opt__dot" data-val="psoriasis" role="radio" aria-checked="false" tabindex="0"></span>psoriasis</li>
-                <li><span class="opt__dot" data-val="autres" role="radio" aria-checked="false" tabindex="0"></span>autres</li>
-              </ul>
-            </div>
-            <div class="q">
-              <span class="q__label">As-tu un herpès actif ?</span>
-              <ul class="opts" data-group role="radiogroup">
-                <li><span class="opt__dot" data-val="oui" role="radio" aria-checked="false" tabindex="0"></span>oui</li>
-                <li><span class="opt__dot" data-val="non" role="radio" aria-checked="false" tabindex="0"></span>non</li>
-              </ul>
-            </div>
-            <div class="q">
-              <span class="q__label">Es-tu enceinte ou allaites-tu ?</span>
-              <ul class="opts" data-group role="radiogroup">
-                <li><span class="opt__dot" data-val="oui" role="radio" aria-checked="false" tabindex="0"></span>oui</li>
-                <li><span class="opt__dot" data-val="non" role="radio" aria-checked="false" tabindex="0"></span>non</li>
-              </ul>
-            </div>
-            <div class="q">
-              <span class="q__label">Détails</span>
-              <div class="ta">Écris ici tout ce que tu penses que je devrais savoir…</div>
-            </div>
-
-            <div class="upload">
-              <svg viewBox="0 0 24 24" aria-hidden="true">
-                <path d="M12 16V4M7 9l5-5 5 5M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
-              </svg>
-              Télécharge des photos
-            </div>
-
-            <div class="stepnav">
-              <button class="backbtn" type="button" data-back aria-label="Retour">
-                <svg viewBox="0 0 16 16"><path d="M10.2 3.4v9.2L4.8 8l5.4-4.6Z"/></svg>
-              </button>
-              <button class="btn-pink" type="button" data-confirm>Suivant</button>
+              <button class="btn-pink" type="button" data-confirm>Confirmer le rendez-vous</button>
             </div>
           </div>
         </div>
@@ -887,7 +813,7 @@
   </footer>
 
   <script src="js/main.js?v=10"></script>
-  <script src="js/form.js?v=3"></script>
+  <script src="js/form.js?v=4"></script>
   <script src="js/hero-scroll.js?v=25"
     onerror="document.documentElement.classList.remove('js-kh')"></script>
 </body>

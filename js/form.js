@@ -15,11 +15,9 @@
   var success = document.querySelector('[data-success]');
   var stepper = document.querySelector('.stepper');
 
-  // Step 1's title differs per page ("Date contact" vs "Date personale");
-  // read it once so we never overwrite the frame's own wording.
-  var NAMES = [label ? label.textContent.trim() : '1. Contact',
-               '2. Rendez-vous',
-               '3. Particularités'];
+  // step titles; index 0 read from the page so per-page wording stays free
+  var NAMES = [label ? label.textContent.trim() : '1. Rendez-vous',
+               '2. Contact'];
 
   var index = 0;
 
