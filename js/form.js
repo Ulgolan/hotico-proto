@@ -14,6 +14,7 @@
   var bars   = Array.prototype.slice.call(document.querySelectorAll('.stepper__bars i'));
   var success = document.querySelector('[data-success]');
   var stepper = document.querySelector('.stepper');
+  var waCta   = document.querySelector('[data-wa-cta]');
 
   // step titles; index 0 read from the page so per-page wording stays free.
   // Index 2 (Confirmation) has no .step slide of its own — the stepper
@@ -88,9 +89,9 @@
   var confirm = document.querySelector('[data-confirm]');
   if (confirm && success) {
     confirm.addEventListener('click', function () {
-      /* ---- WhatsApp handoff — gentle-firm law: never blocks the flow
-         below, even if the popup is blocked or window.open returns null
-         (several engines do when features are passed). ---- */
+      /* ---- recomposition law: runs on every confirm click, so an
+         edit-and-reconfirm always refreshes the recap card and the
+         WhatsApp href. ---- */
       var recap = {};
       root.querySelectorAll('[data-recap]').forEach(function (el) {
         recap[el.getAttribute('data-recap')] = el.value.trim();
@@ -117,8 +118,19 @@
         'Date : ' + date + ' · Procédure : ' + procedure + '\n' +
         'Nom : ' + nom + ' ' + prenom + ' · E-mail : ' + email + ' · Téléphone : ' + tel;
 
-      var url = 'https://wa.me/41796472106?text=' + encodeURIComponent(message);
-      window.open(url, '_blank', 'noopener,noreferrer');
+      /* recap card — textContent only, these values come straight from
+         client-typed input; innerHTML here would be a security bug. */
+      var recapOut = {
+        date: date, procedure: procedure,
+        nom: nom, prenom: prenom, email: email, tel: tel
+      };
+      success.querySelectorAll('[data-recap-out]').forEach(function (el) {
+        el.textContent = recapOut[el.getAttribute('data-recap-out')];
+      });
+
+      if (waCta) {
+        waCta.href = 'https://wa.me/41796472106?text=' + encodeURIComponent(message);
+      }
 
       root.hidden = true;
       success.hidden = false;
@@ -130,20 +142,16 @@
     });
   }
 
+  /* ---- retour is navigation, not a wipe: it returns to Contact with
+     every field, the date, and the selected procedure intact, so a
+     correction is one edit away, not a re-fill. ---- */
   var reset = document.querySelector('[data-reset]');
   if (reset) {
     reset.addEventListener('click', function () {
       success.hidden = true;
       root.hidden = false;
       if (stepper) stepper.hidden = false;
-      document.querySelectorAll('[data-reveal]').forEach(function (p) { p.hidden = true; });
-      document.querySelectorAll('[data-val].is-on').forEach(function (d) {
-        d.classList.remove('is-on');
-      });
-      root.querySelectorAll('[data-recap]').forEach(function (el) {
-        el.value = '';
-      });
-      go(0);
+      go(1);
     });
   }
 

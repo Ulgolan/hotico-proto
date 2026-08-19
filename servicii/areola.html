@@ -9,7 +9,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="../css/tokens.css?v=10">
-  <link rel="stylesheet" href="../css/main.css?v=47">
+  <link rel="stylesheet" href="../css/main.css?v=48">
 </head>
 <body>
 
@@ -430,10 +430,39 @@
 
       <div class="success" data-success hidden>
         <div class="conf">
-          <h3 class="conf__h">Merci.</h3>
-          <p class="conf__subline">Ta demande est bien arrivée chez moi.</p>
-          <p class="conf__lead">Je te réponds personnellement sur WhatsApp,
-            dans les 24 heures.</p>
+          <h3 class="conf__h">Presque fini.</h3>
+          <p class="conf__subline">Ton message est prêt — il ne reste qu'à l'envoyer.</p>
+
+          <div class="conf__block conf__recap">
+            <div class="conf__recap-row">
+              <span class="conf__recap-label">Date</span>
+              <span class="conf__recap-value" data-recap-out="date">—</span>
+            </div>
+            <div class="conf__recap-row">
+              <span class="conf__recap-label">Procédure</span>
+              <span class="conf__recap-value" data-recap-out="procedure">—</span>
+            </div>
+            <div class="conf__recap-row">
+              <span class="conf__recap-label">Nom</span>
+              <span class="conf__recap-value" data-recap-out="nom">—</span>
+            </div>
+            <div class="conf__recap-row">
+              <span class="conf__recap-label">Prénom</span>
+              <span class="conf__recap-value" data-recap-out="prenom">—</span>
+            </div>
+            <div class="conf__recap-row">
+              <span class="conf__recap-label">E-mail</span>
+              <span class="conf__recap-value" data-recap-out="email">—</span>
+            </div>
+            <div class="conf__recap-row">
+              <span class="conf__recap-label">Téléphone</span>
+              <span class="conf__recap-value" data-recap-out="tel">—</span>
+            </div>
+          </div>
+
+          <a class="btn-pink conf__cta" data-wa-cta href="#"
+             target="_blank" rel="noopener noreferrer">Envoyer ma demande sur WhatsApp</a>
+          <p class="conf__lead">Je te réponds personnellement, dans les 24 heures.</p>
 
           <div class="conf__block">
             <p class="conf__kicker">TROIS ÉTAPES AVANT TA SÉANCE</p>
@@ -647,6 +676,6 @@
 
   <script src="../js/main.js?v=10"></script>
   <script src="../js/areola.js?v=2b"></script>
-  <script src="../js/form.js?v=6"></script>
+  <script src="../js/form.js?v=7"></script>
 </body>
 </html>
