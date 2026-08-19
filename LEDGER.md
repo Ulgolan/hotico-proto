@@ -5478,3 +5478,51 @@ COST: single-session constitutional lap, Sonnet 5, same branch, one
   recorded), one pointer bump (sole consumer), full unified diff
   supplied for line-by-line Tower review per the constitutional
   report requirement.
+
+---
+
+## Entry #61 — 2026-08-19 — DEVICE CERTIFICATION: THE F-4 ARC
+
+**Scope:** The Commander's own device gate on the full F-4 arc
+(Entries #57–#60: review-screen retirement, mobile flag/keyboard
+guard, wizard slide-engine retirement, and the `js/hero-scroll.js`
+v26 focus-guard amendment) — the certification container tooling
+could not perform for itself, flagged as outstanding at the close of
+every entry in the arc.
+
+RESULT:
+
+- **iOS Safari:** perfect. Focus stillness confirmed on the wizard's
+  contact fields (no teleport, no scroll-jump on keyboard dismissal),
+  the hero scrub reads unchanged from v25 by eye, and the full
+  WhatsApp handoff walk holds end to end. This was the exact defect
+  Entry #60's amendment targeted, and it is closed on the browser the
+  device video was shot on.
+
+- **Brave iOS:** residual scroll quirks remain. Ruled by the
+  Commander as browser-specific, not a regression from this arc's
+  work, and accepted as a WATCHED SEAM rather than a blocking defect.
+  `?khdebug=1` remains the standing instrument for this seam — if a
+  real client ever reports a jump, that query param plus the console
+  is where the next investigation starts, same method as Entry #60's
+  own root-cause hunt.
+
+>> BATON
+STATE: `f4-alexas-gate`'s full F-4 arc is device-certified on the
+  Commander's own hardware — iOS Safari clean, Brave iOS carrying one
+  accepted, browser-specific watched seam. Certification gate that
+  every entry in the arc held open is now closed.
+CERTIFIED: Commander's device, this entry. Tower certification
+  remains as recorded per-entry above.
+OPEN: unchanged from Entry #60 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true; the two doctrine seeds from
+  Entry #60, unresolved. NEW watched seam: Brave iOS's residual
+  scroll quirks, accepted, not queued as a fix — revisit only if a
+  real client reports it, per the Commander's ruling above.
+NEXT: branch is device-certified and clear to merge.
+TRAPS: none new. Brave iOS's quirk is recorded here specifically so a
+  future session doesn't mistake it for a regression from this arc
+  and go hunting for a cause that isn't there — it was already
+  present, already looked at, already ruled browser-specific.
+COST: single-entry certification record, no code changed.
