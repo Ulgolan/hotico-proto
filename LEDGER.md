@@ -4126,3 +4126,92 @@ COST (new standing law, first application — figures below are a
   every lap's own BATON should carry its own COST line at close, so
   this stops being a retroactive estimate and starts being a real
   record.
+
+---
+
+## Entry #50 — 2026-08-19 — LAP F-1: WIZARD RESTRUCTURE
+
+**Scope:** flip the Rendez-vous wizard's step order on both pages so the
+flow becomes Rendez-vous (date + procédure) → Contact (ends in "Confirmer
+le rendez-vous") → the existing success panel. Particularités médicales
+leaves the wizard entirely. Branch `f1-wizard-restructure`, off `main` at
+`4b5652f68924eeaa883983f9d9100997a25af718` — that SHA is the resurrection
+pointer for the deleted medical block, recoverable from git history on
+this branch or main's log at any time.
+
+ENGINE TRUTH CONFIRMED: `js/form.js` builds its step list from DOM order
+(`querySelectorAll('.step')`), not the `data-step` attribute value — the
+attribute is decoration. Both wizard blocks were physically cut and
+pasted (not retyped) to their new positions; attributes renumbered after
+to keep the decoration honest.
+
+WHAT SHIPPED, both `index.html` and `servicii/areola.html`: (1) the
+Rendez-vous block (date + procédure) moved to first position,
+`data-step="1"`; the Contact block (name/email/phone/checks) moved to
+second, `data-step="2"`. (2) the existing `button.backbtn` node —
+`data-back` + its svg — relocated wholesale from the Rendez-vous block's
+`.stepnav` into the Contact block's `.stepnav`, left of the main button;
+step 1 now opens with no back button, step 2 carries the only one on the
+page. (3) Contact step's closing button is now
+`<button class="btn-pink" type="button" data-confirm>Confirmer le
+rendez-vous</button>`, replacing its old `data-next` Suivant. (4) the
+entire Particularités médicales block (old step 3, all `data-reveal`
+disclosure machinery) deleted. (5) stepper label initial text →
+"1. Rendez-vous"; three stepper bars in the markup untouched (bar 3
+stays the unlit promise of the confirmation step, not this lap's job).
+
+INDEX-ONLY: the procédure question relabeled "Quelle procédure
+souhaites-tu ?" (both the `q__label` span and the `ul`'s `aria-label`),
+and a sixth option — Aréole — inserted second, directly after Alopécie,
+identical dot markup to its siblings. The other five options are
+byte-identical and in their original order. `servicii/areola.html`'s
+question and its five options were not touched beyond the step-position
+swap.
+
+`js/form.js`: `NAMES` trimmed from three entries to two —
+`'1. Contact'` fallback → `'1. Rendez-vous'`, `'2. Rendez-vous'` →
+`'2. Contact'`, `'3. Particularités'` removed. The read-label-from-page
+mechanic for index 0 is unchanged. The stale comment above `NAMES`
+(referencing "Date contact" / "Date personale" titles that no longer
+exist anywhere) rewritten to one honest line.
+
+CACHE-BUST: `js/form.js` consumer pointer `v=3` → `v=4` in both
+`index.html` and `servicii/areola.html`. `css/main.css` untouched, stays
+`v=42`.
+
+VERIFICATION — DO-4 grep counts, both pages, post-cut:
+`<div class="step" data-step=` → 2; `data-reveal` → 0; `backbtn` → 1.
+All six (two pages × three counts) held. `git diff main --stat` confirms
+exactly `index.html`, `servicii/areola.html`, `js/form.js` touched
+(LEDGER.md is this entry). `js/hero-scroll.js`, `css/main.css`,
+`css/tokens.css`, the `.scard` elements, and `[data-success]` all
+confirmed untouched by diff. Full click-through exercised via JS on a
+local static-server preview on both pages: step 1 opens bar-1-active
+with no back button; Suivant → step 2, bar 2 active, back button
+present and returns to a clean step 1; Suivant → Confirmer le
+rendez-vous → success panel (root + stepper hidden); `data-reset`
+('‹ retour') returns to a clean step 1 with selections cleared. Zero
+console errors on load or through the walk, either page.
+
+>> BATON
+STATE: `f1-wizard-restructure` built and locally verified against every
+  EXIT CONDITION in the brief, on both pages. Not yet pushed — Vercel
+  preview + Commander's eye are the two steps left before merge.
+CERTIFIED: pending — Tower/Commander review per house law, no session
+  certifies its own work.
+OPEN: F-2 (confirmation screen — the success panel's current interim
+  role and the third, still-unlit stepper bar are its variables to
+  claim); F-3 (validation, wiring inputs, making the date field real —
+  explicitly out of this lap).
+NEXT: push branch, confirm Vercel preview triggers (empty commit is the
+  proven cure if not), hand preview URL + HEAD SHA to the Commander.
+TRAPS: `js/form.js`'s confirm/reset wiring uses `document.querySelector`
+  (singular) on `[data-confirm]` and `[data-reset]` — this lap works
+  only because deleting the medical step also deleted its own
+  `data-confirm` button, leaving exactly one on the page. A future lap
+  adding a second confirm-shaped button anywhere in the DOM will
+  silently wire to the wrong one. `NAMES[index]` is positional against
+  DOM order, not against the `data-step` attribute — the same trap the
+  ENGINE TRUTH note above exists to prevent; keep renumbering attributes
+  by hand whenever blocks move.
+COST: single-session lap, Sonnet 5, one branch, no re-work.
