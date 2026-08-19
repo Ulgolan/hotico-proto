@@ -5047,3 +5047,111 @@ COST: single-session batch lap, Sonnet 5, new branch off main, one
   simplified (fewer moving parts than Entry #56's version, not more),
   three-file cache-bust rider (two `form.js` consumers, three
   `main.css` consumers).
+
+---
+
+## Entry #58 — 2026-08-19 — LAP F-4b: MOBILE GATE — SQUARE FLAG, KEYBOARD-RESIZE GUARD
+
+**Scope:** Two corrections from the Commander's iPhone gate on
+Entry #57's build, same branch (`f4-alexas-gate`, not merged): the
+Swiss flag squares up, and the wizard's resize listener stops
+re-animating step height every time iOS toggles the keyboard or the
+QuickType suggestion bar while a client types. A third item the
+Commander flagged — `.field__input`'s font-size as a possible iOS
+focus-zoom trigger — was checked and closed as already-true: it reads
+16px already, so no zoom fires and nothing needed touching. Recorded
+here so it isn't re-proposed as a fix for a bug that doesn't exist.
+
+DO NOT triggered: no font sizes, markup, ratified copy, other JS
+paths, or frozen files were touched.
+
+WHAT SHIPPED:
+
+1. `.field__flag` (`css/main.css`) squared: `width:22px`→`15px`
+   (`height` was already `15px`). The `::before`/`::after` cross
+   percentages were already exactly the spec the Commander gave —
+   `top:20%;bottom:20%;left:40%;right:40%` (vertical bar) and
+   `top:40%;bottom:40%;left:20%;right:20%` (horizontal bar) — so on a
+   square box those percentages now resolve to equal-length arms on
+   both axes instead of the rectangle's stretched horizontal one.
+   Confirmed by computed style: `15px`×`15px` box, vertical bar
+   spanning `3px`–`12px` (9px, 60% of 15px), horizontal bar spanning
+   `3px`–`12px` the same way — a true uniform cross.
+
+2. `js/form.js`'s bare `window.addEventListener('resize', …)` gained a
+   width guard: `lastWidth` is captured once at `go(0)` time and
+   compared on every resize; an unchanged `innerWidth` returns before
+   calling `sizeTo`, a changed one updates `lastWidth` and re-measures
+   exactly as before. iOS fires `resize` on keyboard/QuickType
+   show-hide with `innerHeight` moving and `innerWidth` static — those
+   now no-op. Rotation and genuine viewport resizes still change
+   `innerWidth` and still re-measure.
+
+3. CACHE-BUST, consumer rider: `js/form.js` `v=8`→`v=9` (`index.html`,
+   `servicii/areola.html`); `css/main.css` `v=49`→`v=50`
+   (`index.html`, `servicii/areola.html`, `servicii/in-curand.html`).
+   `tokens.css` untouched at `v=10`, three consumers.
+
+VERIFICATION — local static-server preview (scratch port, this
+session's Browser pane again unable to reach another chat's dev
+server on the project's usual port), mobile viewport (375×812), both
+pages. Flag: computed `.field__flag` box `15px`×`15px`,
+`background-color rgb(218,41,28)` (`#DA291C`), `::before` rect
+`top/bottom 3px, left/right 6px` and `::after` rect `top/bottom 6px,
+left/right 3px` — both bars 9px long (60% of 15px) and 3px thick
+(20% of 15px), confirmed on index and areola. Keyboard-hop guard:
+overrode `window.innerWidth`/`innerHeight` to simulate a height-only
+resize (`375`→`375` width, `812`→`500` height) and dispatched
+`resize` — `[data-steps]`'s inline `height` was byte-identical before
+and after, confirming `sizeTo` did not fire. Then simulated a
+rotation (`innerWidth` `375`→`812`) with the height first perturbed
+to a sentinel value — the dispatched `resize` overwrote the sentinel
+back to the correct measured height, confirming the width path still
+re-measures. Full walk unaffected: filled confirm (date `2026-11-20`,
+time `10:15`, procedure `Sourcils`, full contact fields) produced a
+`window.open` call with the byte-exact template; retour returned to
+step 2 with date, time, and the selected dot intact. Zero console
+errors on index and areola (`read_console_messages`, `onlyErrors`).
+`git diff f4-alexas-gate --stat` for this correction: `css/main.css`,
+`js/form.js`, `index.html`, `servicii/areola.html`,
+`servicii/in-curand.html` (pointer-only) — plus this entry in
+`LEDGER.md`; cumulative branch scope against main remains exactly the
+six files named in Entry #57's brief. Pointers confirmed post-edit:
+`v=9` (two `form.js` consumers) / `v=50` (three `main.css`
+consumers) / `v=10` (`tokens.css`, untouched).
+
+TRIBUNAL-KILLED: the Commander's third flagged item — `.field__input`
+possibly needing `font-size:16px` to stop iOS Safari's focus-zoom —
+was checked against `css/main.css` before any edit and found already
+true (`.field__input{…font-size:1rem…}` resolves to 16px at the
+project's root font-size). No zoom fires, no fix was applied, no line
+changed for it. Recorded so a future lap doesn't re-diagnose the same
+non-bug.
+
+>> BATON
+STATE: `f4-alexas-gate` now carries Entry #57's full batch plus this
+  mobile correction — square Swiss flag, keyboard-resize guard —
+  locally verified on index and areola at mobile viewport across
+  flag/keyboard-hop/rotation/full-walk checks, in-curand verified
+  pointer-only. Not merged — holding for the Commander's eye.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #57 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap; Entry
+  #57's mobile auto-open tradeoff stands, client-accepted, unrelated
+  to this correction.
+NEXT: hold for the Commander's eye-gate on this pass; push and report
+  HEAD SHA once cleared to push.
+TRAPS: none new. General shape worth remembering: a `resize` event on
+  iOS is not proof the viewport actually resized — the keyboard and
+  QuickType bar both fire it on `innerHeight` alone, so any resize
+  handler meant to react to real layout changes needs a width (or
+  explicit dimension) guard, not just a bare listener. The
+  16px-already-true finding is the mirror lesson: verify the claimed
+  bug exists before spending a line fixing it.
+COST: single-session mobile-correction lap, Sonnet 5, same branch,
+  one CSS dimension changed (cross geometry already correct, no
+  pseudo-element math redone), one resize listener gained a two-line
+  width guard, one non-fix confirmed and recorded, three-file
+  cache-bust rider (two `form.js` consumers, three `main.css`
+  consumers).

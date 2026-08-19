@@ -1146,7 +1146,7 @@ html.js-kh .kh__static{display:none;}
    tokens.css colour law. */
 .field__flag{
   position:relative;
-  display:flex;width:22px;height:15px;border-radius:2px;overflow:hidden;
+  display:flex;width:15px;height:15px;border-radius:2px;overflow:hidden;
   flex:0 0 auto;
   background:#DA291C;
 }

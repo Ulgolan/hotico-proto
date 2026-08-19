@@ -144,7 +144,16 @@
   }
 
   go(0);
-  window.addEventListener('resize', function () { sizeTo(steps[index]); });
+  // iOS fires height-only resizes as the keyboard/QuickType bar toggles
+  // while typing — re-measuring on those re-animates the wizard height
+  // under the user's thumb. Only a width change (rotation, real resize)
+  // should trigger a re-measure.
+  var lastWidth = window.innerWidth;
+  window.addEventListener('resize', function () {
+    if (window.innerWidth === lastWidth) return;
+    lastWidth = window.innerWidth;
+    sizeTo(steps[index]);
+  });
 
   /* ---- E. confirmation carousel — testimonials, no-op if absent.
      Namespaced data-conf-* throughout: the house `[data-carousel]`
