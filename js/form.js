@@ -8,13 +8,11 @@
   var root = document.querySelector('[data-steps]');
   if (!root) return;
 
-  var track  = root.querySelector('[data-steps-track]');
   var steps  = Array.prototype.slice.call(root.querySelectorAll('.step'));
   var label  = document.querySelector('[data-step-label]');
   var bars   = Array.prototype.slice.call(document.querySelectorAll('.stepper__bars i'));
   var success = document.querySelector('[data-success]');
   var stepper = document.querySelector('.stepper');
-  var waCta   = document.querySelector('[data-wa-cta]');
 
   // step titles; index 0 read from the page so per-page wording stays free.
   // Index 2 (Confirmation) has no .step slide of its own — the stepper
@@ -25,22 +23,11 @@
 
   var index = 0;
 
-  function sizeTo(step) {
-    // guards a pending go() setTimeout (below) that can still fire after
-    // confirm() has moved `index` to 2 — a slot with no .step of its own.
-    if (!step) return;
-    root.style.height = step.getBoundingClientRect().height + 'px';
-  }
-
   function go(n) {
     index = Math.max(0, Math.min(steps.length - 1, n));
-    track.style.transform = 'translateX(' + (-index * 100) + '%)';
+    steps.forEach(function (step, i) { step.hidden = i !== index; });
     if (label) label.textContent = NAMES[index];
     bars.forEach(function (b, i) { b.classList.toggle('is-active', i === index); });
-    sizeTo(steps[index]);
-    // re-measure once the slide has settled: a step measured mid-transition
-    // can report the outgoing step's height and leave dead space below.
-    setTimeout(function () { sizeTo(steps[index]); }, 380);
   }
 
   root.addEventListener('click', function (e) {
@@ -66,7 +53,7 @@
 
       var revealName = group.getAttribute('data-reveals');
       var showOn     = group.getAttribute('data-reveal-on');
-      if (!revealName) { sizeTo(steps[index]); return; }
+      if (!revealName) { return; }
 
       var panel = document.querySelector('[data-reveal="' + revealName + '"]');
       if (panel) panel.hidden = value !== showOn;
@@ -81,7 +68,6 @@
           if (child) child.hidden = true;
         });
       }
-      sizeTo(steps[index]);
     });
   });
 
@@ -90,8 +76,7 @@
   if (confirm && success) {
     confirm.addEventListener('click', function () {
       /* ---- recomposition law: runs on every confirm click, so an
-         edit-and-reconfirm always refreshes the recap card and the
-         WhatsApp href. ---- */
+         edit-and-reconfirm always sends a freshly composed message. ---- */
       var recap = {};
       root.querySelectorAll('[data-recap]').forEach(function (el) {
         recap[el.getAttribute('data-recap')] = el.value.trim();
@@ -108,6 +93,7 @@
         ? dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0]
         : '—';
 
+      var heure  = recap.heure  || '—';
       var nom    = recap.nom    || '—';
       var prenom = recap.prenom || '—';
       var email  = recap.email  || '—';
@@ -115,22 +101,11 @@
 
       var message =
         'Bonjour Alexandra ! Je souhaite confirmer mon rendez-vous 🌸\n' +
-        'Date : ' + date + ' · Procédure : ' + procedure + '\n' +
+        'Date : ' + date + ' · Heure : ' + heure + ' · Procédure : ' + procedure + '\n' +
         'Nom : ' + nom + ' ' + prenom + ' · E-mail : ' + email + ' · Téléphone : ' + tel;
 
-      /* recap card — textContent only, these values come straight from
-         client-typed input; innerHTML here would be a security bug. */
-      var recapOut = {
-        date: date, procedure: procedure,
-        nom: nom, prenom: prenom, email: email, tel: tel
-      };
-      success.querySelectorAll('[data-recap-out]').forEach(function (el) {
-        el.textContent = recapOut[el.getAttribute('data-recap-out')];
-      });
-
-      if (waCta) {
-        waCta.href = 'https://wa.me/41796472106?text=' + encodeURIComponent(message);
-      }
+      window.open('https://wa.me/41796472106?text=' + encodeURIComponent(message),
+        '_blank', 'noopener,noreferrer');
 
       root.hidden = true;
       success.hidden = false;
@@ -156,7 +131,6 @@
   }
 
   go(0);
-  window.addEventListener('resize', function () { sizeTo(steps[index]); });
 
   /* ---- E. confirmation carousel — testimonials, no-op if absent.
      Namespaced data-conf-* throughout: the house `[data-carousel]`

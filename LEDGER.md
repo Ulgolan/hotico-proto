@@ -4879,3 +4879,650 @@ COST: single-session correction lap, Sonnet 5, same branch, one
   unchanged), one reset handler inverted from wipe to navigate,
   two-file cache-bust (three `main.css` consumers, two `form.js`
   consumers), no re-work beyond this correction itself.
+
+---
+
+## Entry #57 — 2026-08-19 — LAP F-4: ALEXA'S GATE — REVIEW SCREEN RETIRED, HEURE, SWISS PHONE
+
+**Scope:** Client-ruled revisions, one batch, branch `f4-alexas-gate`
+off main (HEAD `8430645`): (1) the recap-card review screen built in
+Entries #55/#56 is retired at Alexandra's ruling — "Confirmer le
+rendez-vous" opens WhatsApp directly again, and the confirmation
+screen's opening reverts to its client-ratified "Merci." trio; (2) a
+Swiss flag and Swiss example number replace the RO flag and RO-style
+placeholder on the phone field; (3) a time picker joins the date
+picker in step 1, and the time value joins the WhatsApp message.
+
+PRE-FLIGHT: `form.js?v=7` (index, areola), `main.css?v=48` (index,
+areola, in-curand), `tokens.css?v=10` (all three) — verified by grep
+against main (`8430645`) before any edit. All matched; no STOP
+triggered.
+
+WHAT SHIPPED:
+
+1. Confirmation-screen opening cluster removed whole, both pages: the
+   "Presque fini." heading, "Ton message est prêt…" subline, the
+   entire `.conf__recap` block (six rows: Date, Procédure, Nom,
+   Prénom, E-mail, Téléphone), the `[data-wa-cta]` anchor, and the
+   post-CTA lead line — all gone, not just hidden. In their place, the
+   ratified opening trio verbatim, on the existing `conf__h` /
+   `conf__subline` / `conf__lead` classes: "Merci." / "Ta demande est
+   bien arrivée chez moi." / "Je te réponds personnellement sur
+   WhatsApp, dans les 24 heures." Exactly one heading, one subline,
+   one lead survive per screen — confirmed by direct count, not just
+   by eye. Everything below (trois étapes, gold carousel, résultats,
+   autre date, signature, note, retour) untouched.
+
+2. Time picker added, both pages: a sibling `.field` block directly
+   below the date field in step 1, identical structure — clock-face
+   `.field__caret` SVG, `<input class="field__input" type="time"
+   data-recap="heure">`. `css/main.css`'s date-input rule family
+   (`.field__input[type="date"]`, its `::-webkit-date-and-time-value`
+   pseudo) extended to `[type="time"]` rather than duplicated — same
+   50px `min-height` pin, same stripped native chrome, same blank
+   empty-state (the label carries context, as for the date field).
+
+3. Swiss flag: `.field__flag`'s three `<i>` stripe children removed
+   from markup on both pages; `css/main.css` restyles the bare span as
+   `position:relative; background:#DA291C` with the white cross drawn
+   by `::before` (vertical bar) / `::after` (horizontal bar), both
+   `position:absolute`, arms at 60% of the span's dimension, 20%
+   thickness, centered. The three `:nth-child` stripe rules retired
+   along with the RO-flag comment, replaced by the Swiss equivalent —
+   colours stay hex-literal, no tokens minted, same "deliberately
+   outside the tokens.css colour law" precedent the RO flag set. Phone
+   placeholder now reads `079 123 45 67` on both pages.
+
+4. `js/form.js` `[data-confirm]` handler reworked: the `waCta`
+   variable and all `[data-wa-cta]` / `[data-recap-out]` machinery
+   removed outright (`grep -c "wa-cta\|recap-out" js/form.js` → `0`,
+   confirmed post-edit — nothing orphaned). Message composition stays
+   root-scoped with `"—"` fallbacks, byte-compatible with the prior
+   template plus one new line-2 field: `recap.heure` (native `HH:MM`,
+   read automatically off the new field's `data-recap="heure"` — no
+   new read logic needed). Blessed template, verbatim:
+   `Bonjour Alexandra ! Je souhaite confirmer mon rendez-vous 🌸` /
+   `Date : {date} · Heure : {heure} · Procédure : {procédure}` /
+   `Nom : {nom} {prenom} · E-mail : {email} · Téléphone : {tel}`. On
+   confirm, `window.open(...)` fires synchronously in the click
+   handler against the composed message, its return value never
+   branched on — the success flow (hide root, show success, `index =
+   2`, label, bar 3) runs unconditionally right after, same as before
+   Entry #55 ever built the recap screen.
+
+5. `[data-reset]` (retour) left untouched by deliberate choice: still
+   navigation, not a wipe — `go(1)` back to step 2 with every field,
+   the date, the new time, and the selected procedure dot intact.
+
+6. CACHE-BUST, consumer rider: `js/form.js` `v=7`→`v=8` (`index.html`,
+   `servicii/areola.html`); `css/main.css` `v=48`→`v=49` (`index.html`,
+   `servicii/areola.html`, `servicii/in-curand.html`). `tokens.css`
+   untouched at `v=10`, three consumers.
+
+VERIFICATION — local static-server preview (`python3 -m http.server`
+on a scratch port; this session's Browser pane could not reach the
+shared dev server another chat already held on the project's usual
+port), `window.open` hooked to a recording stub so a regression would
+be caught even where a real popup blocker would hide it, both pages.
+Structural checks via computed style and DOM read rather than
+screenshot (this pane's screenshot capture was not rendering content
+this session; console, computed CSS, and direct value reads carried
+the verification instead): `.field__flag` computed `background-color`
+`rgb(218,41,28)` (`#DA291C`) with `::before`/`::after` both
+`position:absolute` and white, both date and time inputs computed
+`min-height:50px` and empty, tel placeholder `"079 123 45 67"` — all
+confirmed on both pages. Filled walk (index): date `2026-09-15`, time
+`14:30`, procedure `Aréole`, full contact fields → single `window.open`
+call, decoded `text=` byte-exact against the blessed template
+including `Heure : 14:30`. Base+extra check (areola, `data-proc-base
+="Aréole"`): selecting `Lèvres` composed `Procédure : Aréole + Lèvres`
+correctly. Empty walk (index): confirm with nothing filled → single
+`window.open` call, every field including `Heure` reads `"—"`, zero
+blocking. Correction loop: retour after a filled confirm landed back
+on step 2 (label "2. Contact") with date, time (`14:30`), the
+`Aréole` dot, and all four contact fields read back intact by direct
+value inspection. Zero console errors on index, areola, and
+in-curand (checked via `read_console_messages`, `onlyErrors`). Exit
+greps: `grep -c "Presque fini\|conf__recap\|wa-cta\|recap-out"` → `0`
+across `index.html`, `servicii/areola.html`, `js/form.js`,
+`css/main.css`. `git diff main --stat`: `css/main.css`, `index.html`,
+`js/form.js`, `servicii/areola.html`, `servicii/in-curand.html`
+(pointer-only, one line) — plus this entry in `LEDGER.md`, exactly
+the six files named in the brief; `css/tokens.css` untouched.
+Pointers confirmed post-edit: `v=8` (two `form.js` consumers) / `v=49`
+(three `main.css` consumers) / `v=10` (`tokens.css`, untouched).
+
+CLIENT GATE: the recap-card review screen (Entries #55/#56) is
+retired at Alexandra's ruling — she wants the direct handoff back.
+The "Presque fini." / recap-card opening copy never cleared the
+PRODUCTION GATE Entry #56 opened for it (it needed her blessing
+before shipping past prototype); that gate closes as **moot** this
+lap — the copy it guarded no longer exists. The ratified "Merci." /
+"Ta demande est bien arrivée chez moi." / "Je te réponds
+personnellement sur WhatsApp, dans les 24 heures." trio is restored
+verbatim, so no new production gate opens on the opening copy.
+Restoring auto-open also restores the tradeoff Entry #56 retired it
+to avoid: on mobile, `window.open` fires before any confirmation
+screen is seen, so mobile clients will mostly never see the "Merci."
+screen, the trois-étapes card, the carousel, or the signature block
+below it — accepted this lap by client ruling, not rediscovered as a
+surprise. The WhatsApp template's `Heure` line ships on the
+Commander's blessing, not a fresh client ratification — flagged here
+for completeness, not as an open gate.
+
+WATCHED SEAM: unchanged from Entry #56 — block "Besoin d'une autre
+date ?" still carries a second, unprefilled `wa.me` link by design
+(other-date intent); revisit only if real clients arrive
+message-less.
+
+>> BATON
+STATE: `f4-alexas-gate` carries the full batch — review screen
+  retired, ratified "Merci." opening restored, time picker added and
+  wired into the WhatsApp template, Swiss flag + Swiss phone
+  placeholder — locally verified on index and areola across
+  empty/filled/base+extra/correction-loop checks, in-curand verified
+  pointer-only and console-clean. Not merged — holding for the
+  Commander's eye.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap. Entry
+  #56's PRODUCTION GATE on the "Presque fini." opening copy closes as
+  moot (see CLIENT GATE above) — no replacement gate opens.
+NEXT: hold for the Commander's eye-gate on this pass; push and report
+  preview URL + HEAD SHA once cleared to push.
+TRAPS: none new. The auto-open mobile tradeoff flagged in Entry #56
+  is back by client ruling, not by drift — worth re-reading Entry #56
+  in full before assuming it's forgotten context if this surfaces
+  again later. Screenshot capture failed silently in this session's
+  Browser pane while the DOM, computed styles, and console all read
+  correctly — verification leaned on those instead; worth a plain
+  screenshot check in a fresh pane before the Commander's own eye-gate
+  if the same tool glitch recurs.
+COST: single-session batch lap, Sonnet 5, new branch off main, one
+  markup cluster removed and replaced across two pages, one new field
+  block duplicated across two pages, one CSS rule family extended
+  (date→date+time) and one restyled in place (RO→Swiss flag) with a
+  dead rule family (`.conf__recap*`) retired, one JS handler
+  simplified (fewer moving parts than Entry #56's version, not more),
+  three-file cache-bust rider (two `form.js` consumers, three
+  `main.css` consumers).
+
+---
+
+## Entry #58 — 2026-08-19 — LAP F-4b: MOBILE GATE — SQUARE FLAG, KEYBOARD-RESIZE GUARD
+
+**Scope:** Two corrections from the Commander's iPhone gate on
+Entry #57's build, same branch (`f4-alexas-gate`, not merged): the
+Swiss flag squares up, and the wizard's resize listener stops
+re-animating step height every time iOS toggles the keyboard or the
+QuickType suggestion bar while a client types. A third item the
+Commander flagged — `.field__input`'s font-size as a possible iOS
+focus-zoom trigger — was checked and closed as already-true: it reads
+16px already, so no zoom fires and nothing needed touching. Recorded
+here so it isn't re-proposed as a fix for a bug that doesn't exist.
+
+DO NOT triggered: no font sizes, markup, ratified copy, other JS
+paths, or frozen files were touched.
+
+WHAT SHIPPED:
+
+1. `.field__flag` (`css/main.css`) squared: `width:22px`→`15px`
+   (`height` was already `15px`). The `::before`/`::after` cross
+   percentages were already exactly the spec the Commander gave —
+   `top:20%;bottom:20%;left:40%;right:40%` (vertical bar) and
+   `top:40%;bottom:40%;left:20%;right:20%` (horizontal bar) — so on a
+   square box those percentages now resolve to equal-length arms on
+   both axes instead of the rectangle's stretched horizontal one.
+   Confirmed by computed style: `15px`×`15px` box, vertical bar
+   spanning `3px`–`12px` (9px, 60% of 15px), horizontal bar spanning
+   `3px`–`12px` the same way — a true uniform cross.
+
+2. `js/form.js`'s bare `window.addEventListener('resize', …)` gained a
+   width guard: `lastWidth` is captured once at `go(0)` time and
+   compared on every resize; an unchanged `innerWidth` returns before
+   calling `sizeTo`, a changed one updates `lastWidth` and re-measures
+   exactly as before. iOS fires `resize` on keyboard/QuickType
+   show-hide with `innerHeight` moving and `innerWidth` static — those
+   now no-op. Rotation and genuine viewport resizes still change
+   `innerWidth` and still re-measure.
+
+3. CACHE-BUST, consumer rider: `js/form.js` `v=8`→`v=9` (`index.html`,
+   `servicii/areola.html`); `css/main.css` `v=49`→`v=50`
+   (`index.html`, `servicii/areola.html`, `servicii/in-curand.html`).
+   `tokens.css` untouched at `v=10`, three consumers.
+
+VERIFICATION — local static-server preview (scratch port, this
+session's Browser pane again unable to reach another chat's dev
+server on the project's usual port), mobile viewport (375×812), both
+pages. Flag: computed `.field__flag` box `15px`×`15px`,
+`background-color rgb(218,41,28)` (`#DA291C`), `::before` rect
+`top/bottom 3px, left/right 6px` and `::after` rect `top/bottom 6px,
+left/right 3px` — both bars 9px long (60% of 15px) and 3px thick
+(20% of 15px), confirmed on index and areola. Keyboard-hop guard:
+overrode `window.innerWidth`/`innerHeight` to simulate a height-only
+resize (`375`→`375` width, `812`→`500` height) and dispatched
+`resize` — `[data-steps]`'s inline `height` was byte-identical before
+and after, confirming `sizeTo` did not fire. Then simulated a
+rotation (`innerWidth` `375`→`812`) with the height first perturbed
+to a sentinel value — the dispatched `resize` overwrote the sentinel
+back to the correct measured height, confirming the width path still
+re-measures. Full walk unaffected: filled confirm (date `2026-11-20`,
+time `10:15`, procedure `Sourcils`, full contact fields) produced a
+`window.open` call with the byte-exact template; retour returned to
+step 2 with date, time, and the selected dot intact. Zero console
+errors on index and areola (`read_console_messages`, `onlyErrors`).
+`git diff f4-alexas-gate --stat` for this correction: `css/main.css`,
+`js/form.js`, `index.html`, `servicii/areola.html`,
+`servicii/in-curand.html` (pointer-only) — plus this entry in
+`LEDGER.md`; cumulative branch scope against main remains exactly the
+six files named in Entry #57's brief. Pointers confirmed post-edit:
+`v=9` (two `form.js` consumers) / `v=50` (three `main.css`
+consumers) / `v=10` (`tokens.css`, untouched).
+
+TRIBUNAL-KILLED: the Commander's third flagged item — `.field__input`
+possibly needing `font-size:16px` to stop iOS Safari's focus-zoom —
+was checked against `css/main.css` before any edit and found already
+true (`.field__input{…font-size:1rem…}` resolves to 16px at the
+project's root font-size). No zoom fires, no fix was applied, no line
+changed for it. Recorded so a future lap doesn't re-diagnose the same
+non-bug.
+
+>> BATON
+STATE: `f4-alexas-gate` now carries Entry #57's full batch plus this
+  mobile correction — square Swiss flag, keyboard-resize guard —
+  locally verified on index and areola at mobile viewport across
+  flag/keyboard-hop/rotation/full-walk checks, in-curand verified
+  pointer-only. Not merged — holding for the Commander's eye.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #57 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap; Entry
+  #57's mobile auto-open tradeoff stands, client-accepted, unrelated
+  to this correction.
+NEXT: hold for the Commander's eye-gate on this pass; push and report
+  HEAD SHA once cleared to push.
+TRAPS: none new. General shape worth remembering: a `resize` event on
+  iOS is not proof the viewport actually resized — the keyboard and
+  QuickType bar both fire it on `innerHeight` alone, so any resize
+  handler meant to react to real layout changes needs a width (or
+  explicit dimension) guard, not just a bare listener. The
+  16px-already-true finding is the mirror lesson: verify the claimed
+  bug exists before spending a line fixing it.
+COST: single-session mobile-correction lap, Sonnet 5, same branch,
+  one CSS dimension changed (cross geometry already correct, no
+  pseudo-element math redone), one resize listener gained a two-line
+  width guard, one non-fix confirmed and recorded, three-file
+  cache-bust rider (two `form.js` consumers, three `main.css`
+  consumers).
+
+---
+
+## Entry #59 — 2026-08-19 — LAP F-4c: VIDEO GATE — SLIDE ENGINE RETIRED, STATIC REST STATE
+
+**Scope:** Root-caused from the Commander's device video (frame-
+analyzed): WebKit's focus-scroll teleports on step-2 fields and
+scroll-jumps on keyboard dismissal, traced in code to
+`.steps__track` holding `translateX(-100%)` at rest inside an
+`overflow:hidden` ancestor with a JS-pinned height — the exact
+ancestor combination that corrupts WebKit's scroll-into-view and
+scroll-restoration math. Fixed at the root, same branch
+(`f4-alexas-gate`, not merged): the wizard's rest state is now static
+DOM. No transform, no pinned height, ever — the disease's absence,
+not a counter-scroll.
+
+WHAT SHIPPED:
+
+1. Markup-first, both pages: `<div class="step" data-step="2">`
+   gains the `hidden` attribute directly in the HTML, so step 2 is
+   hidden before any script runs — kills the flash-of-all-steps on a
+   slow load. Step 1 ships visible as before.
+
+2. `js/form.js` slide engine retired:
+   - `go(n)` no longer writes `track.style.transform`. It toggles
+     `hidden` on every step — the active step loses it, every other
+     step gains it — then runs the unchanged label/bars logic.
+     `hidden = display:none` means input values persist under the
+     hood, so retour preservation holds by construction, not by
+     extra code.
+   - `sizeTo()` deleted along with every call site: both calls inside
+     the old `go()`, the 380ms settle `setTimeout`, the whole
+     `resize` listener with F-4b's `lastWidth` guard, and the two
+     remnant calls inside the reveal handler (`data-group` click) —
+     the `if (!revealName) { sizeTo(...); return; }` early return
+     lost only the `sizeTo` call, and the trailing `sizeTo(...)` at
+     the handler's end was deleted outright. The rest of that
+     handler's shape is untouched — broader dead-code cleanup there
+     is a future lap, not this one. `grep -c "sizeTo" js/form.js` →
+     `0`, confirmed post-edit. The now-unused `track` variable
+     (`[data-steps-track]` lookup, read only by the deleted transform
+     write) was removed alongside it — direct residue of this exact
+     change, not separate cleanup.
+   - `root.style.height` is never written anywhere in the file
+     post-edit; confirmed by reading the diff, not just by grep, since
+     the assignment site is gone along with `sizeTo` itself.
+   - Confirm, handoff (`window.open`, blessed template incl. Heure),
+     and reset (`go(1)`, navigation not wipe) flows: untouched beyond
+     what deleting `sizeTo`'s call sites required — no message-
+     composition or recap-read line was touched this lap.
+
+3. `css/main.css` slide styling retired: `.steps` loses
+   `overflow:hidden` and `transition:height` (margin `0 -10px` stays
+   — RIDER A's shadow-clearance reasoning still holds without the
+   clipping-box framing, so the comment above it was trimmed to match,
+   not deleted). `.steps__track` loses `transition:transform`; no
+   `transform` property is set on it anywhere. `.step` loses
+   `flex:0 0 100%` — steps are full-width blocks now, `min-width:0`
+   and the 10px side padding kept. New entrance: `@keyframes
+   stepIn{from{opacity:0}to{opacity:1}}` and `.step{animation:stepIn
+   .18s ease;}` — fires on every un-hide, including step 1 on first
+   paint, which is expected and left alone (subtle, not a bug). Inside
+   the existing `prefers-reduced-motion:reduce` block, `.step
+   {animation:none;}` joins the pre-existing `.steps,.steps__track
+   {transition:none;}` line (now itself vestigial since neither
+   selector carries a transition anymore, but left as the DO
+   specified — not this lap's cleanup).
+
+4. CACHE-BUST, consumer rider: `js/form.js` `v=9`→`v=10`
+   (`index.html`, `servicii/areola.html`); `css/main.css`
+   `v=50`→`v=51` (`index.html`, `servicii/areola.html`,
+   `servicii/in-curand.html`). `tokens.css` untouched at `v=10`,
+   three consumers.
+
+VERIFICATION — local static-server preview (scratch port; this
+session's Browser pane again could not reach another chat's dev
+server on the project's usual port), both pages, DOM/computed-style
+reads throughout. Static-state: `.step[data-step="2"]` computed
+`display:none` and `.hidden === true` at rest on fresh load (query
+scoped to `.step[data-step="2"]` specifically — a same-named
+`data-step="2"` exists on an unrelated `.scard` earlier in
+`index.html`'s DOM and was excluded from the check); `.step[data-step
+="1"]` visible; `[data-steps-track]` computed `transform: none`;
+`[data-steps]` root's `style` attribute `null` (no inline height ever
+written); `grep -c "sizeTo" js/form.js` → `0`; `grep -c "@keyframes
+stepIn" css/main.css` → `1`. Full walk (index): `Suivant` → step 1
+hides, step 2 un-hides with computed `animation-name: stepIn`, track
+transform stays `none`, root stays height-unset. `Retour`
+(`[data-back]`, step 2 → step 1) then `Suivant` again: date, heure,
+procedure dot, and all four contact fields read back byte-identical
+by direct value inspection — plain `hidden`-toggle persistence, no
+recap-restore code involved. Confirm: single `window.open` call,
+decoded `text=` byte-exact against the blessed template including
+`Heure`, success shown, bar 3 lit, label "3. Confirmation". Post-
+confirm retour (`[data-reset]`): back to step 2 with date, heure,
+dot, and nom all intact. Repeated on areola with a base+extra
+procedure (`Aréole + Sourcils`) — same shape, message composed
+correctly. Reveal-handler surviving territory exercised: clicked the
+one live `[data-group]` (procedure radiogroup, no `data-reveals` in
+current markup, so the early-return path this lap touched) —
+zero console errors before or after. `read_console_messages`
+(`onlyErrors`) clean on index, areola, and in-curand. `git diff
+f4-alexas-gate --stat` for this correction: `css/main.css`,
+`js/form.js`, `index.html`, `servicii/areola.html`,
+`servicii/in-curand.html` (pointer-only) — plus this entry in
+`LEDGER.md`; cumulative branch scope against main remains exactly the
+six files named in Entry #57's original brief. Pointers confirmed
+post-edit: `v=10` (two `form.js` consumers) / `v=51` (three
+`main.css` consumers) / `v=10` (`tokens.css`, untouched).
+
+STATE FOR THE COMMANDER: this session's tooling cannot reproduce iOS
+keyboard choreography — every check above is DOM state, computed
+style, and console output, not an on-device replay. The true
+certification of this fix is the Commander's own device gate.
+
+>> BATON
+STATE: `f4-alexas-gate` now carries Entry #57's batch, Entry #58's
+  mobile correction, and this video-gate root-cause fix — wizard rest
+  state is static DOM, no transform/height-pin/resize-listener
+  machinery survives — locally verified on index and areola across
+  static-state/full-walk/retour/confirm/console checks, in-curand
+  verified pointer-only. Not merged — holding for the Commander's
+  device gate.
+CERTIFIED: pending Tower, and specifically pending the Commander's
+  device — see STATE FOR THE COMMANDER above.
+OPEN: unchanged from Entry #57 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap; Entry
+  #57's mobile auto-open tradeoff stands, unrelated to this fix. NEW:
+  the reveal-handler's post-`sizeTo`-removal shape (the `data-group`
+  click handler's `data-reveals` branch) is noted dead-code-adjacent
+  and left for a future cleanup lap, per this lap's DO. The 180ms
+  `stepIn` fade replacing the slide is this session's taste call, not
+  a client ratification — may return as a future taste lap on the
+  Commander's ruling.
+NEXT: hold for the Commander's device gate on this pass; push and
+  report HEAD SHA once cleared to push.
+TRAPS: If the Commander's device gate still shows any focus teleport,
+  do NOT improvise counter-scrolls — report; the Tower hunts the next
+  transformed/filtered ancestor with the video method. Standing
+  lesson from this lap: a slide/carousel built on a persistent
+  `transform` inside a clipped, height-pinned ancestor is a known
+  WebKit scroll-corruption shape, not just a visual technique choice —
+  worth checking any *other* transform-based component (the
+  confirmation-screen testimonial carousel, `data-conf-carousel`,
+  still uses `ctrack.style.transform` for its slide) against the same
+  risk before it ships to a real device, though it was out of this
+  lap's scope and untouched.
+COST: single-session root-cause lap, Sonnet 5, same branch, one JS
+  function deleted with five call sites removed (two in `go()`, one
+  `setTimeout`, one whole `resize` listener, two in the reveal
+  handler) and one now-dead variable removed with it, three CSS rules
+  stripped of their transition/transform/flex properties and one
+  keyframe animation added, two markup attributes added
+  (`hidden` ×2), three-file cache-bust rider (two `form.js`
+  consumers, three `main.css` consumers) — no scroll/resize
+  "helpers" added, the fix is subtractive.
+
+---
+
+## Entry #60 — 2026-08-19 — CONSTITUTIONAL AMENDMENT: `js/hero-scroll.js` v25 → v26 — FOCUS GUARD
+
+**Scope:** `js/hero-scroll.js` has stood FROZEN since its sealing —
+touched by no lap since, its blob hash carried forward as a standing
+pre-flight check every session that so much as reads near it. This
+entry records the freeze law's first formal exercise: a Commander-
+sanctioned amendment, opened under ceremony, not drift.
+
+RULING: the Commander's own device video, frame-analyzed, proved
+WebKit focus-scroll teleports on step-2 fields and scroll-jumps on
+keyboard dismissal. Code autopsy (Tower-certified) traced it to the
+engine's snap-on-settle system: it reads `visualViewport.height` as
+its measuring tape; the iOS keyboard shrinks that tape; the poisoned
+progress math this produces drives `settle()`'s `window.scrollTo`
+calls to garbage targets — down to the footer on focus, up to the
+étapes on dismissal. The Commander ruled a focus guard at the
+engine's choke points, and nothing else: no camera math, keyframe,
+dwell segment, settle target, ease curve, or gesture logic touched.
+
+PRE-FLIGHT (constitutional): `git hash-object js/hero-scroll.js` on
+`f4-alexas-gate` before this edit —
+`b14a99c3ec7b162255627044963818ef055d21b9` — matched the sealed v25
+artifact exactly, confirmed before the file was opened. `index.html`
+carried `hero-scroll.js?v=25` exactly once; repo-wide grep confirmed
+no other page references `hero-scroll` (the QA harness under
+`docs/qa/harness/` reads the real file by path for its own tests —
+not a page consumer, not touched, not counted).
+
+WHAT SHIPPED — five insertions, zero deletions, zero reformatting:
+
+1. Header comment extended with the amendment record verbatim (the
+   Commander's own text, unedited) — the file's opening block now
+   documents its own v26 provenance, root cause, and re-freeze
+   declaration inline.
+
+2. `function userIsTyping()` added beside the existing listener
+   block (right after `onTick`, right before the `scroll`/`resize`/
+   `orientationchange`/`visualViewport` registrations): reads
+   `document.activeElement`, true if it's an `input`, `textarea`, or
+   `select`.
+
+3. `onResize()` gains `if (userIsTyping()) return;` as its first
+   statement — no recalc against a keyboard-shrunken viewport while a
+   field is focused.
+
+4. `settle(source)` gains `if (userIsTyping()) { khlog('settle
+   suppressed: typing, source=', source); return; }` as its first
+   statement — covers every settle initiator (corridor pre-empt,
+   scrollend, and the 140ms debounce fallback) and the reduced-motion
+   instant `scrollTo` nested inside it, since none of those paths run
+   without passing through `settle()` first.
+
+5. `easeTick()` gains `if (userIsTyping()) { activeEase = null;
+   khlog('ease cancelled: typing'); return; }` immediately after the
+   existing `if (!activeEase) return;` guard — defense in depth: an
+   ease already mid-flight when focus lands dies instead of dragging
+   the page under the user's thumb.
+
+6. A `focusout` listener added beside the existing registrations:
+   when focus leaves an `input`/`textarea`/`select` for a target that
+   is itself not one of those, `onResize` fires once via `setTimeout
+   (onResize, 0)` — one honest recalc against the real, un-shrunken
+   viewport now that typing has truly ended. Field-to-field focus
+   hops (Nom → Prénom, etc.) don't match the condition and are
+   correctly skipped.
+
+7. CACHE-BUST: `index.html`'s `hero-scroll.js?v=25` → `?v=26`. Sole
+   consumer — no other pointer in the repo needed bumping this pass.
+
+POST-EDIT: `git hash-object js/hero-scroll.js` on the amended file —
+`286ad873516c9ab71e9ae28ef98a3a7bf6dac0e4`.
+
+CONTAINER VERIFICATION: `grep -c "userIsTyping" js/hero-scroll.js` →
+`4` (1 definition + 3 guard call sites, matching the three layers
+above — the `focusout` listener calls `onResize`, not `userIsTyping`
+directly, so it is not itself a 4th call site; the count is exactly
+the definition plus Layers A/B/C). Header carries `"v26"`. Pointer
+confirmed `hero-scroll.js?v=26` in `index.html`. `git diff --stat
+js/hero-scroll.js`: 28 insertions, 0 deletions — purely additive,
+confirmed against the pre-edit blob. NOTED DISCREPANCY, reported
+plainly rather than silently reconciled: a raw `grep -c
+"window.scrollTo"` now reads `5`, not the `3` named in the exit
+condition — because the Commander's own verbatim header text (item 1
+above) contains the prose phrase "drove `window.scrollTo` to garbage
+targets," and the file already carried one pre-existing prose mention
+in an untouched comment near `settleEaseDuration`. Counting only
+actual `window.scrollTo(...)` invocations (the figure the exit
+condition is evidently protecting — proof no settle-target logic was
+touched) the count is unchanged at exactly **3**, same three call
+sites, byte-identical lines, merely shifted downward by the insertions
+above them — confirmed by direct line-by-line comparison against the
+pre-edit file, not by regex alone.
+
+DEVICE CERTIFICATION PROTOCOL — for the Commander, verified locally
+as far as this session's tooling reaches (container tooling cannot
+reproduce iOS keyboard choreography; this is not a substitute for the
+device gate): opened the local preview with `?khdebug=1`, scrolled
+the hero unfocused as a control — `settle`/`ease start` fired
+normally, landing on the expected dwell target, log line `ease start,
+duration= 337ms target= 0.4310`. Then focused a step-2 field
+(`data-recap="nom"`), repeated the identical scroll — logged exactly
+`settle suppressed: typing, source= debounce`, no ease started, and
+`window.pageYOffset` held at the exact scrolled value with no
+teleport. Full wizard walk (fill → confirm → retour) re-verified on
+both index and areola with the amended engine loaded — byte-exact
+WhatsApp template, all fields preserved through retour, zero console
+errors on both pages throughout every check above.
+
+RE-FREEZE DECLARATION: `js/hero-scroll.js` is FROZEN at v26 /
+`286ad873516c9ab71e9ae28ef98a3a7bf6dac0e4` effective this merge. The
+next amendment requires the same ruling ceremony this entry records:
+Commander-certified root cause, scoped DOs, a pre-flight hash check
+against this new sealed value, and a constitutional LEDGER entry at
+close.
+
+EXONERATION NOTE: Entries #58 (F-4b, the square-flag/resize-guard
+mobile correction) and #59 (F-4c, the wizard slide-engine retirement)
+operated on innocent organs — `js/form.js`'s own resize listener and
+`.steps__track`'s transform were real defects worth fixing on their
+own terms, but neither was the device video's root cause. Good
+architecture, wrong patient. This entry is the actual cure; #58 and
+#59 stand as correct, independent fixes, not superseded diagnoses.
+
+DOCTRINE SEEDS — flagged for the next doctrine lap, not resolved
+here: "frozen files still get autopsies — the freeze protects bytes,
+not suspicion"; "any engine that writes scroll position holds fire
+while the user types."
+
+>> BATON
+STATE: `f4-alexas-gate` now carries the full F-4 batch (#57–#59) plus
+  this constitutional amendment — `js/hero-scroll.js` re-frozen at
+  v26. Locally verified: hero scrub control/focused-suppression
+  behavior, full wizard walk on both pages, zero console errors,
+  purely-additive diff against the sealed pre-edit blob. Not merged —
+  holding for the Commander's device gate, the only certification
+  this fix can actually receive.
+CERTIFIED: pending Tower; pending the Commander's device (see DEVICE
+  CERTIFICATION PROTOCOL above — container tooling cannot reproduce
+  iOS keyboard choreography).
+OPEN: unchanged from Entry #57 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap. NEW:
+  the two DOCTRINE SEEDS above, unresolved, waiting for a doctrine
+  lap. The `window.scrollTo` grep-count discrepancy (prose vs.
+  invocation count, see CONTAINER VERIFICATION) is explained, not a
+  live gate — flagged so a future audit doesn't re-discover it as a
+  surprise.
+NEXT: hold for the Commander's device gate on this pass, protocol
+  above; push and report HEAD SHA once cleared to push.
+TRAPS: the standing lesson of this whole F-4 arc: two prior laps
+  (#58, #59) fixed real bugs in the wizard's own machinery while the
+  actual device-video defect lived one file over, in a component
+  neither lap was scoped to touch. A device video proves a symptom,
+  not a location — the autopsy that finds the true choke point can
+  land somewhere the symptom never visibly touches. Worth remembering
+  before declaring victory on the NEXT device-reported bug after only
+  fixing the first plausible-looking culprit.
+COST: single-session constitutional lap, Sonnet 5, same branch, one
+  frozen file opened under ceremony (pre-flight hash check, exactly
+  five insertions, zero deletions, zero reformatting, post-edit hash
+  recorded), one pointer bump (sole consumer), full unified diff
+  supplied for line-by-line Tower review per the constitutional
+  report requirement.
+
+---
+
+## Entry #61 — 2026-08-19 — DEVICE CERTIFICATION: THE F-4 ARC
+
+**Scope:** The Commander's own device gate on the full F-4 arc
+(Entries #57–#60: review-screen retirement, mobile flag/keyboard
+guard, wizard slide-engine retirement, and the `js/hero-scroll.js`
+v26 focus-guard amendment) — the certification container tooling
+could not perform for itself, flagged as outstanding at the close of
+every entry in the arc.
+
+RESULT:
+
+- **iOS Safari:** perfect. Focus stillness confirmed on the wizard's
+  contact fields (no teleport, no scroll-jump on keyboard dismissal),
+  the hero scrub reads unchanged from v25 by eye, and the full
+  WhatsApp handoff walk holds end to end. This was the exact defect
+  Entry #60's amendment targeted, and it is closed on the browser the
+  device video was shot on.
+
+- **Brave iOS:** residual scroll quirks remain. Ruled by the
+  Commander as browser-specific, not a regression from this arc's
+  work, and accepted as a WATCHED SEAM rather than a blocking defect.
+  `?khdebug=1` remains the standing instrument for this seam — if a
+  real client ever reports a jump, that query param plus the console
+  is where the next investigation starts, same method as Entry #60's
+  own root-cause hunt.
+
+>> BATON
+STATE: `f4-alexas-gate`'s full F-4 arc is device-certified on the
+  Commander's own hardware — iOS Safari clean, Brave iOS carrying one
+  accepted, browser-specific watched seam. Certification gate that
+  every entry in the arc held open is now closed.
+CERTIFIED: Commander's device, this entry. Tower certification
+  remains as recorded per-entry above.
+OPEN: unchanged from Entry #60 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true; the two doctrine seeds from
+  Entry #60, unresolved. NEW watched seam: Brave iOS's residual
+  scroll quirks, accepted, not queued as a fix — revisit only if a
+  real client reports it, per the Commander's ruling above.
+NEXT: branch is device-certified and clear to merge.
+TRAPS: none new. Brave iOS's quirk is recorded here specifically so a
+  future session doesn't mistake it for a regression from this arc
+  and go hunting for a cause that isn't there — it was already
+  present, already looked at, already ruled browser-specific.
+COST: single-entry certification record, no code changed.

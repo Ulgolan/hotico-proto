@@ -890,27 +890,26 @@ html.js-kh .kh__static{display:none;}
 
 /* ---------- Lap 2b: 3-step form ---------- */
 
-/* RIDER A: the track clips at its own box, and btn-pink carries a 2px
-   ring plus shadow-neo beyond its border. Widen the clipping box by
-   10px each side and pad the steps back, so the pill and its shadow
-   render whole while the content stays aligned with the rest of the
-   form. */
+/* RIDER A: btn-pink carries a 2px ring plus shadow-neo beyond its
+   border. Widen the box by 10px each side and pad the steps back, so
+   the pill and its shadow render whole while the content stays
+   aligned with the rest of the form. */
 .steps{
-  overflow:hidden;
-  transition:height .34s ease;
   margin:0 -10px;
 }
 
 .steps__track{
   display:flex;
   align-items:flex-start;
-  transition:transform .34s ease;
 }
 
-.step{flex:0 0 100%;min-width:0;padding:0 10px;}
+@keyframes stepIn{from{opacity:0}to{opacity:1}}
+
+.step{min-width:0;padding:0 10px;animation:stepIn .18s ease;}
 
 @media (prefers-reduced-motion:reduce){
   .steps,.steps__track{transition:none;}
+  .step{animation:none;}
 }
 
 .stepnav{
@@ -1084,26 +1083,6 @@ html.js-kh .kh__static{display:none;}
 
 .conf__cta{margin-top:.2rem;margin-bottom:1rem;text-decoration:none;display:inline-block;}
 
-.conf__recap{display:flex;flex-direction:column;gap:.7rem;}
-
-.conf__recap-row{
-  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
-  padding-top:.7rem;
-  border-top:1px solid var(--field-gray);
-}
-
-.conf__recap-row:first-child{padding-top:0;border-top:0;}
-
-.conf__recap-label{
-  font-family:var(--font-body);font-size:.75rem;letter-spacing:.1em;
-  text-transform:uppercase;color:var(--placeholder);flex:0 0 auto;
-}
-
-.conf__recap-value{
-  font-size:.9375rem;color:var(--cocoa);text-align:right;
-  word-break:break-word;
-}
-
 .conf__sig{margin:1.6rem 0 .6rem;text-align:center;}
 
 .conf__sig-name{font-family:var(--font-head);font-weight:700;font-size:1rem;margin:0 0 .2rem;}
@@ -1148,27 +1127,40 @@ html.js-kh .kh__static{display:none;}
   opacity:1;
 }
 
-/* Real date input — same costume, native chrome stripped. */
-.field__input[type="date"]{
+/* Real date/time input — same costume, native chrome stripped. */
+.field__input[type="date"],
+.field__input[type="time"]{
   flex:1 1 auto;width:100%;min-height:50px;
   -webkit-appearance:none;appearance:none;
   border:0;background:transparent;
   color:var(--cocoa);
 }
-.field__input[type="date"]::-webkit-date-and-time-value{
+.field__input[type="date"]::-webkit-date-and-time-value,
+.field__input[type="time"]::-webkit-date-and-time-value{
   text-align:left;
 }
 
-/* RO flag — three bars, no external asset. National flag colours,
-   not brand colours: deliberately outside the tokens.css colour law. */
+/* Swiss flag — cross drawn with ::before/::after, no external asset.
+   National flag colours, not brand colours: deliberately outside the
+   tokens.css colour law. */
 .field__flag{
-  display:flex;width:22px;height:15px;border-radius:2px;overflow:hidden;
+  position:relative;
+  display:flex;width:15px;height:15px;border-radius:2px;overflow:hidden;
   flex:0 0 auto;
+  background:#DA291C;
 }
-.field__flag i{flex:1;}
-.field__flag i:nth-child(1){background:#002B7F;}
-.field__flag i:nth-child(2){background:#FCD116;}
-.field__flag i:nth-child(3){background:#CE1126;}
+.field__flag::before,
+.field__flag::after{
+  content:"";
+  position:absolute;
+  background:#fff;
+}
+.field__flag::before{
+  top:20%;bottom:20%;left:40%;right:40%;
+}
+.field__flag::after{
+  top:40%;bottom:40%;left:20%;right:20%;
+}
 
 .field__caret{width:14px;height:14px;fill:var(--cocoa);flex:0 0 auto;}
 
