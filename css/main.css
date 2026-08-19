@@ -1082,7 +1082,27 @@ html.js-kh .kh__static{display:none;}
 
 .conf__copy a{color:var(--cocoa);}
 
-.conf__cta{margin-top:.2rem;text-decoration:none;}
+.conf__cta{margin-top:.2rem;margin-bottom:1rem;text-decoration:none;display:inline-block;}
+
+.conf__recap{display:flex;flex-direction:column;gap:.7rem;}
+
+.conf__recap-row{
+  display:flex;justify-content:space-between;align-items:baseline;gap:1rem;
+  padding-top:.7rem;
+  border-top:1px solid var(--field-gray);
+}
+
+.conf__recap-row:first-child{padding-top:0;border-top:0;}
+
+.conf__recap-label{
+  font-family:var(--font-body);font-size:.75rem;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--placeholder);flex:0 0 auto;
+}
+
+.conf__recap-value{
+  font-size:.9375rem;color:var(--cocoa);text-align:right;
+  word-break:break-word;
+}
 
 .conf__sig{margin:1.6rem 0 .6rem;text-align:center;}
 
@@ -1126,6 +1146,17 @@ html.js-kh .kh__static{display:none;}
   font-style:italic;
   color:var(--placeholder);
   opacity:1;
+}
+
+/* Real date input — same costume, native chrome stripped. */
+.field__input[type="date"]{
+  flex:1 1 auto;width:100%;min-height:50px;
+  -webkit-appearance:none;appearance:none;
+  border:0;background:transparent;
+  color:var(--cocoa);
+}
+.field__input[type="date"]::-webkit-date-and-time-value{
+  text-align:left;
 }
 
 /* RO flag — three bars, no external asset. National flag colours,

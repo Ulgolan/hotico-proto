@@ -4626,3 +4626,256 @@ TRAPS: none new to the confirmation screen itself. The general trap
   before anyone looked.
 COST: single-session lap, Sonnet 5, one branch, one CSS line removed,
   one token retired, three-file pointer repair, no re-work.
+
+---
+
+## Entry #55 — 2026-08-19 — LAP F-3: WHATSAPP HANDOFF
+
+**Scope:** "Confirmer le rendez-vous" becomes a real handoff. The
+button now composes a blessed WhatsApp recap message from the
+wizard's own form state and opens `wa.me` with it pre-filled,
+alongside the existing (unconditional) advance to the confirmation
+screen. The date field stops being a static `dd/mm/yyyy` facade and
+becomes a real `<input type="date">`. One lap, one variable: the
+handoff — nothing else in the wizard moved.
+
+PRE-FLIGHT: `form.js?v=5` (index, areola), `main.css?v=46` (index,
+areola, in-curand), `tokens.css?v=10` (all three) — verified by grep
+against the brief's stated baseline before any edit. All matched; no
+STOP triggered.
+
+WHAT SHIPPED:
+
+1. Date facade → real input, both pages: the `<span class="field__ph">`
+   inside `.field__box` replaced by
+   `<input class="field__input" type="date" data-recap="date">`, the
+   calendar SVG kept untouched beside it. `.field__box` already
+   carries a fixed `height:50px` (not `min-height`) shared by every
+   field on the form — the empty date box needed no new sizing rule
+   to hold that height; verified live at exactly `50px` on both
+   pages before and after a value is picked. New CSS scoped to
+   `.field__input[type="date"]` only (native chrome stripped,
+   `::-webkit-date-and-time-value{text-align:left}`), so text/email/tel
+   fields sharing `.field__input` are untouched.
+
+2. Recap hooks, both pages, Contact step: `data-recap="nom"` /
+   `"prenom"` / `"email"` / `"tel"` added to the four existing inputs —
+   no other attribute or markup touched.
+
+3. `data-proc-base="Aréole"` added to `[data-steps]` on
+   `servicii/areola.html` only; `index.html`'s root carries none.
+
+4. `js/form.js` — the handoff prepended synchronously to the existing
+   `[data-confirm]` handler, every original line kept intact below
+   it. Collection is root-scoped throughout
+   (`root.querySelectorAll('[data-recap]')`,
+   `root.querySelector('[data-val].is-on')`) — never
+   `document`-wide. Procedure string: `data-proc-base + " + " + selection`
+   when both exist, base alone when no extra procedure is selected,
+   the bare selection (or `"—"`) when the page carries no base. Date
+   reformatted from the input's native `yyyy-mm-dd` to `dd/mm/yyyy`;
+   every other empty field renders `"—"` — confirmed never
+   `"undefined"`, never blank, by direct URL inspection. `window.open`'s
+   return value is never branched on; the pre-existing success flow
+   (`root.hidden`, `success.hidden`, `index = 2`, label, bar 3) runs
+   unconditionally right after it, so a blocked popup can't strand
+   the client on step 2.
+
+5. `[data-reset]` extended one line: `root.querySelectorAll('[data-recap]')`
+   cleared alongside the pre-existing (untouched) document-wide
+   dot-clearing — reset now returns the date input and all four
+   contact fields to empty, in addition to the dots it already
+   cleared.
+
+6. CACHE-BUST, per the standing consumer-enumeration rider:
+   `js/form.js` `v=5`→`v=6` (`index.html`, `servicii/areola.html` —
+   its only two consumers, confirmed by grep); `css/main.css`
+   `v=46`→`v=47` (`index.html`, `servicii/areola.html`, AND
+   `servicii/in-curand.html` — three consumers, confirmed by grep).
+   `css/tokens.css` untouched at `v=10`, all three consumers, per the
+   brief.
+
+VERIFICATION — local static-server preview, fresh tabs, both form
+pages: filled walk (native date picked, procedure selected, contact
+filled) → `wa.me` URL decoded and diffed byte-for-byte against the
+blessed template, exact match including 🌸 and both `·` separators;
+confirmation screen appears, bar 3 lit. Empty walk (nothing filled) →
+`"—"` in every slot, confirmed zero `"undefined"` occurrences;
+confirmation still appears, nothing blocked. `servicii/areola.html`
+procedure composition checked both ways: base alone (`"Aréole"`, no
+extra selected) and base+extra (`"Aréole + Lèvres"`). `data-reset`
+(`‹ retour`) restores a clean step 1 on both pages: date input empty,
+all four recap fields empty, dots cleared, label/bar back to step 1.
+Empty-state `.field__box` height confirmed `50px` on both pages,
+matching pre-lap rendering — no collapse. Zero console errors
+attributable to this lap (one pre-existing, unrelated `allowfullscreen`
+attribute warning from the Vimeo iframe, present before this lap).
+`git diff main --stat`: `css/main.css`, `index.html`, `js/form.js`,
+`servicii/areola.html`, `servicii/in-curand.html` (pointer-only, one
+line) — plus this entry in `LEDGER.md`. Pointers confirmed at `v=6`
+(two `form.js` consumers) / `v=47` (three `main.css` consumers) /
+`v=10` (`tokens.css`, untouched, three consumers) post-edit.
+
+>> BATON
+STATE: `f3-whatsapp-handoff` carries the full handoff build, locally
+  verified on both form pages (filled walk, empty walk, reset,
+  base/base+extra procedure composition), not merged — holding for
+  the Commander's eye.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 still await
+  distinct ratified client quotes (PRODUCTION GATE stands); Entry
+  #51's areola.html prototype-note deviation, still true after this
+  lap (the site sends nothing — the client sends her own WhatsApp
+  message via the handoff this lap built).
+NEXT: hold for Commander's eye-gate on this pass.
+TRAPS: iOS leaves a spare tab open after the `wa.me` handoff when the
+  app-switch back to Safari isn't automatic — known, accepted at the
+  eye-gate this lap, not treated as a bug. An empty iOS date input
+  renders blank by nature (no `dd/mm/yyyy` ghost text — that facade
+  is gone now that the field is real); the `"Choisis la date"` label
+  above it carries the context iOS won't. The prototype note remains
+  true and unedited: the site sends nothing, the client sends her own
+  WhatsApp message — this lap composes that message, it doesn't send
+  anything on the client's behalf.
+COST: single-session lap, Sonnet 5, one branch, one new input type,
+  one composed-message JS block, two-file cache-bust (three
+  `main.css` consumers, two `form.js` consumers), no re-work.
+
+---
+
+## Entry #56 — 2026-08-19 — LAP F-3b: THUMB-GATE CORRECTION — AUTO-OPEN RETIRED
+
+**Scope:** Entry #55's auto-open handoff failed the Commander's thumb
+test: on mobile, `window.open` hijacked to WhatsApp before the
+confirmation screen was ever seen. Corrected on the same branch
+(`f3-whatsapp-handoff`, not merged): the handoff becomes a deliberate
+button the client taps ON the confirmation screen, sitting above a
+recap card she can read before sending anything. `‹ retour` stops
+wiping the form — it now navigates back to Contact with every value
+intact, so a correction is one edit away.
+
+PRE-FLIGHT: `form.js?v=6` (index, areola), `main.css?v=47` (index,
+areola, in-curand), `tokens.css?v=10` (all three) — verified by grep
+against Entry #55's shipped state before any edit. All matched; no
+STOP triggered.
+
+WHAT SHIPPED:
+
+1. Confirmation screen opening trio replaced, both pages, copy
+   verbatim: heading "Merci." → "Presque fini."; subline "Ta demande
+   est bien arrivée chez moi." → "Ton message est prêt — il ne reste
+   qu'à l'envoyer."; the old lead ("Je te réponds personnellement sur
+   WhatsApp, dans les 24 heures.") retired and replaced by "Je te
+   réponds personnellement, dans les 24 heures.", now sitting *below*
+   the CTA instead of above it. New order: heading → subline → recap
+   card → CTA → lead. Everything below (trois étapes, gold carousel,
+   résultats, autre date, signature, note, retour) untouched.
+
+2. Recap card, both pages: a new `.conf__recap` block (same
+   `.conf__block` white house pattern as the existing blocks — no new
+   surface color, `css/tokens.css` untouched) with six rows — Date,
+   Procédure, Nom, Prénom, E-mail, Téléphone — quiet uppercase
+   `.conf__recap-label`s in `--placeholder`, values in `--cocoa`,
+   hairline dividers in `--field-gray`. Value slots are empty
+   `data-recap-out="…"` spans seeded with the `"—"` fallback glyph in
+   markup, so a client who never confirms sees "—" rather than blank
+   cells if the card is ever inspected pre-fill.
+
+3. The `data-wa-cta` anchor ships exactly as specified: `<a
+   class="btn-pink conf__cta" data-wa-cta href="#" target="_blank"
+   rel="noopener noreferrer">Envoyer ma demande sur WhatsApp</a>` —
+   inert `href="#"` until the first confirm sets it.
+
+4. `js/form.js` `[data-confirm]` handler: message-composition logic
+   (blessed template, root-scoped `[data-recap]`/`[data-val].is-on`
+   reads, `dd/mm/yyyy` reformat, `"—"` fallbacks) carried over
+   byte-for-byte from Entry #55 — not touched beyond removing the
+   `window.open` call it fed. Two new steps added after composition,
+   both scoped to the `success` panel: `[data-recap-out]` spans
+   populated via `textContent` only (no `innerHTML`, no template-
+   string DOM injection — the recap card echoes client-typed text, so
+   this is the one hard security line drawn this lap), and
+   `[data-wa-cta]`'s `href` set to the same `wa.me` URL Entry #55
+   used to open directly. All of this reruns on every confirm click
+   (recomposition law), so an edit-and-reconfirm always refreshes
+   both the card and the href before the client taps send. `grep -c
+   "window.open" js/form.js` → `0`, confirmed post-edit — no popup,
+   auto-open, or orphaned machinery survives.
+
+5. `[data-reset]` reworked from a wipe to navigation: hides success,
+   shows root + stepper, calls `go(1)` — lands on step 2 (Contact)
+   with the date, all four contact fields, and the selected procedure
+   dot preserved. The dot-clearing line, the `[data-recap]`-clearing
+   line, and the already-dead `[data-reveal]` line (no `data-reveal`
+   panel exists anywhere in current markup — confirmed by grep) are
+   all removed, not just bypassed. Button text `‹ retour` unchanged.
+
+6. CACHE-BUST, consumer rider: `js/form.js` `v=6`→`v=7` (`index.html`,
+   `servicii/areola.html`); `css/main.css` `v=47`→`v=48` (`index.html`,
+   `servicii/areola.html`, `servicii/in-curand.html`). `tokens.css`
+   untouched at `v=10`, three consumers.
+
+VERIFICATION — local static-server preview, fresh tabs, both pages,
+`window.open` hooked to a counter rather than blocked, so a
+regression would be caught even where a real popup blocker would hide
+it. Filled walk: confirm → recap card shows the typed values
+verbatim, `data-wa-cta`'s decoded `href` byte-exact against the
+blessed template (🌸, both `·`, `dd/mm/yyyy`; areola base-alone
+`"Aréole"` and base+extra `"Aréole + Lèvres"` both checked), zero
+`window.open` calls recorded, step 3 shown, bar 3 lit. Correction
+loop: `‹ retour` → step 2, label reads "2. Contact", bar index 1
+active, date/nom/prenom/email/tel/dot all confirmed intact by direct
+read — edited the phone field, reconfirmed, recap card AND href both
+carried the new number, old value gone from both. Empty walk: every
+recap row and the href read `"—"`, zero `window.open` calls, zero
+`"undefined"` anywhere (checked by string search over the serialized
+recap object, not by eye). Injection probe: typed `<b>test</b>` into
+Nom, confirmed — `[data-recap-out="nom"]` `innerHTML` reads the
+HTML-escaped literal (`&lt;b&gt;test&lt;/b&gt;`), `textContent` reads
+the raw string, `.querySelector('b')` on the node returns `null` — no
+markup executes. Zero console errors attributable to this lap on
+either page (one pre-existing, unrelated `allowfullscreen` attribute
+warning from the Vimeo iframe, present since before F-3). `git diff
+main --stat`: `css/main.css`, `index.html`, `js/form.js`,
+`servicii/areola.html`, `servicii/in-curand.html` (pointer-only, one
+line) — plus this entry in `LEDGER.md`, exactly the six files named
+in the brief. Pointers confirmed at `v=7` (two `form.js` consumers) /
+`v=48` (three `main.css` consumers) / `v=10` (`tokens.css`, untouched)
+post-edit.
+
+PRODUCTION GATE: the new opening copy (Presque fini. / Ton message
+est prêt — il ne reste qu'à l'envoyer. / Envoyer ma demande sur
+WhatsApp) replaces client-ratified copy and requires Alexandra's
+blessing before any production release.
+
+WATCHED SEAM: block 4's bare WhatsApp link remains a second,
+unprefilled door by design (other-date intent); revisit only if real
+clients arrive message-less.
+
+>> BATON
+STATE: `f3-whatsapp-handoff` now carries the corrected, deliberate-tap
+  handoff (recap card + CTA on the confirmation screen, retour as
+  navigation) on top of the F-3 build, locally verified on both form
+  pages across filled/empty/correction-loop/injection checks. Not
+  merged — holding for the Commander's thumb on this pass.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 still await
+  distinct ratified client quotes (PRODUCTION GATE stands); Entry
+  #51's areola.html prototype-note deviation, still true and untouched
+  this lap. NEW: the PRODUCTION GATE above — the "Presque fini." /
+  "Envoyer ma demande sur WhatsApp" opening copy is this session's
+  prose, not Alexandra's, and needs her word before it ships past
+  prototype.
+NEXT: hold for the Commander's eye-and-thumb-gate on this pass.
+TRAPS: none new. The general shape of this lap's fix: a flow that
+  looks correct on desktop (auto-open feels seamless with a mouse)
+  can still fail on the exact device the client will actually use —
+  the thumb test is not optional for anything that opens an external
+  app. The prototype note remains true and unedited: the site sends
+  nothing, the client sends her own WhatsApp message, now by her own
+  deliberate tap rather than by a script opening it for her.
+COST: single-session correction lap, Sonnet 5, same branch, one
+  handler split into recap-population + href-set (message logic
+  unchanged), one reset handler inverted from wipe to navigate,
+  two-file cache-bust (three `main.css` consumers, two `form.js`
+  consumers), no re-work beyond this correction itself.
