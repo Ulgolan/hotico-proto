@@ -997,35 +997,79 @@ html.js-kh .kh__static{display:none;}
 
 .success[hidden]{display:none;}
 
-.success__check{
-  width:64px;height:64px;border-radius:50%;
-  margin:0 auto 1.1rem;
-  display:flex;align-items:center;justify-content:center;
-  background:var(--hotico-pink);
-  box-shadow:var(--shadow-neo);
-}
-
-.success__check svg{width:30px;height:30px;fill:none;stroke:var(--white);stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;}
-
-.success__h{
-  font-family:var(--font-head);font-weight:700;font-size:1.375rem;
-  margin:0 0 .6rem;
-}
-
-.success__copy{font-size:.9375rem;line-height:1.45;margin:0 auto 1.5rem;max-width:19rem;}
-
-.success__urgent{font-size:.875rem;margin:0 0 .8rem;}
-
-.success__btns{display:flex;flex-direction:column;gap:.7rem;margin-bottom:1.4rem;}
-
-.success__btns a{text-decoration:none;}
-
 .success__note{font-size:.875rem;color:var(--placeholder);margin:0 0 .8rem;}
 
 .success__back{
   background:none;font-size:.875rem;color:var(--cocoa);
   cursor:pointer;text-decoration:underline;
 }
+
+/* D-2. confirmation screen — F-2, Alexandra's mock */
+
+.conf{text-align:left;}
+
+.conf__h{
+  font-family:var(--font-head);font-weight:700;font-size:1.75rem;
+  margin:0 0 .5rem;
+}
+
+.conf__subline{font-size:1rem;margin:0 0 .35rem;}
+
+.conf__lead{font-size:.9375rem;line-height:1.45;color:var(--cocoa);margin:0 0 1.6rem;}
+
+.conf__block{
+  position:relative;
+  background:var(--white);
+  border-radius:14px;
+  padding:1.4rem 1.1rem 1.2rem 2rem;
+  margin-bottom:1rem;
+  box-shadow:var(--shadow-neo);
+}
+
+.conf__block--cream{background:var(--cream);}
+
+.conf__marker{
+  position:absolute;top:.9rem;left:.9rem;
+  font-family:var(--font-body);font-weight:700;font-size:.75rem;
+  color:var(--cocoa);
+}
+
+.conf__kicker{
+  font-family:var(--font-body);font-size:.75rem;letter-spacing:.28em;
+  text-transform:uppercase;color:var(--cocoa);margin:0 0 1rem;
+}
+
+.conf__block--cream .conf__kicker{color:var(--gold);}
+
+.conf__steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9rem;}
+
+.conf__steps li{font-size:.9375rem;line-height:1.45;}
+
+.conf__num{
+  font-family:var(--font-head);font-weight:700;font-size:1.0625rem;
+  color:var(--gold);margin-right:.3rem;
+}
+
+.conf__step-h{font-weight:700;}
+
+.conf__quote{
+  font-style:italic;font-size:.9375rem;line-height:1.45;
+  margin:0 0 .6rem;
+}
+
+.conf__who{font-size:.875rem;color:var(--cocoa);margin:0;}
+
+.conf__copy{font-size:.9375rem;line-height:1.45;margin:0 0 1rem;}
+
+.conf__copy a{color:var(--cocoa);}
+
+.conf__cta{margin-top:.2rem;text-decoration:none;}
+
+.conf__sig{margin:1.6rem 0 .6rem;}
+
+.conf__sig-name{font-family:var(--font-head);font-weight:700;font-size:1rem;margin:0 0 .2rem;}
+
+.conf__sig-role{font-size:.8125rem;color:var(--placeholder);margin:0;}
 
 .field{margin:0 0 1.1rem;padding-left:.75rem;}
 

@@ -4215,3 +4215,108 @@ TRAPS: `js/form.js`'s confirm/reset wiring uses `document.querySelector`
   ENGINE TRUTH note above exists to prevent; keep renumbering attributes
   by hand whenever blocks move.
 COST: single-session lap, Sonnet 5, one branch, no re-work.
+
+## Entry #51 — 2026-08-19 — LAP F-2: CONFIRMATION SCREEN
+
+**Scope:** replace the interim success panel on both pages with the
+ratified confirmation screen — Alexandra's mock, ratified French copy,
+house design system. One variable: the post-confirm surface. Branch
+`f2-confirmation-screen`, off `main` at
+`98f1a72bd332f98e7b0bc378e252624c47ab5c64`. `js/form.js` untouched —
+its confirm/reset handler already produces the ruled behavior (stepper
++ wizard hidden on confirmation) and needed nothing new.
+
+ANCHOR CHECK, on `main` before the cut: all four certified anchors
+(`class="success" data-success`, `Demande bien reçue`,
+`.success{text-align:center`, `--card:#E9E9E9;`) landed exactly once
+per named file. No stop condition triggered.
+
+WHAT SHIPPED, both `index.html` and `servicii/areola.html`: the old
+`.success__check` / `__h` / `__copy` / `__urgent` / `__btns` markup
+inside `[data-success]` replaced by a new `.conf` block — heading
+"Merci.", subline, lead, four numbered blocks (plain cocoa numerals,
+top-left, no decoration), gold two-digit sub-step numerals inside
+block 1, a cream-ground testimonial block 2, the Instagram CTA
+(`.btn-pink`, reused) in block 3, the WhatsApp inline link in block 4,
+and the Alexandra Hotico signature block. The container div, its
+`hidden` attribute, `success__note`, and the `data-reset` '‹ retour'
+button (last element) are unmoved. Ratified copy shipped verbatim,
+character for character, including the space before every `?` and the
+straight-apostrophe / literal-`·` conventions already standing in the
+codebase.
+
+DEVIATION FLAGGED: `servicii/areola.html`'s `[data-success]` block had
+no `success__note` on `main` — only `index.html` did. The brief's
+instruction ("keep... the existing prototype note, unmoved") assumed
+both pages carried it; areola.html didn't. Since the EXIT CONDITION
+requires "Prototype note visible at the bottom of the screen" on both
+pages, the note was added to areola.html verbatim from index.html's
+copy rather than treated as "unmoved" (there was nothing to move). Not
+one of the four certified anchors, so no stop — but flagged here for
+the Tower's eye since it's copy that entered a file beyond what the
+anchors certified.
+
+CSS — `css/main.css`: retired `.success__check` (+ its svg),
+`.success__h`, `.success__copy`, `.success__urgent`, `.success__btns`
+(+ its `a`) from the D. confirmation block; kept `.success`,
+`.success[hidden]`, `.success__note`, `.success__back` verbatim.
+Appended a new `.conf` family directly after `.success__back`: page
+grounds `--white` (blocks 1/3/4) and `--cream` (block 2, testimonial)
+against the `--ivory` body; headings `--font-head`, body `--font-body`;
+kickers reuse the house letterspaced-small-caps shape already standing
+in `.kh__hint-label` (cocoa for block 1, gold for block 2's cream
+ground — a judgment call within the brief's "cocoa or gold" latitude);
+CTA is `.btn-pink` reused (needed one addition, `text-decoration:none`,
+since the class alone doesn't reset anchor underline — the old
+`.success__btns a` rule that used to do this was retired with its
+block). FLAT GOLD LAW respected: `--gold` flat only, no `--gold-grad`
+use. No new tokens beyond `--cream`; no font imports.
+
+`css/tokens.css`: `--cream:#F9F2EA` minted directly after `--card`,
+with the one-line provenance comment specified in the brief.
+
+CACHE-BUST: `css/main.css` `v=42` → `v=43`, `css/tokens.css` `v=8` →
+`v=9`, both pointers on both pages.
+
+VERIFICATION — local static-server preview (`http://localhost:4173`),
+both pages, driven via JS-dispatched clicks (the harness's pointer-click
+tool intermittently timed out against this pane this session; every
+click was confirmed to have landed via DOM state read back immediately
+after): `grep -c 'Demande bien reçue'` → 0 per page; ratified strings
+(« Merci. », "TROIS ÉTAPES", "Marie L., Genève") present, 1 per page.
+Full walk on both pages: service/step card → step 1 (Rendez-vous) →
+Suivant → step 2 (Contact) → Confirmer le rendez-vous → new
+confirmation screen renders, wizard root and stepper both `hidden`.
+"Voir les résultats" resolves to `https://www.instagram.com/hotico.ink/`
+with `target="_blank" rel="noopener"`; "sur WhatsApp" resolves to
+`https://wa.me/41796472106` with the same. `data-reset` ('‹ retour')
+returns both pages to a clean step 1: success hidden, wizard root and
+stepper visible again, bar 1 active, label "1. Rendez-vous". Zero
+console errors through the walk, either page. Desktop width (1280px)
+checked via computed style + bounding rect (`body`'s `max-width` came
+back `none`, confirming the ratified desktop override holds; the
+`.conf` block's rect sat correctly inside the 768px-gated column) —
+the pane's screenshot capture returned blank at this viewport this
+session while returning correctly at mobile width, an apparent tool
+quirk unrelated to the shipped CSS; visual confirmation is mobile-only
+this lap. `git diff main --stat` shows exactly the five named files
+(`css/main.css`, `css/tokens.css`, `index.html`,
+`servicii/areola.html`, `LEDGER.md`).
+
+>> BATON
+STATE: `f2-confirmation-screen` built and locally verified against every
+  EXIT CONDITION in the brief bar the desktop screenshot (data-verified,
+  not eye-verified — see the tool quirk above), on both pages. Not yet
+  pushed.
+CERTIFIED: pending Tower.
+OPEN: the areola.html prototype-note deviation above, for the Tower's
+  ruling; the desktop-viewport screenshot gap, if an eye-check there
+  matters before merge.
+NEXT: F-3 — WhatsApp prefill handoff (wiring the recap into the bare
+  `wa.me` link in block 4; explicitly out of this lap).
+TRAPS: `.btn-pink` alone does not reset anchor `text-decoration` —
+  every prior use sat inside a wrapper rule (`.success__btns a`) that
+  did the resetting. Any future bare `.btn-pink` on an `<a>` outside
+  such a wrapper needs the same one-line fix `.conf__cta` got, or it
+  ships underlined.
+COST: single-session lap, Sonnet 5, one branch, no re-work.
