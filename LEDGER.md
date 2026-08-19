@@ -4215,3 +4215,414 @@ TRAPS: `js/form.js`'s confirm/reset wiring uses `document.querySelector`
   ENGINE TRUTH note above exists to prevent; keep renumbering attributes
   by hand whenever blocks move.
 COST: single-session lap, Sonnet 5, one branch, no re-work.
+
+## Entry #51 — 2026-08-19 — LAP F-2: CONFIRMATION SCREEN
+
+**Scope:** replace the interim success panel on both pages with the
+ratified confirmation screen — Alexandra's mock, ratified French copy,
+house design system. One variable: the post-confirm surface. Branch
+`f2-confirmation-screen`, off `main` at
+`98f1a72bd332f98e7b0bc378e252624c47ab5c64`. `js/form.js` untouched —
+its confirm/reset handler already produces the ruled behavior (stepper
++ wizard hidden on confirmation) and needed nothing new.
+
+ANCHOR CHECK, on `main` before the cut: all four certified anchors
+(`class="success" data-success`, `Demande bien reçue`,
+`.success{text-align:center`, `--card:#E9E9E9;`) landed exactly once
+per named file. No stop condition triggered.
+
+WHAT SHIPPED, both `index.html` and `servicii/areola.html`: the old
+`.success__check` / `__h` / `__copy` / `__urgent` / `__btns` markup
+inside `[data-success]` replaced by a new `.conf` block — heading
+"Merci.", subline, lead, four numbered blocks (plain cocoa numerals,
+top-left, no decoration), gold two-digit sub-step numerals inside
+block 1, a cream-ground testimonial block 2, the Instagram CTA
+(`.btn-pink`, reused) in block 3, the WhatsApp inline link in block 4,
+and the Alexandra Hotico signature block. The container div, its
+`hidden` attribute, `success__note`, and the `data-reset` '‹ retour'
+button (last element) are unmoved. Ratified copy shipped verbatim,
+character for character, including the space before every `?` and the
+straight-apostrophe / literal-`·` conventions already standing in the
+codebase.
+
+DEVIATION FLAGGED: `servicii/areola.html`'s `[data-success]` block had
+no `success__note` on `main` — only `index.html` did. The brief's
+instruction ("keep... the existing prototype note, unmoved") assumed
+both pages carried it; areola.html didn't. Since the EXIT CONDITION
+requires "Prototype note visible at the bottom of the screen" on both
+pages, the note was added to areola.html verbatim from index.html's
+copy rather than treated as "unmoved" (there was nothing to move). Not
+one of the four certified anchors, so no stop — but flagged here for
+the Tower's eye since it's copy that entered a file beyond what the
+anchors certified.
+
+CSS — `css/main.css`: retired `.success__check` (+ its svg),
+`.success__h`, `.success__copy`, `.success__urgent`, `.success__btns`
+(+ its `a`) from the D. confirmation block; kept `.success`,
+`.success[hidden]`, `.success__note`, `.success__back` verbatim.
+Appended a new `.conf` family directly after `.success__back`: page
+grounds `--white` (blocks 1/3/4) and `--cream` (block 2, testimonial)
+against the `--ivory` body; headings `--font-head`, body `--font-body`;
+kickers reuse the house letterspaced-small-caps shape already standing
+in `.kh__hint-label` (cocoa for block 1, gold for block 2's cream
+ground — a judgment call within the brief's "cocoa or gold" latitude);
+CTA is `.btn-pink` reused (needed one addition, `text-decoration:none`,
+since the class alone doesn't reset anchor underline — the old
+`.success__btns a` rule that used to do this was retired with its
+block). FLAT GOLD LAW respected: `--gold` flat only, no `--gold-grad`
+use. No new tokens beyond `--cream`; no font imports.
+
+`css/tokens.css`: `--cream:#F9F2EA` minted directly after `--card`,
+with the one-line provenance comment specified in the brief.
+
+CACHE-BUST: `css/main.css` `v=42` → `v=43`, `css/tokens.css` `v=8` →
+`v=9`, both pointers on both pages.
+
+VERIFICATION — local static-server preview (`http://localhost:4173`),
+both pages, driven via JS-dispatched clicks (the harness's pointer-click
+tool intermittently timed out against this pane this session; every
+click was confirmed to have landed via DOM state read back immediately
+after): `grep -c 'Demande bien reçue'` → 0 per page; ratified strings
+(« Merci. », "TROIS ÉTAPES", "Marie L., Genève") present, 1 per page.
+Full walk on both pages: service/step card → step 1 (Rendez-vous) →
+Suivant → step 2 (Contact) → Confirmer le rendez-vous → new
+confirmation screen renders, wizard root and stepper both `hidden`.
+"Voir les résultats" resolves to `https://www.instagram.com/hotico.ink/`
+with `target="_blank" rel="noopener"`; "sur WhatsApp" resolves to
+`https://wa.me/41796472106` with the same. `data-reset` ('‹ retour')
+returns both pages to a clean step 1: success hidden, wizard root and
+stepper visible again, bar 1 active, label "1. Rendez-vous". Zero
+console errors through the walk, either page. Desktop width (1280px)
+checked via computed style + bounding rect (`body`'s `max-width` came
+back `none`, confirming the ratified desktop override holds; the
+`.conf` block's rect sat correctly inside the 768px-gated column) —
+the pane's screenshot capture returned blank at this viewport this
+session while returning correctly at mobile width, an apparent tool
+quirk unrelated to the shipped CSS; visual confirmation is mobile-only
+this lap. `git diff main --stat` shows exactly the five named files
+(`css/main.css`, `css/tokens.css`, `index.html`,
+`servicii/areola.html`, `LEDGER.md`).
+
+>> BATON
+STATE: `f2-confirmation-screen` built and locally verified against every
+  EXIT CONDITION in the brief bar the desktop screenshot (data-verified,
+  not eye-verified — see the tool quirk above), on both pages. Not yet
+  pushed.
+CERTIFIED: pending Tower.
+OPEN: the areola.html prototype-note deviation above, for the Tower's
+  ruling; the desktop-viewport screenshot gap, if an eye-check there
+  matters before merge.
+NEXT: F-3 — WhatsApp prefill handoff (wiring the recap into the bare
+  `wa.me` link in block 4; explicitly out of this lap).
+TRAPS: `.btn-pink` alone does not reset anchor `text-decoration` —
+  every prior use sat inside a wrapper rule (`.success__btns a`) that
+  did the resetting. Any future bare `.btn-pink` on an `<a>` outside
+  such a wrapper needs the same one-line fix `.conf__cta` got, or it
+  ships underlined.
+COST: single-session lap, Sonnet 5, one branch, no re-work.
+
+## Entry #52 — 2026-08-19 — LAP F-2b: EYE-GATE CORRECTIONS
+
+**Scope:** Commander's eye-gate punch list against the F-2 confirmation
+screen, iterated on `f2-confirmation-screen` (not merged). Two rounds
+of instructions arrived; the second amended the first — CTA arrow kept
+("Voir les résultats →" is Commander-ratified, item 6 cancelled), the
+testimonial carousel ships live with three slides/dots/swipe instead
+of the single static card originally specified, and wizard grounds
+(steps 1–2) joined the grey-cut. `css/tokens.css` untouched, stays v9,
+`--card`'s value byte-identical throughout (confirmed by diff).
+
+WHAT SHIPPED:
+
+1. STEPPER LIVES ON THE CONFIRMATION — `js/form.js`: `NAMES` gained a
+   third entry, `'3. Confirmation'`. The `[data-confirm]` handler no
+   longer hides `.stepper`; it sets `index = 2`, the label to
+   `NAMES[2]`, and only bar 3 `is-active`, bypassing `go()` (which has
+   no third `.step` slide to size against). `data-reset` still calls
+   `go(0)`, unchanged, and was verified — not assumed — to restore
+   label "1. Rendez-vous", bar 1, stepper visible.
+
+2. KILL THE GREY — `.success` (confirmation surface) gained
+   `background:var(--white)`. Blocks keep their own `--white` +
+   `shadow-neo`, white-on-white, separated by shadow alone, as
+   directed.
+
+3. MARKERS DELETED — all four `conf__marker` spans (markup, both
+   pages) and the `.conf__marker` rule (CSS) are gone. `.conf__block`
+   padding lost its numeral-reserving left indent, now symmetric.
+
+4. SIGNATURE CENTERED — `.conf__sig{text-align:center;}` added.
+
+5. TESTIMONIAL → GOLD CAROUSEL — `.conf__block--cream` renamed
+   `.conf__block--gold`, flat `var(--gold)` ground (FLAT GOLD LAW: no
+   `--gold-grad`). Kicker, quote, and attribution all `var(--cocoa)`;
+   quote keeps its italic and « » guillemets. Markup restructured to a
+   track + three slides (`data-conf-slide`) + three dots
+   (`data-conf-dot`), every slide carrying the identical ratified
+   Marie L. quote verbatim — per the amendment, a deliberate mechanic
+   demo, not a content choice. `js/form.js` gained a guarded carousel
+   block: dots-click and pointer-drag swipe advance, clamped at both
+   ends, dots hidden automatically if a future edit ever drops slide
+   count below 2. No autoplay, no library.
+   **PRODUCTION GATE: tripled quote is demo scaffolding — slides 2–3
+   must be replaced by distinct ratified client quotes before any
+   production release.**
+
+6. CTA ARROW KEPT — item 6 (strip the arrow) was cancelled by the
+   amendment before it was ever applied; "Voir les résultats →" is
+   unchanged from the original F-2 ship.
+
+7. CACHE-BUST: `css/main.css` `v=43`→`v=44`, `js/form.js` `v=4`→`v=5`,
+   both pointers on both pages. `css/tokens.css` untouched at `v=9`.
+
+9. WIZARD GROUNDS JOIN THE GREY-CUT — the single `--card` usage on
+   `.programare__form` (desktop-only rule, `main.css` line ~1698)
+   changed to `--white`. Nothing else touched: `--card`'s token value
+   in `tokens.css` is untouched, and no other `--card` consumer
+   (`.backbtn`, `.scard`, review cards, pill grounds, the desktop
+   split-form card) was found sharing that selector — no STOP needed.
+   Mobile carried no separate grey ground for the wizard to begin
+   with, so there was nothing to change there.
+
+TWO BUGS FOUND AND FIXED DURING VERIFICATION, neither present in the
+brief's own instructions — both caught by the "verify, don't assume"
+standard the brief itself set for item 1:
+
+- **Selector collision with FROZEN `js/main.js`.** The first carousel
+  markup used a bare `data-carousel` attribute. `main.js` (never
+  touched this lap, per the file list) auto-inits *any* element with
+  that exact attribute name via
+  `document.querySelectorAll('[data-carousel]').forEach(initCarousel)`
+  — a call already live on the page for the video and reviews
+  carousels. It matched the new testimonial block too, tried to read
+  `.children` off a `[data-track]` child that doesn't exist in this
+  markup, and threw on every single page load, confirmation screen or
+  not. Fixed by namespacing every attribute in the new component —
+  `data-conf-carousel` / `data-conf-track` / `data-conf-slide` /
+  `data-conf-dots` / `data-conf-dot` — none of which intersect
+  `main.js`'s `[data-carousel]` / `[data-track]` / `[data-dots] .dot`
+  vocabulary. `main.js` itself was never edited.
+- **Stale `setTimeout` closure crash.** `go()`'s existing
+  re-measure timer (`setTimeout(() => sizeTo(steps[index]), 380)`)
+  reads `index` live, not at schedule time. Confirming quickly after a
+  `go()` call (e.g. the Suivant → Confirmer sequence inside the same
+  380ms window) let that timer fire *after* the confirm handler had
+  already moved `index` to 2 — a slot with no matching `.step` —
+  and crashed reading `undefined.getBoundingClientRect()`. Fixed by
+  guarding inside `sizeTo` itself (`if (!step) return;`), the single
+  choke point every caller already goes through, rather than patching
+  each call site.
+
+VERIFICATION — local static-server preview, both pages, fresh browser
+tabs used for every console-error check this pass (a same-tab
+`navigate` was found to return stale accumulated console history
+across reloads, not just the current load — a tooling gotcha, not a
+site bug; noted so a future session doesn't chase a phantom). Full
+walk both pages: Rendez-vous → Contact → Confirmer le rendez-vous →
+confirmation renders with stepper visible, label "3. Confirmation",
+only bar 3 lit; `data-reset` restores label "1. Rendez-vous", bar 1,
+stepper and wizard root both visible. Zero console errors on fresh
+load and through the entire walk, both pages, confirmed in fresh tabs
+after both bugfixes landed. `grep -c conf__marker` → 0, all three
+locations (both HTML files, main.css). CTA text confirmed
+byte-`"Voir les résultats →"` on both pages. Carousel: dot-click
+jumps directly; simulated `PointerEvent` swipes (dispatched at
+`[data-conf-track]`, ±50px past the 30px threshold) advance and
+retreat correctly across all three slides with dots staying in sync,
+and clamp cleanly at both ends with no error or visual glitch on an
+over-swipe. `.programare__form` computed `background-color` reads
+`rgb(255,255,255)` at 1280px; a sibling `.scard` reads
+`rgb(233,233,233)` (`--card`, unchanged) in the same check — the
+grey-cut is scoped as ordered. Desktop-viewport (1280×900) visual
+screenshot returned blank again this session, same tool quirk logged
+in Entry #51 — verified by computed style instead; mobile screenshots
+confirm all markup/CSS changes visually. `git diff --stat` shows
+exactly `css/main.css`, `index.html`, `js/form.js`,
+`servicii/areola.html` (plus this entry in `LEDGER.md`) —
+`css/tokens.css` absent from the diff, confirmed byte-identical.
+
+>> BATON
+STATE: `f2-confirmation-screen` carries both the original F-2 build and
+  this eye-gate correction pass, locally verified against every EXIT
+  CONDITION in both the corrections brief and its amendments, on both
+  pages. Not merged — holding for the Commander's next word per this
+  session's explicit instruction.
+CERTIFIED: pending Tower.
+OPEN: testimonial slides 2–3 await distinct ratified client quotes —
+  see the PRODUCTION GATE line above; the branch must not reach
+  production with three identical Marie L. quotes. Entry #51's
+  areola.html prototype-note deviation and the desktop-screenshot tool
+  gap remain open from that entry too.
+NEXT: hold for Commander's eye on this pass; F-3 (WhatsApp prefill
+  handoff) still waits behind it.
+TRAPS: any future element on this site using a bare `data-carousel`
+  attribute will silently wire itself into `main.js`'s house carousel
+  and crash unless it also supplies a `[data-track]` child and
+  `[data-dots] .dot` buttons in that vocabulary — namespace instead,
+  the way this lap's `data-conf-*` family does. Any `setTimeout`
+  callback in `form.js` that closes over the shared `index` variable
+  must tolerate `index` having moved by the time it fires — `sizeTo`'s
+  new null-guard is the backstop, not a substitute for that awareness
+  in code added later.
+COST: single-session lap, Sonnet 5, one branch, two bugs caught and
+  fixed pre-report (not post-eye-gate rework).
+
+## Entry #53 — 2026-08-19 — LAP F-2c: MOBILE EYE-GATE — CREAM GROUND
+
+**Scope:** one-line correction from the Commander's iPhone regrade of
+Entry #52's grey-cut. `--cream` re-employed as the confirmation
+surface's ground, all viewport widths, both pages — superseding
+Entry #52's `--white` choice for `.success` only. Wizard steps 1–2
+(`.programare__form`) stay white, untouched; the white→cream shift on
+confirm is deliberate, per instruction. `css/tokens.css` untouched
+(no new token — `--cream` was already minted in Entry #51, only
+retired from use in Entry #52 and now brought back). No markup or JS
+touched this pass — a pure CSS + cache-bust correction, confirmed by
+diff (`css/main.css` one line, `index.html` and `servicii/areola.html`
+one pointer each).
+
+WHAT SHIPPED: `.success{background:var(--white)}` → `var(--cream)`,
+`css/main.css`. `.conf__block` keeps its own `background:var(--white)`
+and `shadow-neo`, so the inner blocks now float white-on-cream instead
+of white-on-white; `.conf__block--gold`'s flat `--gold` is untouched
+and reads cleanly against the new ground, no contrast concern (both
+were designed against a light neutral already).
+
+CACHE-BUST: `css/main.css` `v=44`→`v=45`, both pointers, both pages.
+`css/tokens.css` stays `v=9`.
+
+VERIFICATION — local static-server preview, fresh browser tabs, both
+pages, mobile viewport (375×812): full walk to confirmation, ground
+reads cream edge-to-edge behind the heading/subline/lead text and
+carries through unbroken to the signature/note/retour tail — no white
+gap, no seam-shock against the page's `--ivory`. Gold carousel block
+sits legibly on cream. `data-reset` restores a clean step 1 (label,
+bar 1, stepper/root visible) on both pages. Zero console errors on
+fresh load and through the full walk, both pages. Desktop width
+(1280px) spot-checked by computed style, not screenshot (same tool
+quirk as Entries #51–52): `.programare__form` reads
+`rgb(255,255,255)` (unchanged), `.success` reads `rgb(249,242,234)` —
+`--cream` exactly — confirming the rule is unconditional across
+widths as ordered, not just correct at mobile. `git diff --stat`
+shows exactly `css/main.css`, `index.html`, `servicii/areola.html`
+(plus this entry in `LEDGER.md`); `css/tokens.css` absent, confirmed
+byte-identical.
+
+>> BATON
+STATE: `f2-confirmation-screen` carries the F-2 build, the F-2b
+  eye-gate corrections, and this F-2c mobile-eye correction, all
+  locally verified, both pages. Not merged — holding for the
+  Commander's next word.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 await
+  distinct ratified client quotes (PRODUCTION GATE stands); Entry
+  #51's areola.html prototype-note deviation; the desktop-viewport
+  screenshot tool gap, now spot-checked three laps running by
+  computed style instead of by eye.
+NEXT: hold for Commander's eye on this pass; F-3 (WhatsApp prefill
+  handoff) still waits behind it.
+TRAPS: none new this pass — the correction was a single token swap on
+  an already-isolated selector.
+COST: single-session lap, Sonnet 5, one branch, one-line CSS
+  correction, no re-work.
+
+## Entry #54 — 2026-08-19 — LAP F-2d: CREAM REJECTED — INHERIT IVORY
+
+**Scope:** Entry #53's `--cream` ground rejected at the Commander's
+eye-gate as off-canon. The confirmation surface now carries no
+background declaration of its own — transparent, inheriting the
+page's `--ivory` straight through. Alongside the reversal, a repair:
+`servicii/in-curand.html`, a third consumer of `tokens.css`/`main.css`
+that every prior cache-bust this campaign (F-1 through F-2c) had
+missed, was found stuck at `v=42`/`v=8` while `index.html` and
+`servicii/areola.html` had climbed to `v=45`/`v=9`.
+
+PRE-FLIGHT: all three consumers' pointer values verified against the
+brief's stated baseline before any edit —
+`index.html`/`servicii/areola.html` at `main.css?v=45`,
+`tokens.css?v=9`; `servicii/in-curand.html` at `main.css?v=42`,
+`tokens.css?v=8`. All three matched exactly; no STOP triggered.
+
+WHAT SHIPPED:
+
+1. `.success{background:var(--cream)}` → declaration removed entirely
+   (not swapped for `var(--ivory)` — the brief was explicit: inherit
+   through transparency, don't restate the page's own color). Inner
+   `.conf__block` white, `.conf__block--gold` flat gold, and the
+   wizard's `.programare__form` white (Entry #52) are all untouched —
+   this lap touched exactly one declaration.
+
+2. `--cream:#F9F2EA` and its provenance comment ("Confirmation
+   surface — measured from Alexandra's mock, F-2") removed from
+   `css/tokens.css`. Minted in Entry #51, used through Entry #53,
+   retired here — this entry is that token's full provenance record
+   now that no line of code carries the comment forward.
+
+3. `git grep -i cream` (html/css/js) → 0 matches repo-wide, confirmed
+   post-edit. Only two occurrences existed pre-edit (the token
+   declaration and the one `.success` consumer); both gone.
+
+4. CACHE-BUST, three consumers each, the skew repair folded into the
+   same bump: `css/main.css` `v=45`→`v=46` (`index.html`,
+   `servicii/areola.html`) and `v=42`→`v=46` directly
+   (`servicii/in-curand.html`, skipping the intermediate versions it
+   never carried); `css/tokens.css` `v=9`→`v=10` (`index.html`,
+   `servicii/areola.html`) and `v=8`→`v=10` directly
+   (`servicii/in-curand.html`). `js/form.js` untouched at `v=5` on its
+   two consumers; `in-curand.html` carries no form and correctly no
+   `form.js` pointer at all — confirmed by grep, not assumed.
+
+STANDING LESSON FOR THE DOCTRINE LAP: this campaign's cache-bust law
+has been applied per-lap against a consumer list held in the
+executing session's head, not re-derived from the repository each
+time — that's exactly how `in-curand.html` drifted three versions
+behind unnoticed across F-1, F-2, F-2b, and F-2c. `grep -rl
+'main\.css?v=\|tokens\.css?v='` (or equivalent) should be the first
+step of every future cache-bust, every lap, regardless of how
+confident the session is about which files reference these assets —
+consumer lists are enumerated by grep, never assumed.
+
+VERIFICATION — local static-server preview, fresh browser tabs, both
+form pages, mobile viewport: full walk to confirmation, ground
+computed `background-color` reads `rgba(0,0,0,0)` (transparent) on
+both pages — indistinguishable from the page's `--ivory` by
+inheritance, not by a matching color value restated. White/gold
+blocks float clean, no seam anywhere; the signature/note/retour tail
+carries the same inherited ground straight through, no color gap
+against the page. `data-reset` restores a clean step 1 (label, bar 1,
+stepper/root visible) on both pages. Zero console errors, fresh load
+through full walk, both pages. `servicii/in-curand.html` (loaded with
+its `?s=` query, the same way its own nav links reach it) renders
+normally — logo, headline, WhatsApp CTA, "Retour à l'accueil" all
+present and styled correctly, zero console errors, network panel
+confirms `tokens.css?v=10` and `main.css?v=46` both `200 OK`; its
+content diff is pointer-only, two lines. `git diff --stat`: exactly
+`css/main.css` (1 line), `css/tokens.css` (3 lines removed),
+`index.html`, `servicii/areola.html`, `servicii/in-curand.html`
+(2-pointer diffs each) — plus this entry in `LEDGER.md`.
+
+>> BATON
+STATE: `f2-confirmation-screen` carries the full F-2 lineage (build,
+  eye-gate corrections, mobile cream correction, and now the cream
+  reversal + skew repair), locally verified, all three HTML consumers
+  pointer-aligned at `v=46`/`v=10`. Not merged — holding for the
+  Commander's next word.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 await
+  distinct ratified client quotes (PRODUCTION GATE stands); Entry
+  #51's areola.html prototype-note deviation; the desktop-viewport
+  screenshot tool gap (untested again this lap — the ground change is
+  a transparency removal, verified sufficiently by computed style and
+  mobile screenshot without needing the desktop eye). NEW: the
+  doctrine-lap lesson above — a repo-wide consumer grep should become
+  a standing step in the cache-bust law itself, not just this entry's
+  advice.
+NEXT: hold for Commander's eye on this pass; F-3 (WhatsApp prefill
+  handoff) still waits behind it.
+TRAPS: none new to the confirmation screen itself. The general trap
+  this lap surfaces: any asset with more than one HTML consumer can
+  silently drift if cache-bust bumps are applied by memory instead of
+  by search — `in-curand.html` sat three versions stale for four laps
+  before anyone looked.
+COST: single-session lap, Sonnet 5, one branch, one CSS line removed,
+  one token retired, three-file pointer repair, no re-work.

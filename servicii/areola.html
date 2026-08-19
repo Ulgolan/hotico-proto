@@ -8,8 +8,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/tokens.css?v=8">
-  <link rel="stylesheet" href="../css/main.css?v=42">
+  <link rel="stylesheet" href="../css/tokens.css?v=10">
+  <link rel="stylesheet" href="../css/main.css?v=46">
 </head>
 <body>
 
@@ -429,21 +429,64 @@
       </div>
 
       <div class="success" data-success hidden>
-        <div class="success__check" aria-hidden="true">
-          <svg viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></svg>
-        </div>
-        <h3 class="success__h">Demande bien reçue</h3>
-        <p class="success__copy">Merci ! J'ai bien reçu ta demande et
-          je te recontacte sous 24–48h pour confirmer les détails.</p>
+        <div class="conf">
+          <h3 class="conf__h">Merci.</h3>
+          <p class="conf__subline">Ta demande est bien arrivée chez moi.</p>
+          <p class="conf__lead">Je te réponds personnellement sur WhatsApp,
+            dans les 24 heures.</p>
 
-        <p class="success__urgent">C'est urgent ? Écris-moi directement :</p>
-        <div class="success__btns">
-          <a class="btn-pink" href="mailto:hotico.ink@gmail.com">Mail</a>
-          <a class="btn-pink" href="https://wa.me/41796472106"
-             target="_blank" rel="noopener">Whatsapp</a>
-          <a class="btn-pink" href="https://wa.me/41796472106"
-             target="_blank" rel="noopener">Créer un compte</a>
+          <div class="conf__block">
+            <p class="conf__kicker">TROIS ÉTAPES AVANT TA SÉANCE</p>
+            <ol class="conf__steps">
+              <li><span class="conf__num">01</span> <span class="conf__step-h">La confirmation</span> — Je t'écris avec l'heure exacte et la durée de la séance.</li>
+              <li><span class="conf__num">02</span> <span class="conf__step-h">La préparation</span> — Tu reçois les instructions adaptées à ta procédure.</li>
+              <li><span class="conf__num">03</span> <span class="conf__step-h">La séance</span> — On se voit à l'institut, à Genève.</li>
+            </ol>
+          </div>
+
+          <div class="conf__block conf__block--gold">
+            <p class="conf__kicker">DES FEMMES QUI SONT DÉJÀ PASSÉES PAR ICI</p>
+            <div class="conf__carousel" data-conf-carousel>
+              <div class="conf__carousel-track" data-conf-track>
+                <div class="conf__slide" data-conf-slide>
+                  <blockquote class="conf__quote">« Je me suis regardée dans le miroir et j'ai reconnu celle d'avant. »</blockquote>
+                  <p class="conf__who">Marie L., Genève</p>
+                </div>
+                <div class="conf__slide" data-conf-slide>
+                  <blockquote class="conf__quote">« Je me suis regardée dans le miroir et j'ai reconnu celle d'avant. »</blockquote>
+                  <p class="conf__who">Marie L., Genève</p>
+                </div>
+                <div class="conf__slide" data-conf-slide>
+                  <blockquote class="conf__quote">« Je me suis regardée dans le miroir et j'ai reconnu celle d'avant. »</blockquote>
+                  <p class="conf__who">Marie L., Genève</p>
+                </div>
+              </div>
+              <div class="conf__dots" data-conf-dots>
+                <button class="conf__dot is-active" type="button" data-conf-dot aria-label="Témoignage 1"></button>
+                <button class="conf__dot" type="button" data-conf-dot aria-label="Témoignage 2"></button>
+                <button class="conf__dot" type="button" data-conf-dot aria-label="Témoignage 3"></button>
+              </div>
+            </div>
+          </div>
+
+          <div class="conf__block">
+            <p class="conf__copy">En attendant mon message, tu peux voir mes résultats.</p>
+            <a class="btn-pink conf__cta" href="https://www.instagram.com/hotico.ink/"
+               target="_blank" rel="noopener">Voir les résultats →</a>
+          </div>
+
+          <div class="conf__block">
+            <p class="conf__copy">Besoin d'une autre date ? Écris-moi <a href="https://wa.me/41796472106"
+               target="_blank" rel="noopener">sur WhatsApp</a> et on trouve ensemble un moment qui te convient.</p>
+          </div>
+
+          <div class="conf__sig">
+            <p class="conf__sig-name">Alexandra Hotico</p>
+            <p class="conf__sig-role">HOTICO · Institut de Restauration · Genève</p>
+          </div>
         </div>
+
+        <p class="success__note">Prototype — aucune donnée n'est envoyée.</p>
 
         <button class="success__back" type="button" data-reset>&lsaquo; retour</button>
       </div>
@@ -604,6 +647,6 @@
 
   <script src="../js/main.js?v=10"></script>
   <script src="../js/areola.js?v=2b"></script>
-  <script src="../js/form.js?v=4"></script>
+  <script src="../js/form.js?v=5"></script>
 </body>
 </html>
