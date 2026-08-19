@@ -4525,3 +4525,104 @@ TRAPS: none new this pass — the correction was a single token swap on
   an already-isolated selector.
 COST: single-session lap, Sonnet 5, one branch, one-line CSS
   correction, no re-work.
+
+## Entry #54 — 2026-08-19 — LAP F-2d: CREAM REJECTED — INHERIT IVORY
+
+**Scope:** Entry #53's `--cream` ground rejected at the Commander's
+eye-gate as off-canon. The confirmation surface now carries no
+background declaration of its own — transparent, inheriting the
+page's `--ivory` straight through. Alongside the reversal, a repair:
+`servicii/in-curand.html`, a third consumer of `tokens.css`/`main.css`
+that every prior cache-bust this campaign (F-1 through F-2c) had
+missed, was found stuck at `v=42`/`v=8` while `index.html` and
+`servicii/areola.html` had climbed to `v=45`/`v=9`.
+
+PRE-FLIGHT: all three consumers' pointer values verified against the
+brief's stated baseline before any edit —
+`index.html`/`servicii/areola.html` at `main.css?v=45`,
+`tokens.css?v=9`; `servicii/in-curand.html` at `main.css?v=42`,
+`tokens.css?v=8`. All three matched exactly; no STOP triggered.
+
+WHAT SHIPPED:
+
+1. `.success{background:var(--cream)}` → declaration removed entirely
+   (not swapped for `var(--ivory)` — the brief was explicit: inherit
+   through transparency, don't restate the page's own color). Inner
+   `.conf__block` white, `.conf__block--gold` flat gold, and the
+   wizard's `.programare__form` white (Entry #52) are all untouched —
+   this lap touched exactly one declaration.
+
+2. `--cream:#F9F2EA` and its provenance comment ("Confirmation
+   surface — measured from Alexandra's mock, F-2") removed from
+   `css/tokens.css`. Minted in Entry #51, used through Entry #53,
+   retired here — this entry is that token's full provenance record
+   now that no line of code carries the comment forward.
+
+3. `git grep -i cream` (html/css/js) → 0 matches repo-wide, confirmed
+   post-edit. Only two occurrences existed pre-edit (the token
+   declaration and the one `.success` consumer); both gone.
+
+4. CACHE-BUST, three consumers each, the skew repair folded into the
+   same bump: `css/main.css` `v=45`→`v=46` (`index.html`,
+   `servicii/areola.html`) and `v=42`→`v=46` directly
+   (`servicii/in-curand.html`, skipping the intermediate versions it
+   never carried); `css/tokens.css` `v=9`→`v=10` (`index.html`,
+   `servicii/areola.html`) and `v=8`→`v=10` directly
+   (`servicii/in-curand.html`). `js/form.js` untouched at `v=5` on its
+   two consumers; `in-curand.html` carries no form and correctly no
+   `form.js` pointer at all — confirmed by grep, not assumed.
+
+STANDING LESSON FOR THE DOCTRINE LAP: this campaign's cache-bust law
+has been applied per-lap against a consumer list held in the
+executing session's head, not re-derived from the repository each
+time — that's exactly how `in-curand.html` drifted three versions
+behind unnoticed across F-1, F-2, F-2b, and F-2c. `grep -rl
+'main\.css?v=\|tokens\.css?v='` (or equivalent) should be the first
+step of every future cache-bust, every lap, regardless of how
+confident the session is about which files reference these assets —
+consumer lists are enumerated by grep, never assumed.
+
+VERIFICATION — local static-server preview, fresh browser tabs, both
+form pages, mobile viewport: full walk to confirmation, ground
+computed `background-color` reads `rgba(0,0,0,0)` (transparent) on
+both pages — indistinguishable from the page's `--ivory` by
+inheritance, not by a matching color value restated. White/gold
+blocks float clean, no seam anywhere; the signature/note/retour tail
+carries the same inherited ground straight through, no color gap
+against the page. `data-reset` restores a clean step 1 (label, bar 1,
+stepper/root visible) on both pages. Zero console errors, fresh load
+through full walk, both pages. `servicii/in-curand.html` (loaded with
+its `?s=` query, the same way its own nav links reach it) renders
+normally — logo, headline, WhatsApp CTA, "Retour à l'accueil" all
+present and styled correctly, zero console errors, network panel
+confirms `tokens.css?v=10` and `main.css?v=46` both `200 OK`; its
+content diff is pointer-only, two lines. `git diff --stat`: exactly
+`css/main.css` (1 line), `css/tokens.css` (3 lines removed),
+`index.html`, `servicii/areola.html`, `servicii/in-curand.html`
+(2-pointer diffs each) — plus this entry in `LEDGER.md`.
+
+>> BATON
+STATE: `f2-confirmation-screen` carries the full F-2 lineage (build,
+  eye-gate corrections, mobile cream correction, and now the cream
+  reversal + skew repair), locally verified, all three HTML consumers
+  pointer-aligned at `v=46`/`v=10`. Not merged — holding for the
+  Commander's next word.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 await
+  distinct ratified client quotes (PRODUCTION GATE stands); Entry
+  #51's areola.html prototype-note deviation; the desktop-viewport
+  screenshot tool gap (untested again this lap — the ground change is
+  a transparency removal, verified sufficiently by computed style and
+  mobile screenshot without needing the desktop eye). NEW: the
+  doctrine-lap lesson above — a repo-wide consumer grep should become
+  a standing step in the cache-bust law itself, not just this entry's
+  advice.
+NEXT: hold for Commander's eye on this pass; F-3 (WhatsApp prefill
+  handoff) still waits behind it.
+TRAPS: none new to the confirmation screen itself. The general trap
+  this lap surfaces: any asset with more than one HTML consumer can
+  silently drift if cache-bust bumps are applied by memory instead of
+  by search — `in-curand.html` sat three versions stale for four laps
+  before anyone looked.
+COST: single-session lap, Sonnet 5, one branch, one CSS line removed,
+  one token retired, three-file pointer repair, no re-work.
