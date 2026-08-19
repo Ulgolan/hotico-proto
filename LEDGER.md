@@ -5312,3 +5312,169 @@ COST: single-session root-cause lap, Sonnet 5, same branch, one JS
   (`hidden` ×2), three-file cache-bust rider (two `form.js`
   consumers, three `main.css` consumers) — no scroll/resize
   "helpers" added, the fix is subtractive.
+
+---
+
+## Entry #60 — 2026-08-19 — CONSTITUTIONAL AMENDMENT: `js/hero-scroll.js` v25 → v26 — FOCUS GUARD
+
+**Scope:** `js/hero-scroll.js` has stood FROZEN since its sealing —
+touched by no lap since, its blob hash carried forward as a standing
+pre-flight check every session that so much as reads near it. This
+entry records the freeze law's first formal exercise: a Commander-
+sanctioned amendment, opened under ceremony, not drift.
+
+RULING: the Commander's own device video, frame-analyzed, proved
+WebKit focus-scroll teleports on step-2 fields and scroll-jumps on
+keyboard dismissal. Code autopsy (Tower-certified) traced it to the
+engine's snap-on-settle system: it reads `visualViewport.height` as
+its measuring tape; the iOS keyboard shrinks that tape; the poisoned
+progress math this produces drives `settle()`'s `window.scrollTo`
+calls to garbage targets — down to the footer on focus, up to the
+étapes on dismissal. The Commander ruled a focus guard at the
+engine's choke points, and nothing else: no camera math, keyframe,
+dwell segment, settle target, ease curve, or gesture logic touched.
+
+PRE-FLIGHT (constitutional): `git hash-object js/hero-scroll.js` on
+`f4-alexas-gate` before this edit —
+`b14a99c3ec7b162255627044963818ef055d21b9` — matched the sealed v25
+artifact exactly, confirmed before the file was opened. `index.html`
+carried `hero-scroll.js?v=25` exactly once; repo-wide grep confirmed
+no other page references `hero-scroll` (the QA harness under
+`docs/qa/harness/` reads the real file by path for its own tests —
+not a page consumer, not touched, not counted).
+
+WHAT SHIPPED — five insertions, zero deletions, zero reformatting:
+
+1. Header comment extended with the amendment record verbatim (the
+   Commander's own text, unedited) — the file's opening block now
+   documents its own v26 provenance, root cause, and re-freeze
+   declaration inline.
+
+2. `function userIsTyping()` added beside the existing listener
+   block (right after `onTick`, right before the `scroll`/`resize`/
+   `orientationchange`/`visualViewport` registrations): reads
+   `document.activeElement`, true if it's an `input`, `textarea`, or
+   `select`.
+
+3. `onResize()` gains `if (userIsTyping()) return;` as its first
+   statement — no recalc against a keyboard-shrunken viewport while a
+   field is focused.
+
+4. `settle(source)` gains `if (userIsTyping()) { khlog('settle
+   suppressed: typing, source=', source); return; }` as its first
+   statement — covers every settle initiator (corridor pre-empt,
+   scrollend, and the 140ms debounce fallback) and the reduced-motion
+   instant `scrollTo` nested inside it, since none of those paths run
+   without passing through `settle()` first.
+
+5. `easeTick()` gains `if (userIsTyping()) { activeEase = null;
+   khlog('ease cancelled: typing'); return; }` immediately after the
+   existing `if (!activeEase) return;` guard — defense in depth: an
+   ease already mid-flight when focus lands dies instead of dragging
+   the page under the user's thumb.
+
+6. A `focusout` listener added beside the existing registrations:
+   when focus leaves an `input`/`textarea`/`select` for a target that
+   is itself not one of those, `onResize` fires once via `setTimeout
+   (onResize, 0)` — one honest recalc against the real, un-shrunken
+   viewport now that typing has truly ended. Field-to-field focus
+   hops (Nom → Prénom, etc.) don't match the condition and are
+   correctly skipped.
+
+7. CACHE-BUST: `index.html`'s `hero-scroll.js?v=25` → `?v=26`. Sole
+   consumer — no other pointer in the repo needed bumping this pass.
+
+POST-EDIT: `git hash-object js/hero-scroll.js` on the amended file —
+`286ad873516c9ab71e9ae28ef98a3a7bf6dac0e4`.
+
+CONTAINER VERIFICATION: `grep -c "userIsTyping" js/hero-scroll.js` →
+`4` (1 definition + 3 guard call sites, matching the three layers
+above — the `focusout` listener calls `onResize`, not `userIsTyping`
+directly, so it is not itself a 4th call site; the count is exactly
+the definition plus Layers A/B/C). Header carries `"v26"`. Pointer
+confirmed `hero-scroll.js?v=26` in `index.html`. `git diff --stat
+js/hero-scroll.js`: 28 insertions, 0 deletions — purely additive,
+confirmed against the pre-edit blob. NOTED DISCREPANCY, reported
+plainly rather than silently reconciled: a raw `grep -c
+"window.scrollTo"` now reads `5`, not the `3` named in the exit
+condition — because the Commander's own verbatim header text (item 1
+above) contains the prose phrase "drove `window.scrollTo` to garbage
+targets," and the file already carried one pre-existing prose mention
+in an untouched comment near `settleEaseDuration`. Counting only
+actual `window.scrollTo(...)` invocations (the figure the exit
+condition is evidently protecting — proof no settle-target logic was
+touched) the count is unchanged at exactly **3**, same three call
+sites, byte-identical lines, merely shifted downward by the insertions
+above them — confirmed by direct line-by-line comparison against the
+pre-edit file, not by regex alone.
+
+DEVICE CERTIFICATION PROTOCOL — for the Commander, verified locally
+as far as this session's tooling reaches (container tooling cannot
+reproduce iOS keyboard choreography; this is not a substitute for the
+device gate): opened the local preview with `?khdebug=1`, scrolled
+the hero unfocused as a control — `settle`/`ease start` fired
+normally, landing on the expected dwell target, log line `ease start,
+duration= 337ms target= 0.4310`. Then focused a step-2 field
+(`data-recap="nom"`), repeated the identical scroll — logged exactly
+`settle suppressed: typing, source= debounce`, no ease started, and
+`window.pageYOffset` held at the exact scrolled value with no
+teleport. Full wizard walk (fill → confirm → retour) re-verified on
+both index and areola with the amended engine loaded — byte-exact
+WhatsApp template, all fields preserved through retour, zero console
+errors on both pages throughout every check above.
+
+RE-FREEZE DECLARATION: `js/hero-scroll.js` is FROZEN at v26 /
+`286ad873516c9ab71e9ae28ef98a3a7bf6dac0e4` effective this merge. The
+next amendment requires the same ruling ceremony this entry records:
+Commander-certified root cause, scoped DOs, a pre-flight hash check
+against this new sealed value, and a constitutional LEDGER entry at
+close.
+
+EXONERATION NOTE: Entries #58 (F-4b, the square-flag/resize-guard
+mobile correction) and #59 (F-4c, the wizard slide-engine retirement)
+operated on innocent organs — `js/form.js`'s own resize listener and
+`.steps__track`'s transform were real defects worth fixing on their
+own terms, but neither was the device video's root cause. Good
+architecture, wrong patient. This entry is the actual cure; #58 and
+#59 stand as correct, independent fixes, not superseded diagnoses.
+
+DOCTRINE SEEDS — flagged for the next doctrine lap, not resolved
+here: "frozen files still get autopsies — the freeze protects bytes,
+not suspicion"; "any engine that writes scroll position holds fire
+while the user types."
+
+>> BATON
+STATE: `f4-alexas-gate` now carries the full F-4 batch (#57–#59) plus
+  this constitutional amendment — `js/hero-scroll.js` re-frozen at
+  v26. Locally verified: hero scrub control/focused-suppression
+  behavior, full wizard walk on both pages, zero console errors,
+  purely-additive diff against the sealed pre-edit blob. Not merged —
+  holding for the Commander's device gate, the only certification
+  this fix can actually receive.
+CERTIFIED: pending Tower; pending the Commander's device (see DEVICE
+  CERTIFICATION PROTOCOL above — container tooling cannot reproduce
+  iOS keyboard choreography).
+OPEN: unchanged from Entry #57 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap. NEW:
+  the two DOCTRINE SEEDS above, unresolved, waiting for a doctrine
+  lap. The `window.scrollTo` grep-count discrepancy (prose vs.
+  invocation count, see CONTAINER VERIFICATION) is explained, not a
+  live gate — flagged so a future audit doesn't re-discover it as a
+  surprise.
+NEXT: hold for the Commander's device gate on this pass, protocol
+  above; push and report HEAD SHA once cleared to push.
+TRAPS: the standing lesson of this whole F-4 arc: two prior laps
+  (#58, #59) fixed real bugs in the wizard's own machinery while the
+  actual device-video defect lived one file over, in a component
+  neither lap was scoped to touch. A device video proves a symptom,
+  not a location — the autopsy that finds the true choke point can
+  land somewhere the symptom never visibly touches. Worth remembering
+  before declaring victory on the NEXT device-reported bug after only
+  fixing the first plausible-looking culprit.
+COST: single-session constitutional lap, Sonnet 5, same branch, one
+  frozen file opened under ceremony (pre-flight hash check, exactly
+  five insertions, zero deletions, zero reformatting, post-edit hash
+  recorded), one pointer bump (sole consumer), full unified diff
+  supplied for line-by-line Tower review per the constitutional
+  report requirement.

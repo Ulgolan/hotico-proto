@@ -4,6 +4,14 @@
 // only. Runs only when html.js-kh is set (gate script in <head>, before
 // paint, keyed off prefers-reduced-motion) — otherwise the static
 // markup already in the DOM is the whole story, no JS needed for it.
+//
+// v26 — 2026-08-19, Commander-sanctioned amendment (the freeze
+// law's first formal exercise). Scope: focus guard only — the
+// engine holds fire while the user types. The iOS keyboard
+// shrinks visualViewport.height; settle math read the shrunken
+// tape and drove window.scrollTo to garbage targets (device
+// video, LEDGER #60). No camera/keyframe/settle-target logic
+// touched. Re-frozen at the new SHA on merge.
 
 (function () {
   'use strict';
@@ -939,7 +947,13 @@
     raf(update);
   }
 
+  function userIsTyping() {
+    var el = document.activeElement;
+    return !!(el && el.matches && el.matches('input, textarea, select'));
+  }
+
   function onResize() {
+    if (userIsTyping()) return;
     recalc();
     onTick();
   }
@@ -952,6 +966,18 @@
   if (window.visualViewport) {
     window.visualViewport.addEventListener('resize', onResize, { passive: true });
   }
+  // Resync once typing truly ends (focus leaves a field for a non-field
+  // target) — a single honest recalc + tick against the real viewport.
+  // Skipped when focus hops field-to-field, so mid-form tabbing doesn't
+  // thrash it.
+  document.addEventListener('focusout', function (e) {
+    var leaving = e.target, entering = e.relatedTarget;
+    var f = 'input, textarea, select';
+    if (leaving && leaving.matches && leaving.matches(f) &&
+        !(entering && entering.matches && entering.matches(f))) {
+      setTimeout(onResize, 0);
+    }
+  });
 
   // ---- R-2 A — snap-on-settle ----
   // Native scroll still drives the camera the entire time — nothing here
@@ -1269,6 +1295,7 @@
 
   function easeTick(frameTime) {
     if (!activeEase) return;
+    if (userIsTyping()) { activeEase = null; khlog('ease cancelled: typing'); return; }
     var e = activeEase;
     // frameTime is the rAF-supplied timestamp — same clock as now()
     // (performance.now()-based where available), read once by the
@@ -1312,6 +1339,7 @@
   // last synthesized scroll event) — by then progress is within
   // SETTLE_EPS of `target` and the function is a no-op. Self-terminating.
   function settle(source) {
+    if (userIsTyping()) { khlog('settle suppressed: typing, source=', source); return; }
     var p = currentProgress();
 
     // R-2f THE SOUTHERN BORDER — the film's settle jurisdiction ends at the
