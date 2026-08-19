@@ -4320,3 +4320,149 @@ TRAPS: `.btn-pink` alone does not reset anchor `text-decoration` —
   such a wrapper needs the same one-line fix `.conf__cta` got, or it
   ships underlined.
 COST: single-session lap, Sonnet 5, one branch, no re-work.
+
+## Entry #52 — 2026-08-19 — LAP F-2b: EYE-GATE CORRECTIONS
+
+**Scope:** Commander's eye-gate punch list against the F-2 confirmation
+screen, iterated on `f2-confirmation-screen` (not merged). Two rounds
+of instructions arrived; the second amended the first — CTA arrow kept
+("Voir les résultats →" is Commander-ratified, item 6 cancelled), the
+testimonial carousel ships live with three slides/dots/swipe instead
+of the single static card originally specified, and wizard grounds
+(steps 1–2) joined the grey-cut. `css/tokens.css` untouched, stays v9,
+`--card`'s value byte-identical throughout (confirmed by diff).
+
+WHAT SHIPPED:
+
+1. STEPPER LIVES ON THE CONFIRMATION — `js/form.js`: `NAMES` gained a
+   third entry, `'3. Confirmation'`. The `[data-confirm]` handler no
+   longer hides `.stepper`; it sets `index = 2`, the label to
+   `NAMES[2]`, and only bar 3 `is-active`, bypassing `go()` (which has
+   no third `.step` slide to size against). `data-reset` still calls
+   `go(0)`, unchanged, and was verified — not assumed — to restore
+   label "1. Rendez-vous", bar 1, stepper visible.
+
+2. KILL THE GREY — `.success` (confirmation surface) gained
+   `background:var(--white)`. Blocks keep their own `--white` +
+   `shadow-neo`, white-on-white, separated by shadow alone, as
+   directed.
+
+3. MARKERS DELETED — all four `conf__marker` spans (markup, both
+   pages) and the `.conf__marker` rule (CSS) are gone. `.conf__block`
+   padding lost its numeral-reserving left indent, now symmetric.
+
+4. SIGNATURE CENTERED — `.conf__sig{text-align:center;}` added.
+
+5. TESTIMONIAL → GOLD CAROUSEL — `.conf__block--cream` renamed
+   `.conf__block--gold`, flat `var(--gold)` ground (FLAT GOLD LAW: no
+   `--gold-grad`). Kicker, quote, and attribution all `var(--cocoa)`;
+   quote keeps its italic and « » guillemets. Markup restructured to a
+   track + three slides (`data-conf-slide`) + three dots
+   (`data-conf-dot`), every slide carrying the identical ratified
+   Marie L. quote verbatim — per the amendment, a deliberate mechanic
+   demo, not a content choice. `js/form.js` gained a guarded carousel
+   block: dots-click and pointer-drag swipe advance, clamped at both
+   ends, dots hidden automatically if a future edit ever drops slide
+   count below 2. No autoplay, no library.
+   **PRODUCTION GATE: tripled quote is demo scaffolding — slides 2–3
+   must be replaced by distinct ratified client quotes before any
+   production release.**
+
+6. CTA ARROW KEPT — item 6 (strip the arrow) was cancelled by the
+   amendment before it was ever applied; "Voir les résultats →" is
+   unchanged from the original F-2 ship.
+
+7. CACHE-BUST: `css/main.css` `v=43`→`v=44`, `js/form.js` `v=4`→`v=5`,
+   both pointers on both pages. `css/tokens.css` untouched at `v=9`.
+
+9. WIZARD GROUNDS JOIN THE GREY-CUT — the single `--card` usage on
+   `.programare__form` (desktop-only rule, `main.css` line ~1698)
+   changed to `--white`. Nothing else touched: `--card`'s token value
+   in `tokens.css` is untouched, and no other `--card` consumer
+   (`.backbtn`, `.scard`, review cards, pill grounds, the desktop
+   split-form card) was found sharing that selector — no STOP needed.
+   Mobile carried no separate grey ground for the wizard to begin
+   with, so there was nothing to change there.
+
+TWO BUGS FOUND AND FIXED DURING VERIFICATION, neither present in the
+brief's own instructions — both caught by the "verify, don't assume"
+standard the brief itself set for item 1:
+
+- **Selector collision with FROZEN `js/main.js`.** The first carousel
+  markup used a bare `data-carousel` attribute. `main.js` (never
+  touched this lap, per the file list) auto-inits *any* element with
+  that exact attribute name via
+  `document.querySelectorAll('[data-carousel]').forEach(initCarousel)`
+  — a call already live on the page for the video and reviews
+  carousels. It matched the new testimonial block too, tried to read
+  `.children` off a `[data-track]` child that doesn't exist in this
+  markup, and threw on every single page load, confirmation screen or
+  not. Fixed by namespacing every attribute in the new component —
+  `data-conf-carousel` / `data-conf-track` / `data-conf-slide` /
+  `data-conf-dots` / `data-conf-dot` — none of which intersect
+  `main.js`'s `[data-carousel]` / `[data-track]` / `[data-dots] .dot`
+  vocabulary. `main.js` itself was never edited.
+- **Stale `setTimeout` closure crash.** `go()`'s existing
+  re-measure timer (`setTimeout(() => sizeTo(steps[index]), 380)`)
+  reads `index` live, not at schedule time. Confirming quickly after a
+  `go()` call (e.g. the Suivant → Confirmer sequence inside the same
+  380ms window) let that timer fire *after* the confirm handler had
+  already moved `index` to 2 — a slot with no matching `.step` —
+  and crashed reading `undefined.getBoundingClientRect()`. Fixed by
+  guarding inside `sizeTo` itself (`if (!step) return;`), the single
+  choke point every caller already goes through, rather than patching
+  each call site.
+
+VERIFICATION — local static-server preview, both pages, fresh browser
+tabs used for every console-error check this pass (a same-tab
+`navigate` was found to return stale accumulated console history
+across reloads, not just the current load — a tooling gotcha, not a
+site bug; noted so a future session doesn't chase a phantom). Full
+walk both pages: Rendez-vous → Contact → Confirmer le rendez-vous →
+confirmation renders with stepper visible, label "3. Confirmation",
+only bar 3 lit; `data-reset` restores label "1. Rendez-vous", bar 1,
+stepper and wizard root both visible. Zero console errors on fresh
+load and through the entire walk, both pages, confirmed in fresh tabs
+after both bugfixes landed. `grep -c conf__marker` → 0, all three
+locations (both HTML files, main.css). CTA text confirmed
+byte-`"Voir les résultats →"` on both pages. Carousel: dot-click
+jumps directly; simulated `PointerEvent` swipes (dispatched at
+`[data-conf-track]`, ±50px past the 30px threshold) advance and
+retreat correctly across all three slides with dots staying in sync,
+and clamp cleanly at both ends with no error or visual glitch on an
+over-swipe. `.programare__form` computed `background-color` reads
+`rgb(255,255,255)` at 1280px; a sibling `.scard` reads
+`rgb(233,233,233)` (`--card`, unchanged) in the same check — the
+grey-cut is scoped as ordered. Desktop-viewport (1280×900) visual
+screenshot returned blank again this session, same tool quirk logged
+in Entry #51 — verified by computed style instead; mobile screenshots
+confirm all markup/CSS changes visually. `git diff --stat` shows
+exactly `css/main.css`, `index.html`, `js/form.js`,
+`servicii/areola.html` (plus this entry in `LEDGER.md`) —
+`css/tokens.css` absent from the diff, confirmed byte-identical.
+
+>> BATON
+STATE: `f2-confirmation-screen` carries both the original F-2 build and
+  this eye-gate correction pass, locally verified against every EXIT
+  CONDITION in both the corrections brief and its amendments, on both
+  pages. Not merged — holding for the Commander's next word per this
+  session's explicit instruction.
+CERTIFIED: pending Tower.
+OPEN: testimonial slides 2–3 await distinct ratified client quotes —
+  see the PRODUCTION GATE line above; the branch must not reach
+  production with three identical Marie L. quotes. Entry #51's
+  areola.html prototype-note deviation and the desktop-screenshot tool
+  gap remain open from that entry too.
+NEXT: hold for Commander's eye on this pass; F-3 (WhatsApp prefill
+  handoff) still waits behind it.
+TRAPS: any future element on this site using a bare `data-carousel`
+  attribute will silently wire itself into `main.js`'s house carousel
+  and crash unless it also supplies a `[data-track]` child and
+  `[data-dots] .dot` buttons in that vocabulary — namespace instead,
+  the way this lap's `data-conf-*` family does. Any `setTimeout`
+  callback in `form.js` that closes over the shared `index` variable
+  must tolerate `index` having moved by the time it fires — `sizeTo`'s
+  new null-guard is the backstop, not a substitute for that awareness
+  in code added later.
+COST: single-session lap, Sonnet 5, one branch, two bugs caught and
+  fixed pre-report (not post-eye-gate rework).

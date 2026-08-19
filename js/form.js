@@ -15,13 +15,19 @@
   var success = document.querySelector('[data-success]');
   var stepper = document.querySelector('.stepper');
 
-  // step titles; index 0 read from the page so per-page wording stays free
+  // step titles; index 0 read from the page so per-page wording stays free.
+  // Index 2 (Confirmation) has no .step slide of its own — the stepper
+  // borrows it to label the success panel, set by hand below, not by go().
   var NAMES = [label ? label.textContent.trim() : '1. Rendez-vous',
-               '2. Contact'];
+               '2. Contact',
+               '3. Confirmation'];
 
   var index = 0;
 
   function sizeTo(step) {
+    // guards a pending go() setTimeout (below) that can still fire after
+    // confirm() has moved `index` to 2 — a slot with no .step of its own.
+    if (!step) return;
     root.style.height = step.getBoundingClientRect().height + 'px';
   }
 
@@ -83,8 +89,12 @@
   if (confirm && success) {
     confirm.addEventListener('click', function () {
       root.hidden = true;
-      if (stepper) stepper.hidden = true;
       success.hidden = false;
+      // the stepper lives on: label + bar 3 light up by hand, since
+      // go() has no third .step slide to size against.
+      index = 2;
+      if (label) label.textContent = NAMES[2];
+      bars.forEach(function (b, i) { b.classList.toggle('is-active', i === 2); });
     });
   }
 
@@ -104,4 +114,46 @@
 
   go(0);
   window.addEventListener('resize', function () { sizeTo(steps[index]); });
+
+  /* ---- E. confirmation carousel — testimonials, no-op if absent.
+     Namespaced data-conf-* throughout: the house `[data-carousel]`
+     selector in main.js (FROZEN) auto-inits any element carrying that
+     bare attribute against its own `[data-track]` markup — colliding
+     with this one crashes main.js's initCarousel on a null track. ---- */
+  document.querySelectorAll('[data-conf-carousel]').forEach(function (carousel) {
+    var ctrack = carousel.querySelector('[data-conf-track]');
+    var slides = Array.prototype.slice.call(carousel.querySelectorAll('[data-conf-slide]'));
+    var dots   = Array.prototype.slice.call(carousel.querySelectorAll('[data-conf-dot]'));
+    var dotsEl = carousel.querySelector('[data-conf-dots]');
+    if (!ctrack || !slides.length) return;
+
+    if (dotsEl) dotsEl.hidden = slides.length < 2;
+    if (slides.length < 2) return; // one slide: static card, nothing to wire
+
+    var ci = 0;
+    function showSlide(n) {
+      ci = Math.max(0, Math.min(slides.length - 1, n));
+      ctrack.style.transform = 'translateX(' + (-ci * 100) + '%)';
+      dots.forEach(function (d, di) { d.classList.toggle('is-active', di === ci); });
+    }
+
+    dots.forEach(function (dot, di) {
+      dot.addEventListener('click', function () { showSlide(di); });
+    });
+
+    // pointer events alone: on touch devices they cover swipe too, so a
+    // parallel touchstart/touchend pair would double-fire the same drag.
+    var startX = null;
+    ctrack.addEventListener('pointerdown', function (e) { startX = e.clientX; });
+    ctrack.addEventListener('pointerup', function (e) {
+      if (startX === null) return;
+      var dx = e.clientX - startX;
+      startX = null;
+      if (Math.abs(dx) < 30) return;
+      showSlide(dx < 0 ? ci + 1 : ci - 1);
+    });
+    ctrack.addEventListener('pointercancel', function () { startX = null; });
+
+    showSlide(0);
+  });
 }());

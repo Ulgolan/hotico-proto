@@ -993,7 +993,7 @@ html.js-kh .kh__static{display:none;}
 .upload svg{width:19px;height:19px;fill:none;stroke:var(--gold);stroke-width:1.6;}
 
 /* D. confirmation */
-.success{text-align:center;padding:1.5rem 0 .5rem;}
+.success{text-align:center;padding:1.5rem 0 .5rem;background:var(--white);}
 
 .success[hidden]{display:none;}
 
@@ -1021,25 +1021,18 @@ html.js-kh .kh__static{display:none;}
   position:relative;
   background:var(--white);
   border-radius:14px;
-  padding:1.4rem 1.1rem 1.2rem 2rem;
+  padding:1.4rem 1.1rem 1.2rem 1.1rem;
   margin-bottom:1rem;
   box-shadow:var(--shadow-neo);
 }
 
-.conf__block--cream{background:var(--cream);}
-
-.conf__marker{
-  position:absolute;top:.9rem;left:.9rem;
-  font-family:var(--font-body);font-weight:700;font-size:.75rem;
-  color:var(--cocoa);
-}
+/* FLAT GOLD LAW: flat --gold ground, no --gold-grad. */
+.conf__block--gold{background:var(--gold);}
 
 .conf__kicker{
   font-family:var(--font-body);font-size:.75rem;letter-spacing:.28em;
   text-transform:uppercase;color:var(--cocoa);margin:0 0 1rem;
 }
-
-.conf__block--cream .conf__kicker{color:var(--gold);}
 
 .conf__steps{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.9rem;}
 
@@ -1052,12 +1045,38 @@ html.js-kh .kh__static{display:none;}
 
 .conf__step-h{font-weight:700;}
 
+/* testimonial carousel — flat gold ground, all text cocoa */
+.conf__carousel{position:relative;overflow:hidden;}
+
+.conf__carousel-track{
+  display:flex;
+  transition:transform .34s ease;
+  touch-action:pan-y;
+}
+
+@media (prefers-reduced-motion:reduce){
+  .conf__carousel-track{transition:none;}
+}
+
+.conf__slide{flex:0 0 100%;min-width:0;}
+
 .conf__quote{
   font-style:italic;font-size:.9375rem;line-height:1.45;
-  margin:0 0 .6rem;
+  color:var(--cocoa);margin:0 0 .6rem;
 }
 
 .conf__who{font-size:.875rem;color:var(--cocoa);margin:0;}
+
+.conf__dots{display:flex;justify-content:center;gap:.5rem;margin-top:1rem;}
+
+.conf__dots[hidden]{display:none;}
+
+.conf__dot{
+  width:8px;height:8px;border-radius:50%;padding:0;border:none;
+  background:var(--cocoa);opacity:.35;cursor:pointer;
+}
+
+.conf__dot.is-active{opacity:1;}
 
 .conf__copy{font-size:.9375rem;line-height:1.45;margin:0 0 1rem;}
 
@@ -1065,7 +1084,7 @@ html.js-kh .kh__static{display:none;}
 
 .conf__cta{margin-top:.2rem;text-decoration:none;}
 
-.conf__sig{margin:1.6rem 0 .6rem;}
+.conf__sig{margin:1.6rem 0 .6rem;text-align:center;}
 
 .conf__sig-name{font-family:var(--font-head);font-weight:700;font-size:1rem;margin:0 0 .2rem;}
 
@@ -1699,7 +1718,7 @@ html.js-kh .kh__static{display:none;}
     min-width:0;
     border:1px solid var(--gold-line);
     border-radius:14px;
-    background:var(--card);
+    background:var(--white);
     box-shadow:var(--shadow-neo);
     padding:2rem 2rem 2.25rem;
   }
