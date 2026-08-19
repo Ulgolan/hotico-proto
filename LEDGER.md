@@ -4466,3 +4466,62 @@ TRAPS: any future element on this site using a bare `data-carousel`
   in code added later.
 COST: single-session lap, Sonnet 5, one branch, two bugs caught and
   fixed pre-report (not post-eye-gate rework).
+
+## Entry #53 — 2026-08-19 — LAP F-2c: MOBILE EYE-GATE — CREAM GROUND
+
+**Scope:** one-line correction from the Commander's iPhone regrade of
+Entry #52's grey-cut. `--cream` re-employed as the confirmation
+surface's ground, all viewport widths, both pages — superseding
+Entry #52's `--white` choice for `.success` only. Wizard steps 1–2
+(`.programare__form`) stay white, untouched; the white→cream shift on
+confirm is deliberate, per instruction. `css/tokens.css` untouched
+(no new token — `--cream` was already minted in Entry #51, only
+retired from use in Entry #52 and now brought back). No markup or JS
+touched this pass — a pure CSS + cache-bust correction, confirmed by
+diff (`css/main.css` one line, `index.html` and `servicii/areola.html`
+one pointer each).
+
+WHAT SHIPPED: `.success{background:var(--white)}` → `var(--cream)`,
+`css/main.css`. `.conf__block` keeps its own `background:var(--white)`
+and `shadow-neo`, so the inner blocks now float white-on-cream instead
+of white-on-white; `.conf__block--gold`'s flat `--gold` is untouched
+and reads cleanly against the new ground, no contrast concern (both
+were designed against a light neutral already).
+
+CACHE-BUST: `css/main.css` `v=44`→`v=45`, both pointers, both pages.
+`css/tokens.css` stays `v=9`.
+
+VERIFICATION — local static-server preview, fresh browser tabs, both
+pages, mobile viewport (375×812): full walk to confirmation, ground
+reads cream edge-to-edge behind the heading/subline/lead text and
+carries through unbroken to the signature/note/retour tail — no white
+gap, no seam-shock against the page's `--ivory`. Gold carousel block
+sits legibly on cream. `data-reset` restores a clean step 1 (label,
+bar 1, stepper/root visible) on both pages. Zero console errors on
+fresh load and through the full walk, both pages. Desktop width
+(1280px) spot-checked by computed style, not screenshot (same tool
+quirk as Entries #51–52): `.programare__form` reads
+`rgb(255,255,255)` (unchanged), `.success` reads `rgb(249,242,234)` —
+`--cream` exactly — confirming the rule is unconditional across
+widths as ordered, not just correct at mobile. `git diff --stat`
+shows exactly `css/main.css`, `index.html`, `servicii/areola.html`
+(plus this entry in `LEDGER.md`); `css/tokens.css` absent, confirmed
+byte-identical.
+
+>> BATON
+STATE: `f2-confirmation-screen` carries the F-2 build, the F-2b
+  eye-gate corrections, and this F-2c mobile-eye correction, all
+  locally verified, both pages. Not merged — holding for the
+  Commander's next word.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 await
+  distinct ratified client quotes (PRODUCTION GATE stands); Entry
+  #51's areola.html prototype-note deviation; the desktop-viewport
+  screenshot tool gap, now spot-checked three laps running by
+  computed style instead of by eye.
+NEXT: hold for Commander's eye on this pass; F-3 (WhatsApp prefill
+  handoff) still waits behind it.
+TRAPS: none new this pass — the correction was a single token swap on
+  an already-isolated selector.
+COST: single-session lap, Sonnet 5, one branch, one-line CSS
+  correction, no re-work.
