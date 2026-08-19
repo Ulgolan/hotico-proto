@@ -4879,3 +4879,171 @@ COST: single-session correction lap, Sonnet 5, same branch, one
   unchanged), one reset handler inverted from wipe to navigate,
   two-file cache-bust (three `main.css` consumers, two `form.js`
   consumers), no re-work beyond this correction itself.
+
+---
+
+## Entry #57 — 2026-08-19 — LAP F-4: ALEXA'S GATE — REVIEW SCREEN RETIRED, HEURE, SWISS PHONE
+
+**Scope:** Client-ruled revisions, one batch, branch `f4-alexas-gate`
+off main (HEAD `8430645`): (1) the recap-card review screen built in
+Entries #55/#56 is retired at Alexandra's ruling — "Confirmer le
+rendez-vous" opens WhatsApp directly again, and the confirmation
+screen's opening reverts to its client-ratified "Merci." trio; (2) a
+Swiss flag and Swiss example number replace the RO flag and RO-style
+placeholder on the phone field; (3) a time picker joins the date
+picker in step 1, and the time value joins the WhatsApp message.
+
+PRE-FLIGHT: `form.js?v=7` (index, areola), `main.css?v=48` (index,
+areola, in-curand), `tokens.css?v=10` (all three) — verified by grep
+against main (`8430645`) before any edit. All matched; no STOP
+triggered.
+
+WHAT SHIPPED:
+
+1. Confirmation-screen opening cluster removed whole, both pages: the
+   "Presque fini." heading, "Ton message est prêt…" subline, the
+   entire `.conf__recap` block (six rows: Date, Procédure, Nom,
+   Prénom, E-mail, Téléphone), the `[data-wa-cta]` anchor, and the
+   post-CTA lead line — all gone, not just hidden. In their place, the
+   ratified opening trio verbatim, on the existing `conf__h` /
+   `conf__subline` / `conf__lead` classes: "Merci." / "Ta demande est
+   bien arrivée chez moi." / "Je te réponds personnellement sur
+   WhatsApp, dans les 24 heures." Exactly one heading, one subline,
+   one lead survive per screen — confirmed by direct count, not just
+   by eye. Everything below (trois étapes, gold carousel, résultats,
+   autre date, signature, note, retour) untouched.
+
+2. Time picker added, both pages: a sibling `.field` block directly
+   below the date field in step 1, identical structure — clock-face
+   `.field__caret` SVG, `<input class="field__input" type="time"
+   data-recap="heure">`. `css/main.css`'s date-input rule family
+   (`.field__input[type="date"]`, its `::-webkit-date-and-time-value`
+   pseudo) extended to `[type="time"]` rather than duplicated — same
+   50px `min-height` pin, same stripped native chrome, same blank
+   empty-state (the label carries context, as for the date field).
+
+3. Swiss flag: `.field__flag`'s three `<i>` stripe children removed
+   from markup on both pages; `css/main.css` restyles the bare span as
+   `position:relative; background:#DA291C` with the white cross drawn
+   by `::before` (vertical bar) / `::after` (horizontal bar), both
+   `position:absolute`, arms at 60% of the span's dimension, 20%
+   thickness, centered. The three `:nth-child` stripe rules retired
+   along with the RO-flag comment, replaced by the Swiss equivalent —
+   colours stay hex-literal, no tokens minted, same "deliberately
+   outside the tokens.css colour law" precedent the RO flag set. Phone
+   placeholder now reads `079 123 45 67` on both pages.
+
+4. `js/form.js` `[data-confirm]` handler reworked: the `waCta`
+   variable and all `[data-wa-cta]` / `[data-recap-out]` machinery
+   removed outright (`grep -c "wa-cta\|recap-out" js/form.js` → `0`,
+   confirmed post-edit — nothing orphaned). Message composition stays
+   root-scoped with `"—"` fallbacks, byte-compatible with the prior
+   template plus one new line-2 field: `recap.heure` (native `HH:MM`,
+   read automatically off the new field's `data-recap="heure"` — no
+   new read logic needed). Blessed template, verbatim:
+   `Bonjour Alexandra ! Je souhaite confirmer mon rendez-vous 🌸` /
+   `Date : {date} · Heure : {heure} · Procédure : {procédure}` /
+   `Nom : {nom} {prenom} · E-mail : {email} · Téléphone : {tel}`. On
+   confirm, `window.open(...)` fires synchronously in the click
+   handler against the composed message, its return value never
+   branched on — the success flow (hide root, show success, `index =
+   2`, label, bar 3) runs unconditionally right after, same as before
+   Entry #55 ever built the recap screen.
+
+5. `[data-reset]` (retour) left untouched by deliberate choice: still
+   navigation, not a wipe — `go(1)` back to step 2 with every field,
+   the date, the new time, and the selected procedure dot intact.
+
+6. CACHE-BUST, consumer rider: `js/form.js` `v=7`→`v=8` (`index.html`,
+   `servicii/areola.html`); `css/main.css` `v=48`→`v=49` (`index.html`,
+   `servicii/areola.html`, `servicii/in-curand.html`). `tokens.css`
+   untouched at `v=10`, three consumers.
+
+VERIFICATION — local static-server preview (`python3 -m http.server`
+on a scratch port; this session's Browser pane could not reach the
+shared dev server another chat already held on the project's usual
+port), `window.open` hooked to a recording stub so a regression would
+be caught even where a real popup blocker would hide it, both pages.
+Structural checks via computed style and DOM read rather than
+screenshot (this pane's screenshot capture was not rendering content
+this session; console, computed CSS, and direct value reads carried
+the verification instead): `.field__flag` computed `background-color`
+`rgb(218,41,28)` (`#DA291C`) with `::before`/`::after` both
+`position:absolute` and white, both date and time inputs computed
+`min-height:50px` and empty, tel placeholder `"079 123 45 67"` — all
+confirmed on both pages. Filled walk (index): date `2026-09-15`, time
+`14:30`, procedure `Aréole`, full contact fields → single `window.open`
+call, decoded `text=` byte-exact against the blessed template
+including `Heure : 14:30`. Base+extra check (areola, `data-proc-base
+="Aréole"`): selecting `Lèvres` composed `Procédure : Aréole + Lèvres`
+correctly. Empty walk (index): confirm with nothing filled → single
+`window.open` call, every field including `Heure` reads `"—"`, zero
+blocking. Correction loop: retour after a filled confirm landed back
+on step 2 (label "2. Contact") with date, time (`14:30`), the
+`Aréole` dot, and all four contact fields read back intact by direct
+value inspection. Zero console errors on index, areola, and
+in-curand (checked via `read_console_messages`, `onlyErrors`). Exit
+greps: `grep -c "Presque fini\|conf__recap\|wa-cta\|recap-out"` → `0`
+across `index.html`, `servicii/areola.html`, `js/form.js`,
+`css/main.css`. `git diff main --stat`: `css/main.css`, `index.html`,
+`js/form.js`, `servicii/areola.html`, `servicii/in-curand.html`
+(pointer-only, one line) — plus this entry in `LEDGER.md`, exactly
+the six files named in the brief; `css/tokens.css` untouched.
+Pointers confirmed post-edit: `v=8` (two `form.js` consumers) / `v=49`
+(three `main.css` consumers) / `v=10` (`tokens.css`, untouched).
+
+CLIENT GATE: the recap-card review screen (Entries #55/#56) is
+retired at Alexandra's ruling — she wants the direct handoff back.
+The "Presque fini." / recap-card opening copy never cleared the
+PRODUCTION GATE Entry #56 opened for it (it needed her blessing
+before shipping past prototype); that gate closes as **moot** this
+lap — the copy it guarded no longer exists. The ratified "Merci." /
+"Ta demande est bien arrivée chez moi." / "Je te réponds
+personnellement sur WhatsApp, dans les 24 heures." trio is restored
+verbatim, so no new production gate opens on the opening copy.
+Restoring auto-open also restores the tradeoff Entry #56 retired it
+to avoid: on mobile, `window.open` fires before any confirmation
+screen is seen, so mobile clients will mostly never see the "Merci."
+screen, the trois-étapes card, the carousel, or the signature block
+below it — accepted this lap by client ruling, not rediscovered as a
+surprise. The WhatsApp template's `Heure` line ships on the
+Commander's blessing, not a fresh client ratification — flagged here
+for completeness, not as an open gate.
+
+WATCHED SEAM: unchanged from Entry #56 — block "Besoin d'une autre
+date ?" still carries a second, unprefilled `wa.me` link by design
+(other-date intent); revisit only if real clients arrive
+message-less.
+
+>> BATON
+STATE: `f4-alexas-gate` carries the full batch — review screen
+  retired, ratified "Merci." opening restored, time picker added and
+  wired into the WhatsApp template, Swiss flag + Swiss phone
+  placeholder — locally verified on index and areola across
+  empty/filled/base+extra/correction-loop checks, in-curand verified
+  pointer-only and console-clean. Not merged — holding for the
+  Commander's eye.
+CERTIFIED: pending Tower.
+OPEN: unchanged from Entry #52 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true and untouched this lap. Entry
+  #56's PRODUCTION GATE on the "Presque fini." opening copy closes as
+  moot (see CLIENT GATE above) — no replacement gate opens.
+NEXT: hold for the Commander's eye-gate on this pass; push and report
+  preview URL + HEAD SHA once cleared to push.
+TRAPS: none new. The auto-open mobile tradeoff flagged in Entry #56
+  is back by client ruling, not by drift — worth re-reading Entry #56
+  in full before assuming it's forgotten context if this surfaces
+  again later. Screenshot capture failed silently in this session's
+  Browser pane while the DOM, computed styles, and console all read
+  correctly — verification leaned on those instead; worth a plain
+  screenshot check in a fresh pane before the Commander's own eye-gate
+  if the same tool glitch recurs.
+COST: single-session batch lap, Sonnet 5, new branch off main, one
+  markup cluster removed and replaced across two pages, one new field
+  block duplicated across two pages, one CSS rule family extended
+  (date→date+time) and one restyled in place (RO→Swiss flag) with a
+  dead rule family (`.conf__recap*`) retired, one JS handler
+  simplified (fewer moving parts than Entry #56's version, not more),
+  three-file cache-bust rider (two `form.js` consumers, three
+  `main.css` consumers).

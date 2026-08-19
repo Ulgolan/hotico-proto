@@ -13,7 +13,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/tokens.css?v=10">
-  <link rel="stylesheet" href="css/main.css?v=48">
+  <link rel="stylesheet" href="css/main.css?v=49">
 </head>
 <body>
 
@@ -569,6 +569,18 @@
               </div>
             </div>
 
+            <div class="field">
+              <span class="field__label">Choisis l'heure</span>
+              <div class="field__box">
+                <svg class="field__caret" viewBox="0 0 24 24" aria-hidden="true"
+                     style="width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.6">
+                  <circle cx="12" cy="12" r="9"/>
+                  <path d="M12 7v5l3 2"/>
+                </svg>
+                <input class="field__input" type="time" data-recap="heure">
+              </div>
+            </div>
+
             <div class="q">
               <span class="q__label">Quelle procédure souhaites-tu ?</span>
               <ul class="opts" data-group role="radiogroup"
@@ -606,13 +618,11 @@
       <div class="field">
         <span class="field__label">Téléphone (obligatoire)</span>
         <div class="field__box">
-          <span class="field__flag" aria-hidden="true">
-            <i></i><i></i><i></i>
-          </span>
+          <span class="field__flag" aria-hidden="true"></span>
           <svg class="field__caret" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/>
           </svg>
-          <input class="field__input" type="tel" placeholder="072 123 456 789" data-recap="tel">
+          <input class="field__input" type="tel" placeholder="079 123 45 67" data-recap="tel">
         </div>
       </div>
 
@@ -638,39 +648,9 @@
 
       <div class="success" data-success hidden>
         <div class="conf">
-          <h3 class="conf__h">Presque fini.</h3>
-          <p class="conf__subline">Ton message est prêt — il ne reste qu'à l'envoyer.</p>
-
-          <div class="conf__block conf__recap">
-            <div class="conf__recap-row">
-              <span class="conf__recap-label">Date</span>
-              <span class="conf__recap-value" data-recap-out="date">—</span>
-            </div>
-            <div class="conf__recap-row">
-              <span class="conf__recap-label">Procédure</span>
-              <span class="conf__recap-value" data-recap-out="procedure">—</span>
-            </div>
-            <div class="conf__recap-row">
-              <span class="conf__recap-label">Nom</span>
-              <span class="conf__recap-value" data-recap-out="nom">—</span>
-            </div>
-            <div class="conf__recap-row">
-              <span class="conf__recap-label">Prénom</span>
-              <span class="conf__recap-value" data-recap-out="prenom">—</span>
-            </div>
-            <div class="conf__recap-row">
-              <span class="conf__recap-label">E-mail</span>
-              <span class="conf__recap-value" data-recap-out="email">—</span>
-            </div>
-            <div class="conf__recap-row">
-              <span class="conf__recap-label">Téléphone</span>
-              <span class="conf__recap-value" data-recap-out="tel">—</span>
-            </div>
-          </div>
-
-          <a class="btn-pink conf__cta" data-wa-cta href="#"
-             target="_blank" rel="noopener noreferrer">Envoyer ma demande sur WhatsApp</a>
-          <p class="conf__lead">Je te réponds personnellement, dans les 24 heures.</p>
+          <h3 class="conf__h">Merci.</h3>
+          <p class="conf__subline">Ta demande est bien arrivée chez moi.</p>
+          <p class="conf__lead">Je te réponds personnellement sur WhatsApp, dans les 24 heures.</p>
 
           <div class="conf__block">
             <p class="conf__kicker">TROIS ÉTAPES AVANT TA SÉANCE</p>
@@ -883,7 +863,7 @@
   </footer>
 
   <script src="js/main.js?v=10"></script>
-  <script src="js/form.js?v=7"></script>
+  <script src="js/form.js?v=8"></script>
   <script src="js/hero-scroll.js?v=25"
     onerror="document.documentElement.classList.remove('js-kh')"></script>
 </body>

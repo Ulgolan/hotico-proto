@@ -14,7 +14,6 @@
   var bars   = Array.prototype.slice.call(document.querySelectorAll('.stepper__bars i'));
   var success = document.querySelector('[data-success]');
   var stepper = document.querySelector('.stepper');
-  var waCta   = document.querySelector('[data-wa-cta]');
 
   // step titles; index 0 read from the page so per-page wording stays free.
   // Index 2 (Confirmation) has no .step slide of its own — the stepper
@@ -90,8 +89,7 @@
   if (confirm && success) {
     confirm.addEventListener('click', function () {
       /* ---- recomposition law: runs on every confirm click, so an
-         edit-and-reconfirm always refreshes the recap card and the
-         WhatsApp href. ---- */
+         edit-and-reconfirm always sends a freshly composed message. ---- */
       var recap = {};
       root.querySelectorAll('[data-recap]').forEach(function (el) {
         recap[el.getAttribute('data-recap')] = el.value.trim();
@@ -108,6 +106,7 @@
         ? dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0]
         : '—';
 
+      var heure  = recap.heure  || '—';
       var nom    = recap.nom    || '—';
       var prenom = recap.prenom || '—';
       var email  = recap.email  || '—';
@@ -115,22 +114,11 @@
 
       var message =
         'Bonjour Alexandra ! Je souhaite confirmer mon rendez-vous 🌸\n' +
-        'Date : ' + date + ' · Procédure : ' + procedure + '\n' +
+        'Date : ' + date + ' · Heure : ' + heure + ' · Procédure : ' + procedure + '\n' +
         'Nom : ' + nom + ' ' + prenom + ' · E-mail : ' + email + ' · Téléphone : ' + tel;
 
-      /* recap card — textContent only, these values come straight from
-         client-typed input; innerHTML here would be a security bug. */
-      var recapOut = {
-        date: date, procedure: procedure,
-        nom: nom, prenom: prenom, email: email, tel: tel
-      };
-      success.querySelectorAll('[data-recap-out]').forEach(function (el) {
-        el.textContent = recapOut[el.getAttribute('data-recap-out')];
-      });
-
-      if (waCta) {
-        waCta.href = 'https://wa.me/41796472106?text=' + encodeURIComponent(message);
-      }
+      window.open('https://wa.me/41796472106?text=' + encodeURIComponent(message),
+        '_blank', 'noopener,noreferrer');
 
       root.hidden = true;
       success.hidden = false;
