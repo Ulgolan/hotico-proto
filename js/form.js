@@ -88,6 +88,38 @@
   var confirm = document.querySelector('[data-confirm]');
   if (confirm && success) {
     confirm.addEventListener('click', function () {
+      /* ---- WhatsApp handoff — gentle-firm law: never blocks the flow
+         below, even if the popup is blocked or window.open returns null
+         (several engines do when features are passed). ---- */
+      var recap = {};
+      root.querySelectorAll('[data-recap]').forEach(function (el) {
+        recap[el.getAttribute('data-recap')] = el.value.trim();
+      });
+
+      var selection = root.querySelector('[data-val].is-on');
+      var procBase  = root.getAttribute('data-proc-base');
+      var procedure = procBase
+        ? procBase + (selection ? ' + ' + selection.getAttribute('data-val') : '')
+        : (selection ? selection.getAttribute('data-val') : '—');
+
+      var dateParts = (recap.date || '').split('-');
+      var date = dateParts.length === 3
+        ? dateParts[2] + '/' + dateParts[1] + '/' + dateParts[0]
+        : '—';
+
+      var nom    = recap.nom    || '—';
+      var prenom = recap.prenom || '—';
+      var email  = recap.email  || '—';
+      var tel    = recap.tel    || '—';
+
+      var message =
+        'Bonjour Alexandra ! Je souhaite confirmer mon rendez-vous 🌸\n' +
+        'Date : ' + date + ' · Procédure : ' + procedure + '\n' +
+        'Nom : ' + nom + ' ' + prenom + ' · E-mail : ' + email + ' · Téléphone : ' + tel;
+
+      var url = 'https://wa.me/41796472106?text=' + encodeURIComponent(message);
+      window.open(url, '_blank', 'noopener,noreferrer');
+
       root.hidden = true;
       success.hidden = false;
       // the stepper lives on: label + bar 3 light up by hand, since
@@ -107,6 +139,9 @@
       document.querySelectorAll('[data-reveal]').forEach(function (p) { p.hidden = true; });
       document.querySelectorAll('[data-val].is-on').forEach(function (d) {
         d.classList.remove('is-on');
+      });
+      root.querySelectorAll('[data-recap]').forEach(function (el) {
+        el.value = '';
       });
       go(0);
     });

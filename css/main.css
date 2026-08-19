@@ -1128,6 +1128,17 @@ html.js-kh .kh__static{display:none;}
   opacity:1;
 }
 
+/* Real date input — same costume, native chrome stripped. */
+.field__input[type="date"]{
+  flex:1 1 auto;width:100%;min-height:50px;
+  -webkit-appearance:none;appearance:none;
+  border:0;background:transparent;
+  color:var(--cocoa);
+}
+.field__input[type="date"]::-webkit-date-and-time-value{
+  text-align:left;
+}
+
 /* RO flag — three bars, no external asset. National flag colours,
    not brand colours: deliberately outside the tokens.css colour law. */
 .field__flag{
