@@ -5574,3 +5574,34 @@ TRAPS: none. `js/hero-scroll.js` was not opened (frozen at v26, out
 COST: single-session lap, Sonnet 5, three files touched (two HTML
   field-block deletions/relabels, one JS message-line edit), two
   pointer bumps, local preview verification only.
+
+---
+
+## Entry #63 — 2026-08-22 — Arc F-5 shipped: contact à deux champs
+
+**Scope:** Merge word closing the F-5 arc. Contact step drops from
+four fields to two — Nom and Prénom merged into one field, "Nom et
+prénom (obligatoire)" (placeholder "Ana Popescu"), E-mail removed
+entirely, `autocomplete="name"`/`autocomplete="tel"` added, on both
+`index.html` and `servicii/areola.html`. `js/form.js` pointer at v11
+on both pages, WhatsApp message composer trimmed to match.
+
+**Ruling source:** Alexa, WhatsApp 15:08, 2026-08-22 — tribunal-
+amended ignition key. Certified by Tower diff-cert against the
+codeload tarball (four-file scope, byte checks) plus dual SHA match
+(branch/main HEAD verified against fetch before merge). Commander's
+eye on iPhone Brave: passed.
+
+>> BATON
+STATE: F-5 merged to main; Vercel production deploy triggered by
+  the push.
+CERTIFIED: Tower diff-cert (four-file scope, byte checks, dual SHA)
+  + Commander's eye.
+OPEN: unchanged from Entry #61 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true; the two doctrine seeds from
+  Entry #60, unresolved.
+NEXT: relay to Alexa (2 champs done + live link); next HOTICO lap
+  per Commander.
+TRAPS: `js/hero-scroll.js` untouched at v26. Watch Brave iOS seam on
+  the shortened contact step.
