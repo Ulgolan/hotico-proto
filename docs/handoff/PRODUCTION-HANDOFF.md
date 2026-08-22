@@ -11,7 +11,7 @@
 | Date of audit | 2026-08-22 |
 | Working-tree state | Clean at branch time, except one untracked, uncommitted directory: `_ingest/` (an image-conversion staging area, `convert.py` + 6 PNGs). Outside this mission's scope; not inventoried. |
 | Certified foundation | `docs/handoff/EVIDENCE-MAP.md` (Lap H-1, Tower-certified 2026-08-22) — this document's coverage index and conflict-register seed |
-| This document's own status | Self-tested against §21 of the master prompt (see §19 of this doc); **not** certified. Certification is Lap H-3, a separate hostile-validation session, followed by Tower certification and the Commander's gate. |
+| This document's own status | Self-tested by its author; independently hostile-validated at Lap H-3 — see `docs/handoff/VALIDATION-H3.md` (findings F1-F4, addressed at Lap H-3b, this revision). **Not yet** Tower-certified; Tower final certification and the Commander's gate remain outstanding. |
 
 This document is the **production contract**: what a developer must preserve, what they're free to change, and where the debt is. It is not a repository tour and not a rewrite of the prototype. Evidence labels used throughout: **OBSERVED** (current code does this), **INTENDED** (docs say it should), **VERIFIED** (test/QA-backed), **INFERRED** (strong reading, not explicit), **OPEN** (missing/contradictory evidence).
 
@@ -43,6 +43,7 @@ Two sealed briefs govern intent, in this order of authority for what each answer
 - **Facade law inside the form itself (OBSERVED, `js/form.js:1-3`).** Its own header states the law plainly: *"nothing validates, everything advances."* This is a deliberate prototype posture, not an oversight — see §9.1 for what production must build instead.
 - **Native scroll as source of truth (VERIFIED, I7).** The hero engine never calls `preventDefault` and every scroll/touch/wheel listener is registered `{passive:true}` — confirmed by direct grep of `js/hero-scroll.js` (zero live `preventDefault` calls; two mentions only inside comments describing the rule itself). The hero augments scrolling; it never captures it.
 - **Mobile changes only by ruling (INTENDED, root `POLARIS.md` NN1).** Mobile canon (≤767px) is frozen and alters only by explicit Commander ratification — a repo-governance rule, surfaced here because it explains why the mobile and desktop regimes in §5 read as two different eras of decision-making layered on the same markup.
+- **Deferred UI is dressed, not hidden (`LEDGER.md` Entry #6, 2026-08-04, "the deferred costume").** A single class, `.is-deferred` (opacity .45, no shadow, default cursor; `aria-disabled="true"` on the interactive elements it dresses), marks UI that is deliberately present but not yet wired — the site-wide honest-facades posture applied to *surfaces*, not just to actions. **Counted directly from source for this document, not inherited from any prior count:** the header burger menu and language switcher (`index.html:22,37`; `servicii/areola.html:18,32`), two inline consent-clause references inside the booking form — "politique de confidentialité" and "politique d'annulation des rendez-vous" (`index.html:622,624`; `servicii/areola.html:418,420`) — and four inert footer-nav spans, "Services," "Profil," "À propos," "Mentions légales" (`index.html:811-814`; `servicii/areola.html:607-610`). That is **8 instances per page on `index.html` and `servicii/areola.html`; zero on `servicii/in-curand.html`** (grep-verified, no `.is-deferred` occurrence there). **Classification:** the specific `.is-deferred` implementation is **PROTOTYPE ONLY**; the honest-deferral posture it encodes — never dress an unbuilt surface as functional, grey it and say so instead of underlining a dead link — is **INTENDED** and must survive into however production handles its own not-yet-built surfaces.
 
 ---
 
@@ -64,7 +65,7 @@ Three tiers, confirmed directly in `css/main.css` and `css/tokens.css`:
 
 ## 6. Design-system contract
 
-`css/tokens.css` is the sole declared source of color, type, and shadow (`CLAUDE.md`), confirmed as a single 47-line `:root{}` block, ratified "canon v1.1.2 — 2026-08-02, all values measured from `docs/reference/Homepage A.png`" (`css/tokens.css:11-12`).
+`css/tokens.css` is the sole declared source of color, type, and shadow (`CLAUDE.md`), confirmed as a single 47-line `:root{}` block, ratified in-source verbatim as *"canon v1.1.2 — ratified 2026-08-02 by Commander's eye. All values MEASURED from docs/reference/Homepage A.png."* (`css/tokens.css:11-12`).
 
 **Color** — `--ivory #F5F5F5`, `--cocoa #3C2F2F`, `--gold #C9A86A`, `--hotico-pink #FE0990`, `--field-gray #D9D9D9`, `--white #FFFFFF`, `--card #E9E9E9`, `--placeholder #9E9E9E`, plus `--gold-grad` (a 7-stop gradient) and `--gold-line`.
 **Type** — `--font-head: 'Raleway', sans-serif`; `--font-body: 'DM Sans', sans-serif`.
@@ -222,7 +223,7 @@ Classified per the master prompt's four-way scheme. All values from `js/hero-scr
 | `TOTAL_VH` (`.kh__scrubwrap` height, `main.css:286`) | 478vh | **TUNING REFERENCE** | Explicitly documented derivation history: 760vh → 400vh (R-2 B tune pass) → 428vh (+28, R-2 tune pass finding 2) → 478vh (+50, R-2c exit extension) — a deliberately re-poured value, not an arbitrary magic number, but the comment explicitly frames it as "tune target for the Commander's device walk, not a hard law." |
 | `TOTAL_VH_BASE` = 428 | | **IMPLEMENTATION ARTIFACT** | The legacy denominator every pre-existing timeline fraction still divides by, purely so byte-identical fractions survive the runway's growth to 478vh via a uniform `RESCALE` factor. This is an implementation mechanism to *preserve* the tuned feel above, not itself a design decision. |
 | `DOOR_COMMIT_VH` = 7.5 | | **DESIGN CONSTANT** | The single knob governing both accidental-drift immunity (I1) and deliberate-gesture commitment (I3/door rule) — set as the midpoint between measured accidental drift (<5vh) and deliberate-but-previously-failing flicks (10-20vh). Changing it changes felt responsiveness directly; it is not an artifact of the current architecture. |
-| `ADVANCE_BIAS_FRAC` = 0.20 | | **DESIGN CONSTANT** | The certified "30/70" coverage bias (30% coverage to advance, 70% to reverse) — explicitly ruled "LAW, value untouched" in the gesture matrix's own documentation; only its *jurisdiction* (which segments it applies to) was ever revised, never the number. |
+| `ADVANCE_BIAS_FRAC` = 0.20 | | **DESIGN CONSTANT** (certified classification); labeled **INFERRED**: re-tunable only by a Commander device-walk ruling with matrix re-certification | Two sources disclose a conflict in emphasis, not resolved here. `docs/qa/gesture-matrix.md:59` rules it verbatim: *"the certified 30/70 coverage bias... **LAW, value untouched**; its jurisdiction was retired from the two long gaps (launch and exit segments), never its number."* `js/hero-scroll.js:1031-1032`'s own comment, sitting directly above the constant, reads verbatim: *"needs 70% coverage to reverse into advancing instead. Tune target for the next device walk, not a hard law."* The matrix's certifying authority keeps the classification at **DESIGN CONSTANT**; the code's own comment is preserved as an INFERRED caveat rather than overridden — the value is not a developer's to retune on a hunch, but neither is it as immovable as the matrix's wording alone would suggest. |
 | 6-stop order, per-stop `DWELL_VY` / `MOBILE_ZOOM_BOOST` arrays | | **DESIGN CONSTANT** | Per-stop camera anchor/zoom tuning, index-matched to the DOM order `Sourcils, Eyeliner, Alopécie, Lèvres, Cicatrices, Aréole` — encodes real art-direction (why the two chest stops sit closer to center to avoid pushing their subject off-frame). |
 | `FADE_CHASE_MS`=520 / `FADE_CHASE_DOWN_MS`=260 | | **TUNING REFERENCE** | Explicitly the midpoint of a "blessed 450-600ms range" — a felt-motion tuning value, reasonable to recalibrate on production hardware. |
 
@@ -311,6 +312,7 @@ Hero source image ships at ~1024×1536px; a 4× upscale attempt was abandoned af
 | Step-card / video-teaser expand buttons | `aria-expanded`/`aria-controls`/`aria-label`, correctly toggled (`js/main.js:231,239,312-314,348-350`). | **REUSABLE as-is**, though neither moves focus into the revealed panel. |
 | Hero reduced-motion path | Real fallback content exists (`.kh__static`), gated correctly at the `<head>` level — but **zero test coverage** (I6, §10). | Must be freshly verified on real devices; do not assume prototype-certified. |
 | Hero pointer/paint-lag jurisdiction | Correctly implemented per design reasoning (I8, §10), never asserted by an automated test. | Preserve the *rule* (interaction state follows scroll truth, not paint) in any re-architecture; re-verify, don't assume. |
+| Deferred UI (`hdr__burger`, `hdr__lang`) | `aria-disabled="true"` correctly present on the interactive deferred controls (§4); the two inline consent-clause spans are plain text, not controls, so carry no ARIA role. | **REUSABLE as a pattern** for a genuinely-not-yet-built control — but `aria-disabled` is not a substitute for the §15 decision on whether each surface ships or is cut. |
 
 ---
 
@@ -347,6 +349,7 @@ Full candor — real names for fakes, facades, and duct tape, per this document'
 | **EN/RO content never processed** | Source spreadsheets delivered, never extracted. | Open gap, not a decision (§11). |
 | **Duplicate FR source file path** | Two byte-identical xlsx files at two unrelated paths (Conflict C3). | Logged, not resolved (§20). |
 | **`areola.html` prototype-note deviation** | `LEDGER.md` #51 logs a minor copy-parity gap against spec on this page, still open through the ledger's final entry (#63); insufficient detail recovered by any audit to date to state precisely what the gap is. | **TO DECIDE** — needs the original spec re-checked against current copy by someone with both in hand; not resolvable from this evidence alone. |
+| **Deferred UI surfaces (`.is-deferred`)** | Header burger menu, language switcher, 4 footer-nav links, 2 inline consent-clause references — 8 per page on `index.html` and `servicii/areola.html`, honestly greyed rather than functional (§4, `LEDGER.md` #6). | **TO DECIDE, not inherited by default.** Each is a real product surface production must either build or deliberately cut — a decision, not something the prototype's silence resolves for them. |
 | **Dual POLARIS (Conflict C1)** and **stale STATE-MAP (Conflict C2)** | See §20. | Tower/Commander acts, not developer or this-document acts. |
 
 ---
@@ -435,3 +438,4 @@ Consolidated pointer list — each item's full context lives at its cited sectio
 | Version | Date | Change |
 |---|---|---|
 | 1.0 | 2026-08-22 | Initial issue. Authored under Lap H-2 (Ignition Key), built on the Tower-certified Lap H-1 evidence map. Not yet hostile-validated (Lap H-3) or Tower-certified. |
+| 1.1 | 2026-08-22 | H-3 validation corrections (F1-F4). |
