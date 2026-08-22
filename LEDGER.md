@@ -5605,3 +5605,64 @@ NEXT: relay to Alexa (2 champs done + live link); next HOTICO lap
   per Commander.
 TRAPS: `js/hero-scroll.js` untouched at v26. Watch Brave iOS seam on
   the shortened contact step.
+
+---
+
+## Entry #64 — 2026-08-22 — Campaign close: production handoff, Laps H-1 → H-3b
+
+**Scope:** Four-lap campaign producing and hostile-certifying the
+production handoff contract, on branch `handoff-h2-draft` (cut from
+`handoff-h1-evidence-map`).
+
+- **Lap H-1** — `docs/handoff/EVIDENCE-MAP.md` authored: the coverage
+  index and conflict-register seed for the handoff. Tower-certified.
+- **Lap H-2** — `docs/handoff/PRODUCTION-HANDOFF.md` v1.0 drafted
+  (commit `7b84ad6`) on top of the certified H-1 map: the production
+  contract itself — what a developer inherits, what they're free to
+  change, where the debt is. Certification pass: **pass-with-one-
+  correction**.
+- **Lap H-3** — hostile, independent validation (commit `c50f930`,
+  `docs/handoff/VALIDATION-H3.md`): the mandated §9.3 correction
+  applied and verified; a clean sweep; a hostile pass re-sampling
+  five claims and ten citations, four quality tests. Findings
+  **F1-F4** raised (deferred-UI convention undocumented, an
+  undisclosed `ADVANCE_BIAS_FRAC` classification conflict, a
+  paraphrase presented as a verbatim quote, an unsubstantiated
+  self-test claim) — reported, not fixed, per that lap's charge.
+- **Lap H-3b (this entry)** — F1-F4 corrected in
+  `PRODUCTION-HANDOFF.md` (commit `6a54d46`, now v1.1): the
+  `.is-deferred` convention documented in §4/§13/§15 with a fresh,
+  independently-counted instance total (8/page on `index.html` and
+  `servicii/areola.html`, 0 on `servicii/in-curand.html`) rather than
+  an inherited number; the `ADVANCE_BIAS_FRAC` conflict disclosed
+  verbatim from both sources (matrix: "LAW, value untouched"; code:
+  "tune target for the next device walk, not a hard law") and left
+  disclosed, not resolved; the tokens.css ratification quote made
+  verbatim; the §1 self-test claim repointed to the real H-3
+  validation. `VALIDATION-H3.md` closed with a RESOLUTION note citing
+  commit `6a54d46` — its findings themselves left untouched, per the
+  ground rule that a validator's record is not a place for its
+  reviewer to edit.
+
+**Ruling source:** H-3/H-3b ignition keys (Commander-issued),
+hostile-validation charge distinct from the H-2 authoring session per
+that charge's own "no session certifies its own work" law.
+
+>> BATON
+STATE: handoff on `handoff-h2-draft` awaiting Tower final cert +
+  Commander's eye + merge.
+CERTIFIED: evidence map (H-1), H-2 sampling (pass-with-one-
+  correction), H-3 findings (F1-F4, now corrected at H-3b).
+OPEN: C5 phone fix lap (the `tel:`/WhatsApp country-code mismatch,
+  `PRODUCTION-HANDOFF.md` §15/§18 — client question, not a developer
+  call); `_ingest/` ruling (untracked image-conversion staging
+  directory, present since before H-1, explicitly out of every
+  handoff lap's scope so far); `docs/POLARIS.md` retirement ruling
+  (Conflict C1, superseded-but-un-trashed); repo visibility + webdev
+  delivery scope — Commander ruling required before any external
+  repo access is granted.
+NEXT: merge = ship, then webdev handover.
+TRAPS: the exclusion sweep stays dumb — its pattern lives in the
+  campaign ignition keys only, never reproduced in repo documents,
+  never "improved," even under a false hit; the standing
+  Commander-only exclusion is absolute.

@@ -25,7 +25,7 @@ This confirms the mandated correction's factual content exactly. Text changed as
 
 ## STEP 2 — Sweep
 
-`grep -niE "torso|gift|cadeau|surprise|mission t|/lab" docs/handoff/PRODUCTION-HANDOFF.md` (corrected document) → **zero hits.** Regex run unmodified as instructed. **GREEN.**
+The standing exclusion sweep (pattern defined in the campaign ignition keys; deliberately not reproduced in repository documents) run against the corrected `docs/handoff/PRODUCTION-HANDOFF.md` → **zero hits.** Detector run unmodified as instructed. **GREEN.**
 
 ---
 
@@ -90,3 +90,7 @@ Also independently verified while cross-checking Finding F2: the four hero-CSS u
 ## STEP 5 — Status
 
 Step 1 correction committed to this branch. No other document edits made (F1–F4 are reported, not fixed, per the ignition key's instruction that anything of substance is reported, not fixed). Certification and merge are not this session's to give.
+
+---
+
+**RESOLUTION (Lap H-3b):** F1-F4 addressed in commit `6a54d46`. Verification: Tower final certification. One methodology line reworded at H-3b close to avoid reproducing the sweep pattern in a repo document; findings and verdicts untouched.
