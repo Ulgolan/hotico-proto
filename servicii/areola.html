@@ -397,16 +397,8 @@
           <div class="step" data-step="2" hidden>
 
       <div class="field">
-        <span class="field__label">Nom (obligatoire)</span>
-        <div class="field__box"><input class="field__input" type="text" placeholder="Popescu" data-recap="nom"></div>
-      </div>
-      <div class="field">
-        <span class="field__label">Prénom (obligatoire)</span>
-        <div class="field__box"><input class="field__input" type="text" placeholder="Ana" data-recap="prenom"></div>
-      </div>
-      <div class="field">
-        <span class="field__label">E-mail (obligatoire)</span>
-        <div class="field__box"><input class="field__input" type="email" placeholder="anapopescu@gmail.com" data-recap="email"></div>
+        <span class="field__label">Nom et prénom (obligatoire)</span>
+        <div class="field__box"><input class="field__input" type="text" placeholder="Ana Popescu" data-recap="nom" autocomplete="name"></div>
       </div>
 
       <div class="field">
@@ -416,7 +408,7 @@
           <svg class="field__caret" viewBox="0 0 16 16" aria-hidden="true">
             <path d="M3.4 5.8h9.2L8 11.2 3.4 5.8Z"/>
           </svg>
-          <input class="field__input" type="tel" placeholder="079 123 45 67" data-recap="tel">
+          <input class="field__input" type="tel" placeholder="079 123 45 67" data-recap="tel" autocomplete="tel">
         </div>
       </div>
 
@@ -658,6 +650,6 @@
 
   <script src="../js/main.js?v=10"></script>
   <script src="../js/areola.js?v=2b"></script>
-  <script src="../js/form.js?v=10"></script>
+  <script src="../js/form.js?v=11"></script>
 </body>
 </html>

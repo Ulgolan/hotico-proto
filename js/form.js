@@ -95,14 +95,12 @@
 
       var heure  = recap.heure  || '—';
       var nom    = recap.nom    || '—';
-      var prenom = recap.prenom || '—';
-      var email  = recap.email  || '—';
       var tel    = recap.tel    || '—';
 
       var message =
         'Bonjour Alexandra ! Je souhaite confirmer mon rendez-vous 🌸\n' +
         'Date : ' + date + ' · Heure : ' + heure + ' · Procédure : ' + procedure + '\n' +
-        'Nom : ' + nom + ' ' + prenom + ' · E-mail : ' + email + ' · Téléphone : ' + tel;
+        'Nom : ' + nom + ' · Téléphone : ' + tel;
 
       window.open('https://wa.me/41796472106?text=' + encodeURIComponent(message),
         '_blank', 'noopener,noreferrer');

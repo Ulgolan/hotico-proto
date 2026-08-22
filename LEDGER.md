@@ -5526,3 +5526,51 @@ TRAPS: none new. Brave iOS's quirk is recorded here specifically so a
   and go hunting for a cause that isn't there — it was already
   present, already looked at, already ruled browser-specific.
 COST: single-entry certification record, no code changed.
+
+---
+
+## Entry #62 — 2026-08-22 — Lap F-5: Contact à deux champs
+
+**Scope:** Alexa's friction cut, ruled by the Commander post-tribunal
+(2026-08-22, Alexa via WhatsApp 15:08). Contact step reduces from
+four fields to two: Nom and Prénom merge into one field, E-mail is
+removed entirely. Branch `f5-contact-deux-champs`.
+
+**Touched:**
+- `index.html` (Contact step) — Prénom `.field` block and E-mail
+  `.field` block deleted; Nom relabeled "Nom et prénom (obligatoire)",
+  placeholder "Ana Popescu", `autocomplete="name"` added; Téléphone
+  gets `autocomplete="tel"`. Pointer `js/form.js?v=10` → `?v=11`.
+- `servicii/areola.html` (Contact step) — identical twin surgery.
+  Pointer `../js/form.js?v=10` → `?v=11`.
+- `js/form.js` — `prenom`/`email` reads deleted; message line now
+  reads `'Nom : ' + nom + ' · Téléphone : ' + tel`. No validation
+  added to the merged field — autocomplete is autofill, not
+  validation, per the file's own Facade-law header (line 3),
+  confirmed still true.
+
+**Verified (local preview, both pages):** contact step renders
+exactly 2 fields; filled "Ana Popescu" + phone, ran Confirmer,
+intercepted the composed WhatsApp string —
+`Nom : Ana Popescu · Téléphone : 079 123 45 67`, no E-mail segment,
+byte-identical greeting/date/heure/procédure framing. Zero console
+errors, zero server errors.
+`grep -in "prenom\|e-mail"` across `index.html`, `servicii/areola.html`,
+`js/form.js` returns zero live references.
+
+>> BATON
+STATE: F-5 built and locally verified on branch
+  `f5-contact-deux-champs`, not yet pushed or merged.
+CERTIFIED: pending Tower diff-cert and ACP's eye — this session does
+  not certify its own work.
+OPEN: unchanged from Entry #61 — testimonial slides 2–3 still await
+  distinct ratified client quotes; Entry #51's areola.html
+  prototype-note deviation, still true; the two doctrine seeds from
+  Entry #60, unresolved; Brave iOS watched seam, unchanged.
+NEXT: push branch, hand off for Tower diff-cert against the codeload
+  tarball, hold for ACP's word before any merge.
+TRAPS: none. `js/hero-scroll.js` was not opened (frozen at v26, out
+  of scope this lap).
+COST: single-session lap, Sonnet 5, three files touched (two HTML
+  field-block deletions/relabels, one JS message-line edit), two
+  pointer bumps, local preview verification only.
