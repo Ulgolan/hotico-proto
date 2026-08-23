@@ -11,7 +11,7 @@
 | Date of audit | 2026-08-22 |
 | Working-tree state | Clean at branch time, except one untracked, uncommitted directory: `_ingest/` (an image-conversion staging area, `convert.py` + 6 PNGs). Outside this mission's scope; not inventoried. |
 | Certified foundation | `docs/handoff/EVIDENCE-MAP.md` (Lap H-1, Tower-certified 2026-08-22) — this document's coverage index and conflict-register seed |
-| This document's own status | Self-tested by its author; independently hostile-validated at Lap H-3 — see `docs/handoff/VALIDATION-H3.md` (findings F1-F4, addressed at Lap H-3b, this revision). **Not yet** Tower-certified; Tower final certification and the Commander's gate remain outstanding. |
+| This document's own status | Self-tested by its author; independently hostile-validated at Lap H-3 (see `docs/handoff/VALIDATION-H3.md`, findings F1-F4, addressed at H-3b); Tower-certified 2026-08-23; Commander-gated and merged. |
 
 This document is the **production contract**: what a developer must preserve, what they're free to change, and where the debt is. It is not a repository tour and not a rewrite of the prototype. Evidence labels used throughout: **OBSERVED** (current code does this), **INTENDED** (docs say it should), **VERIFIED** (test/QA-backed), **INFERRED** (strong reading, not explicit), **OPEN** (missing/contradictory evidence).
 
@@ -439,3 +439,4 @@ Consolidated pointer list — each item's full context lives at its cited sectio
 |---|---|---|
 | 1.0 | 2026-08-22 | Initial issue. Authored under Lap H-2 (Ignition Key), built on the Tower-certified Lap H-1 evidence map. Not yet hostile-validated (Lap H-3) or Tower-certified. |
 | 1.1 | 2026-08-22 | H-3 validation corrections (F1-F4). |
+| 1.2 | 2026-08-23 | Tower final certification and Commander's gate passed; status updated; merged to main. |
