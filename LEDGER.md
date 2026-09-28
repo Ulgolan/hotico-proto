@@ -5727,3 +5727,7 @@ TRAPS: bytes are the law — never open/re-save/convert the xlsx; any
   shifted ~85 down: row-indexed extraction will misread it.
 HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
   signals n/a
+
+**Merged:** PR #35 → main at `2fd3847`, 2026-09-28.
+CERTIFIED: Tower PASS 2026-09-28 (fresh-clone cert: 3 sha256 +
+sizes match input, diff scope 3 binaries + LEDGER pure-append).
