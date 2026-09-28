@@ -5850,3 +5850,8 @@ TRAPS: the JSON is a mirror — any correction goes in the overlay, never
   and moves when the workbook moves.
 HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
   signals n/a
+
+**Merged:** PR #36 → main at `66a94b8`, 2026-09-28.
+CERTIFIED: Tower PASS 2026-09-28 (fresh-clone re-run: 6 outputs
+byte-identical, verbatim audit clean, FR delta = C-0b diff;
+form_notes reading accepted).
