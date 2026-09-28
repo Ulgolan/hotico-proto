@@ -1,0 +1,42 @@
+{
+  "nav.areola": {
+    "ro": "Areolă",
+    "en": "Areola",
+    "fr": "Aréole"
+  },
+  "nav.scars": {
+    "ro": "Cicatrici",
+    "en": "Scars",
+    "fr": "Cicatrices"
+  },
+  "nav.alopecia": {
+    "ro": "Alopecie",
+    "en": "Alopecia",
+    "fr": "Alopécie"
+  },
+  "nav.brows": {
+    "ro": "Sprâncene",
+    "en": "Brows",
+    "fr": "Sourcils"
+  },
+  "nav.eyeliner": {
+    "ro": "Eyeliner",
+    "en": "Eyeliner",
+    "fr": "Eyeliner"
+  },
+  "nav.lips": {
+    "ro": "Buze",
+    "en": "Lips",
+    "fr": "Lèvres"
+  },
+  "nav.home": {
+    "ro": "Acasă",
+    "en": "Home",
+    "fr": "Accueil"
+  },
+  "nav.account": {
+    "ro": "Cont",
+    "en": "Account",
+    "fr": "Compte"
+  }
+}
