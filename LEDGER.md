@@ -5666,3 +5666,64 @@ TRAPS: the exclusion sweep stays dumb — its pattern lives in the
   campaign ignition keys only, never reproduced in repo documents,
   never "improved," even under a false hit; the standing
   Commander-only exclusion is absolute.
+
+## Entry #65 — 2026-09-28 — Lap C-0b: source re-intake
+
+**Prior state:** the handoff merge (`a6fb0bc`, branch
+`handoff-h2-draft`) landed on main without a close entry. This entry
+records it as merged; Entry #64's BATON (`NEXT: merge = ship`) is
+thereby discharged.
+
+**Scope:** the three trilingual source workbooks in `content/source/`
+replaced, byte-exact (`cp`, never opened or re-saved), with
+Alexandra's September Drive versions. Repo filenames unchanged.
+
+| File | Outgoing size | Outgoing sha256 | Incoming size | Incoming sha256 |
+|---|---|---|---|---|
+| `content/source/hotico-content-en.xlsx` | 80,113 B | `e6ccee900737bc7f9c1099178570d8c813d11182e930c2515ce0605b96f2bb9c` | 54,639 B | `2098ef701c6398307d153c8fcc7f403f12eaa3b7de4e28b2f85294f6e0eab56b` |
+| `content/source/hotico-content-fr.xlsx` | 83,603 B | `21d20ae183251835ff19af114a6df34156ad5710743a67968eb33a6f8d086641` | 59,260 B | `66f1025e054ace543e2614277524c731899c1a6afd8323737b96df0f2ef94752` |
+| `content/source/hotico-content-ro.xlsx` | 88,090 B | `0432d314d5d157ee1fa1b6d79f163b54eadc887c0849310598141217c5a942d7` | 63,204 B | `a320b145bdd5ed534ee91e6c4240880bafcd53ef5383201a74f9b59c7df5126a` |
+
+**Provenance:** Alexandra's Drive, Commander-downloaded (Drive names
+`Engleza/Franceza/Romana link-uri video + text hotico.ink (3).xlsx`),
+Tower-diffed 2026-09-28. Incoming hashes verified before copy and
+re-verified in the repo after copy.
+
+**Diff summary (Tower T2, from cell-level comparison), verbatim:**
+all 3 langs: 5 homepage carousel bodies rewritten by
+Alexandra (~50% shorter; FR home now "tu"); FAQ numbering
+removed; "another procedure?" form row now on all 6 service
+sheets. FR: manifesto Vimeo changed to 1143404826; eyeliner
+pigments Vimeo 1134716206 added (closes Alexa-batch item a).
+RO: placeholders replaced, diacritics fixed. Areola sheet:
+rows below booking block shifted ~85 rows down (content
+identical). NOT fixed: FR scars pain answer still duplicates
+pigments answer.
+
+**Declared staleness:**
+- `content/fr.json` and `content/fr-review.md` now mirror the
+  PREVIOUS FR workbook; re-extraction = Lap C-1b.
+- `PRODUCTION-HANDOFF.md` / `EVIDENCE-MAP.md` sizes are historical
+  evidence, intentionally not edited.
+- Conflict C3: the refonte duplicate
+  (`docs/spec/refonte/hotico-fr-content.xlsx`) is no longer
+  byte-identical to `content/source/` FR.
+
+**Ruling source:** Lap C-0b ignition key + input-source amendment
+(Commander-issued).
+
+>> BATON
+STATE: branch `c0b-source-reintake` — 3 workbooks re-intaken, PR
+  open, not merged.
+CERTIFIED: pending Tower.
+OPEN: C5 phone fix lap; `_ingest/` ruling; `docs/POLARIS.md`
+  retirement ruling (C1); Conflict C3 (refonte FR duplicate now
+  divergent); FR scars pain answer duplicating pigments answer
+  (client-side, unfixed in source); repo visibility + webdev
+  delivery scope.
+NEXT: Lap C-1b — re-extraction FR+EN+RO from the new workbooks.
+TRAPS: bytes are the law — never open/re-save/convert the xlsx; any
+  re-extraction reads them, never writes them. Areola sheet rows
+  shifted ~85 down: row-indexed extraction will misread it.
+HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
+  signals n/a
