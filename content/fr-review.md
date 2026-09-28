@@ -29,19 +29,20 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Title:** À propos de HOTICO
 - **CTA:** Comment la dermopigmentation peut-elle apporter beauté naturelle, guérison émotionnelle et force personnelle ? Découvrez la réponse dans cette vidéo manifeste signée Alexandra Hotico.
 - **YouTube:** https://youtu.be/ZcIlRWW-cTA
-- **Vimeo:** https://vimeo.com/1134716314/7dd73b5046?fl=ls&fe=ec
+- **Vimeo:** https://vimeo.com/1143404826?share=copy&fl=sv&fe=ci
 - **Body:**
 
-> Je m'appelle Alexandra Hotico, fondatrice de HOTICO - Dermopigmentation Institute, spécialiste en dermopigmentation cosmétique et paramédicale, artiste et formatrice. Depuis plus de cinq ans, je me consacre à ce métier par vocation, et non par hasard. Au fil des ans, j'ai appris que la vraie beauté commence lorsqu'il existe un espace sûr, où le visage est vu et la peau écoutée. 
-> Pour moi, la peau n'est pas seulement une enveloppe, mais un espace vivant de mémoire et d'identité. Chaque procédure, qu'il s'agisse des sourcils, des lèvres, de la reconstruction de l'aréole après une mastectomie ou du camouflage des cicatrices, est une rencontre sincère avec vous-même. C'est un pas vers la revendication de votre image dans le miroir et de votre place dans votre propre histoire.
+> Je suis la fondatrice de HOTICO - Institut de Restauration. Depuis plus de huit ans, je pratique la dermopigmentation réparatrice et le maquillage permanent, par vocation.
 >
-> Je crois en une esthétique empathique, qui n'embellit pas seulement le visage, mais toute la relation avec soi-même. Je crois que la dermopigmentation peut être un acte de guérison, car elle ne corrige pas les imperfections, mais redonne confiance, sécurité et pouvoir personnel. Et je crois en un monde où les femmes sont soutenues, non jugées, et où la beauté authentique est reconnue sous toutes ses formes.
+> La peau est un espace vivant de mémoire et d'identité. Chaque procédure, des sourcils et des lèvres au tatouage aréole mammaire après une mastectomie ou au camouflage cicatrice, est une rencontre sincère avec toi-même.
 >
-> J'ai acquis mon expertise grâce à des centaines d'heures de pratique, des cours internationaux et des collaborations avec des oncologues, des dermatologues et des psychologues spécialisés dans les traumatismes. J'ai eu le privilège de travailler avec des femmes qui ont subi une mastectomie, des interventions chirurgicales, des accidents ou des changements d'identité majeurs, et j'ai vu comment une procédure bien faite peut leur redonner le sourire et la confiance en elles.
+> Mon expertise vient de milliers d'heures de pratique, de formations internationales et de collaborations avec des médecins oncologues, des dermatologues et des psychologues spécialisés dans le trauma. J'ai vu ce qu'une procédure bien exécutée peut apporter à une femme qui a traversé une mastectomie, des interventions chirurgicales ou des changements d'identité majeurs.
 >
-> Mon style de travail est toujours personnalisé. J'écoute, je comprends, je m'adapte. Je respecte le rythme de chaque cliente et j'utilise des techniques avancées, des protocoles médicaux et une sensibilité artistique qui donnent des résultats naturels et harmonieux. Ma mission est de normaliser la reconstruction de l'aréole, le camouflage des cicatrices et la dermopigmentation comme acte de guérison.
+> Tout commence par une consultation préalable. Je t'écoute, je respecte ton rythme et j'adapte chaque étape à tes besoins.
 >
-> Chaque jour, je me rappelle que ce que je fais n'est pas seulement esthétique. Il s'agit de créer un sanctuaire d'intimité et de reconnexion. Un endroit où chaque femme peut dire avec conviction : « Ici, je retrouve ma beauté. Ici, je rentre chez moi.
+> Tu repars d'ici avec ton image dans le miroir reconquise. Le matin, tu te regardes et tu te reconnais, avec la confiance et l'assurance de reprendre ta place dans ta propre histoire.
+>
+> Ici, tu retrouves ta beauté. Ici, tu rentres chez toi.
 
 
 #### Carousel 2 — Comment fonctionne HOTICO
@@ -52,14 +53,15 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Vimeo:** https://vimeo.com/1134716271/9def773e63?fl=ls&fe=ec
 - **Body:**
 
-> Quand je travaille, tout commence par vous et votre histoire. Avant toute intervention, nous avons un entretien au cours duquel je prends le temps de vous écouter, de comprendre ce que vous souhaitez et, surtout, ce dont vous avez besoin. Il n'y a pas deux interventions identiques, car il n'y a pas deux personnes identiques. Chaque résultat est personnalisé en fonction de vos traits, de votre teint, de vos antécédents médicaux et du rythme auquel vous vous sentez prête à opérer ce changement.
-> J'utilise uniquement des pigments de la plus haute qualité, spécialement formulés pour la dermopigmentation cosmétique et paramédicale, sûrs sur le plan médical et testés pour leur stabilité dans le temps. Je choisis les nuances avec précision, afin qu'elles s'intègrent naturellement et harmonieusement à la peau.
+> Tout commence par toi et par ton histoire. Lors de la consultation préalable, je t'écoute et je comprends ce que tu souhaites. Chaque résultat se construit sur tes traits, sur ta carnation, sur tes antécédents médicaux et sur ton rythme.
 >
-> Le matériel avec lequel je travaille est à la pointe de la technologie, car je souhaite que vous obteniez non seulement un beau résultat, mais aussi un processus sûr, confortable et sans risque. Tous les instruments sont stériles, à usage unique et respectent les protocoles d'hygiène les plus stricts, conformément aux normes internationales.
+> J'utilise des pigments formulés spécialement pour la dermopigmentation cosmétique et réparatrice, sûrs sur le plan médical et testés pour leur stabilité dans le temps. Je choisis les nuances pour qu'elles s'intègrent naturellement à la peau.
 >
-> Mon éthique de travail est simple : rien n'est précipité, rien n'est forcé. Je préfère en faire moins, mais parfaitement, plutôt que de tout faire d'un seul coup. J'aime travailler par petites étapes, afin de m'assurer que chaque étape est exactement comme vous le souhaitez et que votre peau a le temps de guérir correctement.
+> L'appareillage est de dernière génération, le matériel stérile à usage unique, et les protocoles d'hygiène suivent les recommandations de l'OFSP et le règlement SWISS, EU REACH.
 >
-> Pour moi, les normes élevées ne sont pas facultatives, elles sont la seule option. Je traite chaque cliente avec l'attention et le respect que j'accorderais à une personne qui m'est très chère. Et peut-être le plus important : lorsque vous vous allongez sur mon lit, vous savez que vous êtes entre de bonnes mains et que chaque détail, du choix du pigment à la dernière ligne tracée, est réalisé avec soin, précision et cœur.
+> Je travaille sans hâte, pour que chaque étape corresponde exactement à ce que tu souhaites et que ta peau ait le temps de se rétablir. Les standards élevés sont la seule option. Je te traite comme une personne qui m'est très chère.
+>
+> Quand tu t'installes sur ma table, tu respires et tu me confies la suite. Tu es entre de bonnes mains, du choix du pigment au dernier trait tracé.
 
 
 #### Carousel 3 — Apprenez avec HOTICO
@@ -70,13 +72,13 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Vimeo:** https://vimeo.com/1134716322/39c3d035fb?fl=tl&fe=ec
 - **Body:**
 
-> Je suis formatrice en dermopigmentation paramédicale parce que c'est ce domaine qui m'a choisie, et non l'inverse. J'en suis arrivée là grâce à ma propre expérience, qui m'a permis de constater à quel point une procédure réalisée avec soin, précision et respect peut être importante. Des années de travail auprès de femmes ayant subi une mastectomie, des opérations ou des accidents m'ont appris qu'en tant que spécialistes, nous pouvons faire bien plus qu'obtenir un beau résultat esthétique : nous pouvons changer la façon dont une personne se perçoit.
-> Pourquoi suis-je le formateur qu'il vous faut si vous souhaitez apprendre ? Parce que je possède une combinaison rare de compétences : une technique perfectionnée au fil des années, une compréhension approfondie du contexte médical et une approche humaine qui ne s'apprend pas dans les manuels. Je peux vous montrer non seulement comment travailler de manière impeccable, mais aussi comment devenir le spécialiste que les clients recherchent instinctivement pour les procédures les plus délicates.
-> Si vous souhaitez élargir votre gamme de services, la dermopigmentation paramédicale vous ouvre des portes que l'esthétique seule ne peut ouvrir. Elle vous apporte un statut professionnel plus élevé, vous met en relation avec des médecins, des cliniques et des ONG, et vous offre la satisfaction de travailler dans un secteur où la demande est forte, la concurrence faible, mais où la spécialisation compte énormément.
+> Les années passées auprès de femmes après une mastectomie, une opération ou un accident m'ont appris qu'un geste précis change le regard qu'on porte sur soi.
 >
-> Et si vous souhaitez passer d'autres domaines de la beauté à la dermopigmentation paramédicale, vous découvrirez une nouvelle dimension de votre métier, dans laquelle vous travaillez avec un sens, où chaque procédure devient une histoire de reconstruction et un pas vers la guérison pour quelqu'un.
+> J'arrive avec une technique affinée par des années de pratique, la compréhension du contexte médical et une approche humaine qui s'apprend au contact des patientes. Je te montre comment devenir la spécialiste qu'on cherche pour les procédures les plus délicates.
 >
-> En tant que formatrice, je vous offre tout ce que j'ai accumulé : des procédures testées et perfectionnées, des protocoles sûrs, des techniques adaptées à chaque type de peau, mais aussi la bonne façon de communiquer avec des clientes qui se trouvent dans une période vulnérable. Car au-delà du résultat, ce qui reste, c'est leur confiance en vous. Et c'est la chose la plus précieuse que vous puissiez gagner dans ce métier.
+> La dermopigmentation réparatrice te met en lien avec des médecins, des cliniques et des associations, et te place sur un segment à forte demande et faible concurrence. Tu viens d'un autre domaine de l'esthétique et tu découvres un métier qui a du sens, où chaque procédure devient une histoire de reconstruction et un pas vers la réappropriation de l'image de soi.
+>
+> Je te transmets des protocoles sûrs, des techniques adaptées à chaque type de peau et la juste manière de parler à une patiente vulnérable. Tu termines la formation avec la main sûre sur le camouflage cicatrice et le tatouage aréole mammaire. Tes patientes le sentent dès la première séance, et leur confiance devient ton capital.
 
 
 #### Carousel 4 — Qu'est-ce que la dermopigmentation paramédicale ?
@@ -87,16 +89,15 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Vimeo:** https://vimeo.com/1134716302/e86de2235d?fl=ls&fe=ec
 - **Body:**
 
+> La dermopigmentation réparatrice redonne à la peau son aspect après un traumatisme, une opération ou une affection médicale, avec des pigments et des techniques avancées.
 >
-> Je te réponds de tout cœur, car je sais que c'est un sujet peu connu, mais qui a une énorme charge émotionnelle. La dermopigmentation paramédicale est une procédure spécialisée qui utilise des pigments et des techniques avancées pour restaurer ou corriger l'apparence de la peau après un traumatisme, une intervention chirurgicale ou une affection médicale.
+> Tu la rencontres dans le tatouage aréole mammaire après une mastectomie, dans le camouflage cicatrice, dans l'uniformisation de la carnation d'un vitiligo stable et dans la restructuration des sourcils et des cils perdus. La dermopigmentation cosmétique met les traits en valeur. La dermopigmentation réparatrice te rend ton identité.
 >
-> Elle peut être utilisée pour reconstruire l'aréole après une mastectomie, camoufler des cicatrices, uniformiser la peau affectée par le vitiligo ou restaurer l'apparence des sourcils et des cils là où ils ont été perdus. Contrairement à la dermopigmentation cosmétique, qui met en valeur les traits naturels du visage, la dermopigmentation paramédicale a un objectif profondément fonctionnel et émotionnel : restaurer l'identité et aider au processus de guérison.
+> Les pigments restent dans la couche superficielle de la peau et s'intègrent naturellement à ta carnation, sans couleurs franches, sans contours visibles. Le résultat est durable et s'estompe progressivement, nous pouvons donc l'ajuster si ta peau ou tes besoins évoluent.
 >
-> Je sais que beaucoup de gens associent le mot « pigmentation » au tatouage classique, mais la différence est essentielle. Dans la dermopigmentation paramédicale, les pigments sont introduits dans la couche superficielle de la peau, et non en profondeur, et sont spécialement formulés pour s'intégrer naturellement au teint de la peau, sans couleurs vives ni bords visibles. La procédure n'est pas permanente : avec le temps, le pigment s'estompe progressivement, ce qui nous permet d'ajuster le résultat si votre peau ou vos besoins changent.
+> Je travaille avec un appareillage de dernière génération, des pigments de qualité médicale et du matériel stérile à usage unique, dans le respect strict des protocoles d'hygiène. Chaque travail s'adapte à ta peau et à ton histoire.
 >
-> Ce qui rend cette technique si particulière, c'est la combinaison entre la précision médicale et la sensibilité artistique. Chaque travail est adapté non seulement à votre peau, mais aussi à votre histoire. Je travaille avec des équipements de pointe, des pigments de qualité médicale et je respecte les protocoles d'hygiène et de sécurité les plus stricts, afin que chaque client soit traité avec un professionnalisme absolu.
->
-> Le résultat final n'est pas seulement visible dans le miroir, il se ressent dans la façon dont vous vous voyez et vous vous sentez. La dermopigmentation paramédicale peut être le début d'un nouveau chapitre, dans lequel votre corps et votre histoire continuent, selon vos propres termes.
+> Tu te regardes dans le miroir et tu te reconnais. C'est le début d'un chapitre où ton corps et ton histoire avancent, selon tes termes.
 
 
 #### Carousel 5 — Qu'est-ce que la dermopigmentation cosmétique ?
@@ -107,16 +108,15 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Vimeo:** https://vimeo.com/1134716283/e908106d14?fl=ls&fe=ec
 - **Body:**
 
+> La dermopigmentation cosmétique est une procédure fine. J'introduis des pigments dans la couche superficielle de la peau pour harmoniser tes traits. On la connaît aussi sous le nom de maquillage permanent ou de maquillage semi-permanent, et elle se pratique surtout sur les sourcils, les lèvres et l'eye-liner.
 >
-> Je te réponds avec plaisir, car je sais qu'il y a beaucoup de curiosité, mais aussi de réticences à ce sujet. La dermopigmentation cosmétique est une procédure fine et délicate, par laquelle j'introduis des pigments spéciaux dans la couche superficielle de la peau afin de corriger, mettre en valeur ou harmoniser tes traits naturels. Vous l'entendrez également appeler maquillage semi-permanent ou micropigmentation, et elle est le plus souvent utilisée pour les sourcils, les lèvres et l'eyeliner.
+> Les pigments restent en surface et s'estompent progressivement, tu restes donc libre de faire évoluer le résultat. Ils sont formulés spécialement pour le visage, respectent ta carnation et donnent un rendu naturel.
 >
-> Et oui, je sais que parfois le mot « pigmentation » vous fait penser à un tatouage, mais la différence est grande. Dans la dermopigmentation, les pigments ne pénètrent pas profondément dans la peau, mais restent à la surface, ce qui leur permet de s'estomper progressivement avec le temps, sans laisser de traces inesthétiques. J'utilise des pigments spécialement formulés pour le visage, qui respectent le teint de la peau et offrent un aspect naturel, sans couleurs vives ni contours rigides comme dans le tatouage classique.
+> La technique met ta beauté naturelle en valeur. Elle redessine la forme des sourcils, illumine et unifie les lèvres, souligne discrètement la ligne des cils par une densification ciliaire.
 >
-> Ce que j'aime dans cette technique, c'est qu'elle ne crée pas un maquillage chargé, mais met en valeur votre beauté naturelle. Elle peut redessiner la forme des sourcils, uniformiser et illuminer les lèvres, ou accentuer discrètement la ligne des cils, pour que vous vous réveilliez chaque jour avec un regard frais et harmonieux.
+> Je travaille avec un appareillage de dernière génération et des pigments de qualité médicale, choisis selon ta carnation. Le résultat tient entre 1 et 3 ans selon ton type de peau, puis nous prévoyons une retouche du maquillage permanent.
 >
-> Je travaille avec des appareils de dernière génération et des pigments de qualité médicale, sélectionnés en fonction de votre teint et de vos souhaits. La procédure est personnalisée, sûre et conçue pour vous faire sentir belle et confiante, sans avoir l'impression de porter un maquillage artificiel.
->
-> Le résultat peut durer entre 1 et 3 ans, selon le type de peau et la zone traitée, après quoi nous pouvons faire une séance de rafraîchissement. C'est le choix idéal si vous souhaitez gagner du temps le matin, avoir toujours une apparence soignée et profiter d'une beauté naturelle, sans compromis et sans craindre d'être « tatouée à vie ».
+> Tu gagnes du temps chaque matin. Tu te réveilles le visage déjà prêt, tu te regardes dans le miroir et tu te vois reposée, exactement toi, juste un peu plus nette.
 
 
 
@@ -372,7 +372,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 
 **Questions (16):**
 
-##### Row 18
+##### Row 104
 
 - **Question:** Avez-vous subi une mastectomie ou une autre intervention chirurgicale au niveau des seins ?
 - **Note:** daca bifeaza trebuie sa apara alte 2 coloare care pot fi bifate
@@ -380,7 +380,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp + lista de asteptare
 
-##### Row 19
+##### Row 105
 
 - **Question:** Avez-vous souffert de complications après l'intervention (infection, cicatrisation retardée, nécrose, radiodermatite) ?
 - **Note:** _(null)_
@@ -388,7 +388,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp + lista de asteptare
 
-##### Row 20
+##### Row 106
 
 - **Question:** Avez-vous suivi une radiothérapie au niveau du thorax ?
 - **Note:** daca bifeaza trebuie sa apara alte 2 optiuni
@@ -396,7 +396,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** Avez-vous développé une fibrose ? Oui/Non
 - **Branching:** ->consultatie online whatsapp + lista de asteptare
 
-##### Row 21
+##### Row 107
 
 - **Question:** Avez-vous suivi un traitement de chimiothérapie ?
 - **Note:** _(null)_
@@ -417,7 +417,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 
 - **Branching:** ->consultatie online whatsapp + lista de asteptare
 
-##### Row 22
+##### Row 108
 
 - **Question:** Avez-vous l'accord de votre oncologue ou chirurgien pour la procédure de dermopigmentation ?
 - **Note:** _(null)_
@@ -425,7 +425,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** daca bifeaza da -> programare, dar aici ar trebui sa apara automat bifa cu DA sau NU in cazul in care la prima intrebare a bifat DA
 
-##### Row 23
+##### Row 109
 
 - **Question:** Votre peau a-t-elle tendance à former des cicatrices hypertrophiques ou chéloïdes ?
 - **Note:** _(null)_
@@ -433,7 +433,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 24
+##### Row 110
 
 - **Question:** Y a-t-il des zones durcies, très fibreuses ou irradiées (peau très rigide) dans la zone à traiter ?
 - **Note:** _(null)_
@@ -441,7 +441,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 25
+##### Row 111
 
 - **Question:** Souffrez-vous d'une maladie auto-immune (par exemple, lupus, Hashimoto, vitiligo, psoriasis) ?
 - **Note:** _(null)_
@@ -449,7 +449,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 26
+##### Row 112
 
 - **Question:** Votre système immunitaire est-il affaibli ou suivez-vous un traitement immunosuppresseur ?
 - **Note:** _(null)_
@@ -457,7 +457,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 27
+##### Row 113
 
 - **Question:** Suivez-vous un traitement aux corticostéroïdes (comprimés, injections ou crèmes appliquées sur la zone concernée) ?
 - **Note:** _(null)_
@@ -465,7 +465,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 28
+##### Row 114
 
 - **Question:** Suivez-vous actuellement un traitement aux antibiotiques ?
 - **Note:** _(null)_
@@ -473,7 +473,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 29
+##### Row 115
 
 - **Question:** Souffrez-vous d'allergies sévères (anesthésiques, pigments, latex, métaux, autres) ?
 - **Note:** daca biseaza DA trebuie casuta pentru a putea scrie la ce
@@ -481,7 +481,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 30
+##### Row 116
 
 - **Question:** Souffrez-vous de diabète ?
 - **Note:** _(null)_
@@ -489,7 +489,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 31
+##### Row 117
 
 - **Question:** Souffrez-vous de troubles de la coagulation ou suivez-vous un traitement anticoagulant ?
 - **Note:** _(null)_
@@ -497,7 +497,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 32
+##### Row 118
 
 - **Question:** Avez-vous récemment suivi des traitements au niveau de la poitrine (laser, peelings, microneedling, PRP) ?
 - **Note:** _(null)_
@@ -505,7 +505,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Extra:** _(null)_
 - **Branching:** ->consultatie online whatsapp
 
-##### Row 33
+##### Row 119
 
 - **Question:** Avez-vous reçu des injections de corticostéroïdes dans les cicatrices ?
 - **Note:** _(null)_
@@ -543,9 +543,9 @@ _(null)_
 
 ### FAQ (8 entries)
 
-#### Q1. 1. Qu'est-ce que la reconstruction capillaire par dermopigmentation ?
+#### Q1. Qu'est-ce que la reconstruction capillaire par dermopigmentation ?
 
-- **Question:** 1. Qu'est-ce que la reconstruction capillaire par dermopigmentation ?
+- **Question:** Qu'est-ce que la reconstruction capillaire par dermopigmentation ?
 - **YouTube:** https://youtu.be/XQlvXcY2_sU
 - **Vimeo:** https://vimeo.com/1134715848/a1fba14872?fl=ls&fe=ec
 - **Answer:**
@@ -561,9 +561,9 @@ _(null)_
 > Le résultat final n'est pas seulement un visage avec des sourcils et un regard soulignés, c'est un pas vers la redécouverte de vous-même, vers la reconquête de l'expression qui vous est si chère et vers le sentiment d'être à nouveau vous-même.
 
 
-#### Q2. 2. Quel type de pigments dois-je utiliser ?
+#### Q2. Quel type de pigments dois-je utiliser ?
 
-- **Question:** 2. Quel type de pigments dois-je utiliser ?
+- **Question:** Quel type de pigments dois-je utiliser ?
 - **YouTube:** https://youtu.be/HJHXgJEJOpI
 - **Vimeo:** https://vimeo.com/1134715867/43d53f7cc2?fl=ls&fe=ec
 - **Answer:**
@@ -616,9 +616,9 @@ _(null)_
 > Votre sécurité et votre santé sont toujours prioritaires. Le dermopigmentation est une question de beauté, mais surtout de soin, de responsabilité et de respect de votre corps.
 
 
-#### Q5. 5. Que dois-je faire avant l'intervention ?
+#### Q5.  Que dois-je faire avant l'intervention ?
 
-- **Question:** 5. Que dois-je faire avant l'intervention ?
+- **Question:**  Que dois-je faire avant l'intervention ?
 - **YouTube:** https://youtu.be/H33shyIp8VE
 - **Vimeo:** https://vimeo.com/1134715859/d441627849?fl=ls&fe=ec
 - **Answer:**
@@ -641,9 +641,9 @@ _(null)_
 > La préparation avant la dermopigmentation des sourcils et de l'eyeliner en cas d'alopécie est essentiellement une combinaison de soins physiques et de clarté médicale. Et je suis là pour m'assurer que lorsque vous vous allongez sur ma table de travail, votre peau et vous-même, en tant que personne, êtes prêts pour une transformation qui vous redonnera l'harmonie et l'expressivité du regard.
 
 
-#### Q6. 7. Que se passe-t-il immédiatement après et comment entretenir la procédure ?
+#### Q6. Que se passe-t-il immédiatement après et comment entretenir la procédure ?
 
-- **Question:** 7. Que se passe-t-il immédiatement après et comment entretenir la procédure ?
+- **Question:** Que se passe-t-il immédiatement après et comment entretenir la procédure ?
 - **YouTube:** https://youtu.be/iny_0COrsdM
 - **Vimeo:** https://vimeo.com/1134715819/a702ea5dab?fl=ls&fe=ec
 - **Answer:**
@@ -661,9 +661,9 @@ _(null)_
 > En bref, j'apporte mon expertise et mon souci du détail, vous prenez soin de vous pendant les premières semaines, et ensemble, nous faisons en sorte que vos sourcils ou votre eye-liner soient exactement comme vous le souhaitez : beaux, naturels et durables.
 
 
-#### Q7. 9. Pourquoi deux séances sont-elles nécessaires ?
+#### Q7. Pourquoi deux séances sont-elles nécessaires ?
 
-- **Question:** 9. Pourquoi deux séances sont-elles nécessaires ?
+- **Question:** Pourquoi deux séances sont-elles nécessaires ?
 - **YouTube:** https://youtu.be/mLKNBFYtIz4
 - **Vimeo:** https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec
 - **Answer:**
@@ -679,9 +679,9 @@ _(null)_
 > En bref : la première procédure prépare le terrain et la retouche finalise le travail. Sans retouche, le résultat n'est qu'à moitié satisfaisant. Avec la retouche, vous obtenez les sourcils, les lèvres ou les aréoles que vous souhaitez, pour plus longtemps et sans surprises.
 
 
-#### Q8. 10. Combien de temps le pigment tient-il ?
+#### Q8. Combien de temps le pigment tient-il ?
 
-- **Question:** 10. Combien de temps le pigment tient-il ?
+- **Question:** Combien de temps le pigment tient-il ?
 - **YouTube:** https://youtu.be/7tg8DFp2n0w
 - **Vimeo:** https://vimeo.com/1134715886/e85af6b768?fl=ls&fe=ec
 - **Answer:**
@@ -706,7 +706,17 @@ _(null)_
 
 ### Form notes
 
-_(null)_
+- **Step 2 row label:** in formularul de programare la pasul 2 - sub alege data
+- **Step 2 text:** Voulez-vous une autre procédure ?
+- **Step 3 row label:** _(null)_
+- **Step 3 heading:** _(null)_
+- **Intro:** _(null)_
+- **Branching column header:** _(null)_
+
+**Questions (0):**
+
+- **Free-text prompt:** _(null)_
+- **Free-text note:** _(null)_
 
 ### Sheet column labels (Romanian scaffolding, verbatim)
 
@@ -752,9 +762,9 @@ _(null)_
 > Le résultat final ? Une peau d'apparence plus uniforme, où la cicatrice devient beaucoup moins visible, et vous pouvez regarder votre corps avec plus de sérénité et de confiance.
 
 
-#### Q2. 2. Quel type de pigments dois-je utiliser ?
+#### Q2. Quel type de pigments dois-je utiliser ?
 
-- **Question:** 2. Quel type de pigments dois-je utiliser ?
+- **Question:** Quel type de pigments dois-je utiliser ?
 - **YouTube:** https://youtu.be/yfMCWfuly9k
 - **Vimeo:** https://vimeo.com/1134716067/e12ec80e25?fl=ls&fe=ec
 - **Answer:**
@@ -800,9 +810,9 @@ _(null)_
 > Votre sécurité et votre santé sont toujours prioritaires. Le dermopigmentation est une question de beauté, mais surtout de soin, de responsabilité et de respect de votre corps.
 
 
-#### Q5. 5. Que dois-je faire avant l'intervention ?
+#### Q5.  Que dois-je faire avant l'intervention ?
 
-- **Question:** 5. Que dois-je faire avant l'intervention ?
+- **Question:**  Que dois-je faire avant l'intervention ?
 - **YouTube:** https://youtu.be/PiBWeeLTkmY
 - **Vimeo:** https://vimeo.com/1134716102/1ec7d290c9?fl=ls&fe=ec
 - **Answer:**
@@ -824,9 +834,9 @@ _(null)_
 > La préparation avant le camouflage des cicatrices n'est pas compliquée, mais chaque détail compte énormément. J'apporte mon expérience et mon œil exercé, vous venez avec une peau préparée et ensemble, nous rendons cette cicatrice invisible, afin que vous vous sentiez à nouveau complet(e).
 
 
-#### Q6. 7. Que se passe-t-il immédiatement après et comment entretenir la procédure ?
+#### Q6. Que se passe-t-il immédiatement après et comment entretenir la procédure ?
 
-- **Question:** 7. Que se passe-t-il immédiatement après et comment entretenir la procédure ?
+- **Question:** Que se passe-t-il immédiatement après et comment entretenir la procédure ?
 - **YouTube:** https://youtu.be/6L2seTnSj3s
 - **Vimeo:** https://vimeo.com/1134716082/500b75cc17?fl=ls&fe=ec
 - **Answer:**
@@ -843,9 +853,9 @@ _(null)_
 > En bref, j'apporte la technique et le pigment appropriés, vous apportez la patience et les soins quotidiens, et ensemble, nous transformons votre cicatrice en un souvenir aussi discret que possible, qui ne vous dérangera plus chaque fois que vous le verrez.
 
 
-#### Q7. 9. Pourquoi deux séances sont-elles nécessaires ?
+#### Q7. Pourquoi deux séances sont-elles nécessaires ?
 
-- **Question:** 9. Pourquoi deux séances sont-elles nécessaires ?
+- **Question:** Pourquoi deux séances sont-elles nécessaires ?
 - **YouTube:** https://youtu.be/mLKNBFYtIz4
 - **Vimeo:** https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec
 - **Answer:**
@@ -861,9 +871,9 @@ _(null)_
 > En bref : la première procédure prépare le terrain et la retouche finalise le travail. Sans retouche, le résultat n'est qu'à moitié satisfaisant. Avec la retouche, vous obtenez les sourcils, les lèvres ou les aréoles que vous souhaitez, pour plus longtemps et sans surprises.
 
 
-#### Q8. 10. Combien de temps le pigment tient-il ?
+#### Q8. Combien de temps le pigment tient-il ?
 
-- **Question:** 10. Combien de temps le pigment tient-il ?
+- **Question:** Combien de temps le pigment tient-il ?
 - **YouTube:** https://youtu.be/d9dOl5zdmf4
 - **Vimeo:** https://vimeo.com/1134716119/4ab08a2278?fl=ls&fe=ec
 - **Answer:**
@@ -890,7 +900,17 @@ _(null)_
 
 ### Form notes
 
-_(null)_
+- **Step 2 row label:** in formularul de programare la pasul 2 - sub alege data
+- **Step 2 text:** Voulez-vous une autre procédure ?
+- **Step 3 row label:** _(null)_
+- **Step 3 heading:** _(null)_
+- **Intro:** _(null)_
+- **Branching column header:** _(null)_
+
+**Questions (0):**
+
+- **Free-text prompt:** _(null)_
+- **Free-text note:** _(null)_
 
 ### Sheet column labels (Romanian scaffolding, verbatim)
 
@@ -1102,7 +1122,17 @@ _(null)_
 
 ### Form notes
 
-_(null)_
+- **Step 2 row label:** in formularul de programare la pasul 2 - sub alege data
+- **Step 2 text:** Voulez-vous une autre procédure ?
+- **Step 3 row label:** _(null)_
+- **Step 3 heading:** _(null)_
+- **Intro:** _(null)_
+- **Branching column header:** _(null)_
+
+**Questions (0):**
+
+- **Free-text prompt:** _(null)_
+- **Free-text note:** _(null)_
 
 ### Sheet column labels (Romanian scaffolding, verbatim)
 
@@ -1151,7 +1181,7 @@ _(null)_
 
 - **Question:** Quels types de pigments utilisez-vous ?
 - **YouTube:** https://youtu.be/b3HjevfQySQ
-- **Vimeo:** **— MISSING —**
+- **Vimeo:** https://vimeo.com/1134716206
 - **Answer:**
 
 >
@@ -1297,7 +1327,17 @@ _(null)_
 
 ### Form notes
 
-_(null)_
+- **Step 2 row label:** in formularul de programare la pasul 2 - sub alege data
+- **Step 2 text:** Voulez-vous une autre procédure ?
+- **Step 3 row label:** _(null)_
+- **Step 3 heading:** _(null)_
+- **Intro:** _(null)_
+- **Branching column header:** _(null)_
+
+**Questions (0):**
+
+- **Free-text prompt:** _(null)_
+- **Free-text note:** _(null)_
 
 ### Sheet column labels (Romanian scaffolding, verbatim)
 
@@ -1495,7 +1535,17 @@ _(null)_
 
 ### Form notes
 
-_(null)_
+- **Step 2 row label:** in formularul de programare la pasul 2 - sub alege data
+- **Step 2 text:** Voulez-vous une autre procédure ?
+- **Step 3 row label:** _(null)_
+- **Step 3 heading:** _(null)_
+- **Intro:** _(null)_
+- **Branching column header:** _(null)_
+
+**Questions (0):**
+
+- **Free-text prompt:** _(null)_
+- **Free-text note:** _(null)_
 
 ### Sheet column labels (Romanian scaffolding, verbatim)
 
@@ -1569,7 +1619,7 @@ _(null)_
 
 | # | Path | URL |
 |---|---|---|
-| 1 | `home.carousel[0].vimeo_url` | https://vimeo.com/1134716314/7dd73b5046?fl=ls&fe=ec |
+| 1 | `home.carousel[0].vimeo_url` | https://vimeo.com/1143404826?share=copy&fl=sv&fe=ci |
 | 2 | `home.carousel[1].vimeo_url` | https://vimeo.com/1134716271/9def773e63?fl=ls&fe=ec |
 | 3 | `home.carousel[2].vimeo_url` | https://vimeo.com/1134716322/39c3d035fb?fl=tl&fe=ec |
 | 4 | `home.carousel[3].vimeo_url` | https://vimeo.com/1134716302/e86de2235d?fl=ls&fe=ec |
@@ -1607,24 +1657,98 @@ _(null)_
 | 36 | `spr.faq[7].vimeo_url` | https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec |
 | 37 | `spr.faq[8].vimeo_url` | https://vimeo.com/1134716362/6ba8eb25fa?fl=ls&fe=ec |
 | 38 | `eyeliner.faq[0].vimeo_url` | https://vimeo.com/1134716181/3a2f2bc358?fl=ls&fe=ec |
-| 39 | `eyeliner.faq[2].vimeo_url` | https://vimeo.com/1134716246/bb38fba147?fl=ls&fe=ec |
-| 40 | `eyeliner.faq[3].vimeo_url` | https://vimeo.com/1134716236/21b0f9976b?fl=ls&fe=ec |
-| 41 | `eyeliner.faq[4].vimeo_url` | https://vimeo.com/1134716198/a0f8032a4d?fl=ls&fe=ec |
-| 42 | `eyeliner.faq[5].vimeo_url` | https://vimeo.com/1134716159/c7297e3049?fl=ls&fe=ec |
-| 43 | `eyeliner.faq[6].vimeo_url` | https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec |
-| 44 | `eyeliner.faq[7].vimeo_url` | https://vimeo.com/1134716219/a7fe44c784?fl=ls&fe=ec |
-| 45 | `buze.faq[0].vimeo_url` | https://vimeo.com/1134715992/00cda924bb?fl=ls&fe=ec |
-| 46 | `buze.faq[1].vimeo_url` | https://vimeo.com/1134716026/b027097bbc?fl=ls&fe=ec |
-| 47 | `buze.faq[2].vimeo_url` | https://vimeo.com/1134716246/bb38fba147?fl=ls&fe=ec |
-| 48 | `buze.faq[3].vimeo_url` | https://vimeo.com/1134716236/21b0f9976b?fl=ls&fe=ec |
-| 49 | `buze.faq[4].vimeo_url` | https://vimeo.com/1134716007/36250010e9?fl=ls&fe=ec |
-| 50 | `buze.faq[5].vimeo_url` | https://vimeo.com/1134715980/c78f4de842?fl=ls&fe=ec |
-| 51 | `buze.faq[6].vimeo_url` | https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec |
-| 52 | `buze.faq[7].vimeo_url` | https://vimeo.com/1134716037/f27b34f110?fl=ls&fe=ec |
-| 53 | `lp_para.vimeo_url` | https://vimeo.com/1134716349/bc2b442b69?fl=ls&fe=ec |
-| 54 | `lp_cosmetic.vimeo_url` | https://vimeo.com/1134716332/64c83a1773?fl=ls&fe=ec |
-| 55 | `cont.videos[0].vimeo_url` | https://vimeo.com/1134716148/7a55e6beb5?fl=ls&fe=ec |
-| 56 | `cont.videos[1].vimeo_url` | https://vimeo.com/1134716137/3025a2d9fd?fl=ls&fe=ec |
+| 39 | `eyeliner.faq[1].vimeo_url` | https://vimeo.com/1134716206 |
+| 40 | `eyeliner.faq[2].vimeo_url` | https://vimeo.com/1134716246/bb38fba147?fl=ls&fe=ec |
+| 41 | `eyeliner.faq[3].vimeo_url` | https://vimeo.com/1134716236/21b0f9976b?fl=ls&fe=ec |
+| 42 | `eyeliner.faq[4].vimeo_url` | https://vimeo.com/1134716198/a0f8032a4d?fl=ls&fe=ec |
+| 43 | `eyeliner.faq[5].vimeo_url` | https://vimeo.com/1134716159/c7297e3049?fl=ls&fe=ec |
+| 44 | `eyeliner.faq[6].vimeo_url` | https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec |
+| 45 | `eyeliner.faq[7].vimeo_url` | https://vimeo.com/1134716219/a7fe44c784?fl=ls&fe=ec |
+| 46 | `buze.faq[0].vimeo_url` | https://vimeo.com/1134715992/00cda924bb?fl=ls&fe=ec |
+| 47 | `buze.faq[1].vimeo_url` | https://vimeo.com/1134716026/b027097bbc?fl=ls&fe=ec |
+| 48 | `buze.faq[2].vimeo_url` | https://vimeo.com/1134716246/bb38fba147?fl=ls&fe=ec |
+| 49 | `buze.faq[3].vimeo_url` | https://vimeo.com/1134716236/21b0f9976b?fl=ls&fe=ec |
+| 50 | `buze.faq[4].vimeo_url` | https://vimeo.com/1134716007/36250010e9?fl=ls&fe=ec |
+| 51 | `buze.faq[5].vimeo_url` | https://vimeo.com/1134715980/c78f4de842?fl=ls&fe=ec |
+| 52 | `buze.faq[6].vimeo_url` | https://vimeo.com/1134716258/37a6e600dd?fl=ls&fe=ec |
+| 53 | `buze.faq[7].vimeo_url` | https://vimeo.com/1134716037/f27b34f110?fl=ls&fe=ec |
+| 54 | `lp_para.vimeo_url` | https://vimeo.com/1134716349/bc2b442b69?fl=ls&fe=ec |
+| 55 | `lp_cosmetic.vimeo_url` | https://vimeo.com/1134716332/64c83a1773?fl=ls&fe=ec |
+| 56 | `cont.videos[0].vimeo_url` | https://vimeo.com/1134716148/7a55e6beb5?fl=ls&fe=ec |
+| 57 | `cont.videos[1].vimeo_url` | https://vimeo.com/1134716137/3025a2d9fd?fl=ls&fe=ec |
 
-**Total Vimeo URLs: 56**
+**Total Vimeo URLs: 57**
 
+---
+
+## YouTube URL index
+
+| # | Path | URL |
+|---|---|---|
+| 1 | `home.carousel[0].youtube_url` | https://youtu.be/ZcIlRWW-cTA |
+| 2 | `home.carousel[1].youtube_url` | https://youtu.be/3bXGGxHHDAk |
+| 3 | `home.carousel[2].youtube_url` | https://youtu.be/wTuVsy8s_Os |
+| 4 | `home.carousel[3].youtube_url` | https://youtu.be/08G7Zz5H4ZQ |
+| 5 | `home.carousel[4].youtube_url` | https://youtu.be/55sceDSOS9M |
+| 6 | `areola.faq[0].youtube_url` | https://youtu.be/M7IsEFvv7u4 |
+| 7 | `areola.faq[1].youtube_url` | https://youtu.be/ehLwZAS0l9I |
+| 8 | `areola.faq[2].youtube_url` | https://youtu.be/IVF1A74ZnT4 |
+| 9 | `areola.faq[3].youtube_url` | https://youtu.be/ehk7KGKykIc |
+| 10 | `areola.faq[4].youtube_url` | https://youtu.be/yWXBUUCxTvw |
+| 11 | `areola.faq[5].youtube_url` | https://youtu.be/mLKNBFYtIz4 |
+| 12 | `areola.faq[6].youtube_url` | https://youtu.be/5weA6iKGQIQ |
+| 13 | `alopecie.faq[0].youtube_url` | https://youtu.be/XQlvXcY2_sU |
+| 14 | `alopecie.faq[1].youtube_url` | https://youtu.be/HJHXgJEJOpI |
+| 15 | `alopecie.faq[2].youtube_url` | https://youtu.be/IVF1A74ZnT4 |
+| 16 | `alopecie.faq[3].youtube_url` | https://youtu.be/Y-mUDbaI0O8 |
+| 17 | `alopecie.faq[4].youtube_url` | https://youtu.be/H33shyIp8VE |
+| 18 | `alopecie.faq[5].youtube_url` | https://youtu.be/iny_0COrsdM |
+| 19 | `alopecie.faq[6].youtube_url` | https://youtu.be/mLKNBFYtIz4 |
+| 20 | `alopecie.faq[7].youtube_url` | https://youtu.be/7tg8DFp2n0w |
+| 21 | `cicatrici.faq[0].youtube_url` | https://youtu.be/gNlECnPmecE |
+| 22 | `cicatrici.faq[1].youtube_url` | https://youtu.be/yfMCWfuly9k |
+| 23 | `cicatrici.faq[2].youtube_url` | https://youtu.be/IVF1A74ZnT4 |
+| 24 | `cicatrici.faq[3].youtube_url` | https://youtu.be/Y-mUDbaI0O8 |
+| 25 | `cicatrici.faq[4].youtube_url` | https://youtu.be/PiBWeeLTkmY |
+| 26 | `cicatrici.faq[5].youtube_url` | https://youtu.be/6L2seTnSj3s |
+| 27 | `cicatrici.faq[6].youtube_url` | https://youtu.be/mLKNBFYtIz4 |
+| 28 | `cicatrici.faq[7].youtube_url` | https://youtu.be/d9dOl5zdmf4 |
+| 29 | `spr.faq[0].youtube_url` | https://youtu.be/anC75AD6Qm8 |
+| 30 | `spr.faq[1].youtube_url` | https://youtu.be/Ne7kFEECIic |
+| 31 | `spr.faq[2].youtube_url` | https://youtu.be/l4i-tzCTTeo |
+| 32 | `spr.faq[3].youtube_url` | https://youtu.be/IVF1A74ZnT4 |
+| 33 | `spr.faq[4].youtube_url` | https://youtu.be/Y-mUDbaI0O8 |
+| 34 | `spr.faq[5].youtube_url` | https://youtu.be/oD9O0Lj3sxk |
+| 35 | `spr.faq[6].youtube_url` | https://youtu.be/35AXNUxeyX4 |
+| 36 | `spr.faq[7].youtube_url` | https://youtu.be/mLKNBFYtIz4 |
+| 37 | `spr.faq[8].youtube_url` | https://youtu.be/2qKDf1-8Uqo |
+| 38 | `eyeliner.faq[0].youtube_url` | https://youtu.be/Fk-dCuYwKow |
+| 39 | `eyeliner.faq[1].youtube_url` | https://youtu.be/b3HjevfQySQ |
+| 40 | `eyeliner.faq[2].youtube_url` | https://youtu.be/IVF1A74ZnT4 |
+| 41 | `eyeliner.faq[3].youtube_url` | https://youtu.be/Y-mUDbaI0O8 |
+| 42 | `eyeliner.faq[4].youtube_url` | https://youtu.be/zfTiuIhGRUU |
+| 43 | `eyeliner.faq[5].youtube_url` | https://youtu.be/7PsYRdNGrNQ |
+| 44 | `eyeliner.faq[6].youtube_url` | https://youtu.be/mLKNBFYtIz4 |
+| 45 | `eyeliner.faq[7].youtube_url` | https://youtu.be/CaEVbNRI7TY |
+| 46 | `buze.faq[0].youtube_url` | https://youtu.be/s9SV_-uLtHQ |
+| 47 | `buze.faq[1].youtube_url` | https://youtu.be/iKzCmlhHDww |
+| 48 | `buze.faq[2].youtube_url` | https://youtu.be/IVF1A74ZnT4 |
+| 49 | `buze.faq[3].youtube_url` | https://youtu.be/Y-mUDbaI0O8 |
+| 50 | `buze.faq[4].youtube_url` | https://youtu.be/xfQM-rwf5qw |
+| 51 | `buze.faq[5].youtube_url` | https://youtu.be/NFuLUE7VLtM |
+| 52 | `buze.faq[6].youtube_url` | https://youtu.be/mLKNBFYtIz4 |
+| 53 | `buze.faq[7].youtube_url` | https://youtu.be/2LjuUX1UnsI |
+| 54 | `lp_para.youtube_url` | https://youtu.be/Ui26rjTuHCo |
+| 55 | `lp_cosmetic.youtube_url` | https://youtu.be/eWU67Qy8GRk |
+| 56 | `cont.videos[0].youtube_url` | https://youtu.be/MYJHOGBxq2o |
+| 57 | `cont.videos[1].youtube_url` | https://youtu.be/C63mD119O2o |
+
+**Total YouTube URLs: 57**
+
+---
+
+## Unplaced cells (0)
+
+Cells the extractor could not place with confidence, verbatim.
+
+_(none)_

@@ -5731,3 +5731,122 @@ HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
 **Merged:** PR #35 → main at `2fd3847`, 2026-09-28.
 CERTIFIED: Tower PASS 2026-09-28 (fresh-clone cert: 3 sha256 +
 sizes match input, diff scope 3 binaries + LEDGER pure-append).
+
+## Entry #66 — 2026-09-28 — Lap C-1b: les trois voix (trilingual re-extraction)
+
+**Scope:** the three C-0b source workbooks re-extracted into structured
+JSON through a committed, re-runnable extractor. `content/fr.json`
+refreshed; `content/en.json` and `content/ro.json` created; the three
+`*-review.md` files regenerated/created. Extraction only: no page, no
+css/js, no `docs/`, no `_ingest/`, no `content/source/` touched.
+
+**Inputs (sha256, verified before and after, unchanged):**
+- en `2098ef701c6398307d153c8fcc7f403f12eaa3b7de4e28b2f85294f6e0eab56b`
+- fr `66f1025e054ace543e2614277524c731899c1a6afd8323737b96df0f2ef94752`
+- ro `a320b145bdd5ed534ee91e6c4240880bafcd53ef5383201a74f9b59c7df5126a`
+
+**Extractor:** `tools/extract_content.py` (Python 3, openpyxl
+`read_only=True`; built with openpyxl 3.1.5 on Python 3.9.6). One run
+writes both `content/<lang>.json` and `content/<lang>-review.md`:
+
+    python tools/extract_content.py fr
+    python tools/extract_content.py en
+    python tools/extract_content.py ro
+
+Cells are located by label (`titlu video`, `cta intrebari`, `pasul 3`,
+…), URL shape, column header and block structure — never coordinates.
+Every placed cell is ledgered; any cell left over lands in `_unplaced`.
+Audit: every JSON string (bar the `cont` prefix-stripped fields the
+schema already derived in C-1) equals a source cell byte-for-byte, and
+placed + unplaced = all cells (fr 379, en 377, ro 413). Review-renderer
+fidelity: rendering the OLD `fr.json` reproduces the OLD
+`fr-review.md` byte-for-byte, plus one addition (YouTube URL index, for
+"every URL listed") and a new Unplaced section.
+
+**Determinism:** two full runs, identical sha256 on all six outputs:
+- fr.json `d4c5632678362b723ab6ec9281daae3f1642e91f817d62841eee639d62eedad2`
+- en.json `e2d4f39d0c9f3d7381ff568e9b49610f2dd32b8cf92535766872099e357f4217`
+- ro.json `82bceab12147000b974f75d634b1cf389e936194cdb4adee936445b4c13c98b6`
+- fr-review.md `d50d9bb0bd1df65a00522265e6857508f94af5bdb4517be8827690eada206f2d`
+- en-review.md `fccbd18aaa77c97747be72ed0c13a4b336b909bf59e129baf332b21991308055`
+- ro-review.md `ce3640039e5ea26a8dffa065c33e5702168a410f67ae87e5db2f9846bdb6a9b9`
+
+**Counts:** strings (non-null leaves outside `_meta`/`_unplaced`) /
+characters / Vimeo / YouTube / `_unplaced`:
+fr 395 / 108,127 / 57 / 57 / 0 · en 394 / 94,980 / 57 / 57 / 0 ·
+ro 415 / 97,650 / 57 / 57 / 14. Per sheet (all three languages
+identical): Home 5+5, areola 7+7, alopecie 8+8, cicatrici 8+8, spr 9+9,
+eyeliner 8+8, buze 8+8, LP para 1+1, lp cosmetic 1+1, cont 2+2.
+No URL is shared between languages.
+
+**Schema reading (flag for Tower):** the key tree of C-1 `fr.json` is
+held in all three files. Two readings needed a call: (1) on the five
+non-areola service pages `form_notes` was `null` in C-1 because the
+step-2 row didn't exist; it now exists on all six sheets, so
+`form_notes` takes areola's shape with unfilled slots null.
+(2) `_meta.source_sha256` and top-level `_unplaced` added per key.
+
+**Parity (non-null in one language, null/absent in another):**
+- FR↔EN: FR-only `areola.form_notes.questions[2].branching`,
+  `questions[3].branching`, `free_text.note`; EN-only
+  `areola.form_notes.questions[0].extra`, `spr._sheet_labels.A1`.
+- FR↔RO: FR-only `lp_cosmetic._headers.youtube`; RO-only
+  `areola.form_notes.questions[0].extra` and, on alopecie, cicatrici,
+  spr, eyeliner, buze: `form_notes.step3.row_label`, `.step3.heading`,
+  `.intro`, `.branching_column_header` (20 paths).
+- EN↔RO: EN-only `spr._sheet_labels.A1`, `lp_cosmetic._headers.youtube`;
+  RO-only `areola.form_notes.questions[2].branching`, `[3].branching`,
+  `free_text.note` + the same 20 RO-only form-block paths.
+All list lengths match across languages (FAQ 7/8/8/9/8/8, carousel 5,
+steps 3×3, areola questions 16).
+
+**`_unplaced`:** fr 0, en 0, ro 14 — `s. areola` I4 (unlabelled line
+beside the Galerie tab), `s. areola` K26 (whitespace-only), and the
+twelve `<- TITLU` / `<- TEXT EXPLICATIV` arrows (C102/C103 on areola;
+C100/C101 on the five other service sheets).
+
+**Source defects observed — reported, NOT fixed:**
+- EN `s.alopecie` B3 — questions intro is Romanian text.
+- FR `s. cicatrici` C6 (pain answer) byte-identical to C5 (pigments).
+- EN `s. areola` F105, F106 — no branching cell for the radiotherapy and
+  chemotherapy questions (FR/RO carry one).
+- EN `s. areola` — no free-text note next to B120 (FR C121 / RO C122).
+- EN `spr` — `titlu video` in A1, title in B2, A2 empty; B1 holds the
+  column header. Extractor placed B2 as title.
+- RO `lp cosmetic` A1 — YouTube URL in the header row, no header.
+  FR `lp cosmetic` header B1 sits over an A2 URL (column mismatch).
+- RO `LP para` A2 — same video (R0d-AAGRoPk) as RO `Home Page` C5.
+- RO `Home Page` C3 — YouTube URL with a trailing space.
+- RO five service sheets rows 100–101 — medical-form header block with
+  no questions beneath it.
+- FR `s. areola` A5, A7–A10 still numbered ("2. " … "10. "), contrary to
+  C-0b's "FAQ numbering removed".
+- Leading spaces / quote marks (kept verbatim): FR `s.alopecie` A8,
+  `s. cicatrici` A8; EN `s. areola` A5, A7, A8, `s.alopecie` A5, A7, A8,
+  `s. cicatrici` B3, `buze` A10; RO `spr` B2, `s. cicatrici` B3,
+  `s. areola` I4. RO `s. areola` A6 double space.
+- EN `Home Page` B24 "We here for you" (no "CTA:" prefix, verb missing).
+Language scan: EN `s.alopecie` B3 is the only content cell whose
+language doesn't match its workbook.
+
+**Ruling source:** Lap C-1b ignition key (Commander-issued).
+
+>> BATON
+STATE: branch `c1b-trilingual-extract` — extractor + 3 JSON + 3 review
+  files committed, PR open, not merged.
+CERTIFIED: pending Tower.
+OPEN: the source defects above (client-side, unfixed in source); schema
+  reading on non-areola `form_notes` (null → object) awaits Tower;
+  C5 phone fix lap; `_ingest/` ruling; `docs/POLARIS.md` retirement
+  ruling (C1); Conflict C3 (refonte FR duplicate divergent); repo
+  visibility + webdev delivery scope.
+NEXT: Tower cert of C-1b; then the overlay lap (C-2b adaptations live
+  there, never in the mirror).
+TRAPS: the JSON is a mirror — any correction goes in the overlay, never
+  in `content/*.json` by hand (the next extractor run would erase it).
+  Columns drift per language (FAQ answers B/C, Vimeo G/H, step-2 text
+  B/C, areola form block rows 101/100/102): never add coordinates to
+  the extractor. `row` in `form_notes.questions` is the source row
+  and moves when the workbook moves.
+HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
+  signals n/a
