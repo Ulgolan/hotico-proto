@@ -29,7 +29,7 @@ Nothing here is edited, corrected, or normalised. Line breaks inside cells are s
 - **Title:** À propos de HOTICO
 - **CTA:** Comment la dermopigmentation peut-elle apporter beauté naturelle, guérison émotionnelle et force personnelle ? Découvrez la réponse dans cette vidéo manifeste signée Alexandra Hotico.
 - **YouTube:** https://youtu.be/ZcIlRWW-cTA
-- **Vimeo:** https://vimeo.com/1143404826?share=copy&fl=sv&fe=ci
+- **Vimeo:** https://vimeo.com/1143404826?share=copy
 - **Body:**
 
 > Je suis la fondatrice de HOTICO - Institut de Restauration. Depuis plus de huit ans, je pratique la dermopigmentation réparatrice et le maquillage permanent, par vocation.
@@ -1619,7 +1619,7 @@ _(null)_
 
 | # | Path | URL |
 |---|---|---|
-| 1 | `home.carousel[0].vimeo_url` | https://vimeo.com/1143404826?share=copy&fl=sv&fe=ci |
+| 1 | `home.carousel[0].vimeo_url` | https://vimeo.com/1143404826?share=copy |
 | 2 | `home.carousel[1].vimeo_url` | https://vimeo.com/1134716271/9def773e63?fl=ls&fe=ec |
 | 3 | `home.carousel[2].vimeo_url` | https://vimeo.com/1134716322/39c3d035fb?fl=tl&fe=ec |
 | 4 | `home.carousel[3].vimeo_url` | https://vimeo.com/1134716302/e86de2235d?fl=ls&fe=ec |

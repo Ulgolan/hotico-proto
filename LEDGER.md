@@ -5855,3 +5855,197 @@ HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
 CERTIFIED: Tower PASS 2026-09-28 (fresh-clone re-run: 6 outputs
 byte-identical, verbatim audit clean, FR delta = C-0b diff;
 form_notes reading accepted).
+
+## Entry #67 — 2026-09-28 — Lap C-1c: le dictionnaire (dev export)
+
+**Scope:** `tools/extract_content.py` gains a `merge` mode that writes
+ONE developer-facing file, `content/translations.json`: one block per
+text, each block `{ro, en, fr}`, keyed by dotted ID from the key path
+(`page.section.element`, list items numbered from 1, e.g.
+`alopecie.faq.3.answer`). New source `content/source/ui-labels.json`
+holds eight `nav.*` labels. No xlsx, no `content/{fr,en,ro}.json`, no
+review file, no html/css/js/docs touched.
+
+**Commander override (2026-09-28):** the eight `nav.*` UI labels
+(areola, scars, alopecia, brows, eyeliner, lips, home, account) are
+Commander-authored, not Alexandra's text. They sit first in the export.
+
+**Command:**
+
+    python tools/extract_content.py merge
+
+**Input gate:** `python tools/extract_content.py fr|en|ro` re-run
+(openpyxl 3.1.5 in a scratch venv, not in the repo) before and after
+the extractor edit: all six committed outputs byte-identical.
+
+**Rules applied:** Romanian key order is the baseline; an ID missing
+from RO goes right after the ID before it in its own language. Values
+are copied verbatim (URLs included, since videos differ per language).
+`null` means the language lacks the text. Excluded, never exported:
+`_meta`, `_unplaced`, `_sheet_labels`, `_headers`, `row`, `row_label`,
+`*_row_label`, `branching_column_header`, `note`, `branching`.
+`_meta` of the export: lap, command, law, and the four sources with
+sha256 (ui-labels `55c32e66…f219`; ro/en/fr = the C-1b hashes).
+
+**EXIT REPORT**
+
+(a) 402 blocks (8 nav + 394 content). All 3 languages: 319. Missing
+ro 72 · missing en 82 · missing fr 83. The 72 missing-ro blocks are all
+all-null, so no block has FR/EN text without RO. All-null blocks
+(72) are the schema's empty slots: `home.hero.h1`, `home.pasii.intro`,
+`home.pasii.steps.{1,2,3}.body`, `home.form.{labels,options,confirmation}`,
+`home.reviews.items`, `home.footer`, `<service>.pricing` ×6,
+`<service>.gallery` ×6, `areola.form_notes.questions.N.{options,extra}`
+for N = 2, 5–16 (26), `<5 non-areola>.tabs`, `.form_notes.step3`,
+`.form_notes.questions`, `.form_notes.free_text` (20),
+`lp_para.text`, `lp_cosmetic.text`, `cont.videos.2.cta`,
+`cont.videos.2._verbatim.cta`.
+
+(b) RO-only blocks (10): `alopecie.form_notes.step3.heading`,
+`alopecie.form_notes.intro`, `cicatrici.form_notes.step3.heading`,
+`cicatrici.form_notes.intro`, `spr.form_notes.step3.heading`,
+`spr.form_notes.intro`, `eyeliner.form_notes.step3.heading`,
+`eyeliner.form_notes.intro`, `buze.form_notes.step3.heading`,
+`buze.form_notes.intro`.
+
+(c) FR/EN-only IDs (5, all all-null): `<page>.form_notes.step3` for
+alopecie, cicatrici, spr, eyeliner, buze. Each placed right after
+`<page>.form_notes.step2.text`, just before RO's
+`<page>.form_notes.step3.heading`. Cause: FR/EN hold `step3: null`
+where RO holds a `step3` object, so the null leaf becomes its own ID.
+Kept, never dropped, per key. FLAG for Tower: each of these IDs is
+a prefix of an RO-only ID (`…step3` / `…step3.heading`).
+
+(d) Determinism: merge run twice, identical sha256
+`0960330727987e001a45a17c2a9a05a1387d23a34d646ebb545874d394c10664`.
+Verbatim audit: every content block value equals the flattened source
+leaf (0 mismatches); IDs unique.
+
+(e) Excluded paths (counted at the exclusion point; ro / en / fr):
+- `_meta` 1/1/1 · `_unplaced` 1/1/1 (top level)
+- `_sheet_labels` 7/7/7: home, areola, alopecie, cicatrici, spr,
+  eyeliner, buze
+- `_headers` 2/2/2: lp_para, lp_cosmetic
+- `row` 16/16/16: `areola.form_notes.questions.N.row`
+- `row_label` 17/12/12: `home.hero`, `home.services_menu`,
+  `home.form.gdpr`, `home.form.cancellation`, `areola.tabs`,
+  `<6 service>.form_notes.step2`, `areola.form_notes.step3`, and
+  (RO only) `<5 non-areola>.form_notes.step3`
+- `*_row_label` 20/20/20: `home.hero.cta_row_label`,
+  `<6 service>.intro.{title,cta,questions}_row_label`,
+  `cont.vimeo_row_label`
+- `branching_column_header` 6/6/6: `<6 service>.form_notes`
+- `note` 17/17/17: `areola.form_notes.questions.N.note` (16),
+  `areola.form_notes.free_text.note`
+- `branching` 16/16/16: `areola.form_notes.questions.N.branching`
+Totals: ro 103 · en 98 · fr 98.
+
+(f) Exported blocks containing a flagged string (report only, export
+verbatim):
+- `home.pasii.steps.1.items.3`: ro "pasul" (page prose: "să fac
+  pasul către tine", not an instruction)
+- `areola.form_notes.questions.1.options`: ro/en/fr "coloana"
+- `areola.form_notes.questions.1.extra`: ro "Coloana"
+- `areola.form_notes.questions.3.options`: ro/fr "Coloana"
+- `areola.form_notes.questions.3.extra`: ro "Coloana"
+- `areola.form_notes.questions.4.options`: fr "Coloana"
+None for "daca", "->", "bifeaz".
+
+**Not in the exclusion list, exported as-is (FLAG for Tower):**
+`cont.videos.{1,2}.slot` (Romanian slot keys "pregatire",
+"intretinere"), and `cont.videos.{1,2}._verbatim.{youtube,title,cta,vimeo}`
+(prefixed duplicates of the clean title/cta/url blocks). That is 10
+blocks.
+
+**Tower corrections carried:**
+"Tower error (C-0b entry #65): the diff summary said FAQ
+numbering was removed in all 3 languages; FR s. areola A5,
+A7–A10 keep it. Caught by the C-1b Hands against source."
+"The C-1b BATON's NEXT (overlay lap) is superseded by
+Commander priority: C-1c first, overlay after."
+
+**Ruling source:** Lap C-1c ignition key (Commander-issued), and the
+Commander override of 2026-09-28 for the nav labels.
+
+>> BATON
+STATE: branch `c1c-dev-export`: extractor merge mode + ui-labels +
+  translations.json committed, PR open, not merged.
+CERTIFIED: pending Tower.
+OPEN: FR/EN `step3: null` vs RO object gives 5 all-null prefix IDs
+  (c). `slot` / `_verbatim` exported because they are not in the
+  exclusion list. "Coloana"/"coloana" column scaffolding inside areola
+  form option values (f). All C-1b OPEN items stand (source defects,
+  C5 phone fix, `_ingest/`, POLARIS retirement C1, Conflict C3, repo
+  visibility + webdev delivery scope).
+NEXT: Tower cert of C-1c; then the overlay lap (C-2b adaptations).
+TRAPS: `translations.json` is generated. Never hand-edit it; re-run
+  `merge` after any `content/<lang>.json` change (its `_meta` hashes
+  will drift otherwise). The nav labels live only in
+  `content/source/ui-labels.json`. The site does not read `content/`
+  at runtime.
+HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
+  signals n/a
+
+CERTIFIED: Tower PASS-WITH-CORRECTIONS 2026-09-30 (fresh clone: 3
+lang outputs byte-identical; translations.json sha 0960330727987e00…
+reproduced twice; verbatim audit 0 mismatches; scope 4 files; LEDGER
+pure-append). Corrections C1-C2 carried by Lap C-1d, stacked on this
+branch by Tower ruling; merges with it.
+
+## Entry #68 — 2026-09-30 — Lap C-1d: sacred source
+
+**Branch:** `c1d-sacred-source`, cut from `origin/c1c-dev-export`
+(8498a34; origin/main 925e160). Stacked on the unmerged C-1c by Tower
+ruling; one merge carries both.
+
+**What changed:**
+- The Commander's three workbooks are now the canonical source,
+  byte-copied (never opened or re-saved) into `content/source/`.
+  Provenance: folder `~/Downloads/TEXTE ALEXANDRA GOOD`; originals
+  `Engleza link-uri video + text hotico.ink.xlsx` → `hotico-content-en.xlsx`,
+  `Franceza link-uri video + text hotico.ink.xlsx` → `hotico-content-fr.xlsx`,
+  `Romana link-uri video + text hotico.ink.xlsx` → `hotico-content-ro.xlsx`.
+  sha256 verified before and after copy: en 0ec15813…, fr 03ffa097…,
+  ro 126996bc…. Downloads untouched.
+- `python tools/extract_content.py fr|en|ro` re-run. en.json and
+  ro.json identical to before outside `_meta`; fr.json differs only at
+  `home.carousel[0].vimeo_url` (→ `https://vimeo.com/1143404826?share=copy`)
+  and `_meta`.
+- C1: `slot` and `_verbatim` added to `EXCLUDE_KEYS` (10 blocks out).
+- C2: merge drops all-null blocks whose ID is a strict prefix of another
+  ID (5 blocks, each reported): `alopecie|cicatrici|spr|eyeliner|buze
+  .form_notes.step3`. `MERGE_LAP = "C-1d"`.
+- `translations.json`: 387 blocks (402 − 10 − 5); only content change
+  `home.carousel.1.vimeo_url` fr; zero prefix collisions; verbatim audit
+  942 values, 0 mismatches; merge run twice, sha256 identical
+  (292846ec…).
+
+**Tower corrections carried:**
+"Tower error (certification of PRODUCTION-HANDOFF, 2026-08-23):
+§19 states `node matrix.js && node sens.js` pass 210/210 and 52/52.
+Since the v26 focus guard (2026-08-19) both crash on main: the
+harness DOM shim lacks `document.addEventListener`. Engine intact:
+with a 2-line shim patch in a scratch copy, matrix 210/210 and
+sens ALL ASSERTIONS PASS (Tower, 2026-09-30). Shim repair parked
+to backlog; not fixed in this lap."
+
+**Ruling source:** Lap C-1d ignition key v3 (Commander-issued) and
+Tower ruling of 2026-09-30 on branch stacking.
+
+>> BATON
+STATE: branch `c1d-sacred-source` (stacked on `c1c-dev-export`), PR open
+  to main, not merged. Carries the C-1c commits; C-1c PR stays open.
+CERTIFIED: C-1c by Tower PASS-WITH-CORRECTIONS 2026-09-30. C-1d pending
+  Tower.
+OPEN: harness shim repair (backlog). Conflict C3
+  (`docs/spec/refonte/hotico-fr-content.xlsx`) stays logged. Source
+  defects not fixed. "Coloana" scaffolding in areola option values;
+  C-1b/C-1c OPEN items stand (C5 phone fix, `_ingest/`, POLARIS
+  retirement C1, repo visibility + webdev delivery scope).
+NEXT: Tower cert of C-1d; Commander merges once; then the overlay lap.
+TRAPS: `translations.json` is generated; never hand-edit, re-run
+  `merge` after any `content/<lang>.json` change. Extraction needs
+  `openpyxl` (not installed system-wide; used a scratch venv). The
+  workbooks are sha-identified, never re-save them.
+HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main,
+  see Tower error above] · last full eval n/a · signals n/a

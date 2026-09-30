@@ -2,6 +2,11 @@
 """HOTICO content extractor — lap C-1b.
 
 Usage:  python tools/extract_content.py <lang>      (lang = fr | en | ro)
+        python tools/extract_content.py merge       (lap C-1c)
+
+`merge` reads content/{ro,en,fr}.json + content/source/ui-labels.json and
+writes content/translations.json: one block per text, {"ro", "en", "fr"},
+keyed by dotted id (page.section.element, list items from 1).
 
 Reads  content/source/hotico-content-<lang>.xlsx  (openpyxl, read-only load;
 the workbook is never written) and writes
@@ -861,11 +866,101 @@ def render(d):
     return "\n".join(L)
 
 
+# ------------------------------------------------------------------ merge --
+# Lap C-1c: one developer-facing file, one block per text, {ro, en, fr}.
+
+MERGE_LAP = "C-1d"
+MERGE_LANGS = ("ro", "en", "fr")        # block key order; ro is the baseline
+UI_LABELS = "content/source/ui-labels.json"
+TRANSLATIONS = "content/translations.json"
+
+# Romanian developer instructions and spreadsheet coordinates, not page text
+EXCLUDE_KEYS = {"_meta", "_unplaced", "_sheet_labels", "_headers", "row",
+                "slot", "_verbatim",
+                "row_label", "branching_column_header", "note", "branching"}
+
+
+def is_excluded(key):
+    return key in EXCLUDE_KEYS or key.endswith("_row_label")
+
+
+def flatten(o, path, out, excluded):
+    """Leaves -> ordered [(dotted_id, value)]; list items numbered from 1."""
+    if isinstance(o, dict):
+        for k, v in o.items():
+            p = f"{path}.{k}" if path else k
+            if is_excluded(k):
+                excluded.append(p)
+                continue
+            flatten(v, p, out, excluded)
+    elif isinstance(o, list):
+        for i, v in enumerate(o, 1):
+            flatten(v, f"{path}.{i}", out, excluded)
+    else:
+        out.append((path, o))
+
+
+def merge():
+    sources = [UI_LABELS] + [f"content/{l}.json" for l in MERGE_LANGS]
+    with open(os.path.join(ROOT, UI_LABELS), encoding="utf-8") as f:
+        ui = json.load(f)
+    flat, excluded = {}, {}
+    for lang in MERGE_LANGS:
+        with open(os.path.join(ROOT, "content", f"{lang}.json"),
+                  encoding="utf-8") as f:
+            data = json.load(f)
+        flat[lang], excluded[lang] = [], []
+        flatten(data, "", flat[lang], excluded[lang])
+
+    # order: ro baseline; an id missing from ro goes right after the id that
+    # precedes it in its own language (its nearest sibling already placed)
+    order = [i for i, _ in flat["ro"]]
+    placed = set(order)
+    for lang in MERGE_LANGS[1:]:
+        ids = [i for i, _ in flat[lang]]
+        for n, i in enumerate(ids):
+            if i in placed:
+                continue
+            prev = next((p for p in reversed(ids[:n]) if p in placed), None)
+            order.insert(order.index(prev) + 1 if prev else 0, i)
+            placed.add(i)
+
+    values = {lang: dict(flat[lang]) for lang in MERGE_LANGS}
+    out = {"_meta": {
+        "lap": MERGE_LAP,
+        "command": "python tools/extract_content.py merge",
+        "sources": [{"path": s, "sha256": sha256(os.path.join(ROOT, s))}
+                    for s in sources],
+        "law": "verbatim — values copied from the sources; "
+               "null = the language lacks that text",
+    }}
+    for k, block in ui.items():
+        out[k] = {lang: block.get(lang) for lang in MERGE_LANGS}
+    for i in order:
+        out[i] = {lang: values[lang].get(i) for lang in MERGE_LANGS}
+    # an all-null block whose id is a strict prefix of another id is a
+    # structural placeholder (e.g. `step3: null` beside an object), not a text
+    ids = [i for i in out if i != "_meta"]
+    for i in ids:
+        if all(v is None for v in out[i].values()) and \
+                any(j.startswith(i + ".") for j in ids):
+            del out[i]
+            print(f"merge: dropped all-null prefix block {i}")
+    return out, excluded
+
+
 # ------------------------------------------------------------------- main --
 
 def main(argv):
+    if len(argv) == 2 and argv[1] == "merge":
+        data, _ = merge()
+        with open(os.path.join(ROOT, TRANSLATIONS), "w",
+                  encoding="utf-8", newline="\n") as f:
+            f.write(json.dumps(data, ensure_ascii=False, indent=2) + "\n")
+        print(f"merge: wrote {TRANSLATIONS} ({len(data) - 1} blocks)")
+        return 0
     if len(argv) != 2 or argv[1] not in LANGS:
-        sys.stderr.write("usage: python tools/extract_content.py <fr|en|ro>\n")
+        sys.stderr.write("usage: python tools/extract_content.py <fr|en|ro|merge>\n")
         return 2
     lang = argv[1]
     data = extract(lang)
