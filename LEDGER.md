@@ -5985,3 +5985,9 @@ TRAPS: `translations.json` is generated. Never hand-edit it; re-run
   at runtime.
 HARNESS: 0 tests [n/a — uninstrumented] · last full eval n/a ·
   signals n/a
+
+CERTIFIED: Tower PASS-WITH-CORRECTIONS 2026-09-30 (fresh clone: 3
+lang outputs byte-identical; translations.json sha 0960330727987e00…
+reproduced twice; verbatim audit 0 mismatches; scope 4 files; LEDGER
+pure-append). Corrections C1-C2 carried by Lap C-1d, stacked on this
+branch by Tower ruling; merges with it.
