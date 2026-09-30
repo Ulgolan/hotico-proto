@@ -869,9 +869,10 @@ def render(d):
 # ------------------------------------------------------------------ merge --
 # Lap C-1c: one developer-facing file, one block per text, {ro, en, fr}.
 
-MERGE_LAP = "C-1d"
+MERGE_LAP = "C-2"
 MERGE_LANGS = ("ro", "en", "fr")        # block key order; ro is the baseline
 UI_LABELS = "content/source/ui-labels.json"
+OVERLAY = "content/source/overlay.json"
 TRANSLATIONS = "content/translations.json"
 
 # Romanian developer instructions and spreadsheet coordinates, not page text
@@ -901,9 +902,11 @@ def flatten(o, path, out, excluded):
 
 
 def merge():
-    sources = [UI_LABELS] + [f"content/{l}.json" for l in MERGE_LANGS]
+    sources = [UI_LABELS, OVERLAY] + [f"content/{l}.json" for l in MERGE_LANGS]
     with open(os.path.join(ROOT, UI_LABELS), encoding="utf-8") as f:
         ui = json.load(f)
+    with open(os.path.join(ROOT, OVERLAY), encoding="utf-8") as f:
+        overlay = json.load(f)
     flat, excluded = {}, {}
     for lang in MERGE_LANGS:
         with open(os.path.join(ROOT, "content", f"{lang}.json"),
@@ -946,6 +949,17 @@ def merge():
                 any(j.startswith(i + ".") for j in ids):
             del out[i]
             print(f"merge: dropped all-null prefix block {i}")
+    # Commander overlay: strip annotations; each entry must match exactly
+    applied = []
+    for e in overlay["entries"]:
+        cur = out.get(e["key"], {}).get(e["lang"])
+        if cur != e["expect"]:
+            sys.stderr.write(f"merge: overlay entry {e['key']} [{e['lang']}] "
+                             f"expect {e['expect']!r} != current {cur!r}\n")
+            sys.exit(1)
+        out[e["key"]][e["lang"]] = e["value"]
+        applied.append([e["key"], e["lang"]])
+    out["_meta"]["overlay_applied"] = applied
     return out, excluded
 
 

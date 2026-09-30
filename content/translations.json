@@ -1,11 +1,15 @@
 {
   "_meta": {
-    "lap": "C-1d",
+    "lap": "C-2",
     "command": "python tools/extract_content.py merge",
     "sources": [
       {
         "path": "content/source/ui-labels.json",
         "sha256": "55c32e66a9ee0e4b12f24d61eb6f52f4d8203bcc956ed87a6662028c36b1f219"
+      },
+      {
+        "path": "content/source/overlay.json",
+        "sha256": "c92a216336bed181d8083f1e7e5a4f473d58c25957df0ae211d7f7c3137fd0c6"
       },
       {
         "path": "content/ro.json",
@@ -20,7 +24,29 @@
         "sha256": "fe2fa977779d6e987dfdf10ac56e0b91684a49f088497ac3d3c20eae37d185a4"
       }
     ],
-    "law": "verbatim — values copied from the sources; null = the language lacks that text"
+    "law": "verbatim — values copied from the sources; null = the language lacks that text",
+    "overlay_applied": [
+      [
+        "home.form.cta",
+        "ro"
+      ],
+      [
+        "home.form.cta",
+        "fr"
+      ],
+      [
+        "home.form.next_button",
+        "ro"
+      ],
+      [
+        "home.form.next_button",
+        "en"
+      ],
+      [
+        "home.form.next_button",
+        "fr"
+      ]
+    ]
   },
   "nav.areola": {
     "ro": "Areolă",
@@ -303,9 +329,9 @@
     "fr": "Randez-vous"
   },
   "home.form.cta": {
-    "ro": "CTA: Suntem aici pentru tine",
+    "ro": "Suntem aici pentru tine",
     "en": "We here for you",
-    "fr": "CTA: Nous sommes là pour toi"
+    "fr": "Nous sommes là pour toi"
   },
   "home.form.gdpr.text": {
     "ro": "Sunt de acord cu prelucrarea datelor mele personale conform Politicii de confidentialitate",
@@ -318,9 +344,9 @@
     "fr": "J'accepte la politique d'annulation des rendez-vous"
   },
   "home.form.next_button": {
-    "ro": "buton Pasul Următor",
-    "en": "buton Next ",
-    "fr": "buton Suivant"
+    "ro": "Pasul Următor",
+    "en": "Next",
+    "fr": "Suivant"
   },
   "home.form.labels": {
     "ro": null,
