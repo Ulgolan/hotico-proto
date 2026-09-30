@@ -5991,3 +5991,61 @@ lang outputs byte-identical; translations.json sha 0960330727987e00…
 reproduced twice; verbatim audit 0 mismatches; scope 4 files; LEDGER
 pure-append). Corrections C1-C2 carried by Lap C-1d, stacked on this
 branch by Tower ruling; merges with it.
+
+## Entry #68 — 2026-09-30 — Lap C-1d: sacred source
+
+**Branch:** `c1d-sacred-source`, cut from `origin/c1c-dev-export`
+(8498a34; origin/main 925e160). Stacked on the unmerged C-1c by Tower
+ruling; one merge carries both.
+
+**What changed:**
+- The Commander's three workbooks are now the canonical source,
+  byte-copied (never opened or re-saved) into `content/source/`.
+  Provenance: folder `~/Downloads/TEXTE ALEXANDRA GOOD`; originals
+  `Engleza link-uri video + text hotico.ink.xlsx` → `hotico-content-en.xlsx`,
+  `Franceza link-uri video + text hotico.ink.xlsx` → `hotico-content-fr.xlsx`,
+  `Romana link-uri video + text hotico.ink.xlsx` → `hotico-content-ro.xlsx`.
+  sha256 verified before and after copy: en 0ec15813…, fr 03ffa097…,
+  ro 126996bc…. Downloads untouched.
+- `python tools/extract_content.py fr|en|ro` re-run. en.json and
+  ro.json identical to before outside `_meta`; fr.json differs only at
+  `home.carousel[0].vimeo_url` (→ `https://vimeo.com/1143404826?share=copy`)
+  and `_meta`.
+- C1: `slot` and `_verbatim` added to `EXCLUDE_KEYS` (10 blocks out).
+- C2: merge drops all-null blocks whose ID is a strict prefix of another
+  ID (5 blocks, each reported): `alopecie|cicatrici|spr|eyeliner|buze
+  .form_notes.step3`. `MERGE_LAP = "C-1d"`.
+- `translations.json`: 387 blocks (402 − 10 − 5); only content change
+  `home.carousel.1.vimeo_url` fr; zero prefix collisions; verbatim audit
+  942 values, 0 mismatches; merge run twice, sha256 identical
+  (292846ec…).
+
+**Tower corrections carried:**
+"Tower error (certification of PRODUCTION-HANDOFF, 2026-08-23):
+§19 states `node matrix.js && node sens.js` pass 210/210 and 52/52.
+Since the v26 focus guard (2026-08-19) both crash on main: the
+harness DOM shim lacks `document.addEventListener`. Engine intact:
+with a 2-line shim patch in a scratch copy, matrix 210/210 and
+sens ALL ASSERTIONS PASS (Tower, 2026-09-30). Shim repair parked
+to backlog; not fixed in this lap."
+
+**Ruling source:** Lap C-1d ignition key v3 (Commander-issued) and
+Tower ruling of 2026-09-30 on branch stacking.
+
+>> BATON
+STATE: branch `c1d-sacred-source` (stacked on `c1c-dev-export`), PR open
+  to main, not merged. Carries the C-1c commits; C-1c PR stays open.
+CERTIFIED: C-1c by Tower PASS-WITH-CORRECTIONS 2026-09-30. C-1d pending
+  Tower.
+OPEN: harness shim repair (backlog). Conflict C3
+  (`docs/spec/refonte/hotico-fr-content.xlsx`) stays logged. Source
+  defects not fixed. "Coloana" scaffolding in areola option values;
+  C-1b/C-1c OPEN items stand (C5 phone fix, `_ingest/`, POLARIS
+  retirement C1, repo visibility + webdev delivery scope).
+NEXT: Tower cert of C-1d; Commander merges once; then the overlay lap.
+TRAPS: `translations.json` is generated; never hand-edit, re-run
+  `merge` after any `content/<lang>.json` change. Extraction needs
+  `openpyxl` (not installed system-wide; used a scratch venv). The
+  workbooks are sha-identified, never re-save them.
+HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main,
+  see Tower error above] · last full eval n/a · signals n/a
