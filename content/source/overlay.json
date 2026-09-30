@@ -1,0 +1,43 @@
+{
+  "_meta": {
+    "ruling": "Commander 2026-09-30: 'CTA:' and 'buton' are Alexandra's annotations to the developer, not copy",
+    "law": "each entry applies only if the current value equals `expect` byte-for-byte; otherwise merge aborts"
+  },
+  "entries": [
+    {
+      "key": "home.form.cta",
+      "lang": "ro",
+      "expect": "CTA: Suntem aici pentru tine",
+      "value": "Suntem aici pentru tine",
+      "reason": "Commander 2026-09-30: 'CTA:' and 'buton' are Alexandra's annotations to the developer, not copy"
+    },
+    {
+      "key": "home.form.cta",
+      "lang": "fr",
+      "expect": "CTA: Nous sommes là pour toi",
+      "value": "Nous sommes là pour toi",
+      "reason": "Commander 2026-09-30: 'CTA:' and 'buton' are Alexandra's annotations to the developer, not copy"
+    },
+    {
+      "key": "home.form.next_button",
+      "lang": "ro",
+      "expect": "buton Pasul Următor",
+      "value": "Pasul Următor",
+      "reason": "Commander 2026-09-30: 'CTA:' and 'buton' are Alexandra's annotations to the developer, not copy"
+    },
+    {
+      "key": "home.form.next_button",
+      "lang": "en",
+      "expect": "buton Next ",
+      "value": "Next",
+      "reason": "Commander 2026-09-30: 'CTA:' and 'buton' are Alexandra's annotations to the developer, not copy"
+    },
+    {
+      "key": "home.form.next_button",
+      "lang": "fr",
+      "expect": "buton Suivant",
+      "value": "Suivant",
+      "reason": "Commander 2026-09-30: 'CTA:' and 'buton' are Alexandra's annotations to the developer, not copy"
+    }
+  ]
+}

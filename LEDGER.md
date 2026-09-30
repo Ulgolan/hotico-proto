@@ -6055,3 +6055,48 @@ Carries C-1c + C-1d. CERTIFIED: Tower PASS 2026-09-30 (fresh clone:
 extractor outputs and translations.json byte-identical on re-run, sha
 292846ec…6f43 twice; 387 blocks; 1 content change; verbatim audit
 0 mismatches; LEDGER pure-append).
+
+## Entry #69 — 2026-09-30 — Lap C-2: the overlay (scaffolding strip)
+
+**Branch:** `c2-overlay`, cut from main at `028dbc6` (after the Entry #68
+merge record; origin/main code tip `0a86926`).
+
+**What changed:**
+- NEW `content/source/overlay.json` (Commander-authored): five entries
+  stripping Alexandra's annotations to the developer ("CTA:", "buton")
+  from `home.form.cta` (ro, fr) and `home.form.next_button` (ro, en, fr).
+  Ruling: Commander 2026-09-30. sha256 c92a2163…d0c6.
+- `tools/extract_content.py`: `OVERLAY` constant; `merge()` applies each
+  entry after the prefix drop. Current value must equal `expect`
+  byte-for-byte, else exit 1 naming the entry. `_meta` gains the overlay
+  in `sources` and `overlay_applied` (the five pairs); `MERGE_LAP = "C-2"`.
+- `content/translations.json` regenerated: 387 blocks, same keys and
+  order; exactly the five values differ from main, plus `_meta`.
+- Mirrors untouched: `content/{ro,en,fr}.json` and `*-review.md`
+  byte-identical to main after re-running the extractor. No xlsx, html,
+  css, js or docs touched. EN "We here for you" left as client text.
+
+**Verification:** merge run twice, sha256 identical (5d0be763…498b).
+Audit: every non-null value equals its source leaf except the five
+overlay pairs (equal to overlay value); nav.* equal ui-labels.json;
+0 mismatches. Negative test (scratch copy, one `expect` altered): merge
+aborted exit 1 naming the entry; nothing from scratch committed.
+
+>> BATON
+STATE: branch `c2-overlay`, PR open to main, not merged.
+CERTIFIED: C-1c + C-1d by Tower PASS 2026-09-30 (merged, PR #38). C-2
+  pending Tower.
+OPEN: harness shim repair (backlog). Conflict C3
+  (`docs/spec/refonte/hotico-fr-content.xlsx`) stays logged. Source
+  defects not fixed. "Coloana" scaffolding in areola option values; EN
+  "We here for you" is client text (stays). C-1b/C-1c OPEN items stand
+  (C5 phone fix, `_ingest/`, POLARIS retirement C1, repo visibility +
+  webdev delivery scope).
+NEXT: Tower cert of C-2; Commander merges once.
+TRAPS: `translations.json` is generated; never hand-edit, re-run `merge`
+  after any `content/<lang>.json` or overlay change. Overlay `expect` is
+  byte-exact (EN next_button has a trailing space); a source fix upstream
+  makes merge abort until the overlay entry is retired. Extraction needs
+  `openpyxl` (scratch venv).
+HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main,
+  see Tower error in Entry #68] · last full eval n/a · signals n/a
