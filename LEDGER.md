@@ -6049,3 +6049,9 @@ TRAPS: `translations.json` is generated; never hand-edit, re-run
   workbooks are sha-identified, never re-save them.
 HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main,
   see Tower error above] · last full eval n/a · signals n/a
+
+**Merged:** PR #38 → main at `0a86926` (merge commit), 2026-09-30.
+Carries C-1c + C-1d. CERTIFIED: Tower PASS 2026-09-30 (fresh clone:
+extractor outputs and translations.json byte-identical on re-run, sha
+292846ec…6f43 twice; 387 blocks; 1 content change; verbatim audit
+0 mismatches; LEDGER pure-append).
