@@ -869,13 +869,14 @@ def render(d):
 # ------------------------------------------------------------------ merge --
 # Lap C-1c: one developer-facing file, one block per text, {ro, en, fr}.
 
-MERGE_LAP = "C-1c"
+MERGE_LAP = "C-1d"
 MERGE_LANGS = ("ro", "en", "fr")        # block key order; ro is the baseline
 UI_LABELS = "content/source/ui-labels.json"
 TRANSLATIONS = "content/translations.json"
 
 # Romanian developer instructions and spreadsheet coordinates, not page text
 EXCLUDE_KEYS = {"_meta", "_unplaced", "_sheet_labels", "_headers", "row",
+                "slot", "_verbatim",
                 "row_label", "branching_column_header", "note", "branching"}
 
 
@@ -937,6 +938,14 @@ def merge():
         out[k] = {lang: block.get(lang) for lang in MERGE_LANGS}
     for i in order:
         out[i] = {lang: values[lang].get(i) for lang in MERGE_LANGS}
+    # an all-null block whose id is a strict prefix of another id is a
+    # structural placeholder (e.g. `step3: null` beside an object), not a text
+    ids = [i for i in out if i != "_meta"]
+    for i in ids:
+        if all(v is None for v in out[i].values()) and \
+                any(j.startswith(i + ".") for j in ids):
+            del out[i]
+            print(f"merge: dropped all-null prefix block {i}")
     return out, excluded
 
 

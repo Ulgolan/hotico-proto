@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "lap": "C-1c",
+    "lap": "C-1d",
     "command": "python tools/extract_content.py merge",
     "sources": [
       {
@@ -9,15 +9,15 @@
       },
       {
         "path": "content/ro.json",
-        "sha256": "82bceab12147000b974f75d634b1cf389e936194cdb4adee936445b4c13c98b6"
+        "sha256": "ff68faa16da414ee0a0712f6db046eefecaef4fa7f81747f32861d2ac76fbb02"
       },
       {
         "path": "content/en.json",
-        "sha256": "e2d4f39d0c9f3d7381ff568e9b49610f2dd32b8cf92535766872099e357f4217"
+        "sha256": "2a9fc783d21ecedbb8b2b9ec7e6688907ab51e326a5a1813806e8cdb601838e6"
       },
       {
         "path": "content/fr.json",
-        "sha256": "d4c5632678362b723ab6ec9281daae3f1642e91f817d62841eee639d62eedad2"
+        "sha256": "fe2fa977779d6e987dfdf10ac56e0b91684a49f088497ac3d3c20eae37d185a4"
       }
     ],
     "law": "verbatim — values copied from the sources; null = the language lacks that text"
@@ -110,7 +110,7 @@
   "home.carousel.1.vimeo_url": {
     "ro": "https://vimeo.com/1134399482/6fcdcaf1c3?share=copy&fl=sv&fe=ci",
     "en": "https://vimeo.com/1134714676/342cde51c4?fl=ls&fe=ec",
-    "fr": "https://vimeo.com/1143404826?share=copy&fl=sv&fe=ci"
+    "fr": "https://vimeo.com/1143404826?share=copy"
   },
   "home.carousel.2.title": {
     "ro": "Cum lucrează HOTICO",
@@ -987,11 +987,6 @@
     "en": "Would you like another procedure?",
     "fr": "Voulez-vous une autre procédure ?"
   },
-  "alopecie.form_notes.step3": {
-    "ro": null,
-    "en": null,
-    "fr": null
-  },
   "alopecie.form_notes.step3.heading": {
     "ro": "Particularități medicale sau ale pielii",
     "en": null,
@@ -1206,11 +1201,6 @@
     "ro": "Vrei si alta procedura?",
     "en": "Would you like another procedure?",
     "fr": "Voulez-vous une autre procédure ?"
-  },
-  "cicatrici.form_notes.step3": {
-    "ro": null,
-    "en": null,
-    "fr": null
   },
   "cicatrici.form_notes.step3.heading": {
     "ro": "Particularități medicale sau ale pielii",
@@ -1447,11 +1437,6 @@
     "en": "Would you like another procedure?",
     "fr": "Voulez-vous une autre procédure ?"
   },
-  "spr.form_notes.step3": {
-    "ro": null,
-    "en": null,
-    "fr": null
-  },
   "spr.form_notes.step3.heading": {
     "ro": "Particularități medicale sau ale pielii",
     "en": null,
@@ -1666,11 +1651,6 @@
     "ro": "Vrei si alta procedura?",
     "en": "Would you like another procedure?",
     "fr": "Voulez-vous une autre procédure ?"
-  },
-  "eyeliner.form_notes.step3": {
-    "ro": null,
-    "en": null,
-    "fr": null
   },
   "eyeliner.form_notes.step3.heading": {
     "ro": "Particularități medicale sau ale pielii",
@@ -1887,11 +1867,6 @@
     "en": "Would you like another procedure?",
     "fr": "Voulez-vous une autre procédure ?"
   },
-  "buze.form_notes.step3": {
-    "ro": null,
-    "en": null,
-    "fr": null
-  },
   "buze.form_notes.step3.heading": {
     "ro": "Particularități medicale sau ale pielii",
     "en": null,
@@ -1942,11 +1917,6 @@
     "en": null,
     "fr": null
   },
-  "cont.videos.1.slot": {
-    "ro": "pregatire",
-    "en": "pregatire",
-    "fr": "pregatire"
-  },
   "cont.videos.1.title": {
     "ro": "Ghid complet de îngrijire înainte de dermopigmentare",
     "en": "Complete guide to pre-dermopigmentation care",
@@ -1967,31 +1937,6 @@
     "en": "https://vimeo.com/1134711988/44f0ef4fde?fl=ls&fe=ec",
     "fr": "https://vimeo.com/1134716148/7a55e6beb5?fl=ls&fe=ec"
   },
-  "cont.videos.1._verbatim.youtube": {
-    "ro": "pregatire: https://youtu.be/ZO8qLsPqzSI",
-    "en": "pregatire: https://youtu.be/8pFARdC9wvI",
-    "fr": "pregatire: https://youtu.be/MYJHOGBxq2o"
-  },
-  "cont.videos.1._verbatim.title": {
-    "ro": "titlu: Ghid complet de îngrijire înainte de dermopigmentare",
-    "en": "titlu: Complete guide to pre-dermopigmentation care",
-    "fr": "titlu: Guide complet des soins avant la dermopigmentation"
-  },
-  "cont.videos.1._verbatim.cta": {
-    "ro": "cta: Urmărește video-ul și află cum fiecare detaliu înainte de procedură influențează rezultatul final. ",
-    "en": "cta: Watch the video and find out how every detail before the procedure influences the final result.",
-    "fr": "cta: Regardez la vidéo et découvrez comment chaque détail avant l'intervention influence le résultat final."
-  },
-  "cont.videos.1._verbatim.vimeo": {
-    "ro": "pregatire: https://vimeo.com/1134398641/c587762ab5?share=copy&fl=sv&fe=ci",
-    "en": "pregatire: https://vimeo.com/1134711988/44f0ef4fde?fl=ls&fe=ec",
-    "fr": "pregatire: https://vimeo.com/1134716148/7a55e6beb5?fl=ls&fe=ec"
-  },
-  "cont.videos.2.slot": {
-    "ro": "intretinere",
-    "en": "intretinere",
-    "fr": "intretinere"
-  },
   "cont.videos.2.title": {
     "ro": "Ce trebuie să faci după procedură pentru un rezultat frumos și uniform",
     "en": "What to do after the procedure for a beautiful and even result",
@@ -2011,25 +1956,5 @@
     "ro": "https://vimeo.com/1134397994/2ea2b63d67?share=copy&fl=sv&fe=ci",
     "en": "https://vimeo.com/1134711974/036ab09005?fl=ls&fe=ec",
     "fr": "https://vimeo.com/1134716137/3025a2d9fd?fl=ls&fe=ec"
-  },
-  "cont.videos.2._verbatim.youtube": {
-    "ro": "intretinere: https://youtu.be/6RDZlBkvfaI",
-    "en": "intretinere: https://youtu.be/1MlmHTgltAU",
-    "fr": "intretinere: https://youtu.be/C63mD119O2o"
-  },
-  "cont.videos.2._verbatim.title": {
-    "ro": "titlu: Ce trebuie să faci după procedură pentru un rezultat frumos și uniform",
-    "en": "titlu: What to do after the procedure for a beautiful and even result",
-    "fr": "titlu: Ce qu'il faut faire après l'intervention pour obtenir un résultat beau et uniforme"
-  },
-  "cont.videos.2._verbatim.cta": {
-    "ro": null,
-    "en": null,
-    "fr": null
-  },
-  "cont.videos.2._verbatim.vimeo": {
-    "ro": "intretinere: https://vimeo.com/1134397994/2ea2b63d67?share=copy&fl=sv&fe=ci",
-    "en": "intretinere: https://vimeo.com/1134711974/036ab09005?fl=ls&fe=ec",
-    "fr": "intretinere: https://vimeo.com/1134716137/3025a2d9fd?fl=ls&fe=ec"
   }
 }
