@@ -6100,3 +6100,42 @@ TRAPS: `translations.json` is generated; never hand-edit, re-run `merge`
   `openpyxl` (scratch venv).
 HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main,
   see Tower error in Entry #68] · last full eval n/a · signals n/a
+
+## Entry #70 — 2026-10-02 — Landing-page spec filed (doc-only) + Entry #69 merge record
+
+**Merge record (overdue):** `c2-overlay` merged to main as `7fe7804` on 2026-09-30
+(PR #39). Entry #69's BATON said "not merged"; main's tip said otherwise. One entry
+behind reality for two days — MINOR, same pattern as the #64/#a6fb0bc gap in August.
+
+**What landed (doc-only; lap LP-F-1 on branch `lp-spec-filing`, PR to main, Commander merges; Tower cert from raw pull):**
+- `docs/spec/landing/LP-SECTION-LIBRARY.md` — v0.1. The 19-section eyebrow brief
+  (custom-GPT output, used by Alexandra) dissected into 13 atoms, 4 scopes
+  (universal / audience / service / family), media-slot inventory, form contract,
+  copy gates, open rulings R1–R6. Authorities: STRUCTURE = brief (1:1) ·
+  COPY = Alexandra, ratified + tic-audited per language · VISUALS = canon.
+- `docs/spec/landing/lp-sprancene-ro.html` — the brief made visual, HOTICO canon,
+  responsive at the tokens breakpoints (768 / 1024). Production footer shape with the
+  brief's mandatory content. Header per R1 (lockup + language + WhatsApp, no nav).
+- `docs/spec/landing/lp-sprancene-ro--sticky.html` — same page with the R2 sticky
+  mobile CTA, for the Commander's eye. R2 undecided.
+Both pages: `noindex,nofollow`; logos from `/assets/brand/`; copy = brief as received,
+UNRATIFIED; photos = labelled placeholders. Mockup, not production.
+
+**Rulings this entry records:** R1 header ratified 27.09. Door question of 19.09
+(proto / new repo / webdev) superseded 30.09 by events: production is the React +
+Vite port on Firebase; landing pages are proposed as ROUTES in that codebase (R6,
+pending Hus's word on where the code lives and who builds).
+
+**Tower error, owned:** the section-library spec existed only in a chat from 27.09 to
+02.10. "Files are the institution" — five days late to its own law.
+
+>> BATON
+STATE: branch `lp-spec-filing` cut from `7fe7804`; PR open to main, awaiting Commander's merge. No LP code exists anywhere. Spec + mockup filed.
+CERTIFIED: C-2 (Tower PASS 30.09, merged). This entry's files: pending Tower raw-pull cert.
+OPEN: R2 sticky CTA · R3 paramedical brief · R4 the 27 grid · R5 legal pages RO/EN ·
+  R6 LP foundation (React repo location, builder) · Alexandra fact-ratification of ~15 claims ·
+  photos + consent (critical path) · harness shim repair · C5 phone · `_ingest/` · POLARIS retirement C1.
+NEXT: Hus answers R6 → Phase R for the LP module (CLAUDE.md laws, Polaris EXTERNAL-USER, LP-0 build key).
+TRAPS: mockup HTML is NOT a build seed — fork the intent (sections, scopes), not the markup.
+  `translations.json` is generated; `lp_para.*` / `lp_cosmetic.*` are seeds with text:null.
+HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main, Entry #68] · last full eval n/a · signals n/a
