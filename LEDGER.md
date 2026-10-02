@@ -6139,3 +6139,10 @@ NEXT: Hus answers R6 → Phase R for the LP module (CLAUDE.md laws, Polaris EXTE
 TRAPS: mockup HTML is NOT a build seed — fork the intent (sections, scopes), not the markup.
   `translations.json` is generated; `lp_para.*` / `lp_cosmetic.*` are seeds with text:null.
 HARNESS: 0 tests [n/a — uninstrumented; docs/qa harness crashes on main, Entry #68] · last full eval n/a · signals n/a
+
+### Merge record — 2026-10-02 — LP-F-1 → main
+
+`lp-spec-filing` merged as `8f91d5a` (PR #40, merge commit, parents `7fe7804` · `0332a58`).
+Tower certification from raw pull: branch point ✓ · scope ✓ (3 files + LEDGER, 0 deletions) ·
+sha256 ×3 ✓ · Entry #70 byte-identical ✓. Commander's eye: live on Vercel, approved.
+Main tip is now `8f91d5a`; the next lap branches from the current tip, never from this SHA.
