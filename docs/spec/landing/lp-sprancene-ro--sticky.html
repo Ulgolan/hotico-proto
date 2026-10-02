@@ -1,0 +1,510 @@
+<!doctype html>
+<!--
+  HOTICO LP mockup — Sprâncene · RO · Alexandra's GPT brief made visual (structure 1:1, HOTICO canon visuals)
+  Status: DESIGN MOCKUP, not production. Copy = brief as received, unratified. Photos = placeholders.
+  Source of truth for structure: docs/spec/landing/LP-SECTION-LIBRARY.md · Tower, 2026-10-02
+-->
+<html lang="ro">
+<head>
+<meta charset="utf-8">
+<title>HOTICO — Dermopigmentare sprâncene, Genève (RO)</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Raleway:wght@300;500;600;700&amp;family=DM+Sans:wght@400;500;600&amp;display=swap">
+<style>
+body{margin:0;background:#F5F5F5}
+a{color:#3C2F2F}a:hover{color:#C9A86A}
+/* RESPONSIVE SCAFFOLD — breakpoints from HOTICO tokens: 768 desktop, 1024 split; column-read 720, content-max 1200 */
+.lp{max-width:480px;margin:0 auto}
+.sec{padding:40px 24px}
+.h2{font-family:'Raleway',sans-serif;font-weight:600;font-size:26px;line-height:1.2;margin:0}
+.media{order:-1}
+.ftr-logo{width:150px;margin:28px auto 0;display:block}
+@media (min-width:768px){
+  .lp{max-width:none}
+  .sec{padding:64px 48px}
+  .read{max-width:720px;margin-inline:auto;width:100%}
+  .h1{font-size:44px!important}
+  .h2{font-size:34px}
+  .cards-2{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:20px!important}
+  .cards-3{display:grid!important;grid-template-columns:repeat(3,minmax(0,1fr))!important;gap:20px!important}
+  .gallery{grid-template-columns:repeat(4,minmax(0,1fr))!important;gap:14px!important}
+  .carousel{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;overflow:visible!important}
+  .carousel > div{width:auto!important}
+  .ftr-center{text-align:center;align-items:center}
+  .ftr-center nav,.ftr-center .contact{justify-content:center}
+}
+@media (min-width:1024px){
+  .wide{max-width:1200px;margin-inline:auto;width:100%}
+  .two-col{display:grid!important;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:48px!important;align-items:center!important}
+  .two-col-top{align-items:start!important}
+  .media{order:0}
+  .media-left{order:-1}
+  .steps{display:grid!important;grid-template-columns:repeat(5,minmax(0,1fr))!important;gap:20px!important}
+  .steps > li{flex-direction:column!important;gap:12px!important}
+  .steps > li > div:last-child{padding-bottom:0!important}
+  .steps-line{display:none}
+  .carousel{grid-template-columns:repeat(4,minmax(0,1fr))!important}
+  .price{max-width:560px;margin-inline:auto;width:100%}
+  .form-col{display:grid!important;grid-template-columns:5fr 6fr!important;gap:56px!important;align-items:start!important}
+  .form-col .center{text-align:left!important}
+}
+</style>
+
+</head>
+<body>
+
+
+
+<div class="lp" style="background: #F5F5F5; color: #3C2F2F; font-family: 'DM Sans', sans-serif; font-size: 15px; line-height: 1.55; display: flex; flex-direction: column">
+
+<!-- HEADER — R1: lockup + language + WhatsApp, no navigation -->
+<header style="position: sticky; top: 0; z-index: 10; background: #F5F5F5; border-bottom: 1px solid #C9A86A">
+  <div class="wide" style="display: flex; align-items: center; justify-content: space-between; padding: 14px 20px">
+    <a href="#lang" aria-label="Schimbă limba" style="display: flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 12px; border: 1px solid #C9A86A; border-radius: 999px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 12px; letter-spacing: 1px; text-decoration: none; color: #3C2F2F"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"></path></svg>RO</a>
+    <img src="/assets/brand/logo-black.png" alt="HOTICO Dermopigmentation Institute" style="height: 34px; width: auto">
+    <a href="https://wa.me/41796472106" aria-label="Scrie-mi pe WhatsApp" style="display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border: 1px solid #C9A86A; border-radius: 999px; color: #3C2F2F"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.3 7.9L3 21l1.1-4.6A9 9 0 1 1 21 12z"></path><path d="M9 10.5c.5 2.3 2.2 4 4.5 4.5l1.5-1.5 2 1-.5 2c-4.5.5-8.5-3.5-8-8l2-.5 1 2z"></path></svg></a>
+  </div>
+</header>
+
+<!-- §1 HERO — desktop: text left, image right -->
+<section class="sec">
+  <div class="wide two-col" style="display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <div style="font-size: 12px; letter-spacing: 1.6px; text-transform: uppercase; color: #C9A86A; font-weight: 500">Pentru româncele din Genève și împrejurimi</div>
+      <h1 class="h1" style="margin: 0; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 30px; line-height: 1.15">Dermopigmentare sprâncene în Genève, explicată și realizată în limba ta.</h1>
+      <p style="margin: 0">Sprâncene naturale, construite în funcție de fizionomia, pielea și stilul tău — fără să fie nevoie să explici în franceză sau engleză ce îți dorești, ce te sperie sau ce rezultat nu te reprezintă.</p>
+      <p style="margin: 0">Sunt Alexandra Hotico și te ghidez personal, în română, de la prima conversație pe WhatsApp până la vindecare și retuș.</p>
+      <a href="#formular" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; background: #FE0990; color: #FFFFFF; border-radius: 999px; padding: 14px 24px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; text-decoration: none; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4)">Vreau să discutăm despre programare <span aria-hidden="true">→</span></a>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 6px">
+        <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 1.3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.6-4.5A8 8 0 1 1 21 12z"></path></svg><span>Comunicare 100% în română</span></div>
+        <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 1.3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="9" r="5"></circle><path d="M8.5 13.5 7 21l5-2.5 5 2.5-1.5-7.5"></path></svg><span>8 ani experiență</span></div>
+        <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 1.3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><path d="m12 3 2.7 5.6 6.1.9-4.4 4.3 1 6.1L12 17l-5.4 2.9 1-6.1L3.2 9.5l6.1-.9z"></path></svg><span>3.000+ proceduri realizate</span></div>
+        <div style="display: flex; align-items: center; gap: 10px; font-size: 13px; line-height: 1.3"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg><span>Retuș inclus în maximum 45 de zile</span></div>
+      </div>
+    </div>
+    <div class="media" style="aspect-ratio: 4 / 5; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 18px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 12px; color: #9E9E9E">[FOTO · portret elegant cu Alexandra, spațiu luminos, privire directă — sau close-up rezultat vindecat]</div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §2 DIFERENȚIATORUL -->
+<section class="sec" style="background: #EFEFEF">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Pentru chipul tău, meriți să poți explica totul în limba ta.</h2>
+    <p style="margin: 0">Dermopigmentarea nu este doar despre pigment, formă sau tehnică. Este despre nuanțe.</p>
+    <p style="margin: 0">Poate vrei să spui: „mi-e teamă să nu fie prea închise”, „nu vreau să pară tatuate”, „am avut o procedură veche”, „vreau ceva natural, dar să se vadă că sunt mai îngrijită”.</p>
+    <p style="margin: 0">Aceste detalii contează. Iar când româna este limba în care te exprimi cel mai natural, nu ar trebui să depinzi de traduceri, de termeni tehnici necunoscuți sau de speranța că ai fost înțeleasă exact.</p>
+    <p style="margin: 0">La HOTICO, discutăm în română de la primul mesaj pe WhatsApp până la vindecare și retuș.</p>
+  </div>
+  <div class="wide cards-3" style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px">
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Spui exact ce îți dorești</div><div style="font-size: 14px">Fără bariera unei limbi străine și fără teama că nu găsești cuvintele potrivite.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Înțelegi fiecare etapă</div><div style="font-size: 14px">Forma, tehnica, vindecarea, îngrijirea și retușul îți sunt explicate clar, în română.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Poți pune orice întrebare</div><div style="font-size: 14px">Este chipul tău. Nu există întrebări prea mici atunci când este vorba despre o procedură care îți influențează expresia.</div></div>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px"><a href="#formular" style="display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; border: 1px solid #C9A86A; border-radius: 999px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px; text-decoration: none; color: #3C2F2F">Vreau să vorbesc în română despre sprâncenele mele <span aria-hidden="true">→</span></a></div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §3 PROBLEMA — desktop: text+list left, before/after right -->
+<section class="sec">
+  <h2 class="h2 wide" style="text-align: center; margin-bottom: 24px">Nu este doar despre sprâncene. Este despre cât timp și energie îți consumă în fiecare zi.</h2>
+  <div class="wide two-col two-col-top" style="display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <p style="margin: 0">Poate îți desenezi sprâncenele în fiecare dimineață, umpli goluri și încerci să le faci cât mai egale. Poate ai rămas cu fire rare după ani de pensat excesiv. Poate una dintre sprâncene are o formă diferită, coada este prea estompată sau simți că fața ta pare mai puțin definită atunci când nu porți machiaj.</p>
+      <p style="margin: 0">Nu îți dorești sprâncene intense, rigide sau făcute după un șablon de pe Instagram.</p>
+      <p style="margin: 0">Îți dorești să arăți mai odihnită, mai îngrijită și mai expresivă — păstrându-ți propria identitate.</p>
+      <h3 style="margin: 8px 0 0; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 17px">Dermopigmentarea sprâncenelor poate fi potrivită pentru tine dacă:</h3>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px">
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>ai sprâncene rare, cu goluri sau cozi estompate;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>le-ai pensat excesiv în trecut și firele nu mai cresc uniform;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>ai asimetrii pe care încerci să le corectezi zilnic cu creionul;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>petreci prea mult timp desenând, ștergând și refăcând forma;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>vrei să te simți îngrijită inclusiv fără machiaj;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>faci sport, călătorești sau vrei să reduci dependența de produsele pentru sprâncene;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>ai avut o procedură veche și vrei o evaluare sinceră;</span></li>
+        <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>locuiești în Genève și îți dorești să discuți cu o specialistă româncă.</span></li>
+      </ul>
+    </div>
+    <div class="media" style="position: relative; aspect-ratio: 4 / 3; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 18px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 12px; color: #9E9E9E">[FOTO · înainte/după real — sprâncene rare, aceeași lumină, fără filtre]<span style="position: absolute; left: 12px; bottom: 12px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 4px 10px; border-radius: 999px">Rezultat vindecat</span></div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §4 BENEFICII -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Mai puțin timp pentru corecții. Mai multă liniște în rutina ta.</h2>
+    <p style="margin: 0">O dermopigmentare bine realizată nu ar trebui să îți schimbe chipul și nici să îți ia expresia naturală.</p>
+    <p style="margin: 0">Ar trebui să îți ofere o bază discretă: sprâncene care încadrează privirea, completează zonele rare și reduc nevoia de a le reconstrui zi de zi cu creion, fard sau gel.</p>
+  </div>
+  <div class="read" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; margin-top: 24px">
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 16px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M8 13.5c1.2 1.5 2.5 2 4 2s2.8-.5 4-2M9 10h.01M15 10h.01"></path></svg><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; line-height: 1.25">Un chip mai definit, nu o altă față</div><div style="font-size: 13px">Forma și nuanța sunt construite pentru trăsăturile tale, nu copiate de la altcineva.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 16px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M12 7v5l3 2"></path></svg><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; line-height: 1.25">O rutină mai simplă</div><div style="font-size: 13px">Mai puțin timp pentru umplerea golurilor, corectarea cozii și verificarea constantă a simetriei.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 16px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><path d="M2 12s3.5-6 10-6 10 6 10 6-3.5 6-10 6S2 12 2 12z"></path><circle cx="12" cy="12" r="2.5"></circle></svg><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; line-height: 1.25">Un rezultat discret</div><div style="font-size: 13px">Obiectivul este ca oamenii să observe că arăți bine, nu să observe că ai făcut o procedură.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 16px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 8px"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><path d="M21 12a8 8 0 0 1-11.5 7.2L4 21l1.6-4.5A8 8 0 1 1 21 12z"></path></svg><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; line-height: 1.25">Claritate în limba ta</div><div style="font-size: 13px">Discutăm în română despre formă, intensitate, frici, istoric și așteptări reale.</div></div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §5 TEHNICILE -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Fir cu fir, combo sau powder?</h2>
+    <p style="margin: 0; text-align: center; font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 17px">Nu trebuie să alegi tu tehnica înainte să te văd.</p>
+    <p style="margin: 0">Dermopigmentarea sprâncenelor nu este o procedură universală. Tehnica potrivită depinde de pielea ta, firele naturale, pori, sebum, vârstă, eventuale proceduri vechi și efectul pe care îl dorești.</p>
+    <p style="margin: 0">În cadrul programării analizăm împreună ce ți se potrivește și alegem varianta care are cele mai bune șanse să se vindece frumos și să arate armonios.</p>
+  </div>
+  <div class="wide cards-3" style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px">
+    <div style="background: #E9E9E9; border-radius: 16px; overflow: hidden; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="position: relative; aspect-ratio: 16 / 9; background: #E2E2E2; border-bottom: 1px dashed #C9A86A; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #9E9E9E">[FOTO · close-up fir cu fir]<span style="position: absolute; left: 12px; bottom: 10px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 10px; border-radius: 999px">Rezultat vindecat</span></div><div style="padding: 16px 18px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Fir cu fir</div><div style="font-size: 14px">Pentru anumite tipuri de piele și cazuri în care putem recrea optic direcția firelor naturale, cu un efect fin și aerisit.</div></div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; overflow: hidden; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="position: relative; aspect-ratio: 16 / 9; background: #E2E2E2; border-bottom: 1px dashed #C9A86A; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #9E9E9E">[FOTO · close-up combo brows]<span style="position: absolute; left: 12px; bottom: 10px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 10px; border-radius: 999px">Rezultat proaspăt</span></div><div style="padding: 16px 18px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Combo brows</div><div style="font-size: 14px">Combină efectul de fire cu o umbrire discretă, pentru mai multă structură și densitate vizuală.</div></div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; overflow: hidden; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="position: relative; aspect-ratio: 16 / 9; background: #E2E2E2; border-bottom: 1px dashed #C9A86A; display: flex; align-items: center; justify-content: center; font-size: 12px; color: #9E9E9E">[FOTO · close-up powder brows]<span style="position: absolute; left: 12px; bottom: 10px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 10px; border-radius: 999px">Rezultat vindecat</span></div><div style="padding: 16px 18px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Powder brows</div><div style="font-size: 14px">O tehnică pixelată și diafană, care poate crea un efect delicat de sprânceană machiată fin — nu un bloc compact de culoare.</div></div></div>
+  </div>
+  <div class="read" style="margin-top: 20px; padding: 18px 20px; border: 1px solid #C9A86A; border-radius: 16px; display: flex; flex-direction: column; gap: 6px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px">Prețul este același, indiferent de tehnică.</div><div style="font-size: 14px">Alegerea nu se face după ce costă mai mult, ci după ce se potrivește pielii, morfologiei și obiectivului tău.</div></div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §6 NATURALEȚE — desktop: text left, image right -->
+<section class="sec">
+  <h2 class="h2 wide" style="text-align: center; margin-bottom: 24px">Natural nu înseamnă că nu se vede nicio schimbare.</h2>
+  <div class="wide two-col" style="display: flex; flex-direction: column; gap: 16px">
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <p style="margin: 0">Un rezultat natural nu înseamnă că sprâncenele devin invizibile.</p>
+      <p style="margin: 0">Înseamnă că se integrează firesc în chipul tău: au o formă echilibrată, o nuanță potrivită și suficientă definiție încât să îți susțină expresia fără să te facă să arăți ca altcineva.</p>
+      <p style="margin: 0">Înainte de procedură, discutăm despre ce înseamnă „natural” pentru tine. Dacă ai fotografii de referință, le analizăm împreună, ca să vedem ce îți place și ce este realist pentru fizionomia și pielea ta.</p>
+      <blockquote style="margin: 8px 0 0; padding: 20px 22px; background: #E9E9E9; border-radius: 16px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 16px; line-height: 1.4"><span aria-hidden="true" style="display: block; color: #C9A86A; font-size: 30px; line-height: 1; margin-bottom: 6px">„</span>Nu urmăresc să creez două sprâncene identice matematic. Chipul este natural asimetric.<br>Urmăresc să construiesc un echilibru vizual care arată bine atât în oglindă, cât și în expresia reală a feței.</blockquote>
+    </div>
+    <div class="media" style="position: relative; aspect-ratio: 4 / 3; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 18px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 12px; color: #9E9E9E">[FOTO · close-up vindecat, lumină naturală, fără filtru — rafinament, nu intensitate]<span style="position: absolute; left: 12px; bottom: 12px; font-size: 11px; letter-spacing: 1px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 4px 10px; border-radius: 999px">Rezultat vindecat</span></div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §7 PROCESUL — vertical timeline mobile, 5 across desktop -->
+<section class="sec">
+  <div class="wide" style="display: flex; flex-direction: column; gap: 18px">
+    <h2 class="h2" style="text-align: center">O programare durează aproximativ 3 ore. Fără grabă și fără forme făcute pe bandă rulantă.</h2>
+    <div style="aspect-ratio: 16 / 7; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 18px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 12px; color: #9E9E9E">[FOTO · Alexandra lucrând — mănuși, instrumente curate, atmosferă calmă]</div>
+    <ol class="steps" style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 0">
+      <li style="display: flex; gap: 16px"><div style="display: flex; flex-direction: column; align-items: center"><span style="flex: none; width: 34px; height: 34px; border-radius: 999px; background: #C9A86A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px">1</span><span class="steps-line" style="flex: 1; width: 1px; background: #C9A86A; margin: 6px 0"></span></div><div style="padding-bottom: 22px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 4px">Discuția și evaluarea — în română</div><div style="font-size: 14px">Vorbim despre ceea ce te deranjează, ce îți dorești, ce ai încercat până acum și ce rezultat nu te-ar reprezenta. Analizăm sprâncenele existente, pielea, firele naturale, eventualele proceduri anterioare și ce este realist pentru cazul tău.</div></div></li>
+      <li style="display: flex; gap: 16px"><div style="display: flex; flex-direction: column; align-items: center"><span style="flex: none; width: 34px; height: 34px; border-radius: 999px; background: #C9A86A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px">2</span><span class="steps-line" style="flex: 1; width: 1px; background: #C9A86A; margin: 6px 0"></span></div><div style="padding-bottom: 22px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 4px">Forma și nuanța</div><div style="font-size: 14px">Construim schița ținând cont de morfologia feței, mimică, structura naturală a sprâncenelor și stilul tău. Nu încep procedura până când forma nu este discutată și validată împreună.</div></div></li>
+      <li style="display: flex; gap: 16px"><div style="display: flex; flex-direction: column; align-items: center"><span style="flex: none; width: 34px; height: 34px; border-radius: 999px; background: #C9A86A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px">3</span><span class="steps-line" style="flex: 1; width: 1px; background: #C9A86A; margin: 6px 0"></span></div><div style="padding-bottom: 22px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 4px">Alegerea tehnicii</div><div style="font-size: 14px">Alegem fir cu fir, combo sau powder în funcție de ceea ce este potrivit pentru pielea și sprâncenele tale. Nu alegem o tehnică doar pentru că este populară online.</div></div></li>
+      <li style="display: flex; gap: 16px"><div style="display: flex; flex-direction: column; align-items: center"><span style="flex: none; width: 34px; height: 34px; border-radius: 999px; background: #C9A86A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px">4</span><span class="steps-line" style="flex: 1; width: 1px; background: #C9A86A; margin: 6px 0"></span></div><div style="padding-bottom: 22px"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 4px">Procedura</div><div style="font-size: 14px">Lucrez cu atenție la detalii, igienă, confort și naturalețe, urmărind un rezultat adaptat ție.</div></div></li>
+      <li style="display: flex; gap: 16px"><div style="display: flex; flex-direction: column; align-items: center"><span style="flex: none; width: 34px; height: 34px; border-radius: 999px; background: #C9A86A; color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px">5</span></div><div><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 4px">Îngrijirea și suportul</div><div style="font-size: 14px">La final primești explicații clare despre îngrijire. Dacă apar întrebări în perioada de vindecare, îmi poți scrie în română pe WhatsApp.</div></div></li>
+    </ol>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §8 RECENZII I -->
+<section class="sec" style="background: #EFEFEF">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Încrederea se construiește înainte de rezultat.</h2>
+    <p style="margin: 0; text-align: center">Câteva cuvinte de la femei care au trecut deja prin proces.</p>
+  </div>
+  <div class="wide cards-2" style="display: flex; flex-direction: column; gap: 14px; margin-top: 24px">
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 10px"><div style="color: #C9A86A; letter-spacing: 3px; font-size: 14px" aria-label="5 stele">★★★★★</div><p style="margin: 0; font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 15px; line-height: 1.45">„[Review ales — ex. teamă inițială, s-a simțit ascultată și în siguranță]”</p><div style="font-size: 13px; color: #6B5F5F">— Prenume sau inițială, Google Review</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 10px"><div style="color: #C9A86A; letter-spacing: 3px; font-size: 14px" aria-label="5 stele">★★★★★</div><p style="margin: 0; font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 15px; line-height: 1.45">„[Review ales — ex. rezultat natural, Alexandra atentă, comunicare clară]”</p><div style="font-size: 13px; color: #6B5F5F">— Prenume sau inițială, Google Review</div></div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §9 VINDECARE -->
+<section class="sec">
+  <h2 class="h2 wide" style="text-align: center; margin-bottom: 24px">Dermopigmentarea este un proces, nu doar o programare.</h2>
+  <div class="wide cards-3" style="display: flex; flex-direction: column; gap: 12px">
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Vindecarea</div><div style="font-size: 14px">Vindecarea completă durează, în medie, între 28 și 40 de zile. În primele aproximativ 7–10 zile, poate apărea o descuamare fină. În timpul vindecării, culoarea poate părea temporar mai închisă, mai deschisă sau neuniformă.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Rezultatul stabilizat</div><div style="font-size: 14px">Rezultatul se evaluează corect doar la finalul vindecării. Ritmul diferă în funcție de vârstă, tip de piele, stare generală de sănătate, stil de viață și respectarea îngrijirii recomandate.</div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Durata rezultatului</div><div style="font-size: 14px">Rezultatul rezistă, orientativ, între 1 și 3 ani, în funcție de tipul de piele, intensitatea aleasă, expunerea la soare, produse, tratamente, stil de viață și modul în care organismul metabolizează pigmentul.</div></div>
+  </div>
+  <div class="read" style="margin-top: 20px; padding: 20px; border: 1px solid #C9A86A; border-radius: 16px; display: flex; flex-direction: column; gap: 8px">
+    <div style="display: flex; align-items: center; gap: 10px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="2"></rect><path d="M3 10h18M8 3v4M16 3v4"></path></svg>Retuș inclus în maximum 45 de zile</div>
+    <div style="font-size: 14px">Prețul procedurii include retușul necesar, realizat în intervalul de maximum 45 de zile de la prima ședință.</div>
+    <div style="font-size: 14px">Dacă există zone în care retenția pigmentului necesită ajustări suplimentare, acestea pot fi realizate fără cost suplimentar atât timp cât se încadrează în perioada protocolului.</div>
+    <div style="font-size: 14px">După ziua 45, orice retuș sau reîmprospătare se realizează contra cost.</div>
+    <div style="font-size: 14px; font-weight: 600">Retuș după perioada inclusă: [PREȚ RETUȘ DUPĂ 45 ZILE] CHF</div>
+    <div style="font-size: 13px; color: #6B5F5F">Dacă indisponibilitatea Alexandrei împiedică încadrarea retușului în cele 45 de zile, perioada se prelungește cu numărul zilelor în care aceasta nu a fost disponibilă.</div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §10 DESPRE ALEXANDRA — desktop: portrait left, text right, diplomas below -->
+<section class="sec">
+  <div class="wide two-col two-col-top" style="display: flex; flex-direction: column; gap: 16px">
+    <div class="media media-left" style="aspect-ratio: 4 / 5; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 18px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; font-size: 12px; color: #9E9E9E">[FOTO · portret profesional Alexandra — ținută elegantă, fundal minimalist, expresie caldă]</div>
+    <div style="display: flex; flex-direction: column; gap: 16px">
+      <h2 class="h2">Sprâncenele tale merită mai mult decât o formă la modă.</h2>
+      <p style="margin: 0">Sunt Alexandra Hotico, specialistă în dermopigmentare cosmetică și paramedicală, dermopigmentist, tatuator și trainer acreditat.</p>
+      <p style="margin: 0">Lucrez de 8 ani și am realizat peste 3.000 de proceduri. M-am format în România, Elveția și Anglia, iar abordarea mea combină precizia tehnică, experiența artistică, atenția pentru pigmentologie și respectul real pentru fiecare persoană care îmi încredințează chipul ei.</p>
+      <p style="margin: 0">Vin dintr-o familie în care estetica și grija pentru oameni au fost mereu prezente. Mama mea a fost cosmeticiană, iar pierderea ei în urma cancerului de sân a dat un sens și mai profund direcției mele în dermopigmentarea paramedicală.</p>
+      <p style="margin: 0">Indiferent că este vorba despre o procedură cosmetică sau paramedicală, filosofia mea rămâne aceeași:</p>
+      <blockquote style="margin: 0; padding: 20px 22px; background: #E9E9E9; border-radius: 16px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 16px; line-height: 1.4"><span aria-hidden="true" style="display: block; color: #C9A86A; font-size: 30px; line-height: 1; margin-bottom: 6px">„</span>Dacă vii cu o frustrare legată de sprâncenele tale, scopul meu nu este să te trimit acasă cu alte sprâncene și alte griji.<br>Scopul meu este să creez un rezultat care te ajută să te simți mai bine în chipul tău.</blockquote>
+      <h3 style="margin: 8px 0 0; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 17px">La HOTICO:</h3>
+      <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px">
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>nu copiez forme care nu se potrivesc morfologiei;</span></li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>nu urmăresc rezultate intense doar pentru că arată bine într-o poză proaspătă;</span></li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>nu lucrez peste proceduri existente fără evaluare;</span></li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>nu fac proceduri dacă există contraindicații;</span></li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>nu promit rezultate pe care pielea sau situația ta nu le pot susține;</span></li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>nu fac rabat de la igienă, timp, atenție sau calitate;</span></li>
+        <li style="display: flex; gap: 10px"><span aria-hidden="true" style="flex: none; width: 6px; height: 6px; border-radius: 999px; background: #C9A86A; margin-top: 8px"></span><span>comunic clar și sincer, inclusiv atunci când trebuie să îți spun că o anumită dorință nu este potrivită pentru tine.</span></li>
+      </ul>
+    </div>
+  </div>
+  <div class="read" style="display: flex; flex-direction: column; gap: 12px; margin-top: 28px">
+    <h3 style="margin: 0; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 17px; text-align: center">Diplome și certificări</h3>
+    <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px">
+      <div style="aspect-ratio: 3 / 4; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; font-size: 11px; color: #9E9E9E">[Diplomă 1]</div>
+      <div style="aspect-ratio: 3 / 4; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; font-size: 11px; color: #9E9E9E">[Diplomă 2]</div>
+      <div style="aspect-ratio: 3 / 4; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 10px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 8px; font-size: 11px; color: #9E9E9E">[Diplomă 3]</div>
+    </div>
+    <a href="#certificari" style="align-self: center; display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 20px; border: 1px solid #C9A86A; border-radius: 999px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px; text-decoration: none; color: #3C2F2F">Vezi formările și certificările <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §11 GALERIE — 2 cols mobile, 4 desktop -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Rezultate reale, pe chipuri reale.</h2>
+    <p style="margin: 0">Fiecare lucrare este diferită, pentru că fiecare chip, piele, vârstă și poveste sunt diferite.</p>
+    <p style="margin: 0">În galerie vei vedea forme, nuanțe, tehnici și tipuri de piele diferite, realizate cu același obiectiv: un rezultat care se potrivește persoanei, nu un rezultat repetat la nesfârșit.</p>
+  </div>
+  <div class="wide gallery" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 24px">
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[1 · sprâncene rare]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Înainte / după</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[2 · pensate excesiv]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Înainte / după</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[3 · vindecat, natural]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Rezultat vindecat</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[4 · fir cu fir]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Fir cu fir</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[5 · combo]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Combo brows</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[6 · powder]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Powder brows</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[7 · clientă matură]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Rezultat vindecat</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[8 · asimetrie corectată]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Înainte / după</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[9 · close-up detalii]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Rezultat vindecat</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[10 · blondă]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Rezultat vindecat</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[11 · brunetă]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Rezultat vindecat</span></div>
+    <div style="position: relative; aspect-ratio: 1 / 1; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 10px; font-size: 11px; color: #9E9E9E">[12 · fire naturale integrate]<span style="position: absolute; left: 8px; bottom: 8px; font-size: 10px; letter-spacing: .8px; text-transform: uppercase; color: #3C2F2F; background: rgba(245,245,245,.85); padding: 3px 8px; border-radius: 999px">Rezultat vindecat</span></div>
+  </div>
+  <p class="read" style="margin: 16px auto 0; font-size: 12px; color: #6B5F5F; text-align: center">Rezultatele diferă în funcție de tipul de piele, istoricul procedurilor, îngrijire, stil de viață și procesul individual de vindecare.</p>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §12 RECENZII EXTINSE — carousel mobile, grid desktop -->
+<section class="sec" style="background: #EFEFEF">
+  <h2 class="h2 wide" style="text-align: center; margin-bottom: 24px">Cuvintele femeilor care au trecut deja prin acest proces</h2>
+  <div class="wide carousel" style="display: flex; gap: 12px; overflow-x: auto; padding: 6px 2px 14px; scroll-snap-type: x mandatory">
+    <div style="flex: none; width: 82%; scroll-snap-align: start; background: #E9E9E9; border-radius: 16px; padding: 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 10px"><div style="color: #C9A86A; letter-spacing: 3px; font-size: 14px">★★★★★</div><p style="margin: 0; font-size: 14px; line-height: 1.45">„[Review — naturalețe]”</p><div style="font-size: 13px; color: #6B5F5F">— Prenume / inițială, Google Review</div></div>
+    <div style="flex: none; width: 82%; scroll-snap-align: start; background: #E9E9E9; border-radius: 16px; padding: 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 10px"><div style="color: #C9A86A; letter-spacing: 3px; font-size: 14px">★★★★★</div><p style="margin: 0; font-size: 14px; line-height: 1.45">„[Review — s-a simțit ascultată]”</p><div style="font-size: 13px; color: #6B5F5F">— Prenume / inițială, Google Review</div></div>
+    <div style="flex: none; width: 82%; scroll-snap-align: start; background: #E9E9E9; border-radius: 16px; padding: 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 10px"><div style="color: #C9A86A; letter-spacing: 3px; font-size: 14px">★★★★★</div><p style="margin: 0; font-size: 14px; line-height: 1.45">„[Review — comunicare în română]”</p><div style="font-size: 13px; color: #6B5F5F">— Prenume / inițială, Google Review</div></div>
+    <div style="flex: none; width: 82%; scroll-snap-align: start; background: #E9E9E9; border-radius: 16px; padding: 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 10px"><div style="color: #C9A86A; letter-spacing: 3px; font-size: 14px">★★★★★</div><p style="margin: 0; font-size: 14px; line-height: 1.45">„[Review — corecție procedură veche]”</p><div style="font-size: 13px; color: #6B5F5F">— Prenume / inițială, Google Review</div></div>
+  </div>
+  <div class="read" style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px">
+    <div style="aspect-ratio: 3 / 4; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px; font-size: 11px; color: #9E9E9E">[Screenshot anonimizat 1]</div>
+    <div style="aspect-ratio: 3 / 4; background: #E9E9E9; border: 1px dashed #C9A86A; border-radius: 12px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 12px; font-size: 11px; color: #9E9E9E">[Screenshot anonimizat 2]</div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §13 PROCEDURI VECHI -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Ai avut microblading sau dermopigmentare în trecut?</h2>
+    <p style="margin: 0; text-align: center; font-family: 'Raleway', sans-serif; font-weight: 500; font-size: 17px">Este important să discutăm înainte de a confirma procedura.</p>
+    <p style="margin: 0">Chiar dacă procedura veche pare foarte ștearsă, poate exista pigment rezidual în piele. Acesta poate influența alegerea tehnicii, culorii și posibilitatea de a obține rezultatul dorit.</p>
+    <p style="margin: 0">Unele cazuri permit corecție. În alte situații, poate fi necesară o altă abordare sau, uneori, estomparea/îndepărtarea pigmentului vechi înainte de o nouă procedură.</p>
+    <p style="margin: 0">Nu voi promite că putem acoperi orice doar pentru a face o programare.</p>
+    <p style="margin: 0">Îți spun sincer ce este realist, sigur și estetic pentru cazul tău.</p>
+    <a href="https://wa.me/41796472106?text=Bun%C4%83%20ziua%2C%20sunt%20%5BNUME%5D." style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 50px; padding: 12px 20px; border: 1px solid #C9A86A; border-radius: 999px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px; text-decoration: none; color: #3C2F2F; text-align: center"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#C9A86A" stroke-width="1.6" aria-hidden="true"><path d="M21 12a9 9 0 0 1-13.3 7.9L3 21l1.1-4.6A9 9 0 1 1 21 12z"></path></svg>Am avut o procedură înainte — vreau o evaluare pe WhatsApp</a>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §14 PREGĂTIREA -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Cum te pregătești pentru programare</h2>
+    <p style="margin: 0">Pentru ca pielea și sprâncenele tale să poată fi evaluate corect:</p>
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 10px; font-size: 14px">
+      <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>evită pensatul și vopsitul sprâncenelor cu minimum 2 săptămâni înainte;</span></li>
+      <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>nu rade sprâncenele înainte de programare;</span></li>
+      <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>hidratează zona dimineața și seara cu o cremă hidratantă pe bază de apă, aplicată prin masaj delicat;</span></li>
+      <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>în zilele dinaintea programării, bea mai multă apă decât de obicei;</span></li>
+      <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>vino cu cât mai puține produse de machiaj în zona sprâncenelor;</span></li>
+      <li style="display: flex; gap: 10px; align-items: flex-start"><span aria-hidden="true" style="flex: none; width: 18px; height: 18px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; font-size: 11px; color: #C9A86A; margin-top: 2px">✓</span><span>spune-mi înainte de confirmarea programării dacă ai avut proceduri vechi, Botox recent, tratamente dermatologice, afecțiuni medicale, sarcină/alăptare, diabet, anticoagulante, suplimente sau alte tratamente relevante.</span></li>
+    </ul>
+    <p style="margin: 0; font-size: 13px; color: #6B5F5F">Eligibilitatea se stabilește individual. Siguranța și sănătatea ta sunt întotdeauna mai importante decât graba de a realiza procedura.</p>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §15 ELIGIBILITATE -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Când poate fi nevoie să amânăm procedura</h2>
+    <p style="margin: 0">Dermopigmentarea nu se realizează atunci când pielea sau starea de sănătate nu permit o vindecare corectă.</p>
+    <div style="display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Înainte de programare, este important să discutăm dacă există…<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+      <div style="padding: 4px 18px 8px; font-size: 14px; display: flex; flex-direction: column; gap: 6px"><div>· sarcină sau alăptare;</div><div>· diabet sau tulburări de coagulare;</div><div>· tratamente anticoagulante;</div><div>· afecțiuni dermatologice active în zona sprâncenelor;</div><div>· alergii relevante;</div><div>· infecții active;</div><div>· tratamente dermatologice sau medicale în curs;</div><div>· proceduri estetice recente în zona frunții sau sprâncenelor;</div><div>· pigment vechi în zonă;</div><div>· tratamente recente cu retinoizi sau isotretinoin.</div></div>
+    </div>
+    <p style="margin: 0">În anumite situații, procedura poate fi amânată, poate necesita test de sensibilitate sau poate fi necesar acordul medicului curant.</p>
+    <p style="margin: 0; font-size: 12px; color: #6B5F5F">Informațiile de pe site au rol orientativ și nu înlocuiesc recomandarea medicală. Decizia finală se ia individual, în funcție de istoricul și situația fiecărei cliente.</p>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §16 INVESTIȚIA -->
+<section class="sec">
+  <h2 class="h2 read" style="text-align: center; margin-bottom: 24px">Investiția ta în dermopigmentarea sprâncenelor</h2>
+  <div class="price" style="background: #E9E9E9; border-radius: 20px; padding: 26px 22px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4); display: flex; flex-direction: column; gap: 14px">
+    <div style="font-size: 11px; letter-spacing: 1.6px; text-transform: uppercase; color: #C9A86A; text-align: center">Preț</div>
+    <div style="font-family: 'Raleway', sans-serif; font-weight: 700; font-size: 40px; line-height: 1; text-align: center">[PREȚ] CHF</div>
+    <div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; text-align: center">Dermopigmentare sprâncene personalizată</div>
+    <div style="height: 1px; background: #C9A86A; opacity: .6"></div>
+    <div style="font-size: 13px; font-weight: 600">Prețul include:</div>
+    <ul style="margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 8px; font-size: 14px">
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>discuția și evaluarea din ziua programării;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>comunicare completă în română;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>alegerea tehnicii potrivite: fir cu fir, combo sau powder;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>construcția personalizată a formei;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>alegerea nuanței;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>procedura;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>recomandări complete de îngrijire;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>suport prin WhatsApp în perioada de vindecare;</span></li>
+      <li style="display: flex; gap: 10px"><span aria-hidden="true" style="color: #C9A86A">✓</span><span>retuș inclus, realizat în maximum 45 de zile.</span></li>
+    </ul>
+    <div style="height: 1px; background: #C9A86A; opacity: .6"></div>
+    <div style="font-size: 13px"><span style="font-weight: 600">Modalități de plată.</span> Plata se poate face cash sau prin transfer bancar. Alte opțiuni disponibile vor fi confirmate la programare.</div>
+    <a href="#formular" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 52px; background: #FE0990; color: #FFFFFF; border-radius: 999px; padding: 14px 24px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; text-decoration: none">Vreau să discutăm despre programare <span aria-hidden="true">→</span></a>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §17 POLITICA -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 16px">
+    <h2 class="h2" style="text-align: center">Respect pentru timpul tău și pentru timpul rezervat fiecărei cliente</h2>
+    <p style="margin: 0">O programare pentru dermopigmentare sprâncene durează aproximativ 3 ore și este rezervată exclusiv pentru tine.</p>
+  </div>
+  <div class="wide cards-3" style="display: flex; flex-direction: column; gap: 12px; margin-top: 24px">
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Pentru prima procedură</div><div style="font-size: 14px; display: flex; flex-direction: column; gap: 6px"><div>Dacă ai nevoie de reprogramare, te rog să mă anunți cu minimum 24 de ore înainte.</div><div>Dacă anulezi sau reprogramezi cu mai puțin de 24 de ore înainte, următoarea programare va putea fi confirmată doar pe baza unui avans.</div><div>În cazul neprezentării, orice nouă programare va putea fi confirmată doar prin plata unui avans.</div></div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Pentru retușul inclus</div><div style="font-size: 14px; display: flex; flex-direction: column; gap: 6px"><div>Retușul inclus se realizează în maximum 45 de zile de la prima ședință.</div><div>Dacă retușul este anulat târziu, este ratat sau este reprogramat după expirarea perioadei de 45 de zile din motive care nu țin de disponibilitatea mea, acesta se realizează contra cost.</div></div></div>
+    <div style="background: #E9E9E9; border-radius: 16px; padding: 18px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4)"><div style="font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 16px; margin-bottom: 6px">Întârzieri</div><div style="font-size: 14px">Pot aștepta maximum 30 de minute în cazul unei întârzieri, pentru a nu afecta programările următoare. După acest interval, poate fi necesară reprogramarea.</div></div>
+  </div>
+  <div style="display: flex; justify-content: center; margin-top: 20px"><a href="#politica" style="font-size: 14px; font-weight: 500; text-decoration: underline; text-underline-offset: 3px; color: #3C2F2F">Citește politica completă de programare și reprogramare</a></div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §18 FAQ -->
+<section class="sec">
+  <div class="read" style="display: flex; flex-direction: column; gap: 14px">
+    <h2 class="h2" style="text-align: center; margin-bottom: 6px">Întrebări frecvente</h2>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">O să arate ca un tatuaj?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Pot alege eu tehnica?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Cum alegem forma?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Dacă nu îmi place schița, pot spune?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Cât durează vindecarea?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Cât rezistă dermopigmentarea sprâncenelor?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Retușul este inclus?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Pot merge la muncă a doua zi?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Am ten gras. Pot face dermopigmentare?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Am avut microblading vechi. Mai pot face o procedură?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Trebuie să îmi rad sau pensez sprâncenele înainte?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">De ce contează că putem comunica în română?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+    <div style="display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; background: #E9E9E9; border-radius: 999px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4); font-size: 14px; font-weight: 500">Pot comunica în română și după procedură?<span aria-hidden="true" style="flex: none; width: 26px; height: 26px; border-radius: 999px; border: 1px solid #C9A86A; display: inline-flex; align-items: center; justify-content: center; color: #C9A86A">⌄</span></div>
+  </div>
+</section>
+
+<div class="wide" style="height: 1px; margin: 0 24px; background: linear-gradient(90deg, #F5F5F5 0%, #DAC49E 16%, #CEB27B 28%, #C9A86A 50%, #CEB27B 72%, #DAC49E 84%, #F5F5F5 100%)"></div>
+
+<!-- §19 CTA FINAL + FORMULAR — desktop: text left, form right -->
+<section id="formular" class="sec" style="background: #EFEFEF">
+  <div class="wide form-col" style="display: flex; flex-direction: column; gap: 18px">
+    <div style="display: flex; flex-direction: column; gap: 14px">
+      <h2 class="h2 center" style="text-align: center; font-size: 28px">Româncă în Genève? Programează-te pentru sprâncene care te reprezintă.</h2>
+      <p class="center" style="margin: 0; text-align: center">Completează formularul, iar după apăsarea butonului vei ajunge direct în WhatsApp-ul meu cu mesajul deja pregătit.</p>
+      <p class="center" style="margin: 0; text-align: center">Vorbim personal, în română, despre disponibilitate, istoricul sprâncenelor tale și dacă procedura este potrivită pentru tine.</p>
+    </div>
+    <form style="display: flex; flex-direction: column; gap: 14px; background: #E9E9E9; border-radius: 20px; padding: 22px 20px; box-shadow: 5px 5px 7px rgba(0,0,0,.15), 2px 2px 2px rgba(0,0,0,.05), -5px -5px 7px rgba(255,255,255,.4), -1px -1px 2px rgba(255,255,255,.4)">
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Nume și prenume<input type="text" placeholder="Numele tău" style="min-height: 48px; border: 1px solid #C9A86A; border-radius: 12px; padding: 0 14px; background: #F5F5F5; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #3C2F2F"></label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Serviciu<input type="text" value="Dermopigmentare sprâncene" readonly style="min-height: 48px; border: 1px solid #D9D9D9; border-radius: 12px; padding: 0 14px; background: #ECECEC; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #6B5F5F"></label>
+      <label style="display: flex; flex-direction: column; gap: 6px; font-size: 13px; font-weight: 600">Zi preferată pentru programare<input type="date" style="min-height: 48px; border: 1px solid #C9A86A; border-radius: 12px; padding: 0 14px; background: #F5F5F5; font-family: 'DM Sans', sans-serif; font-size: 15px; color: #3C2F2F"></label>
+      <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px"><legend style="font-size: 13px; font-weight: 600; margin-bottom: 4px">Interval orar preferat</legend>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <label style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #C9A86A; border-radius: 999px; font-size: 14px; background: #F5F5F5"><input type="radio" name="interval" style="margin: 0 8px 0 0">10:00–13:00</label>
+          <label style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #C9A86A; border-radius: 999px; font-size: 14px; background: #F5F5F5"><input type="radio" name="interval" style="margin: 0 8px 0 0">13:00–16:00</label>
+          <label style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #C9A86A; border-radius: 999px; font-size: 14px; background: #F5F5F5"><input type="radio" name="interval" style="margin: 0 8px 0 0">16:00–18:00</label>
+          <label style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #C9A86A; border-radius: 999px; font-size: 13px; background: #F5F5F5; text-align: center"><input type="radio" name="interval" style="margin: 0 8px 0 0">Variantă excepțională</label>
+        </div>
+      </fieldset>
+      <fieldset style="border: 0; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px"><legend style="font-size: 13px; font-weight: 600; margin-bottom: 4px">Ai mai avut dermopigmentare, microblading sau tatuaj cosmetic în zona sprâncenelor?</legend>
+        <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+          <label style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #C9A86A; border-radius: 999px; font-size: 14px; background: #F5F5F5"><input type="radio" name="anterior" style="margin: 0 8px 0 0">Da</label>
+          <label style="display: flex; align-items: center; justify-content: center; min-height: 44px; border: 1px solid #C9A86A; border-radius: 999px; font-size: 14px; background: #F5F5F5"><input type="radio" name="anterior" style="margin: 0 8px 0 0">Nu</label>
+        </div>
+      </fieldset>
+      <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45"><input type="checkbox" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none"><span>Sunt de acord cu prelucrarea datelor mele pentru a răspunde solicitării de programare, conform <a href="#confidentialitate" style="text-decoration: underline">politicii de confidențialitate</a>.</span></label>
+      <label style="display: flex; gap: 10px; align-items: flex-start; font-size: 13px; line-height: 1.45"><input type="checkbox" style="margin: 3px 0 0; width: 18px; height: 18px; flex: none"><span>Am citit și sunt de acord cu <a href="#politica" style="text-decoration: underline">politica de programare și reprogramare</a>.</span></label>
+      <button type="button" style="display: flex; align-items: center; justify-content: center; gap: 8px; min-height: 54px; border: 0; background: #FE0990; color: #FFFFFF; border-radius: 999px; padding: 14px 24px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 15px; cursor: pointer; box-shadow: 5px 5px 7px rgba(0,0,0,.15), -5px -5px 7px rgba(255,255,255,.4)">Continuă în WhatsApp pentru programare <span aria-hidden="true">→</span></button>
+      <p style="margin: 0; font-size: 12px; color: #6B5F5F; text-align: center">Îți răspund în maximum 24 de ore. În timpul procedurilor nu lucrez de pe telefon, pentru că fiecare clientă aflată în cabinet merită atenția mea completă.</p>
+    </form>
+  </div>
+</section>
+
+<!-- FOOTER — production footer (hotico-web.web.app) carrying the brief's mandatory content -->
+<footer style="background: #3C2F2F; color: #F5F5F5; padding: 26px 24px 38px">
+  <div class="read ftr-center" style="display: flex; flex-direction: column; gap: 14px">
+    <nav aria-label="Navigation footer" style="display: flex; flex-wrap: wrap; gap: 6px; font-size: 15px; padding-bottom: 14px; border-bottom: 1px solid rgba(201,168,106,.5)">
+      <a href="#confidentialitate" style="color: #F5F5F5; text-decoration: none">Politica de confidențialitate</a><span aria-hidden="true">|</span>
+      <a href="#politica" style="color: #F5F5F5; text-decoration: none">Politica de programare</a><span aria-hidden="true">|</span>
+      <a href="#termeni" style="color: #F5F5F5; text-decoration: none">Termeni și condiții</a><span aria-hidden="true">|</span>
+      <a href="#ingrijire" style="color: #F5F5F5; text-decoration: none">Îngrijire post-procedură</a><span aria-hidden="true">|</span>
+      <a href="#certificari" style="color: #F5F5F5; text-decoration: none">Despre Alexandra / Certificări</a>
+    </nav>
+    <div class="contact" style="display: flex; align-items: center; flex-wrap: wrap; gap: 8px; font-size: 15px">
+      <span>Contact</span><span aria-hidden="true">|</span>
+      <a href="https://wa.me/41796472106" style="color: #F5F5F5; text-decoration: none">[NUMĂR WHATSAPP]</a><span aria-hidden="true">|</span>
+      <a href="mailto:contact@hotico.ch" style="color: #F5F5F5; text-decoration: none">[EMAIL]</a>
+      <ul style="list-style: none; margin: 0 0 0 8px; padding: 0; display: flex; gap: 10px; align-items: center">
+        <li><a href="https://www.instagram.com/hotico.ink/" aria-label="Instagram" style="color: #F5F5F5; display: flex"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5"></rect><circle cx="12" cy="12" r="4.2"></circle><circle cx="17.4" cy="6.6" r="1.15" fill="currentColor" stroke="none"></circle></svg></a></li>
+        <li><a href="https://wa.me/41796472106" aria-label="WhatsApp" style="color: #F5F5F5; display: flex"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path d="M12 2.9a9 9 0 0 0-7.7 13.6L3 21.4l5.1-1.3A9 9 0 1 0 12 2.9Z"></path><path fill="currentColor" stroke="none" d="M9.1 7.9c.2-.5.4-.5.6-.5h.5c.2 0 .4 0 .6.5l.7 1.7c.1.3 0 .5-.1.6l-.4.5c-.1.2-.3.3-.1.6.2.4.8 1.3 1.6 1.9.9.8 1.6 1 1.9 1.2.3.1.5 0 .6-.1l.6-.7c.2-.2.4-.2.6-.1l1.6.8c.2.1.4.2.4.4v.5c0 .3-.2.9-.5 1.1-.3.3-.9.6-1.5.6-.9 0-2.5-.5-4.3-2.1-1.9-1.7-2.9-3.5-3.2-4.4-.3-.9-.1-1.8.2-2.2Z"></path></svg></a></li>
+        <li><a href="https://www.tiktok.com/@hotico.ink" aria-label="TikTok" style="color: #F5F5F5; display: flex"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><path fill="currentColor" stroke="none" d="M15.6 3h-2.5v12.2a2.3 2.3 0 1 1-1.9-2.3v-2.5a4.8 4.8 0 1 0 4.4 4.8V8.9a5.7 5.7 0 0 0 3.3 1.1V7.5a3.4 3.4 0 0 1-3.3-3.4V3Z"></path></svg></a></li>
+        <li><a href="https://www.youtube.com/@hotico_ink" aria-label="YouTube" style="color: #F5F5F5; display: flex"><svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round" aria-hidden="true"><rect x="2.6" y="5.9" width="18.8" height="12.2" rx="3.4"></rect><path fill="currentColor" stroke="none" d="M10.4 9.2 15 12l-4.6 2.8V9.2Z"></path></svg></a></li>
+      </ul>
+    </div>
+    <div style="font-size: 13px; line-height: 1.6; color: #D9D9D9">
+      <div style="color: #F5F5F5; font-family: 'Raleway', sans-serif; font-weight: 600">HOTICO Dermopigmentation Institute</div>
+      <div>Alexandra Hotico — specialist dermopigmentare cosmetică și paramedicală</div>
+      <div>Genève și împrejurimi · <span style="color: #C9A86A">[ADRESĂ — se adaugă după stabilirea locației]</span></div>
+    </div>
+    <img class="ftr-logo" src="/assets/brand/logo-white.png" alt="HOTICO Restauration Institute">
+    <p style="margin: 0; font-size: 12px; color: #D9D9D9">Dermopigmentarea este o procedură personalizată, iar rezultatele pot varia de la persoană la persoană.</p>
+  </div>
+</footer>
+
+</div>
+
+<!-- Sticky CTA — R2 proposal variant -->
+<div style="position: sticky; bottom: 0; z-index: 10; padding: 10px 24px 14px; background: linear-gradient(180deg, rgba(245,245,245,0) 0%, #F5F5F5 40%); display: flex; justify-content: center">
+  <a href="#formular" style="display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; max-width: 432px; min-height: 50px; background: #FE0990; color: #FFFFFF; border-radius: 999px; padding: 12px 24px; font-family: 'Raleway', sans-serif; font-weight: 600; font-size: 14px; text-decoration: none; box-shadow: 5px 5px 7px rgba(0,0,0,.15)">Vreau să discutăm despre programare <span aria-hidden="true">→</span></a>
+</div>
+
+
+
+
+</body>
+</html>
